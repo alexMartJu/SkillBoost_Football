@@ -1,55 +1,76 @@
 services:
-  laravel:
-    build:
-      context: ./backend_laravel
-      dockerfile: Dockerfile
-    container_name: laravel-app
-    restart: always
-    env_file:
-      - ./backend_laravel/laravel/.env
-    ports:
-      - "9000:9000"
-    depends_on:
-      - mysql
+  # laravel:
+  #   build:
+  #     context: ./backend_laravel
+  #     dockerfile: Dockerfile
+  #   container_name: laravel_container
+  #   restart: always
+  #   env_file:
+  #     - ./backend_laravel/laravel/.env
+  #   ports:
+  #     - "9000:9000"
+  #   depends_on:
+  #     - mysql
+  #   networks:
+  #     - ZenithZone
 
-  springboot:
-    build:
-      context: ./backend_springboot
-      dockerfile: Dockerfile
-    container_name: springboot-app
-    restart: always
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mysql
+  # springboot:
+  #   build:
+  #     context: ./backend_springboot
+  #     dockerfile: Dockerfile
+  #   container_name: springboot_container
+  #   restart: always
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - mysql
+  #   networks:
+  #     - ZenithZone
 
   vue:
     build:
       context: ./frontend/ZenithZone
       dockerfile: Dockerfile
-    container_name: vue
+    container_name: vue_container
     restart: always
     ports:
       - "5173:5173"
     volumes:
       - ./frontend/ZenithZone:/app
       - /app/node_modules
-    # depends_on:
-    #   - laravel
-    #   - springboot
+    networks:
+      - ZenithZone
 
   mysql:
     image: mysql:8
-    container_name: mysql
+    container_name: mysql_container
     environment:
       MYSQL_ROOT_PASSWORD: root_secret
-      MYSQL_DATABASE: main_db
-      MYSQL_USER: laravel_user
-      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: ZenithZone
     ports:
       - "3306:3306"
     volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d
       - mysql_data:/var/lib/mysql
+    networks:
+      - ZenithZone
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: adminMySQL_contenidor
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - ZenithZone
 
 volumes:
   mysql_data:
+
+networks:
+  ZenithZone:
+    driver: bridge
