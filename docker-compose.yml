@@ -1,0 +1,55 @@
+services:
+  laravel:
+    build:
+      context: ./backend_laravel
+      dockerfile: Dockerfile
+    container_name: laravel-app
+    restart: always
+    env_file:
+      - ./backend_laravel/laravel/.env
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mysql
+
+  springboot:
+    build:
+      context: ./backend_springboot
+      dockerfile: Dockerfile
+    container_name: springboot-app
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+
+  vue:
+    build:
+      context: ./frontend/ZenithZone
+      dockerfile: Dockerfile
+    container_name: vue
+    restart: always
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/ZenithZone:/app
+      - /app/node_modules
+    # depends_on:
+    #   - laravel
+    #   - springboot
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_DATABASE: main_db
+      MYSQL_USER: laravel_user
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

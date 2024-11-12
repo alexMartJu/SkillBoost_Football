@@ -25,7 +25,7 @@ docker-compose.override.yml
 docker-compose.override.yaml
 .env
 .dockerignore
-docker-*
+# docker-*
 
 # IDE settings
 .idea/
