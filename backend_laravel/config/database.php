@@ -51,8 +51,10 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => env('DB_CHARSET', 'utf8mb4'),
-            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
+            // 'charset' => env('DB_CHARSET', 'utf8mb4'),
+            // 'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
+            'charset' => 'utf8',  // Change to utf8 (3 bytes per character)
+            'collation' => 'utf8_unicode_ci',  // Collation to match utf8
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,
