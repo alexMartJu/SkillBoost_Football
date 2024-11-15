@@ -3,6 +3,7 @@
 // app/Http/Controllers/ClaseController.php
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ClaseResource;
 use App\Models\Clase;
 use App\Models\Deporte;
 use Illuminate\Http\Request;
@@ -12,8 +13,9 @@ class ClaseController extends Controller
     // Obtener todas las clases
     public function index()
     {
-        $clases = Clase::with('deporte')->get(); // Cargar el deporte asociado
-        return response()->json($clases);
+        return ClaseResource::collection(Clase::all());
+        // $clases = Clase::with('deporte')->get();
+        // return response()->json($clases);
     }
 
     // Obtener una clase específica por su ID

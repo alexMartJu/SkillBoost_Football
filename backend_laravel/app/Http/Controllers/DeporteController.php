@@ -3,6 +3,7 @@
 // app/Http/Controllers/DeporteController.php
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DeporteResource;
 use App\Models\Deporte;
 use Illuminate\Http\Request;
 
@@ -11,8 +12,7 @@ class DeporteController extends Controller
     // Obtener todos los deportes
     public function index()
     {
-        $deportes = Deporte::all();
-        return response()->json($deportes);
+        return DeporteResource::collection(Deporte::all());
     }
 
     // Obtener un deporte específico por su ID
