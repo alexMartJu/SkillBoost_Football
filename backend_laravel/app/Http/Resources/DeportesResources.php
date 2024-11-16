@@ -18,6 +18,7 @@ class DeportesResources extends JsonResource
             'id' => $this->id,
             'nombre' => $this->nombre,
             'slug' => $this->slug,
+            
         ];
     }
 }
