@@ -11,6 +11,8 @@ class Deportes extends Model
 {
     use HasFactory;
     protected $table = 'deportes';
+    protected $primaryKey = 'deportes_id';
+    protected $keyType = 'int';
     protected $fillable = [
         'nombre',
         'slug',
