@@ -13,8 +13,8 @@ return new class extends Migration
             $table->unsignedBigInteger('pistas_id');    
 
             // Claves foráneas
-            $table->foreign('deportes_id')->references('id')->on('deportes')->onDelete('cascade');  
-            $table->foreign('pistas_id')->references('id')->on('pistas')->onDelete('cascade');
+            $table->foreign('deportes_id')->references('deportes_id')->on('deportes')->onDelete('cascade');  
+            $table->foreign('pistas_id')->references('pistas_id')->on('pistas')->onDelete('cascade');
 
             // Clave primaria compuesta para evitar duplicados
             $table->primary(['deportes_id', 'pistas_id']);
