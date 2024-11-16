@@ -1,11 +1,19 @@
-import './assets/main.css'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router/router';
+import store from './store';
+import VueLazyLoad from 'vue3-lazyload';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import App from './App.vue'
+const app = createApp(App);
 
-const app = createApp(App)
+// Plugins
+app.use(router);
+app.use(store);
+app.use(VueLazyLoad, {
+    loading: '/path/to/loading-image.png',
+    error: '/path/to/error-image.png',
+});
 
-app.use(createPinia())
-
-app.mount('#app')
+// Montar la app
+app.mount('#app');
