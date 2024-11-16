@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Deportes;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,6 +11,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('clases', function (Blueprint $table) {
+            $table->unsignedBigInteger('deportes_id');
+
             $table->id();
             $table->string('nombre');
             $table->string('slug')->unique();
@@ -19,7 +20,7 @@ return new class extends Migration {
             $table->integer('duracion');
             $table->integer('max_plazas');
             $table->integer('precio');
-            $table->foreignId(Deportes::class)->constrained()->onDelete('cascade');
+            $table->foreign('deportes_id')->references('deportes_id')->on('deportes')->onDelete('cascade');
             $table->timestamps();
         });
     }
