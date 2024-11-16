@@ -1,16 +1,18 @@
 services:
   # laravel:
   #   build:
-  #     context: ./backend_laravel
+  #     context: ./backend_laravel/laravel
   #     dockerfile: Dockerfile
   #   container_name: laravel_container
-  #   restart: always
-  #   env_file:
-  #     - ./backend_laravel/laravel/.env
+  #   restart: on-failure
+  #   env_file: ./.env
   #   ports:
-  #     - "9000:9000"
+  #     - "$LARAVEL_LOCAL_PORT:$LARAVEL_DOCKER_PORT"
+  #   volumes:
+  #     - ./backend_laravel:/app
   #   depends_on:
   #     - mysql
+  #   tty: true
   #   networks:
   #     - ZenithZone
 
@@ -19,11 +21,18 @@ services:
   #     context: ./backend_springboot
   #     dockerfile: Dockerfile
   #   container_name: springboot_container
-  #   restart: always
+  #   restart: on-failure
+  #   env_file: ./.env
   #   ports:
-  #     - "8080:8080"
+  #     - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
   #   depends_on:
   #     - mysql
+  #   environment:
+  #     SPRING_APPLICATION_JSON: '{ "spring.datasource.url": "jdbc:mysql://mysql:$MYSQLDB_LOCAL_PORT/ZenithZone?useSSL=false&serverTimezone=UTC", "spring.datasource.username": "root", "spring.datasource.password": "root_secret", "spring.jpa.hibernate.ddl-auto": "update", "spring.jpa.show-sql": "true", "spring.jpa.properties.hibernate.dialect": "org.hibernate.dialect.MySQL8Dialect"}'
+  #   volumes:
+  #     - ./backend_springboot:/app
+  #   stdin_open: true
+  #   tty: true
   #   networks:
   #     - ZenithZone
 
@@ -32,9 +41,10 @@ services:
       context: ./frontend/ZenithZone
       dockerfile: Dockerfile
     container_name: vue_container
-    restart: always
+    env_file: ./.env
+    restart: on-failure
     ports:
-      - "5173:5173"
+      - "$VUE_LOCAL_PORT:$VUE_DOCKER_PORT"
     volumes:
       - ./frontend/ZenithZone:/app
       - /app/node_modules
@@ -44,13 +54,13 @@ services:
   mysql:
     image: mysql:8
     container_name: mysql_container
+    env_file: ./.env
     environment:
       MYSQL_ROOT_PASSWORD: root_secret
       MYSQL_DATABASE: ZenithZone
     ports:
-      - "3306:3306"
+      - "$MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT"
     volumes:
-      - ./mysql-init:/docker-entrypoint-initdb.d
       - mysql_data:/var/lib/mysql
     networks:
       - ZenithZone
@@ -58,11 +68,12 @@ services:
   phpmyadmin:
     image: phpmyadmin:latest
     container_name: adminMySQL_contenidor
+    env_file: ./.env
     environment:
       PMA_HOST: mysql
-      PMA_PORT: 3306
+      PMA_PORT: $MYSQLDB_LOCAL_PORT
     ports:
-      - "8080:80"
+      - "$PHP_MY_ADMIN_LOCAL_PORT:$PHP_MY_ADMIN_DOCKER_PORT"
     depends_on:
       - mysql
     networks:
@@ -70,6 +81,7 @@ services:
 
 volumes:
   mysql_data:
+
 
 networks:
   ZenithZone:

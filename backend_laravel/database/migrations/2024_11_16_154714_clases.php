@@ -1,0 +1,34 @@
+<?php
+
+use App\Models\Deportes;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('clases', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->string('slug')->unique();
+            $table->string('descripcion');
+            $table->integer('duracion');
+            $table->integer('max_plazas');
+            $table->integer('precio');
+            $table->foreignId(Deportes::class)->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('clases');
+    }
+};

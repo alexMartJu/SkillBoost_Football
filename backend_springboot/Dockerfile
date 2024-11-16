@@ -1,10 +1,7 @@
-FROM openjdk:17-jdk-alpine
+FROM maven:latest
 
 WORKDIR /app
-
 COPY . .
+RUN mvn clean install
 
-RUN ./mvnw package -DskipTests
-
-EXPOSE 8080
-CMD ["java", "-jar", "target/springboot-backend-0.0.1-SNAPSHOT.jar"]
+CMD ["mvn", "spring-boot:run"]
