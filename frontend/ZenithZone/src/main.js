@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import router from './router';
+import router from './router/router';
 import store from './store';
 import VueLazyLoad from 'vue3-lazyload';
 import Swal from 'sweetalert2';
