@@ -1,11 +1,30 @@
-import './assets/main.css'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
+import VueLazyLoad from 'vue3-lazyload';
+import Swal from 'sweetalert2';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import './assets/main.scss';
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import App from './App.vue'
+// Iconos
+import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons';
+library.add(faHeart);
+library.add(faComment);
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(createPinia())
+// Plugins
+app.use(router);
+app.use(store);
+app.use(VueLazyLoad, {
+    loading: '/path/to/loading-image.png',
+    error: '/path/to/error-image.png',
+});
 
-app.mount('#app')
+// Componentes
+app.component('font-awesome-icon', FontAwesomeIcon);
+
+// Montar la app
+app.mount('#app');
