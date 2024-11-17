@@ -3,6 +3,6 @@ import Api from "../Api"
 
 export default {
     GetDeportes() {
-        return Api(secrets.URL_LARAVEL).get('Deportes');
+        return Api(secrets.URL_SPRING).get('deportes');
     }
 }
