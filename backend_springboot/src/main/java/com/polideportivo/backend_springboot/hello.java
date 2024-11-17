@@ -1,4 +1,4 @@
-package com.example.backend_springboot;
+package com.polideportivo.backend_springboot;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
