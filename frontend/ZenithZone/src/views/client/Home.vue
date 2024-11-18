@@ -1,15 +1,18 @@
 <template>
     <main class="container">
-        <h1>HOME</h1>
+        <ListPistas />
+        <ListClases />        
     </main>
 </template>
 
 <script>
-import ListDeportes from '../../components/ListDeportes.vue';
+import ListClases from '../../components/ListClases.vue';
+import ListPistas from '../../components/ListPistas.vue';
 
 export default {
     components: {
-        ListDeportes
+        ListClases,
+        ListPistas
     }
 };
 </script>

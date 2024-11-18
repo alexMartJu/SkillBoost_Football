@@ -1,14 +1,19 @@
+DELETE FROM `deportes`;
+DELETE FROM `pistas`;
+DELETE FROM `deportes_pistas`;
+DELETE FROM `clases`;
+
 INSERT INTO `deportes` (`deportes_id`, `nombre`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'voluptas voluptatem', 'voluptas-voluptatem', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(2, 'error dolores', 'error-dolores', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(3, 'et sed', 'et-sed', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(4, 'velit consequatur', 'velit-consequatur', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(5, 'laborum maxime', 'laborum-maxime', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(6, 'facere aut', 'facere-aut', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(7, 'et consequuntur', 'et-consequuntur', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(8, 'debitis consequatur', 'debitis-consequatur', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(9, 'temporibus aperiam', 'temporibus-aperiam', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(10, 'enim nulla', 'enim-nulla', '2024-11-17 14:33:24', '2024-11-17 14:33:24');
+(1, 'Futbol', 'Futbol--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(2, 'Baloncesto', 'Baloncesto--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(3, 'Balonmano', 'Balonmano--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(4, 'Volleyball', 'Volleyball--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(5, 'Escalada', 'Escalada--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(6, 'Ciclismo', 'Ciclismo--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(7, 'Natación', 'Natación--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(8, 'Karate', 'Karate--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(9, 'Atletismo', 'Atletismo--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(10, 'Bienestar', 'Bienestar--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24');
 
 INSERT INTO `pistas` (`pistas_id`, `nombre`, `slug`, `created_at`, `updated_at`) VALUES
 (1, 'Pista Central', 'pista-central', '2024-11-17 15:42:34', '2024-11-17 15:42:34'),
