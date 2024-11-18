@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <div class="deportes-list">
-            <CardDeportes v-for="deporte in state.deportes" :key="deporte.id" :deporte="deporte" />
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+            <CardDeportes v-for="deporte in state.deportes" :key="deporte.id" :deporte="deporte" class="col-md-3" />
         </div>
     </div>
 </template>

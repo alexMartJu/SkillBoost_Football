@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <ListDeportes />
-    </div>
+    <main class="container">
+        <h1>HOME</h1>
+    </main>
 </template>
 
 <script>
@@ -14,4 +14,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+main {
+    margin-top: 50px;
+}
+</style>
