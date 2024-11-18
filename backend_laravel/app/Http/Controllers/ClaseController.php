@@ -31,12 +31,20 @@ class ClaseController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'deporte_id' => 'required|exists:deportes,id',  // Asegura que el deporte exista
+            'descripcion' => 'required|string|max:500',
+            'duracion' => 'required|integer|min:1',
+            'max_plazas' => 'required|integer|min:1',
+            'precio' => 'required|numeric|min:0',
+            'deportes_id' => 'required|exists:deportes,deportes_id',  // Asegura que el deporte exista
         ]);
 
         $clase = Clase::create([
             'nombre' => $request->nombre,
-            'deporte_id' => $request->deporte_id,
+            'descripcion' => $request->descripcion,
+            'duracion' => $request->duracion,
+            'max_plazas' => $request->max_plazas,
+            'precio' => $request->precio,
+            'deportes_id' => $request->deportes_id,
         ]);
 
         return response()->json($clase, 201);  // 201: Recurso creado correctamente
@@ -52,7 +60,7 @@ class ClaseController extends Controller
 
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'deporte_id' => 'required|exists:deportes,id',  // Asegura que el deporte exista
+            'deportes_id' => 'required|exists:deportes,deportes_id',  // Asegura que el deporte exista
         ]);
 
         $clase->update($request->all());

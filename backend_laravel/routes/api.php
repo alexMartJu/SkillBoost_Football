@@ -1,6 +1,6 @@
 <?php
 use App\Http\Controllers\ClaseController;
-use App\Models\Clases;
+use App\Models\Clase;
 use App\Models\Pistas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\DeportesController;
@@ -15,7 +15,7 @@ Route::bind('pistas', function ($value) {
     return Pistas::where('slug', $value)->firstOrFail();
 });
 Route::bind('clases', function ($value) {
-    return Clases::where('slug', $value)->firstOrFail();
+    return Clase::where('slug', $value)->firstOrFail();
 });
 
 Route::apiResource('deportes', DeportesController::class);
