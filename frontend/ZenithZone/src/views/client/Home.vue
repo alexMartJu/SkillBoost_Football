@@ -1,28 +1,21 @@
 <template>
-    <h1>Home</h1>
-    <ul>
-        <li v-for="deporte in state.deportes" :key="deporte.id">{{ deporte.nombre }}</li>
-    </ul>
+    <main class="container">
+        <h1>HOME</h1>
+    </main>
 </template>
 
 <script>
-import { reactive, computed } from 'vue';
-import { useStore } from 'vuex';
-import Constant from '../../Constant';
+import ListDeportes from '../../components/ListDeportes.vue';
 
 export default {
-    setup() {
-        const store = useStore();
-
-        store.dispatch(`deportes/${Constant.INITIALIZE_DEPORTE}`);
-
-        const state = reactive({
-            deportes: computed(() => store.getters['deportes/GetDeportes'])
-        });
-
-        return { state };
+    components: {
+        ListDeportes
     }
-}
+};
 </script>
 
-<style></style>
+<style>
+main {
+    margin-top: 50px;
+}
+</style>
