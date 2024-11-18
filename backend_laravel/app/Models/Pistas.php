@@ -25,6 +25,6 @@ class Pistas extends Model
     }
     public function deportes(): BelongsToMany
     {
-        return $this->belongsToMany(Deportes::class, 'deportes_pistas', 'deportes_id', 'pistas_id');
+        return $this->belongsToMany(Deportes::class, 'deportes_pistas', 'pistas_id', 'deportes_id');
     }
 }

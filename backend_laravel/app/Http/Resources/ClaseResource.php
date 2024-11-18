@@ -12,7 +12,7 @@ class ClaseResource extends JsonResource
         return [
             'id' => $this->id,
             'nombre' => $this->nombre,
-            'deporte' => new DeporteResource($this->deporte), // Relación Many to One con Deporte
+            'deporte' => new DeportesResource($this->deporte), // Relación Many to One con Deporte
         ];
     }
 }

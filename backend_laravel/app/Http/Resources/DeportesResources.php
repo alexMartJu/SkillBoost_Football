@@ -14,11 +14,19 @@ class DeportesResources extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $pistas = [];
+        foreach ($this->pistas as $p) {
+            $pista = [
+                "id" => $p->pistas_id,
+                "nombre_pista" => $p->nombre,
+            ];
+            array_push($pistas, $pista);
+        }
         return [
-            'id' => $this->id,
+            'id' => $this->deportes_id,
             'nombre' => $this->nombre,
             'slug' => $this->slug,
-            
+            'pista' => $pistas
         ];
     }
 }
