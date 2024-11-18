@@ -1,14 +1,23 @@
 <?php
+use App\Http\Controllers\ClaseController;
+use App\Models\Clases;
+use App\Models\Pistas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\DeportesController;
 use App\Http\Controllers\PistasController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Deportes;
-Route::bind('Deportes', function ($value) {
+
+Route::bind('deportes', function ($value) {
     return Deportes::where('slug', $value)->firstOrFail();
 });
-Route::bind('Pistas', function ($value) {
+Route::bind('pistas', function ($value) {
     return Pistas::where('slug', $value)->firstOrFail();
 });
-Route::apiResource('Deportes', DeportesController::class);
-Route::apiResource('Pistas', PistasController::class);
+Route::bind('clases', function ($value) {
+    return Clases::where('slug', $value)->firstOrFail();
+});
+
+Route::apiResource('deportes', DeportesController::class);
+Route::apiResource('pistas', PistasController::class);
+Route::apiResource('clases', ClaseController::class);
