@@ -14,8 +14,6 @@ class ClaseController extends Controller
     public function index()
     {
         return ClaseResource::collection(Clase::all());
-        // $clases = Clase::with('deporte')->get();
-        // return response()->json($clases);
     }
 
     // Obtener una clase específica por su ID
