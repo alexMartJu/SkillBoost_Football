@@ -39,20 +39,20 @@ services:
     networks:
       - ZenithZone
 
-  # vue:
-  #   build:
-  #     context: ./frontend/ZenithZone
-  #     dockerfile: Dockerfile
-  #   container_name: vue_container
-  #   env_file: ./.env
-  #   restart: on-failure
-  #   ports:
-  #     - "$VUE_LOCAL_PORT:$VUE_DOCKER_PORT"
-  #   volumes:
-  #     - ./frontend/ZenithZone:/app
-  #     - /app/node_modules
-  #   networks:
-  #     - ZenithZone
+  vue:
+    build:
+      context: ./frontend/ZenithZone
+      dockerfile: Dockerfile
+    container_name: vue_container
+    env_file: ./.env
+    restart: on-failure
+    ports:
+      - "$VUE_LOCAL_PORT:$VUE_DOCKER_PORT"
+    volumes:
+      - ./frontend/ZenithZone:/app
+      - /app/node_modules
+    networks:
+      - ZenithZone
 
   mysql:
     image: mysql:8
