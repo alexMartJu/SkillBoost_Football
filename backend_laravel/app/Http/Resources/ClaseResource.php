@@ -17,10 +17,7 @@ class ClaseResource extends JsonResource
             'duracion' => $this->duracion,
             'max_plazas' => $this->max_plazas,
             'precio' => $this->precio,
-            'deporte' => [
-                'id' => $this->deporte->deportes_id,
-                'nombre' => $this->deporte->nombre,
-            ],
+            'deporte' => $this->deporte
         ];
     }
 }
