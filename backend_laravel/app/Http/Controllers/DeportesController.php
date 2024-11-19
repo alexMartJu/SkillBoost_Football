@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Deporte;
 use Illuminate\Http\Request;
 use App\Models\Deportes;
 use Illuminate\Support\Facades\Log; 
@@ -12,7 +13,7 @@ class DeportesController extends Controller
     public function index(){
 
          //return DeportesResources::collection($Deportes);
-        return DeportesResources::collection(Deportes::all());
+        return DeportesResources::collection(Deporte::all());
         
     }
         public function store(Request $request){
@@ -21,7 +22,7 @@ class DeportesController extends Controller
                 'nombre' => 'required|string|max:191|unique:deportes',
         ]);
             
-            $deporte = Deportes::create([
+            $deporte = Deporte::create([
                 'nombre' => $validatedData['nombre'],
             ]);
             return new DeportesResources($deporte);
@@ -31,14 +32,14 @@ class DeportesController extends Controller
 
     public function show($slug){
 
-        $deporte = Deportes::where('slug', $slug)->firstOrFail();
+        $deporte = Deporte::where('slug', $slug)->firstOrFail();
 
         return new DeportesResources($deporte);
     }
 
     public function update(Request $request, $slug)
     {
-        $deporte = Deportes::where('slug', $slug)->firstOrFail();
+        $deporte = Deporte::where('slug', $slug)->firstOrFail();
     
     }
     public function destroy($slug){

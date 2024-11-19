@@ -44,7 +44,7 @@ class ClaseController extends Controller
             'duracion' => $request->duracion,
             'max_plazas' => $request->max_plazas,
             'precio' => $request->precio,
-            'deportes_id' => $request->deportes_id,
+            'deporte_id' => $request->deporte_id,
         ]);
 
         return response()->json($clase, 201);  // 201: Recurso creado correctamente
