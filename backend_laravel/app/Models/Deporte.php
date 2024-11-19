@@ -8,12 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Deportes extends Model
+class Deporte extends Model
 {
     use HasFactory;
-    protected $table = 'deportes';
-    protected $primaryKey = 'deportes_id';
-    protected $keyType = 'int';
     protected $fillable = [
         'nombre',
         'slug',
@@ -31,10 +28,10 @@ class Deportes extends Model
 
     public function pistas(): BelongsToMany
     {
-        return $this->belongsToMany(Pistas::class, 'deportes_pistas', 'deportes_id', 'pistas_id');
+        return $this->belongsToMany(Pista::class, 'deporte_pista');
     }
     public function clases(): HasMany
     {
-        return $this->hasMany(Clase::class, 'clase');
+        return $this->hasMany(Clase::class);
     }
 }

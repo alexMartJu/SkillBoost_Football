@@ -18,7 +18,7 @@ class Clase extends Model
         'duracion',
         'max_plazas',
         'precio',
-        'deportes_id',
+        'deporte_id',
     ];
 
     public function getRouteKeyName(): string
@@ -35,6 +35,6 @@ class Clase extends Model
 
     public function deporte(): BelongsTo
     {
-        return $this->belongsTo(Deportes::class, 'deportes_id');
+        return $this->belongsTo(Deporte::class);
     }
 }
