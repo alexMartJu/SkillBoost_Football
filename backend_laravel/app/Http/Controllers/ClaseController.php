@@ -35,7 +35,7 @@ class ClaseController extends Controller
             'duracion' => 'required|integer|min:1',
             'max_plazas' => 'required|integer|min:1',
             'precio' => 'required|numeric|min:0',
-            'deportes_id' => 'required|exists:deportes,deportes_id',  // Asegura que el deporte exista
+            'deporte_id' => 'required|exists:deporte,deporte_id',  // Asegura que el deporte exista
         ]);
 
         $clase = Clase::create([
@@ -47,7 +47,7 @@ class ClaseController extends Controller
             'deporte_id' => $request->deporte_id,
         ]);
 
-        return response()->json($clase, 201);  // 201: Recurso creado correctamente
+        return response()->json($clase, 201);
     }
 
     // Actualizar una clase existente
