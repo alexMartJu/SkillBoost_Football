@@ -19,7 +19,7 @@
      
     
     }
-    // console.log("slugs"+deportes.data.slug );
+   
   };
   </script>
   
