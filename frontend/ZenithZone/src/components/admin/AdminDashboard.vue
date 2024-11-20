@@ -1,50 +1,3 @@
-<!-- <template>
-    <div class="admin-dashboard">
-      <h1>Dashboard Admin</h1>
-  
-      
-      <div v-if="deportes.length > 0">
-        <h2>Deportes</h2>
-        <DeporteList :deportes="deportes" />
-      </div>
-
-      <div v-else>
-        <p>No hay deportes disponibles.</p>
-      </div>
-  
-     
-      <div v-if="pistas.length > 0">
-        <h2>Pistas</h2>
-        <PistaList :pistas="pistas" />
-      </div>
-      <div v-else>
-        <p>No hay pistas disponibles.</p>
-      </div>
-    </div>
-  </template>
-   -->
-   <!-- <template>
-    <div class="admin-dashboard">
-      <h1>Dashboard Admin</h1>
-  
-      <div v-if="deportes.data.length > 0">
-        <h2>Deportes</h2>
-        <DeporteList :deportes="deportes" />
-      </div>
-      <div v-else>
-        <p>No hay deportes disponibles.</p>
-      </div>
-  
-      <div v-if="pistas.length > 0">
-        <h2>Pistas</h2>
-        <PistaList :pistas="pistas" />
-      </div>
-      <div v-else>
-        <p>No hay pistas disponibles.</p>
-      </div>
-    </div>
-  </template> -->
-
   <template>
     <div class="admin-dashboard">
       <h1>Dashboard Admin</h1>
@@ -58,7 +11,7 @@
         <p>No hay deportes disponibles.</p>
       </div>
   
-      <div v-if="pistas.length > 0">
+      <div v-if="pistas && pistas && pistas.length > 0">
         <h2>Pistas</h2>
         <PistaList :pistas="pistas" />
       </div>
