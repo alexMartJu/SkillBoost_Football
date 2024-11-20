@@ -11,31 +11,31 @@
                 <nav>
                     <ul class="nav me-5">
                         <li class="nav-item me-2">
-                            <router-link to="/home" class="nav-link text-color fw-bold fs-3"
+                            <router-link to="/home" class="nav-link text-color fw-bold fs-4"
                                 active-class="isActive text-black">
                                 Home
                             </router-link>
                         </li>
                         <li class="nav-item me-2">
-                            <router-link to="/instalaciones" class="nav-link text-color fw-bold fs-3"
+                            <router-link to="/instalaciones" class="nav-link text-color fw-bold fs-4"
                                 active-class="isActive text-black">
                                 Instalaciones
                             </router-link>
                         </li>
                         <li class="nav-item me-2">
-                            <router-link to="/Servicios" class="nav-link text-color fw-bold fs-3"
+                            <router-link to="/Servicios" class="nav-link text-color fw-bold fs-4"
                                 active-class="isActive text-black">
                                 Servicios
                             </router-link>
                         </li>
                         <li class="nav-item me-5">
-                            <router-link to="/entrenadores" class="nav-link text-color fw-bold fs-3"
+                            <router-link to="/entrenadores" class="nav-link text-color fw-bold fs-4"
                                 active-class="isActive text-black">
                                 Entrenadores
                             </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/auth" class="nav-link auth fw-bold fs-3"
+                            <router-link to="/auth" class="nav-link auth fw-bold fs-4"
                                 active-class="isActive text-black">
                                 Unirse al club
                             </router-link>
@@ -87,7 +87,7 @@ export default {
 }
 
 .logo {
-    max-height: 90px;
+    max-height: 70px;
     width: auto;
     transition: transform 0.3s;
 

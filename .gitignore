@@ -40,3 +40,4 @@ docker-compose.override.yaml
 
 # Volume data
 mysql_data/
+frontend_react/

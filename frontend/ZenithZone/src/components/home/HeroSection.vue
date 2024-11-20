@@ -43,7 +43,7 @@
 
 .eslogan {
     font-family: 'Roboto', sans-serif;
-    font-size: 120px;
+    font-size: 80px;
     font-style: italic;
     font-weight: 100;
     margin-top: 150px;

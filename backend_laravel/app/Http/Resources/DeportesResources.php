@@ -15,7 +15,7 @@ class DeportesResources extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->deportes_id,
+            'id' => $this->id,
             'nombre' => $this->nombre,
             'slug' => $this->slug,
             'pistas' => $this->pistas,

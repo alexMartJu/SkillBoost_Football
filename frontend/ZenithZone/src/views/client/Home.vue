@@ -23,6 +23,6 @@ export default {
 
 <style>
 body {
-    margin-top: 120px;
+    margin-top: 100px;
 }
 </style>
