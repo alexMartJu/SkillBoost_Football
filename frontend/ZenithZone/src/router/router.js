@@ -18,19 +18,19 @@ const router = createRouter({
       component: () => import('../views/client/Instalaciones.vue')
     },
     {
-      path: "/monitorDashboard",
-      name: "monitorDashboard",
-      component: () => import('../views/dashboards/MonitorDashboard.vue'),  // Vista principal del monitor
+      path: "/entrenadorDashboard",
+      name: "entrenadorDashboard",
+      component: () => import('../views/dashboards/EntrenadorDashboard.vue'),  // Vista principal del entrenador
       children: [
         {
-          path: "",  // Si está vacío, se mostrará por defecto la vista de Listar Clases
-          name: "monitorListarClases",
-          component: () => import('../components/dashboards/ListClasesDashboard.vue'),  // Vista para listar clases
+          path: "",  // Si está vacío, se mostrará por defecto la vista de Listar Entrenamientos
+          name: "entrenadorListarEntrenamientos",
+          component: () => import('../components/dashboards/entrenador/ListEntrenamientosDashboard.vue'),  // Vista para listar entrenamientos
         },
         {
-          path: "crear-clase",
-          name: "monitorCrearClase",
-          component: () => import('../components/dashboards/CreateClaseDashboard.vue'),  // Vista para crear una nueva clase
+          path: "crear-entrenamiento",
+          name: "entrenadorCrearEntrenamiento",
+          component: () => import('../components/dashboards/entrenador/CreateEntrenamientoDashboard.vue'),  // Vista para crear un nuevo entrenamiento
         }
       ]
     },
