@@ -1,8 +1,8 @@
 package com.polideportivo.backend_springboot.controller;
 
-import com.polideportivo.backend_springboot.model.Clase;
 import com.polideportivo.backend_springboot.model.Deporte;
 import com.polideportivo.backend_springboot.model.Pista;
+import com.polideportivo.backend_springboot.model.Entrenamiento;
 import com.polideportivo.backend_springboot.repository.DeporteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class DeporteController {
-    
+
     @Autowired
     private DeporteRepository deporteRepository;
 
@@ -61,14 +61,14 @@ public class DeporteController {
         }
     }
 
-    // Obtener todas las clases de un deporte
-    @GetMapping("/deportes/{id}/clases")
-    public ResponseEntity<List<Clase>> getClasesByDeporte(@PathVariable Long id) {
+    // Obtener los entrenamientos de un deporte
+    @GetMapping("/deportes/{id}/entrenamientos")
+    public ResponseEntity<List<Entrenamiento>> getEntrenamientosByDeporte(@PathVariable Long id) {
         try {
             Optional<Deporte> deporte = deporteRepository.findById(id);
             if (deporte.isPresent()) {
-                List<Clase> clases = new ArrayList<>(deporte.get().getClases());
-                return new ResponseEntity<>(clases, HttpStatus.OK);
+                List<Entrenamiento> entrenamientos = new ArrayList<>(deporte.get().getEntrenamientos());
+                return new ResponseEntity<>(entrenamientos, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
