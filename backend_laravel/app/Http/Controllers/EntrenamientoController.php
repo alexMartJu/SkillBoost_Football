@@ -3,27 +3,28 @@
 // app/Http/Controllers/ClaseController.php
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ClaseResource;
+use App\Http\Resources\EntrenamientoResource;
 use App\Models\Clase;
 use App\Models\Deporte;
+use App\Models\Entrenamiento;
 use Illuminate\Http\Request;
 
-class ClaseController extends Controller
+class EntrenamientoController extends Controller
 {
     // Obtener todas las clases
     public function index()
     {
-        return ClaseResource::collection(Clase::all());
+        return EntrenamientoResource::collection(Entrenamiento::all());
     }
 
     // Obtener una clase específica por su ID
     public function show($id)
     {
-        $clase = Clase::with('deporte')->find($id);
-        if (!$clase) {
-            return response()->json(['error' => 'Clase no encontrada'], 404);
+        $entrenamiento = Entrenamiento::with('deporte')->find($id);
+        if (!$entrenamiento) {
+            return response()->json(['error' => 'Entrenamiento no encontrado'], 404);
         }
-        return response()->json($clase);
+        return response()->json($entrenamiento);
     }
 
     // Crear una nueva clase
@@ -35,27 +36,27 @@ class ClaseController extends Controller
             'duracion' => 'required|integer|min:1',
             'max_plazas' => 'required|integer|min:1',
             'precio' => 'required|numeric|min:0',
-            'deportes_id' => 'required|exists:deportes,deportes_id',  // Asegura que el deporte exista
+            'deporte_id' => 'required|exists:deporte,deporte_id',  // Asegura que el deporte exista
         ]);
 
-        $clase = Clase::create([
+        $entrenamiento = Entrenamiento::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'duracion' => $request->duracion,
             'max_plazas' => $request->max_plazas,
             'precio' => $request->precio,
-            'deportes_id' => $request->deportes_id,
+            'deporte_id' => $request->deporte_id,
         ]);
 
-        return response()->json($clase, 201);  // 201: Recurso creado correctamente
+        return response()->json($entrenamiento, 201);
     }
 
     // Actualizar una clase existente
     public function update(Request $request, $id)
     {
-        $clase = Clase::find($id);
-        if (!$clase) {
-            return response()->json(['error' => 'Clase no encontrada'], 404);
+        $entrenamiento = Entrenamiento::find($id);
+        if (!$entrenamiento) {
+            return response()->json(['error' => 'entrenamiento no encontrada'], 404);
         }
 
         $request->validate([
@@ -63,19 +64,19 @@ class ClaseController extends Controller
             'deportes_id' => 'required|exists:deportes,deportes_id',  // Asegura que el deporte exista
         ]);
 
-        $clase->update($request->all());
-        return response()->json($clase);
+        $entrenamiento->update($request->all());
+        return response()->json($entrenamiento);
     }
 
     // Eliminar una clase
     public function destroy($id)
     {
-        $clase = Clase::find($id);
-        if (!$clase) {
+        $entrenamiento = Entrenamiento::find($id);
+        if (!$entrenamiento) {
             return response()->json(['error' => 'Clase no encontrada'], 404);
         }
 
-        $clase->delete();
+        $entrenamiento->delete();
         return response()->json(['message' => 'Clase eliminada']);
     }
 }

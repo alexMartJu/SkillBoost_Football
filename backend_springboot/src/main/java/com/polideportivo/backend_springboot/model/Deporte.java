@@ -11,29 +11,28 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class Deporte {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "deportes_id")
     private Long id;
 
-    @Column(name = "nombre", length = 191)
+    @Column(name = "nombre", length = 191, nullable = false)
     private String nombre;
 
-    @Column(name = "slug", length = 191, unique = true)
+    @Column(name = "slug", length = 191, unique = true, nullable = false)
     private String slug;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(
-        name = "deportes_pistas",
-        joinColumns = @JoinColumn(name = "deportes_id"),
-        inverseJoinColumns = @JoinColumn(name = "pistas_id")
-    )
     @JsonManagedReference
+    @OneToMany(mappedBy = "deporte", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Entrenamiento> entrenamientos = new HashSet<>();
+
+    @JsonManagedReference
+    @ManyToMany
+    @JoinTable(
+        name = "deporte_pista",
+        joinColumns = @JoinColumn(name = "deporte_id"),
+        inverseJoinColumns = @JoinColumn(name = "pista_id")
+    )
     private Set<Pista> pistas = new HashSet<>();
 
-    @OneToMany(mappedBy = "deporte", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Set<Clase> clases = new HashSet<>();
-
-    // Constructor vacío
+    // Getters, setters y constructor vacío
     public Deporte() {}
 
     // Constructor con parámetros
@@ -42,7 +41,6 @@ public class Deporte {
         this.slug = slug;
     }
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -67,6 +65,14 @@ public class Deporte {
         this.slug = slug;
     }
 
+    public Set<Entrenamiento> getEntrenamientos() {
+        return entrenamientos;
+    }
+
+    public void setEntrenamientos(Set<Entrenamiento> entrenamientos) {
+        this.entrenamientos = entrenamientos;
+    }
+
     public Set<Pista> getPistas() {
         return pistas;
     }
@@ -75,14 +81,7 @@ public class Deporte {
         this.pistas = pistas;
     }
 
-    public Set<Clase> getClases() {
-        return clases;
-    }
-
-    public void setClases(Set<Clase> clases) {
-        this.clases = clases;
-    }
-
+    // Método toString para depuración
     @Override
     public String toString() {
         return "Deporte{" +

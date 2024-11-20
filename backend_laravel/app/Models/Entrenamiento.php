@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
-class Clase extends Model
+class Entrenamiento extends Model
 {
     use HasFactory;
+
+    protected $hidden = ['created_at', 'updated_at'];
 
     protected $fillable = [
         'nombre',
@@ -18,7 +20,7 @@ class Clase extends Model
         'duracion',
         'max_plazas',
         'precio',
-        'deportes_id',
+        'deporte_id',
     ];
 
     public function getRouteKeyName(): string
@@ -35,6 +37,6 @@ class Clase extends Model
 
     public function deporte(): BelongsTo
     {
-        return $this->belongsTo(Deportes::class, 'deportes_id');
+        return $this->belongsTo(Deporte::class);
     }
 }

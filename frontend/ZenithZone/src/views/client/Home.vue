@@ -1,16 +1,20 @@
 <template>
+    <HeroSection />
     <main class="container">
+
         <ListPistas />
-        <ListClases />        
+        <ListClases />
     </main>
 </template>
 
 <script>
 import ListClases from '../../components/ListClases.vue';
 import ListPistas from '../../components/ListPistas.vue';
+import HeroSection from '../../components/home/HeroSection.vue';
 
 export default {
     components: {
+        HeroSection,
         ListClases,
         ListPistas
     }
@@ -18,7 +22,7 @@ export default {
 </script>
 
 <style>
-main {
-    margin-top: 50px;
+body {
+    margin-top: 100px;
 }
 </style>

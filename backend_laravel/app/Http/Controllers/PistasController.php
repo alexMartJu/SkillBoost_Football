@@ -3,36 +3,36 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Pistas; 
-use Illuminate\Support\Facades\Log; 
+use App\Models\Pista;
+use Illuminate\Support\Facades\Log;
 use App\Http\Resources\PistasResources;
 
 class PistasController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         Log::info('Accediendo al método index de PistasController');
 
         try {
-            $pistas = Pistas::all();
-            Log::info('Se han obtenido todas las pistas', ['total' => $pistas->count()]);
-            return PistasResources::collection($pistas);
+            return PistasResources::collection(Pista::all());
         } catch (\Exception $e) {
             Log::error('Error al obtener todas las pistas: ' . $e->getMessage());
             return response()->json(['error' => 'Error al obtener las pistas'], 500);
         }
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         Log::info('Accediendo al método store de PistasController', ['data' => $request->all()]);
-        
+
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:191|unique:pistas',
-            'deportes' => 'required|array', 
-            'deportes.*' => 'exists:deportes,deportes_id' 
+            'deportes' => 'required|array',
+            'deportes.*' => 'exists:deportes,deportes_id'
         ]);
 
         try {
-            $pistas = Pistas::create([
+            $pistas = Pista::create([
                 'nombre' => $validatedData['nombre'],
             ]);
             Log::info('Pista creada', ['pista' => $pistas]);
@@ -48,11 +48,12 @@ class PistasController extends Controller
         }
     }
 
-    public function show($slug){
+    public function show($slug)
+    {
         Log::info('Accediendo al método show de PistasController', ['slug' => $slug]);
 
         try {
-            $pista = Pistas::where('slug', $slug)->firstOrFail();
+            $pista = Pista::where('slug', $slug)->firstOrFail();
             Log::info('Pista encontrada', ['pista' => $pista]);
             return new PistasResources($pista);
 
@@ -67,13 +68,13 @@ class PistasController extends Controller
         Log::info('Accediendo al método update de PistasController', ['slug' => $slug, 'data' => $request->all()]);
 
         $validatedData = $request->validate([
-            'nombre' => 'required|string|max:191|unique:pistas,nombre,' . $slug . ',slug', 
-            'deportes' => 'nullable|array', 
-            'deportes.*' => 'exists:deportes,id' 
+            'nombre' => 'required|string|max:191|unique:pistas,nombre,' . $slug . ',slug',
+            'deportes' => 'nullable|array',
+            'deportes.*' => 'exists:deportes,id'
         ]);
 
         try {
-            $pista = Pistas::where('slug', $slug)->firstOrFail();
+            $pista = Pista::where('slug', $slug)->firstOrFail();
             Log::info('Pista encontrada para actualizar', ['pista' => $pista]);
 
             $pista->update(['nombre' => $validatedData['nombre']]);
@@ -92,11 +93,12 @@ class PistasController extends Controller
         }
     }
 
-    public function destroy($slug){
+    public function destroy($slug)
+    {
         Log::info('Accediendo al método destroy de PistasController', ['slug' => $slug]);
 
         try {
-            $pista = Pistas::where('slug', $slug)->firstOrFail();
+            $pista = Pista::where('slug', $slug)->firstOrFail();
             Log::info('Pista encontrada para eliminar', ['pista' => $pista]);
 
             $pista->delete();

@@ -1,32 +1,31 @@
 package com.polideportivo.backend_springboot.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "pistas")
 public class Pista {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pistas_id")
     private Long id;
 
-    @Column(name = "nombre", length = 191)
+    @Column(name = "nombre", length = 191, nullable = false)
     private String nombre;
 
-    @Column(name = "slug", length = 191, unique = true)
+    @Column(name = "slug", length = 191, unique = true, nullable = false)
     private String slug;
 
+    // Relación ManyToMany con configuraciones específicas
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
-        name = "deportes_pistas",
-        joinColumns = @JoinColumn(name = "pistas_id"),
-        inverseJoinColumns = @JoinColumn(name = "deportes_id")
+        name = "deporte_pista",  // Tabla intermedia
+        joinColumns = @JoinColumn(name = "pista_id"),  // Columna en la tabla intermedia que referencia a Pista
+        inverseJoinColumns = @JoinColumn(name = "deporte_id")  // Columna en la tabla intermedia que referencia a Deporte
     )
-    @JsonBackReference
+    @JsonBackReference  // Evita la serialización recursiva
     private Set<Deporte> deportes = new HashSet<>();
 
     // Constructor vacío
@@ -38,7 +37,7 @@ public class Pista {
         this.slug = slug;
     }
 
-    // Getters y Setters
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -71,6 +70,7 @@ public class Pista {
         this.deportes = deportes;
     }
 
+    // Método toString para depuración
     @Override
     public String toString() {
         return "Pista{" +

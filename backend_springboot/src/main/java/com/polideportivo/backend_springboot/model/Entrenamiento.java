@@ -1,53 +1,53 @@
 package com.polideportivo.backend_springboot.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "clases")
-public class Clase {
+@Table(name = "entrenamientos")
+public class Entrenamiento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre", length = 191)
+    @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "slug", length = 191, unique = true)
+    @Column(name = "slug", unique = true, nullable = false)
     private String slug;
 
-    @Column(name = "descripcion", length = 255)
+    @Column(name = "descripcion", nullable = false)
     private String descripcion;
 
-    @Column(name = "duracion")
+    @Column(name = "duracion", nullable = false)
     private Integer duracion;
 
-    @Column(name = "max_plazas")
+    @Column(name = "max_plazas", nullable = false)
     private Integer maxPlazas;
 
-    @Column(name = "precio")
+    @Column(name = "precio", nullable = false)
     private Integer precio;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "deportes_id", nullable = false)
     @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "deporte_id", nullable = false)
     private Deporte deporte;
 
     // Constructor vacío
-    public Clase() {}
+    public Entrenamiento() {}
 
     // Constructor con parámetros
-    public Clase(String nombre, String slug, String descripcion, Integer duracion, Integer maxPlazas, Integer precio) {
+    public Entrenamiento(String nombre, String slug, String descripcion, Integer duracion, Integer maxPlazas, Integer precio, Deporte deporte) {
         this.nombre = nombre;
         this.slug = slug;
         this.descripcion = descripcion;
         this.duracion = duracion;
         this.maxPlazas = maxPlazas;
         this.precio = precio;
+        this.deporte = deporte;
     }
 
-    // Getters y Setters
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -115,7 +115,7 @@ public class Clase {
     // Método toString
     @Override
     public String toString() {
-        return "Clase{" +
+        return "Entrenamiento{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", slug='" + slug + '\'' +
@@ -123,7 +123,7 @@ public class Clase {
                 ", duracion=" + duracion +
                 ", maxPlazas=" + maxPlazas +
                 ", precio=" + precio +
-                ", deporte=" + deporte +
+                ", deporte=" + deporte +  // Asumiendo que quieres mostrar el nombre del deporte
                 '}';
     }
 }

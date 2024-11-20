@@ -15,10 +15,10 @@ class PistasResources extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'pistas_id' => $this->pistas_id,
+            'pistas_id' => $this->id,
             'nombre' => $this->nombre,
             'slug' => $this->slug,
-            'deportes' => DeportesResources::collection($this->deportes),
+            'deportes' => $this->deportes
         ];
     }
 }
