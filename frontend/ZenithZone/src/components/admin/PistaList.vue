@@ -2,7 +2,7 @@
     <div>
       <ul>
         <li v-for="pista in pistas" :key="pista.id">
-          <p>{{ pista.nombre_pista }}</p>
+          <p>{{ pista.nombre }}</p>
         </li>
       </ul>
     </div>
