@@ -5,11 +5,11 @@
             <section class="col-md-12">
                     <div class="card">
                         <div class="card-body ">
-                            <p><strong>Nombre:</strong> {{ clase.nombre }}</p>
-                            <p><strong>Descripción:</strong> {{ clase.descripcion }}</p>
-                            <p><strong>Duración:</strong> {{ clase.duracion }} minutos</p>
-                            <p><strong>Plazas totales:</strong> {{ clase.maxPlazas }}</p>
-                            <p><strong>Precio:</strong> {{ clase.precio }}€</p>
+                            <p><strong>Nombre:</strong> {{ entrenamiento.nombre }}</p>
+                            <p><strong>Descripción:</strong> {{ entrenamiento.descripcion }}</p>
+                            <p><strong>Duración:</strong> {{ entrenamiento.duracion }} minutos</p>
+                            <p><strong>Plazas totales:</strong> {{ entrenamiento.maxPlazas }}</p>
+                            <p><strong>Precio:</strong> {{ entrenamiento.precio }}€</p>
                         </div>
                     </div>
             </section>
@@ -18,10 +18,12 @@
 </template>
 
 <script>
+import { entrenamientos } from '@/store/modules/client/entrenamientos';
+
 export default {
 
     props: {
-        clase: {
+        entrenamiento: {
             type: Object,
             required: true
         }

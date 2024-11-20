@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import ListClases from '../../components/ListClases.vue';
+import ListClases from '../../components/ListEntrenamientos.vue';
 import ListPistas from '../../components/ListPistas.vue';
 import HeroSection from '../../components/home/HeroSection.vue';
 
@@ -25,4 +25,5 @@ export default {
 body {
     margin-top: 100px;
 }
+
 </style>

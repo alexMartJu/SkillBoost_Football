@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row g-4 justify-content-center">
-            <CardClases v-for="clase in state.clases" :key="clase.id" :clase="clase" class="col-md-3" />
+            <CardClases v-for="entrenamiento in state.entrenamientos" :key="entrenamiento.id" :entrenamiento="entrenamiento" class="col-md-3" />
         </div>
     </div>
 </template>
@@ -10,7 +10,7 @@
 import { reactive, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import Constant from '../Constant';
-import CardClases from './CardClases.vue';
+import CardClases from './CardEntrenamientos.vue';
 
 export default {
     components: {
@@ -19,10 +19,10 @@ export default {
     setup() {
         const store = useStore();
 
-        store.dispatch(`clases/${Constant.INITIALIZE_CLASE}`);
+        store.dispatch(`entrenamientos/${Constant.INITIALIZE_ENTRENAMIENTO}`);
 
         const state = reactive({
-            clases: computed(() => store.getters['clases/GetClases'])
+            entrenamientos: computed(() => store.getters['entrenamientos/GetEntrenamientos'])
         });
 
         return { state };

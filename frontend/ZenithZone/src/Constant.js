@@ -7,11 +7,11 @@ export default {
     CREATE_ONE_DEPORTE: "CreateOneDeporte",
 
     // Clases
-    INITIALIZE_CLASE: "InitializeClase",
-    INITIALIZE_ONE_STATE_CLASE: "InitializeOneStateClase",
-    DELETE_ONE_CLASE: "DeteleOneClase",
-    UPDATE_ONE_CLASE: "UpdateOneClase",
-    CREATE_ONE_CLASE: "CreateOneClase",
+    INITIALIZE_ENTRENAMIENTO: "InitializeEntrenamiento",
+    INITIALIZE_ONE_STATE_ENTRENAMIENTO: "InitializeOneStateEntrenamiento",
+    DELETE_ONE_ENTRENAMIENTO: "DeteleOneEntrenamiento",
+    UPDATE_ONE_ENTRENAMIENTO: "UpdateOneEntrenamiento",
+    CREATE_ONE_ENTRENAMIENTO: "CreateOneEntrenamiento",
 
     // Pistas
     INITIALIZE_PISTA: "InitializePista",
