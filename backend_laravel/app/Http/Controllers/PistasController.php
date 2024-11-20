@@ -28,7 +28,7 @@ class PistasController extends Controller
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:191|unique:pistas',
             'deportes' => 'required|array',
-            'deportes.*' => 'exists:deportes,deportes_id'
+            'deportes.*' => 'exists:deportes,id'
         ]);
 
         try {
