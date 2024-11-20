@@ -50,9 +50,9 @@
       <h1>Dashboard Admin</h1>
   
       <!-- Verificar si 'deportes' y 'deportes.data' existen y si hay elementos -->
-      <div v-if="deportes && deportes.data && deportes.data.length > 0">
+      <div v-if="deportes && deportes && deportes.length > 0">
         <h2>Deportes</h2>
-        <DeporteList :deportes="deportes.data" />
+        <DeporteList :deportes="deportes" />
       </div>
       <div v-else>
         <p>No hay deportes disponibles.</p>
@@ -87,7 +87,7 @@
     created() {
       console.log(this.$store.state.adminDashboard); 
       this.$store.dispatch('adminDashboard/InitializeDeporte');
-      this.$store.dispatch('adminDashboard/INITIALIZE_PISTA');
+      this.$store.dispatch('adminDashboard/InitializePista');
 
       // console.log("deportes"+this.deportes.data.length);
       console.log('Deportes en Vuex:', this.deportes);

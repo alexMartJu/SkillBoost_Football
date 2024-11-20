@@ -26,7 +26,7 @@ export const adminDashboard = {
         async [Constant.INITIALIZE_DEPORTE](store) {
             try {
                 const { data } = await adminDashboardService.GetDeportes();
-                store.commit(Constant.INITIALIZE_DEPORTE, data);
+                store.commit(Constant.INITIALIZE_DEPORTE, data.data);
             } catch (error) {
                 console.error("Error al cargar los deportes:", error);
             }
@@ -35,7 +35,7 @@ export const adminDashboard = {
         async [Constant.INITIALIZE_PISTA](store) {
             try {
                 const { data } = await adminDashboardService.GetPistas();
-                store.commit(Constant.INITIALIZE_PISTA, data);
+                store.commit(Constant.INITIALIZE_PISTA, data.data);
             } catch (error) {
                 console.error("Error al cargar las pistas:", error);
             }
