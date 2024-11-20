@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
-class Clase extends Model
+class Entrenamiento extends Model
 {
     use HasFactory;
+
+    protected $hidden = ['created_at', 'updated_at'];
 
     protected $fillable = [
         'nombre',

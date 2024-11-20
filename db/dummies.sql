@@ -1,7 +1,7 @@
 DELETE FROM `deportes`;
 DELETE FROM `pistas`;
 DELETE FROM `deporte_pista`;
-DELETE FROM `clases`;
+DELETE FROM `entrenamientos`;
 
 INSERT INTO `deportes` (`id`, `nombre`, `slug`, `created_at`, `updated_at`) VALUES
 (1, 'Futbol', 'Futbol--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
@@ -31,7 +31,7 @@ INSERT INTO `deporte_pista` (`deporte_id`, `pista_id`, `created_at`, `updated_at
 (4, 1, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
 (5, 2, '2024-11-17 15:55:55', '2024-11-17 15:55:55');
 
-INSERT INTO `clases` (`deporte_id`, `id`, `nombre`, `slug`, `descripcion`, `duracion`, `max_plazas`, `precio`, `created_at`, `updated_at`) VALUES
+INSERT INTO `entrenamientos` (`deporte_id`, `id`, `nombre`, `slug`, `descripcion`, `duracion`, `max_plazas`, `precio`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Clase Básica A', 'clase-basica-a', 'Clase de iniciación al deporte A', 60, 20, 15, '2024-11-17 15:47:05', '2024-11-17 15:47:05'),
 (2, 2, 'Clase Avanzada B', 'clase-avanzada-b', 'Clase avanzada de deporte B', 90, 15, 30, '2024-11-17 15:48:19', '2024-11-17 15:48:19'),
 (3, 3, 'Clase Intermedia C', 'clase-intermedia-c', 'Clase intermedia de deporte C', 75, 25, 20, '2024-11-17 15:48:19', '2024-11-17 15:48:19'),

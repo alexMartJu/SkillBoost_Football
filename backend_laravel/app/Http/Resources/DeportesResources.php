@@ -19,7 +19,7 @@ class DeportesResources extends JsonResource
             'nombre' => $this->nombre,
             'slug' => $this->slug,
             'pistas' => $this->pistas,
-            'clases' => $this->clases
+            'entrenamientos' => $this->entrenamientos,
         ];
     }
 }

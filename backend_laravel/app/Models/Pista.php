@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Pista extends Model
 {
     use HasFactory;
+
+    protected $hidden = ['created_at', 'updated_at'];
     protected $fillable = [
         'nombre',
         'slug',

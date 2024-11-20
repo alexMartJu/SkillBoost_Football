@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('clases', function (Blueprint $table) {
+        Schema::create('entrenamientos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
             $table->string('slug')->unique();
@@ -28,6 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('clases');
+        Schema::dropIfExists('entrenamientos');
     }
 };

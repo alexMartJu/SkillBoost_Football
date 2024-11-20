@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Deporte extends Model
 {
     use HasFactory;
+
+    protected $hidden = ['created_at', 'updated_at'];
     protected $fillable = [
         'nombre',
         'slug',
@@ -30,8 +32,8 @@ class Deporte extends Model
     {
         return $this->belongsToMany(Pista::class, 'deporte_pista');
     }
-    public function clases(): HasMany
+    public function entrenamientos(): HasMany
     {
-        return $this->hasMany(Clase::class);
+        return $this->hasMany(Entrenamiento::class);
     }
 }
