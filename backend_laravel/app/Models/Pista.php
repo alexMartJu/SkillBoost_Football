@@ -15,11 +15,7 @@ class Pista extends Model
     protected $fillable = [
         'nombre',
         'slug',
-        'images',
-    ];
-
-    protected $casts = [
-        'images' => 'array',
+        'image',
     ];
     public function setNombreAttribute(string $nombre): void
     {

@@ -20,14 +20,13 @@ class PistasController extends Controller
             'nombre' => 'required|string|max:191|unique:pistas',
             'deportes' => 'required|array',
             'deportes.*' => 'exists:deportes,id',
-            'images' => 'nullable|array',
-            'images.*' => 'nullable|string',
+            'image' => 'nullable|string',
         ]);
 
         try {
             $pistas = Pista::create([
                 'nombre' => $validatedData['nombre'],
-                'images' => $validatedData['images']
+                'images' => $validatedData['image']
             ]);
 
             $pistas->deportes()->attach($validatedData['deportes']);
@@ -51,8 +50,7 @@ class PistasController extends Controller
             'nombre' => 'required|string|max:191|unique:pistas,nombre,' . $slug . ',slug',
             'deportes' => 'nullable|array',
             'deportes.*' => 'exists:deportes,id',
-            'images' => 'nullable|array',
-            'images.*' => 'nullable|string',
+            'image' => 'nullable|string',
         ]);
 
         try {
@@ -60,7 +58,7 @@ class PistasController extends Controller
 
             $pista->update([
                 'nombre' => $validatedData['nombre'],
-                'images' => $validatedData['images']
+                'image' => $validatedData['image']
             ]);
 
             if (isset($validatedData['deportes'])) {
