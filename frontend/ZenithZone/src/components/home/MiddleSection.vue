@@ -13,19 +13,19 @@
     <div class="carousel-section col-md-6 p-0">
         <Splide :options="splideOptions" class="h-100">
             <SplideSlide>
-                <img src="../../assets/home/pista_1.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 1" />
+                <img src="../../assets/home/pista_atletismo.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 1" />
             </SplideSlide>
             <SplideSlide>
-                <img src="../../assets/home/pista_2.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 2" />
+                <img src="../../assets/home/pista_ciclismo.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 2" />
             </SplideSlide>
             <SplideSlide>
-                <img src="../../assets/home/pista_3.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 3" />
+                <img src="../../assets/home/piscina.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 3" />
             </SplideSlide>
             <SplideSlide>
-                <img src="../../assets/home/pista_4.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 3" />
+                <img src="../../assets/home/rocodromo.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 3" />
             </SplideSlide>
             <SplideSlide>
-                <img src="../../assets/home/pista_5.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 3" />
+                <img src="../../assets/home/pista_padel.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 3" />
             </SplideSlide>
         </Splide>
     </div>

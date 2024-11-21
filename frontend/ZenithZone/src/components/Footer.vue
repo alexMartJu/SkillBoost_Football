@@ -3,7 +3,7 @@
     <div class="container text-center">
         <!-- Texto o información de derechos de autor -->
         <p class="mb-0">
-            &copy; {{ currentYear }} ZenithZone. Todos los derechos reservados.
+            &copy; 2024 ZenithZone. Todos los derechos reservados.
         </p>
         <!-- Enlaces del footer -->
         <div class="social-links mt-3">

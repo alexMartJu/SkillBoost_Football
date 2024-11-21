@@ -18,6 +18,22 @@ const router = createRouter({
       component: () => import('../views/client/Instalaciones.vue')
     },
     {
+      path: "/servicios",
+      name: "servicios",
+      component: () => import('../views/client/Servicios.vue')
+    },
+    {
+      path: "/entrenadores",
+      name: "entrenadores",
+      component: () => import('../views/client/Entrenadores.vue')
+    },
+    {
+      path: "/auth",
+      name: "auth",
+      component: () => import('../views/client/Auth.vue')
+    },
+
+    {
       path: "/entrenadorDashboard",
       name: "entrenadorDashboard",
       component: () => import('../views/dashboards/EntrenadorDashboard.vue'),  // Vista principal del entrenador
