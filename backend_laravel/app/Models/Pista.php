@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -15,7 +16,6 @@ class Pista extends Model
     protected $fillable = [
         'nombre',
         'slug',
-        'image',
     ];
     public function setNombreAttribute(string $nombre): void
     {
@@ -26,5 +26,10 @@ class Pista extends Model
     public function deportes(): BelongsToMany
     {
         return $this->belongsToMany(Deporte::class, 'deporte_pista');
+    }
+
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

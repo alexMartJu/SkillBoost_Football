@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -16,7 +17,6 @@ class Deporte extends Model
     protected $fillable = [
         'nombre',
         'slug',
-        'image'
     ];
     public function getRouteKeyName(): string
     {
@@ -36,5 +36,10 @@ class Deporte extends Model
     public function entrenamientos(): HasMany
     {
         return $this->hasMany(Entrenamiento::class);
+    }
+
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 }
