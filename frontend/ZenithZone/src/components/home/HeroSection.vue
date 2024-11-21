@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid position-relative p-0">
+    <div class="container-fluid position-relative p-0 section-wrapper">
         <!-- Contenedor con gradiente y centrado de la imagen -->
         <div class="img-container position-relative">
             <img class="img-stretch" src="../../assets/home/atletismo.jpg" alt="">
@@ -18,6 +18,11 @@
 <script></script>
 
 <style scoped>
+.section-wrapper{
+    /* box-shadow: 0 0 10px 10px rgb(0, 0, 0, 0.7); */
+    z-index: 1;
+}
+
 .img-stretch {
     width: 100%;
     object-fit: cover;

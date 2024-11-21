@@ -1,20 +1,20 @@
 <template>
     <HeroSection />
-    <main class="container">
-
-        <ListPistas />
-        <ListClases />
-    </main>
+    <MiddleSection />
+        <!-- <ListPistas />
+        <ListClases /> -->
 </template>
 
 <script>
 import ListClases from '../../components/ListEntrenamientos.vue';
 import ListPistas from '../../components/ListPistas.vue';
 import HeroSection from '../../components/home/HeroSection.vue';
+import MiddleSection from '@/components/home/MiddleSection.vue';
 
 export default {
     components: {
         HeroSection,
+        MiddleSection,
         ListClases,
         ListPistas
     }
@@ -23,7 +23,8 @@ export default {
 
 <style>
 body {
-    margin-top: 100px;
+    margin-top: 80px;
+    background-color: rgb(10, 10, 10);
 }
 
 </style>
