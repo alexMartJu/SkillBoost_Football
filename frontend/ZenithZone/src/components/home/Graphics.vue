@@ -38,6 +38,12 @@ export default {
                             backgroundColor: 'rgba(255, 162, 80, 0.2)', // Transparencia
                             borderWidth: 2,
                         },
+                        {
+                            data: [40, 40, 50, 73, 96],
+                            borderColor: 'rgba(55, 162, 80, 1)', // Azul
+                            backgroundColor: 'rgba(55, 162, 80, 0.2)', // Transparencia
+                            borderWidth: 2,
+                        },
                     ],
                 },
                 options: {

@@ -72,6 +72,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.5);
+    z-index: 5;
 }
 
 .text-container{
@@ -82,7 +84,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 40px;
+    font-size: 44px;
+    font-family: 'Roboto', sans-serif;
     box-shadow: 20px 20px 0 5px rgba(255, 255, 255, 0.4);
 }
 
