@@ -1,7 +1,7 @@
 <template>
     <main>
         <div class="card mb-4">
-            <img src="../assets/placeholder.png" alt="" class="card-img-top">
+            <img src="/assets/placeholder.png" alt="" class="card-img-top">
             <div class="card-img-overlay d-flex align-items-end justify-content-center text-white">
                 <div class="pista-name">
                     <h3>{{ pista.nombre }}</h3>

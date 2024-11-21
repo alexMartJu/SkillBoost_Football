@@ -19,6 +19,9 @@ public class Deporte {
     @Column(name = "slug", length = 191, unique = true, nullable = false)
     private String slug;
 
+    @Column(name = "image", nullable = false)
+    private String image;
+
     @JsonManagedReference
     @OneToMany(mappedBy = "deporte", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Entrenamiento> entrenamientos = new HashSet<>();
@@ -36,9 +39,10 @@ public class Deporte {
     public Deporte() {}
 
     // Constructor con parámetros
-    public Deporte(String nombre, String slug) {
+    public Deporte(String nombre, String slug, String image) {
         this.nombre = nombre;
         this.slug = slug;
+        this.image = image;
     }
 
     public Long getId() {
@@ -65,6 +69,14 @@ public class Deporte {
         this.slug = slug;
     }
 
+    public String getimage() {
+        return image;
+    }
+
+    public void setimage(String image) {
+        this.image = image;
+    }
+
     public Set<Entrenamiento> getEntrenamientos() {
         return entrenamientos;
     }
@@ -88,6 +100,7 @@ public class Deporte {
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", slug='" + slug + '\'' +
+                ", image='" + image + '\'' +
                 '}';
     }
 }

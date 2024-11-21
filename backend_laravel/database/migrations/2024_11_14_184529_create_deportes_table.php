@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('nombre', 191);
             $table->string('slug', 191)->unique();
+            $table->string('image')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

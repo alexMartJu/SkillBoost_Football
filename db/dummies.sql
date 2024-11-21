@@ -3,24 +3,22 @@ DELETE FROM `pistas`;
 DELETE FROM `deporte_pista`;
 DELETE FROM `entrenamientos`;
 
-INSERT INTO `deportes` (`id`, `nombre`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'Futbol', 'Futbol--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(2, 'Baloncesto', 'Baloncesto--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(3, 'Balonmano', 'Balonmano--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(4, 'Volleyball', 'Volleyball--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(5, 'Escalada', 'Escalada--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(6, 'Ciclismo', 'Ciclismo--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(7, 'Natación', 'Natación--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(8, 'Karate', 'Karate--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(9, 'Atletismo', 'Atletismo--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(10, 'Bienestar', 'Bienestar--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24');
+INSERT INTO `deportes` (`id`, `nombre`, `slug`, `image`, `created_at`, `updated_at`) VALUES
+(1, 'Futbol', 'Futbol--123', 'futbol.jpg', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(2, 'Baloncesto', 'Baloncesto--123', 'baloncesto.jpg', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(3, 'Tenis', 'Balonmano--123', 'tenis.jpg', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(4, 'Volleyball', 'Volleyball--123', 'volleyball.jpg', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(5, 'Escalada', 'Escalada--123', 'escalada.webp', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(6, 'Ciclismo', 'Ciclismo--123', 'ciclismo.jpg', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(7, 'Natación', 'Natación--123', 'natacion.webp', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(8, 'Padel', 'Karate--123', 'padel.png', '2024-11-17 14:33:24', '2024-11-17 14:33:24');
 
-INSERT INTO `pistas` (`id`, `nombre`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'Pista Central', 'pista-central', '2024-11-17 15:42:34', '2024-11-17 15:42:34'),
-(2, 'Pista Norte', 'pista-norte', '2024-11-17 15:42:57', '2024-11-17 15:42:57'),
-(3, 'Pista Sur', 'pista-sur', '2024-11-17 15:42:57', '2024-11-17 15:42:57'),
-(4, 'Pista Este', 'pista-este', '2024-11-17 15:44:29', '2024-11-17 15:44:29'),
-(5, 'Pista Oeste', 'pista-oeste', '2024-11-17 15:42:57', '2024-11-17 15:42:57');
+INSERT INTO `pistas` (`id`, `nombre`, `slug`, `image`, `created_at`, `updated_at`) VALUES
+(1, 'Pista Atletismo', 'pista-atletismo', 'pista_atletismo.jpg', '2024-11-17 15:42:34', '2024-11-17 15:42:34'),
+(2, 'Piscina olímpica', 'piscina-olimpica', 'piscina.jpg', '2024-11-17 15:42:57', '2024-11-17 15:42:57'),
+(3, 'Rocódromo', 'rocodromo', 'rocodromo.jpg', '2024-11-17 15:42:57', '2024-11-17 15:42:57'),
+(4, 'Pista de Padel', 'pista-padel', 'pista_padel.jpg', '2024-11-17 15:44:29', '2024-11-17 15:44:29'),
+(5, 'Pista Ciclismo interior', 'pista-ciclismo-interior', 'pista_ciclismo.jpg', '2024-11-17 15:44:29', '2024-11-17 15:44:29');
 
 INSERT INTO `deporte_pista` (`deporte_id`, `pista_id`, `created_at`, `updated_at`) VALUES
 (1, 1, '2024-11-17 15:53:53', '2024-11-17 15:53:53'),

@@ -1,15 +1,15 @@
 <template>
-    <div class="container-fluid position-relative p-0">
+    <div class="container-fluid position-relative p-0 section-wrapper">
         <!-- Contenedor con gradiente y centrado de la imagen -->
         <div class="img-container position-relative">
-            <img class="img-stretch" src="../../assets/home/atletismo.jpg" alt="">
+            <img class="img-stretch" src="/assets/home/atletismo.jpg" alt="">
             <!-- Gradiente sobre la parte inferior de la imagen -->
             <div class="gradient-overlay position-absolute w-100"></div>
         </div>
 
         <!-- Contenedor centrado para logo y eslogan -->
         <div class="position-absolute top-50 start-50 translate-middle text-center w-100">
-            <img src="../../assets/logo_3.png" alt="" class="logo">
+            <img src="/assets/logo_3.png" alt="" class="logo">
             <h1 class="eslogan">Alcanza tu Zénit</h1>
         </div>
     </div>
@@ -18,6 +18,11 @@
 <script></script>
 
 <style scoped>
+.section-wrapper{
+    /* box-shadow: 0 0 10px 10px rgb(0, 0, 0, 0.7); */
+    z-index: 1;
+}
+
 .img-stretch {
     width: 100%;
     object-fit: cover;

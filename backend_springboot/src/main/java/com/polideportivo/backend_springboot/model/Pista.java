@@ -18,6 +18,9 @@ public class Pista {
     @Column(name = "slug", length = 191, unique = true, nullable = false)
     private String slug;
 
+    @Column(name = "image", nullable = false)
+    private String image;
+
     // Relación ManyToMany con configuraciones específicas
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
@@ -32,9 +35,10 @@ public class Pista {
     public Pista() {}
 
     // Constructor con parámetros
-    public Pista(String nombre, String slug) {
+    public Pista(String nombre, String slug, String image) {
         this.nombre = nombre;
         this.slug = slug;
+        this.image = image;
     }
 
     // Getters y setters
@@ -52,6 +56,14 @@ public class Pista {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getimage() {
+        return image;
+    }
+
+    public void setimage(String image) {
+        this.image = image;
     }
 
     public String getSlug() {
@@ -77,6 +89,7 @@ public class Pista {
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", slug='" + slug + '\'' +
+                ", image='" + image + '\'' +
                 '}';
     }
 }

@@ -1,9 +1,9 @@
 <template>
-<footer class="bg-dark text-white py-4">
+<footer class="footer text-white py-5">
     <div class="container text-center">
         <!-- Texto o información de derechos de autor -->
         <p class="mb-0">
-            &copy; {{ currentYear }} ZenithZone. Todos los derechos reservados.
+            &copy; 2024 ZenithZone. Todos los derechos reservados.
         </p>
         <!-- Enlaces del footer -->
         <div class="social-links mt-3">
@@ -25,11 +25,6 @@
 <script>
 export default {
     name: 'Footer',
-    data() {
-        return {
-            currentYear: new Date().getFullYear(),
-        };
-    },
 };
 </script>
 
@@ -38,5 +33,10 @@ export default {
 /* Estilos opcionales personalizados */
 .social-links i {
     font-size: 20px;
+}
+
+.footer {
+    /* margin-top: 50px; */
+    background-color: rgb(20, 20, 20);
 }
 </style>

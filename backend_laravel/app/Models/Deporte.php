@@ -16,6 +16,7 @@ class Deporte extends Model
     protected $fillable = [
         'nombre',
         'slug',
+        'image'
     ];
     public function getRouteKeyName(): string
     {

@@ -15,6 +15,7 @@ class Pista extends Model
     protected $fillable = [
         'nombre',
         'slug',
+        'image',
     ];
     public function setNombreAttribute(string $nombre): void
     {
