@@ -19,7 +19,14 @@ export const adminDashboard = {
             if (payload) {
                 state.pistas = payload;
             }
-        }
+        },
+        [Constant.CREATE_ONE_DEPORTE](state, newDeporte) {
+            state.deportes.push(newDeporte); 
+          },
+          // Crear una pista
+          [Constant.CREATE_ONE_PISTA](state, newPista) {
+            state.pistas.push(newPista); 
+          },
     },
 
     actions: {
@@ -40,6 +47,25 @@ export const adminDashboard = {
                 console.error("Error al cargar las pistas:", error);
             }
         },
+    
+    async [Constant.CREATE_ONE_DEPORTE]({ commit }, newDeporte) {
+        try {
+          const { data } = await adminDashboardService.CreateDeporte(newDeporte);
+          commit(Constant.CREATE_ONE_DEPORTE, data.data); // Agregar el deporte creado
+        } catch (error) {
+          console.error("Error al crear el deporte:", error);
+        }
+      },
+  
+      // Crear una pista
+      async [Constant.CREATE_ONE_PISTA]({ commit }, newPista) {
+        try {
+          const { data } = await adminDashboardService.CreatePista(newPista);
+          commit(Constant.CREATE_ONE_PISTA, data.data); 
+        } catch (error) {
+          console.error("Error al crear la pista:", error);
+        }
+      },
     },
 
     getters: {

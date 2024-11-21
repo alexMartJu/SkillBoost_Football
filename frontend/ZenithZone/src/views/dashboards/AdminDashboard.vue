@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import DashboardAdmin from '../../components/admin/AdminDashboard.vue';
+import DashboardAdmin from '../../components/dashboards/admin/AdminDashboard.vue';
 
 export default {
     components: {
