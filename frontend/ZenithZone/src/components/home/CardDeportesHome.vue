@@ -1,10 +1,10 @@
 <template>
     <main>
         <div class="card-deportes">
-            <img src="/assets/deportes/futbol.jpg" alt="" class="card-img-top">
+            <img :src="`/assets/deportes/${deporte.image}`" alt="" class="card-img-top">
             <div class="card-img-overlay d-flex align-items-end justify-content-center text-white">
                 <div class="deportes-name">
-                    <h3>{{ deporte.nombre }}</h3>
+                    <h3 class="fw-bold">{{ deporte.nombre }}</h3>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@ export default {
 }
 
 .deportes-name {
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(0, 0, 0, 0.4);
     width: 100%;
     height: 25%;
     text-align: center;
