@@ -11,9 +11,26 @@
 
     <!-- Sección del carrusel -->
     <div class="carousel-section col-md-6 p-0">
-        <Splide :options="splideOptions" class="h-100">
-            <SplideSlide v-for="pista in state.pistas" :pista="pista"> 
+        <!-- <Splide ref="splideInstance" :options="splideOptions" class="h-100">
+            <SplideSlide v-for="pista in state.pistas" :key="pista.id" :pista="pista"> 
                 <img :src="`/assets/home/${pista.image}`" class="d-block w-100 h-100 object-fit-cover" alt="" />
+            </SplideSlide>
+        </Splide> -->
+        <Splide :options="splideOptions" class="h-100">
+            <SplideSlide> 
+                <img src="/assets/home/pista_atletismo.jpg" class="d-block w-100 h-100 object-fit-cover" alt="" />
+            </SplideSlide>
+            <SplideSlide> 
+                <img src="/assets/home/piscina.jpg" class="d-block w-100 h-100 object-fit-cover" alt="" />
+            </SplideSlide>
+            <SplideSlide> 
+                <img src="/assets/home/pista_ciclismo.jpg" class="d-block w-100 h-100 object-fit-cover" alt="" />
+            </SplideSlide>
+            <SplideSlide> 
+                <img src="/assets/home/rocodromo.jpg" class="d-block w-100 h-100 object-fit-cover" alt="" />
+            </SplideSlide>
+            <SplideSlide> 
+                <img src="/assets/home/pista_padel.jpg" class="d-block w-100 h-100 object-fit-cover" alt="" />
             </SplideSlide>
         </Splide>
     </div>
@@ -30,23 +47,6 @@ import "@splidejs/splide/dist/css/splide.min.css";
 
 export default {
     name: "MiddleSection",
-    components: {
-        Splide,
-        SplideSlide,
-    },
-    data() {
-        return {
-            splideOptions: {
-                type: "loop",
-                autoplay: true,
-                interval: 5000,
-                height: "100%",
-                arrows: false,
-                pagination: true,
-            },
-        };
-    },
-
     setup() {
         const store = useStore();
 
@@ -56,8 +56,25 @@ export default {
             pistas: computed(() => store.getters['pistas/GetPistas'])
         });
 
-        return { state };
+        return { state };        
     },
+
+    components: {
+        Splide,
+        SplideSlide,
+    },
+    data() {
+        return {
+            splideOptions: {
+                type: "loop",
+                autoplay: true,
+                interval: 3000,
+                height: "100%",
+                arrows: false,
+                pagination: true,
+            },
+        };
+    }
 };
 </script>
 

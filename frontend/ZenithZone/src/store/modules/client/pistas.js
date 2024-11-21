@@ -20,9 +20,9 @@ export const pistas = {
         [Constant.INITIALIZE_PISTA]: async (store) => {
             try {
                 const { data } = await pistaService.GetPistas();
-                console.log(data.data);
+                console.log(data);
 
-                store.commit(Constant.INITIALIZE_PISTA, data.data);
+                store.commit(Constant.INITIALIZE_PISTA, data);
             } catch (error) {
                 console.error("Error al cargar las pistas:", error);
             }
