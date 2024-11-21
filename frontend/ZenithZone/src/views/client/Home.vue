@@ -1,11 +1,11 @@
 <template>
     <HeroSection />
     <MiddleSection />
-        <!-- <ListPistas />
-        <ListClases /> -->
+    <Olympics />
 </template>
 
 <script>
+import Olympics from '../../components/home/Olympics.vue';
 import ListClases from '../../components/ListEntrenamientos.vue';
 import ListPistas from '../../components/ListPistas.vue';
 import HeroSection from '../../components/home/HeroSection.vue';
@@ -15,8 +15,7 @@ export default {
     components: {
         HeroSection,
         MiddleSection,
-        ListClases,
-        ListPistas
+        Olympics,
     }
 };
 </script>
