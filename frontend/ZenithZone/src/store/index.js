@@ -3,7 +3,7 @@ import { deportes } from "./modules/client/deportes";
 import { adminDashboard } from './modules/dashboards/adminDashboard';
 import { entrenamientos } from "./modules/client/entrenamientos";
 import { pistas } from "./modules/client/pistas";
-import { monitorDashboard } from "./modules/dashboards/monitorDashboard";
+import { entrenadorDashboard } from "./modules/dashboards/entrenadorDashboard";
 
 export default Vuex.createStore({
     modules: {
@@ -11,6 +11,6 @@ export default Vuex.createStore({
         adminDashboard: adminDashboard,
         entrenamientos: entrenamientos,
         pistas: pistas,
-        monitorDashboard: monitorDashboard
+        entrenadorDashboard: entrenadorDashboard
     }
 });
