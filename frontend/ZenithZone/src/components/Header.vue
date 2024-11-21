@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-between align-items-center p-3">
                 <!-- Logo or App Name -->
                 <router-link to="/home" class="text-color fw-bold h2 mb-0 ms-3">
-                    <img src="../assets/logo_2.png" alt="" class="logo">
+                    <img src="/assets/logo_2.png" alt="" class="logo">
                 </router-link>
 
                 <!-- Navigation Links -->

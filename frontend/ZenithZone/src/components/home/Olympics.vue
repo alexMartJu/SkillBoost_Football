@@ -2,9 +2,9 @@
 <div class="landing-section d-flex">
     <div class="carousel-section col-md-6 p-0">
         <div class="anillos-div">
-            <img src="../../assets/anillos.png" alt="" class="anillos">
+            <img src="/assets/anillos.png" alt="" class="anillos">
         </div>        
-        <img src="../../assets/home/olympics.webp" alt="" class="d-block w-100 h-100 object-fit-cover">
+        <img src="/assets/home/olympics.webp" alt="" class="d-block w-100 h-100 object-fit-cover">
     </div>
 
     <div class="text-section col-md-6 d-flex flex-column justify-content-center px-4">

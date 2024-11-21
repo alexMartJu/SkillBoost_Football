@@ -12,20 +12,8 @@
     <!-- Sección del carrusel -->
     <div class="carousel-section col-md-6 p-0">
         <Splide :options="splideOptions" class="h-100">
-            <SplideSlide>
-                <img src="../../assets/home/pista_atletismo.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 1" />
-            </SplideSlide>
-            <SplideSlide>
-                <img src="../../assets/home/pista_ciclismo.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 2" />
-            </SplideSlide>
-            <SplideSlide>
-                <img src="../../assets/home/piscina.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 3" />
-            </SplideSlide>
-            <SplideSlide>
-                <img src="../../assets/home/rocodromo.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 3" />
-            </SplideSlide>
-            <SplideSlide>
-                <img src="../../assets/home/pista_padel.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Imagen 3" />
+            <SplideSlide v-for="pista in state.pistas" :pista="pista"> 
+                <img :src="`/assets/home/${pista.image}`" class="d-block w-100 h-100 object-fit-cover" alt="" />
             </SplideSlide>
         </Splide>
     </div>
@@ -34,6 +22,9 @@
 
 
 <script>
+import { reactive, computed } from 'vue';
+import { useStore } from 'vuex';
+import Constant from '../../Constant';
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 
@@ -54,6 +45,18 @@ export default {
                 pagination: true,
             },
         };
+    },
+
+    setup() {
+        const store = useStore();
+
+        store.dispatch(`pistas/${Constant.INITIALIZE_PISTA}`);
+
+        const state = reactive({
+            pistas: computed(() => store.getters['pistas/GetPistas'])
+        });
+
+        return { state };
     },
 };
 </script>
