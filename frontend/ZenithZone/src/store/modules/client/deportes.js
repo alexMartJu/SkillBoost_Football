@@ -20,7 +20,7 @@ export const deportes = {
         [Constant.INITIALIZE_DEPORTE]: async (store) => {
             try {
                 const { data } = await deportesService.GetDeportes();
-                // console.log(data);
+                console.log(data);
 
                 store.commit(Constant.INITIALIZE_DEPORTE, data);
             } catch (error) {

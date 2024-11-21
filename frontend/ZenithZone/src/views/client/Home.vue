@@ -1,24 +1,26 @@
 <template>
     <HeroSection />
+    
     <MiddleSection />
     <Olympics />
     <GraphicSection />
+    <ListDeportesHome />
 </template>
 
 <script>
 import Olympics from '../../components/home/Olympics.vue';
-import ListClases from '../../components/ListEntrenamientos.vue';
-import ListPistas from '../../components/ListPistas.vue';
 import HeroSection from '../../components/home/HeroSection.vue';
 import MiddleSection from '@/components/home/MiddleSection.vue';
 import GraphicSection from '@/components/home/GraphicSection.vue';
+import ListDeportesHome from '@/components/home/ListDeportesHome.vue';
 
 export default {
     components: {
         HeroSection,
         MiddleSection,
         Olympics,
-        GraphicSection
+        GraphicSection,
+        ListDeportesHome
     }
 };
 </script>

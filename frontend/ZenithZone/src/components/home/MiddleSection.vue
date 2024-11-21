@@ -85,7 +85,7 @@ export default {
 }
 
 .text-section {
-    background: linear-gradient(to bottom right, #ff5328, #ffdd62);
+    background: linear-gradient(to bottom right, #630ec4, #62ffff);
     color: white;
     width: 35%;
     /* Ancho del texto */
@@ -97,7 +97,7 @@ export default {
 }
 
 .text-container{
-    background: linear-gradient(to bottom right, #ffde65, #ff8363);
+    background: linear-gradient(to bottom right, #83ffff, #7d2dd7);
     color: white;
     height: 400px;
     width: 400px;

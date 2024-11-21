@@ -36,7 +36,7 @@ export default {
 }
 
 .footer {
-    margin-top: 50px;
+    /* margin-top: 50px; */
     background-color: rgb(20, 20, 20);
 }
 </style>
