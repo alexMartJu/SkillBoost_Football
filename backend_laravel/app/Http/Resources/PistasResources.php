@@ -18,7 +18,7 @@ class PistasResources extends JsonResource
             'pistas_id' => $this->id,
             'nombre' => $this->nombre,
             'slug' => $this->slug,
-            'image' => $this->image,
+            'images' => $this->images,
             'deportes' => $this->deportes,
         ];
     }
