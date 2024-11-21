@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,8 +12,9 @@ return new class extends Migration
     {
         Schema::create('pistas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre',191);
-            $table->string('slug',191)->unique();
+            $table->string('nombre', 191);
+            $table->string('slug', 191)->unique();
+            $table->json('images')->nullable();
             $table->timestamps();
         });
     }
