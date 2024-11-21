@@ -27,6 +27,8 @@ export default {
 .landing-section {
     height: 90vh;
     overflow: hidden;
+    box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.7);
+    z-index: 5;
 }
 
 .text-section {
@@ -41,7 +43,8 @@ export default {
 }
 
 .text-container {
-    background: linear-gradient(to bottom right, #ffef85, #dc9a29);
+    background: linear-gradient(to bottom right, #ffef85, #ff9a1e);
+    
     color: white;
     height: 400px;
     width: 400px;
