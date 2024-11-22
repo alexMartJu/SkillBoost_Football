@@ -8,6 +8,7 @@ use App\Models\Clase;
 use App\Models\Deporte;
 use App\Models\Entrenamiento;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EntrenamientoController extends Controller
 {
