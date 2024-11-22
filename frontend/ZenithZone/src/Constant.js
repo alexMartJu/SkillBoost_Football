@@ -19,4 +19,6 @@ export default {
     DELETE_ONE_PISTA: "DeteleOnePista",
     UPDATE_ONE_PISTA: "UpdateOnePista",
     CREATE_ONE_PISTA: "CreateOnePista",
+    FETCH_PISTA_BY_SLUG: "FetchPistaBySlug", 
+    SET_CURRENT_PISTA: "SetCurrentPista", 
 }

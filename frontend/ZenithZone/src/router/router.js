@@ -53,7 +53,32 @@ const router = createRouter({
     {
       path: "/admin",
       name: "adminDashboard",
-      component: () => import('../views/dashboards/AdminDashboard.vue')
+      component: () => import('../views/dashboards/AdminDashboard.vue'),
+      children: [
+        {
+          path: "",  
+          name: "adminListar",
+          component: () => import('../components/dashboards/admin/ListarAdmin.vue'),
+        },
+        {
+          path: "crear",
+          name: "adminCrear",
+          component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
+        },
+        {
+          path: 'editar/pista/:slug', 
+          name: 'adminEditarPista',
+          component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
+          props: { tipo: 'pista' },  
+        },
+        {
+          path: 'editar/deporte/:slug', 
+          name: 'adminEditarDeporte',
+          component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
+          props: { tipo: 'deporte' }, 
+        },
+      ]
+
     },
   ]
 })
