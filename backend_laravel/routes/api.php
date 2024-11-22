@@ -18,7 +18,11 @@ Route::bind('pistas', function ($value) {
 Route::bind('entrenamientos', function ($value) {
     return Entrenamiento::where('slug', $value)->firstOrFail();
 });
-
+//deportes
 Route::apiResource('deportes', DeportesController::class);
+Route::delete('/deportes/{slug}/imagenes', [DeportesController::class, 'destroyImage']);
+//pistas
 Route::apiResource('pistas', PistasController::class);
+Route::delete('/pistas/{slug}/imagenes', [PistasController::class, 'destroyImage']);
+//entrenamientos
 Route::apiResource('entrenamientos', EntrenamientoController::class);
