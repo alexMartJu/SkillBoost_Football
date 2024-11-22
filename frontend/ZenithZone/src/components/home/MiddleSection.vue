@@ -106,7 +106,7 @@ export default {
     align-items: center;
     font-size: 44px;
     font-family: 'Roboto', sans-serif;
-    box-shadow: 20px 20px 0 5px rgba(255, 255, 255, 0.4);
+    box-shadow: 20px 20px 0 5px rgba(255, 255, 255, 0.2);
 }
 
 .carousel-section {

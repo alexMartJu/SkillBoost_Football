@@ -55,7 +55,7 @@ export default {
     padding: 70px;
     font-size: 60px;
     font-family: 'Roboto', sans-serif;
-    text-shadow: 5px 5px 1px #ff6600;
+    text-shadow: 5px 3px 1px #ff6600;
 }
 
 .deportes-list {
