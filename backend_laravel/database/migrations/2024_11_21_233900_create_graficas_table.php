@@ -10,12 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('pistas', function (Blueprint $table) {
+        Schema::create('graficas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 191);
-            $table->string('slug', 191)->unique();
-            $table->string('info')->nullable();
-            $table->string('image')->nullable();
+            $table->string('seccion');
+            $table->integer('nivel');
+            $table->foreignId('usuario_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('pistas');
+        Schema::dropIfExists('graficas');
     }
 };
