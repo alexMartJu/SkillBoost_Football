@@ -10,17 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('entrenamientos', function (Blueprint $table) {
+        Schema::create('entrenadores', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('slug')->unique();
-            $table->string('descripcion')->nullable();
-            $table->string('dia');
-            $table->integer('duracion');
-            $table->integer('max_plazas');
-            $table->integer('precio');
+            $table->string('apellidos');
+            $table->string('DNI')->unique();
+            $table->string('email')->unique();
+            $table->string('password');
             $table->foreignId('deporte_id')->constrained()->onDelete('cascade');
-            $table->foreignId('horario_id')->constrained()->onDelete('cascade');
+            $table->integer('edad');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('entrenamientos');
+        Schema::dropIfExists('entrenadores');
     }
 };

@@ -10,12 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('pistas', function (Blueprint $table) {
+        Schema::create('salas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 191);
-            $table->string('slug', 191)->unique();
-            $table->string('info')->nullable();
-            $table->string('image')->nullable();
+            $table->string('nombre');
+            $table->string('tamaño');
+            $table->string('ubicacion');
+            $table->unsignedBigInteger('entrenador_id')->unique();
+            $table->foreign('entrenador_id')->references('id')->on('entrenadores')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('pistas');
+        Schema::dropIfExists('salas');
     }
 };

@@ -10,8 +10,9 @@ return new class extends Migration {
         Schema::create('deporte_pista', function (Blueprint $table) {
             $table->foreignId('deporte_id')->constrained()->onDelete('cascade');
             $table->foreignId('pista_id')->constrained()->onDelete('cascade');
-            $table->primary(['deporte_id', 'pista_id']);
             $table->timestamps();
+
+            $table->primary(['deporte_id', 'pista_id']);
         });
     }
 
