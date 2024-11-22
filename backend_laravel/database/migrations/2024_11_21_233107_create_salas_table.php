@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('entrenador_id')->unique();
             $table->foreign('entrenador_id')->references('id')->on('entrenadores')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

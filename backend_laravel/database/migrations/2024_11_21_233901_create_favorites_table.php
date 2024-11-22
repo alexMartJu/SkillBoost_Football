@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->foreignId('usuario_id')->constrained()->onDelete('cascade');
             $table->foreignId('entrenamiento_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['usuario_id', 'entrenamiento_id']);
         });
