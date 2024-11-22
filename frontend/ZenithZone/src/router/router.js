@@ -48,7 +48,19 @@ const router = createRouter({
           path: "crear",
           name: "adminCrear",
           component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
-        }
+        },
+        {
+          path: 'editar/pista/:slug', 
+          name: 'adminEditarPista',
+          component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
+          props: { tipo: 'pista' },  
+        },
+        {
+          path: 'editar/deporte/:slug', 
+          name: 'adminEditarDeporte',
+          component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
+          props: { tipo: 'deporte' }, 
+        },
       ]
 
     },

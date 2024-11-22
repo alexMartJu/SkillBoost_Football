@@ -13,5 +13,9 @@ export default {
     },
     CreatePista(pista) {
         return Api(secrets.URL_LARAVEL).post('pistas', pista);
-      },
+    }, 
+    GetPistaBySlug(slug) {
+        return Api(secrets.URL_LARAVEL).get(`pistas/${slug}`);
+    },
+
 }

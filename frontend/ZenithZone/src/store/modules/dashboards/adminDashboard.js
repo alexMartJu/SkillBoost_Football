@@ -27,6 +27,9 @@ export const adminDashboard = {
           [Constant.CREATE_ONE_PISTA](state, newPista) {
             state.pistas.push(newPista); 
           },
+          [Constant.SET_CURRENT_PISTA](state, pista) {
+            state.currentPista = pista; 
+        },
     },
 
     actions: {
@@ -66,6 +69,20 @@ export const adminDashboard = {
           console.error("Error al crear la pista:", error);
         }
       },
+        async [Constant.FETCH_PISTA_BY_SLUG]({ commit }, slug) {
+            try {
+                console.log("fetched");
+                const { data } = await adminDashboardService.GetPistaBySlug(slug); 
+                console.log("data"+JSON.stringify(data.data));
+                commit(Constant.SET_CURRENT_PISTA, data.data); 
+                return data.data;
+            } catch (error) {
+                console.error("Error al cargar la pista:", error);
+            }
+        },
+        async [Constant.UPDATE_ONE_PISTA]({ commit }, slug) {
+           console.log("hola");
+        },
     },
 
     getters: {
@@ -75,5 +92,8 @@ export const adminDashboard = {
         GetPistas(state) {
             return state.pistas;
         },
+        GetCurrentPista(state) {
+            return state.currentPista; 
+          },
     }
 };
