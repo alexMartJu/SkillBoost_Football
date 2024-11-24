@@ -19,7 +19,7 @@ public class DeporteServiceImpl implements DeporteService {
     @Transactional(readOnly = true)
     public List<Deporte> getAllDeportes() {
         // Obtiene todos los deportes
-        List<Deporte> deportes = repository.findAll();
+        List<Deporte> deportes = repository.findByDeletedAtIsNull();
         // Asigna imágenes a cada deporte y a las pistas asociadas
         deportes.forEach(deporte -> {
             // Cargar imágenes del deporte
@@ -40,7 +40,7 @@ public class DeporteServiceImpl implements DeporteService {
     @Transactional(readOnly = true)
     public Deporte getBySlug(String slug) {
         // Busca el deporte por slug
-        Deporte deporte = repository.findBySlug(slug).orElseThrow(DeporteNotFoundException::new);
+        Deporte deporte = repository.findBySlugAndDeletedAtIsNull(slug).orElseThrow(DeporteNotFoundException::new);
         // Asigna imágenes al deporte
         deporte.setImages(imageService.getImagesForEntity("App\\Models\\Deporte", deporte.getId()));
 
