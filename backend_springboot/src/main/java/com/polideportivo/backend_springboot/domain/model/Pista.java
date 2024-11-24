@@ -40,4 +40,7 @@ public class Pista {
     @ToString.Exclude
     private List<Deporte> deportes;
     // private Set<Deporte> deportes = new HashSet<>();
+
+    @Transient
+    private List<Image> images;
 }

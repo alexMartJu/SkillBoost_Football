@@ -13,14 +13,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PistaServiceImpl implements PistaService {
     private final PistaRepository repository;
+    private final ImageService imageService;
 
     @Transactional(readOnly = true)
     public List<Pista> getAllPistas() {
-        return repository.findAll();
+        // Obtiene todas las pistas
+        List<Pista> pistas = repository.findAll();
+        // Asigna imágenes a cada pista
+        pistas.forEach(pista -> pista.setImages(
+            imageService.getImagesForEntity("App\\Models\\Pista", pista.getId())
+        ));
+        return pistas;
     }
 
     @Transactional(readOnly = true)
     public Pista getBySlug(String slug) {
-        return repository.findBySlug(slug).orElseThrow(DeporteNotFoundException::new);
+        // Busca la pista por slug
+        Pista pista = repository.findBySlug(slug).orElseThrow(DeporteNotFoundException::new);
+        // Asigna imágenes a la pista
+        pista.setImages(imageService.getImagesForEntity("App\\Models\\Pista", pista.getId()));
+        return pista;
     }
 }
