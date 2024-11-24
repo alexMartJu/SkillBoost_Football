@@ -10,7 +10,7 @@
         </div>
       </div>
       <button @click="editarPista(pista)">Editar</button>
-      <button @click="eliminarPista(pista.id)">Eliminar</button>
+      <button @click="confirmarEliminar(pista.slug)">Eliminar</button>
     </div>
   </template>
   
@@ -23,11 +23,18 @@
     methods: {
       editarPista(pista) {
         console.log("editar", pista);
-        this.$router.push({ name: 'adminEditarPista', params: { slug: pista.slug } });
+        this.$router.push({ name: 'adminEditar', params: { slug: pista.slug, type:'pista' } });
       },
-      eliminarPista(pistaId) {
-        this.$emit('eliminarPista', pistaId);
-      },
+      confirmarEliminar(pistaSlug) {
+        if (confirm("¿Estás seguro de que deseas eliminar esta pista?")) {
+            this.eliminarDeporte(pistaSlug);
+        }
+        },
+        eliminarDeporte(pistaSlug) {
+            this.$store.dispatch('adminDashboard/DeteleOnePista', pistaSlug   )
+            .then(() => console.log("Deporte eliminado correctamente"))
+            .catch(error => console.error("Error al eliminar el deporte:", error));
+        }
     }
   };
   </script>

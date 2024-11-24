@@ -30,6 +30,15 @@ export const adminDashboard = {
           [Constant.SET_CURRENT_PISTA](state, pista) {
             state.currentPista = pista; 
         },
+        [Constant.SET_CURRENT_DEPORTE](state, pista) {
+            state.currentPista = pista; 
+        },
+        [Constant.DELETE_ONE_DEPORTE](state, deporteslug) {
+            state.deportes = state.deportes.filter(deporte => deporte.slug !== deporteslug);
+        },
+        [Constant.DELETE_ONE_PISTA](state, pistaslug) {
+            state.pistas = state.pistas.filter(pista => pista.slug !== pistaslug);
+        },
     },
 
     actions: {
@@ -80,9 +89,52 @@ export const adminDashboard = {
                 console.error("Error al cargar la pista:", error);
             }
         },
-        async [Constant.UPDATE_ONE_PISTA]({ commit }, slug) {
-           console.log("hola");
+        async [Constant.UPDATE_ONE_PISTA]({ commit }, { slug, data }) {
+            try {
+                const { data: updatedData } = await adminDashboardService.UpdatePista(slug, data);
+                commit(Constant.SET_CURRENT_PISTA, updatedData);
+                return updatedData;
+            } catch (error) {
+                console.error("Error al actualizar la pista:", error);
+            }
         },
+        async [Constant.FETCH_DEPORTE_BY_SLUG]({ commit }, slug) {
+            try {
+                console.log("fetched");
+                const { data } = await adminDashboardService.GetDeporteBySlug(slug); 
+                console.log("data"+JSON.stringify(data.data));
+                commit(Constant.SET_CURRENT_DEPORTE, data.data); 
+                return data.data;
+            } catch (error) {
+                console.error("Error al cargar la pista:", error);
+            }
+        },
+        
+        async [Constant.UPDATE_ONE_DEPORTE]({ commit }, { slug, data }) {
+            try {
+                const { data: updatedData } = await adminDashboardService.UpdateDeporte(slug, data);
+                commit(Constant.SET_CURRENT_DEPORTE, updatedData);
+                return updatedData;
+            } catch (error) {
+                console.error("Error al actualizar el deporte:", error);
+            }
+        },
+        async [Constant.DELETE_ONE_DEPORTE]({ commit }, deporteslug) {
+            try {
+              await adminDashboardService.DeleteDeporte(deporteslug);
+              commit(Constant.DELETE_ONE_DEPORTE, deporteslug);
+            } catch (error) {
+              console.error("Error al eliminar el deporte:", error);
+            }
+          },
+          async [Constant.DELETE_ONE_PISTA]({ commit }, pistaslug) {
+            try {
+              await adminDashboardService.DeletePista   (pistaslug);
+              commit(Constant.DELETE_ONE_PISTA, pistaslug);
+            } catch (error) {
+              console.error("Error al eliminar la pista:", error);
+            }
+          },
     },
 
     getters: {
@@ -95,5 +147,8 @@ export const adminDashboard = {
         GetCurrentPista(state) {
             return state.currentPista; 
           },
+        GetCurrentDeporte(state){
+            return state.currentDeporte;
+        }
     }
 };

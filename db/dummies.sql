@@ -23,12 +23,12 @@ INSERT INTO `horarios` (`id`, `hora`) VALUES
 INSERT INTO `deportes` (`id`, `nombre`, `slug`, `created_at`, `updated_at`) VALUES
 (1, 'Futbol', 'Futbol--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
 (2, 'Baloncesto', 'Baloncesto--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(3, 'Tenis', 'Balonmano--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
+(3, 'Tenis', 'Tenis--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
 (4, 'Volleyball', 'Volleyball--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
 (5, 'Escalada', 'Escalada--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
 (6, 'Ciclismo', 'Ciclismo--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
 (7, 'Natación', 'Natación--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24'),
-(8, 'Padel', 'Karate--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24');
+(8, 'Padel', 'Padel--123', '2024-11-17 14:33:24', '2024-11-17 14:33:24');
 
 INSERT INTO `pistas` (`id`, `nombre`, `slug`, `created_at`, `updated_at`) VALUES
 (1, 'Pista Atletismo', 'pista-atletismo', '2024-11-17 15:42:34', '2024-11-17 15:42:34'),

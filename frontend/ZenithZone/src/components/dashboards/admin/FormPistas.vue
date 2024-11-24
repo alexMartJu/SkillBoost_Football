@@ -31,18 +31,19 @@
         type: Array,
         required: true
       },
-      pistaData: {  // Nueva prop para recibir los datos de la pista
+      pistaData: { 
       type: Object,
       required: false
     }
     },watch: {
-    pistaData: {  // Detecta cambios en pistaData y asigna los valores a currentPista
+    pistaData: {  
       immediate: true,
       handler(newData) {
-        console.log("newData"+newData);
+        console.log("newData"+JSON.stringify(newData.nombre));
         if (newData) {
             console.log("newData"+newData);
             if (Array.isArray(newData.deportes)) {
+            this.currentPista.nombre =newData.nombre;
             this.currentPista.deportes = newData.deportes.map(deporte => deporte.id);
           }
         }
@@ -74,6 +75,7 @@
             await this.$store.dispatch('adminDashboard/UpdateOnePista', { slug: this.currentPistaSlug, data: this.currentPista });
             this.currentPista.nombre = '';  // Reset form after submission
             this.currentPista.deportes = []; // Clear selected sports
+            this.$router.push('/admin');
           } catch (error) {
             console.error('Error actualizando pista:', error);
           }
@@ -85,7 +87,7 @@
 <style scoped>
 /* General container layout */
 div {
-  max-width: 500px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -125,21 +127,21 @@ h3 {
 .checkbox-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px; /* Adds space between checkboxes */
-}
+  gap: 55px; 
+} 
 
 .checkbox-group div {
   display: flex;
   align-items: center;
-  width: 18%; /* Each checkbox occupies half of the container width */
+  width: 18%; 
 }
 
 input[type="checkbox"] {
   margin-right: 8px;
-  transform: scale(1.2); /* Increases checkbox size slightly for better visibility */
+  transform: scale(1.2); 
 }
 
-/* Button styling */
+
 button[type="submit"] {
   padding: 12px;
   font-size: 1em;
