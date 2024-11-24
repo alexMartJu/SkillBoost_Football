@@ -1,6 +1,7 @@
 package com.polideportivo.backend_springboot.api.controller;
 
 import com.polideportivo.backend_springboot.api.assembler.PistaAssembler;
+import com.polideportivo.backend_springboot.api.model.pista.PistaResponse;
 import com.polideportivo.backend_springboot.api.model.pista.PistaWrapper;
 import com.polideportivo.backend_springboot.domain.service.PistaService;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,12 @@ public class PistaController {
 
         var pistas = pistaService.getAllPistas();
         return pistaAssembler.toCollectionModel(pistas);
+    }
+
+    // Obtener una pista por su slug
+    @GetMapping("/pistas/{slug}")
+    public PistaResponse getBySlug(@PathVariable String slug) {
+        var pista = pistaService.getBySlug(slug);
+        return pistaAssembler.toResponse(pista);
     }
 }

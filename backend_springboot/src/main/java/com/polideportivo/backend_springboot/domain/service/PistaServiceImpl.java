@@ -1,5 +1,6 @@
 package com.polideportivo.backend_springboot.domain.service;
 
+import com.polideportivo.backend_springboot.domain.exception.DeporteNotFoundException;
 import com.polideportivo.backend_springboot.domain.model.Pista;
 import com.polideportivo.backend_springboot.domain.repository.PistaRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,5 +17,10 @@ public class PistaServiceImpl implements PistaService {
     @Transactional(readOnly = true)
     public List<Pista> getAllPistas() {
         return repository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Pista getBySlug(String slug) {
+        return repository.findBySlug(slug).orElseThrow(DeporteNotFoundException::new);
     }
 }
