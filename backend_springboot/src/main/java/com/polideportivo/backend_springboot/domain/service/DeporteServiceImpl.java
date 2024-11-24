@@ -20,10 +20,20 @@ public class DeporteServiceImpl implements DeporteService {
     public List<Deporte> getAllDeportes() {
         // Obtiene todos los deportes
         List<Deporte> deportes = repository.findAll();
-        // Asigna imágenes a cada deporte
-        deportes.forEach(deporte -> deporte.setImages(
-            imageService.getImagesForEntity("App\\Models\\Deporte", deporte.getId())
-        ));
+        // Asigna imágenes a cada deporte y a las pistas asociadas
+        deportes.forEach(deporte -> {
+            // Cargar imágenes del deporte
+            deporte.setImages(
+                imageService.getImagesForEntity("App\\Models\\Deporte", deporte.getId())
+            );
+
+            // Cargar imágenes de las pistas asociadas al deporte
+            deporte.getPistas().forEach(pista -> 
+                pista.setImages(
+                    imageService.getImagesForEntity("App\\Models\\Pista", pista.getId())
+                )
+            );
+        });
         return deportes;
     }
 
@@ -33,6 +43,13 @@ public class DeporteServiceImpl implements DeporteService {
         Deporte deporte = repository.findBySlug(slug).orElseThrow(DeporteNotFoundException::new);
         // Asigna imágenes al deporte
         deporte.setImages(imageService.getImagesForEntity("App\\Models\\Deporte", deporte.getId()));
+
+        // Cargar imágenes de las pistas asociadas
+        deporte.getPistas().forEach(pista -> 
+            pista.setImages(
+                imageService.getImagesForEntity("App\\Models\\Pista", pista.getId())
+            )
+        );
         return deporte;
     }
 }
