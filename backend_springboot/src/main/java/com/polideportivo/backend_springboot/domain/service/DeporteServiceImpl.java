@@ -14,14 +14,25 @@ import java.util.List;
 public class DeporteServiceImpl implements DeporteService {
     
     private final DeporteRepository repository;
+    private final ImageService imageService;
 
     @Transactional(readOnly = true)
     public List<Deporte> getAllDeportes() {
-        return repository.findAll();
+        // Obtiene todos los deportes
+        List<Deporte> deportes = repository.findAll();
+        // Asigna imágenes a cada deporte
+        deportes.forEach(deporte -> deporte.setImages(
+            imageService.getImagesForEntity("App\\Models\\Deporte", deporte.getId())
+        ));
+        return deportes;
     }
 
     @Transactional(readOnly = true)
     public Deporte getBySlug(String slug) {
-        return repository.findBySlug(slug).orElseThrow(DeporteNotFoundException::new);
+        // Busca el deporte por slug
+        Deporte deporte = repository.findBySlug(slug).orElseThrow(DeporteNotFoundException::new);
+        // Asigna imágenes al deporte
+        deporte.setImages(imageService.getImagesForEntity("App\\Models\\Deporte", deporte.getId()));
+        return deporte;
     }
 }

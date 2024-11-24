@@ -27,9 +27,6 @@ public class Deporte {
     @Column(name = "slug", length = 191, unique = true, nullable = false)
     private String slug;
 
-    @Column(name = "image", nullable = true)
-    private String image;
-
     @ManyToMany
     @JoinTable(
         name = "deporte_pista",
@@ -38,4 +35,7 @@ public class Deporte {
     )
     @ToString.Exclude
     private List<Pista> pistas;
+
+    @Transient
+    private List<Image> images;
 }
