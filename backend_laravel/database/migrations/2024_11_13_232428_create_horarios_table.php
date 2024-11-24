@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('hora');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

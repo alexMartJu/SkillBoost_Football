@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->foreignId('deporte_id')->constrained()->onDelete('cascade');
             $table->integer('edad');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

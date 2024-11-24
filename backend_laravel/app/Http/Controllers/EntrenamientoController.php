@@ -8,6 +8,7 @@ use App\Models\Clase;
 use App\Models\Deporte;
 use App\Models\Entrenamiento;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EntrenamientoController extends Controller
 {
@@ -36,7 +37,7 @@ class EntrenamientoController extends Controller
             'duracion' => 'required|integer|min:1',
             'max_plazas' => 'required|integer|min:1',
             'precio' => 'required|numeric|min:0',
-            'deporte_id' => 'required|exists:deportes,id',  // Asegura que el deporte exista
+            'deporte_id' => 'required|exists:deportes,id', 
         ]);
 
         $entrenamiento = Entrenamiento::create([
@@ -61,7 +62,7 @@ class EntrenamientoController extends Controller
 
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'deportes_id' => 'required|exists:deportes,deportes_id',  // Asegura que el deporte exista
+            'deportes_id' => 'required|exists:deportes,deportes_id',  
         ]);
 
         $entrenamiento->update($request->all());

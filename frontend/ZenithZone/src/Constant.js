@@ -5,6 +5,8 @@ export default {
     DELETE_ONE_DEPORTE: "DeteleOneDeporte",
     UPDATE_ONE_DEPORTE: "UpdateOneDeporte",
     CREATE_ONE_DEPORTE: "CreateOneDeporte",
+    FETCH_DEPORTE_BY_SLUG: "FetchDeporteBySlug",
+    SET_CURRENT_DEPORTE: "SetCurrentDeporte",  
 
     // Clases
     INITIALIZE_ENTRENAMIENTO: "InitializeEntrenamiento",

@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->foreignId('follower_id')->constrained('usuarios')->onDelete('cascade'); // ID del seguidor
             $table->foreignId('followed_id')->constrained('usuarios')->onDelete('cascade'); // ID del seguido
             $table->timestamps();
+            $table->softDeletes();
 
             // Asegurarse de que un usuario no pueda seguir al mismo usuario dos veces
             $table->unique(['follower_id', 'followed_id']);
