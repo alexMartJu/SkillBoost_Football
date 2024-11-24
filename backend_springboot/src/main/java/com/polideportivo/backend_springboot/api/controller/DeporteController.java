@@ -1,6 +1,7 @@
 package com.polideportivo.backend_springboot.api.controller;
 
 import com.polideportivo.backend_springboot.api.assembler.DeporteAssembler;
+import com.polideportivo.backend_springboot.api.model.deporte.DeporteResponse;
 import com.polideportivo.backend_springboot.api.model.deporte.DeporteWrapper;
 import com.polideportivo.backend_springboot.domain.service.DeporteService;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,12 @@ public class DeporteController {
 
         var deportes = deporteService.getAllDeportes();
         return deporteAssembler.toCollectionModel(deportes);
+    }
+
+    // Obtener un deporte por su slug
+    @GetMapping("/deportes/{slug}")
+    public DeporteResponse getBySlug(@PathVariable String slug) {
+        var deporte = deporteService.getBySlug(slug);
+        return deporteAssembler.toResponse(deporte);
     }
 }

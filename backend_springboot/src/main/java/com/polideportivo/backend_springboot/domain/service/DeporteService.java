@@ -7,5 +7,7 @@ import java.util.List;
 public interface DeporteService {
     
     List<Deporte> getAllDeportes();
+
+    Deporte getBySlug(final String slug);
     
 }
