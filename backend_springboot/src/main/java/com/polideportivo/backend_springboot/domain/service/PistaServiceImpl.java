@@ -18,7 +18,7 @@ public class PistaServiceImpl implements PistaService {
     @Transactional(readOnly = true)
     public List<Pista> getAllPistas() {
         // Obtiene todas las pistas
-        List<Pista> pistas = repository.findAll();
+        List<Pista> pistas = repository.findByDeletedAtIsNull();
         // Asigna imágenes a cada pista
         pistas.forEach(pista -> pista.setImages(
             imageService.getImagesForEntity("App\\Models\\Pista", pista.getId())
@@ -29,7 +29,7 @@ public class PistaServiceImpl implements PistaService {
     @Transactional(readOnly = true)
     public Pista getBySlug(String slug) {
         // Busca la pista por slug
-        Pista pista = repository.findBySlug(slug).orElseThrow(PistaNotFoundException::new);
+        Pista pista = repository.findBySlugAndDeletedAtIsNull(slug).orElseThrow(PistaNotFoundException::new);
         // Asigna imágenes a la pista
         pista.setImages(imageService.getImagesForEntity("App\\Models\\Pista", pista.getId()));
         return pista;

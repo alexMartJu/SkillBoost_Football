@@ -6,8 +6,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface PistaRepository extends JpaRepository<Pista, Long>, JpaSpecificationExecutor<Pista> {
-    Optional<Pista> findBySlug(String slug);
+    List<Pista> findByDeletedAtIsNull();
+    Optional<Pista> findBySlugAndDeletedAtIsNull(String slug);
 }
