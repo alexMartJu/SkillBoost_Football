@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -43,4 +44,7 @@ public class Pista {
 
     @Transient
     private List<Image> images;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 }
