@@ -1,6 +1,6 @@
 package com.polideportivo.backend_springboot.domain.service;
 
-import com.polideportivo.backend_springboot.domain.exception.DeporteNotFoundException;
+import com.polideportivo.backend_springboot.domain.exception.PistaNotFoundException;
 import com.polideportivo.backend_springboot.domain.model.Pista;
 import com.polideportivo.backend_springboot.domain.repository.PistaRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class PistaServiceImpl implements PistaService {
     @Transactional(readOnly = true)
     public Pista getBySlug(String slug) {
         // Busca la pista por slug
-        Pista pista = repository.findBySlug(slug).orElseThrow(DeporteNotFoundException::new);
+        Pista pista = repository.findBySlug(slug).orElseThrow(PistaNotFoundException::new);
         // Asigna imágenes a la pista
         pista.setImages(imageService.getImagesForEntity("App\\Models\\Pista", pista.getId()));
         return pista;
