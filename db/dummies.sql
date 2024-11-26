@@ -13,6 +13,7 @@ DELETE FROM `favorites`;
 DELETE FROM `follows`;
 DELETE FROM `deporte_pista`;
 DELETE FROM `horario_pista_reserva`;
+DELETE FROM `entrenamiento_usuario`;
 
 INSERT INTO `horarios` (`id`, `hora`) VALUES
 (1, 'manaña'),
@@ -37,12 +38,12 @@ INSERT INTO `pistas` (`id`, `nombre`, `slug`, `created_at`, `updated_at`) VALUES
 (4, 'Pista de Padel', 'pista-padel', '2024-11-17 15:44:29', '2024-11-17 15:44:29'),
 (5, 'Pista Ciclismo interior', 'pista-ciclismo-interior', '2024-11-17 15:44:29', '2024-11-17 15:44:29');
 
-INSERT INTO `entrenamientos` (`id`, `nombre`, `slug`, `descripcion`, `dia`, `duracion`, `max_plazas`, `precio`, `deporte_id`, `horario_id`, `created_at`, `updated_at`) VALUES
-(1, 'Clase Básica A', 'clase-basica-a', 'Clase de iniciación al deporte A', 'Domingo', 60, 20, 15, 1, 1, '2024-11-17 15:47:05', '2024-11-17 15:47:05'),
-(2, 'Clase Avanzada B', 'clase-avanzada-b', 'Clase avanzada de deporte B', 'Martes', 90, 15, 30, 2, 2, '2024-11-17 15:48:19', '2024-11-17 15:48:19'),
-(3, 'Clase Intermedia C', 'clase-intermedia-c', 'Clase intermedia de deporte C', 'Jueves', 75, 25, 20, 3, 3, '2024-11-17 15:48:19', '2024-11-17 15:48:19'),
-(4, 'Clase Intensiva D', 'clase-intensiva-d', 'Clase intensiva de deporte D', 'Domingo', 120, 10, 40, 4, 4, '2024-11-17 15:52:06', '2024-11-17 15:52:06'),
-(5, 'Clase Adaptada E', 'clase-adaptada-e', 'Clase adaptada para personas con necesidades especiales', 'Miercoles', 60, 15, 25, 4, 2, '2024-11-17 15:52:06', '2024-11-17 15:52:06');
+INSERT INTO `entrenamientos` (`id`, `nombre`, `slug`, `descripcion`, `dia`, `duracion`, `max_plazas`, `precio`, `deporte_id`, `horario_id`,`entrenador_id`, `created_at`, `updated_at`) VALUES
+(1, 'Clase Básica A', 'clase-basica-a', 'Clase de iniciación al deporte A', 'Domingo', 60, 20, 15, 1, 1, 2,'2024-11-17 15:47:05', '2024-11-17 15:47:05'),
+(2, 'Clase Avanzada B', 'clase-avanzada-b', 'Clase avanzada de deporte B', 'Martes', 90, 15, 30, 2, 2, 1,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
+(3, 'Clase Intermedia C', 'clase-intermedia-c', 'Clase intermedia de deporte C', 'Jueves', 75, 25, 20, 3, 3, 3,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
+(4, 'Clase Intensiva D', 'clase-intensiva-d', 'Clase intensiva de deporte D', 'Domingo', 120, 10, 40, 4, 4, 2,'2024-11-17 15:52:06', '2024-11-17 15:52:06'),
+(5, 'Clase Adaptada E', 'clase-adaptada-e', 'Clase adaptada para personas con necesidades especiales', 'Miercoles', 60, 15, 25, 4, 2, 3,'2024-11-17 15:52:06', '2024-11-17 15:52:06');
 
 INSERT INTO `images` (`image_url`, `imageable_type`, `imageable_id`) VALUES
 ('futbol.jpg', 'App\\Models\\Deporte', 1),
@@ -112,3 +113,12 @@ INSERT INTO `horario_pista_reserva` (`horario_id`, `pista_id`, `reserva_id`) VAL
 (1, 1, 1),
 (2, 2, 2),
 (3, 3, 3);
+
+INSERT INTO `entrenamiento_usuario` (`entrenamiento_id`, `usuario_id`, `created_at`, `updated_at`) VALUES
+(1, 1, '2024-11-17 15:53:53', '2024-11-17 15:53:53'),
+(1, 2, '2024-11-17 15:53:53', '2024-11-17 15:53:53'),
+(2, 3, '2024-11-17 15:54:42', '2024-11-17 15:54:42'),
+(2, 2, '2024-11-17 15:54:42', '2024-11-17 15:54:42'),
+(3, 1, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
+(4, 2, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
+(5, 2, '2024-11-17 15:55:55', '2024-11-17 15:55:55');

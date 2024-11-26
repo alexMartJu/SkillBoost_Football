@@ -1,0 +1,90 @@
+
+/* .isActive {
+    background-color: #ff6600;
+    border-radius: 5px;
+    color: black; 
+}
+
+.text-color {
+    color: #ff6600;
+    transition: all 0.3s;
+}
+
+.text-color:hover {
+    color: white;
+}
+
+.auth {
+    background-color: white;
+    border-radius: 10px;
+    color: #ff6600;
+    transition: all 0.3s;
+}
+
+.auth:hover {
+    color: black;
+    background-color: #ff6600;
+}
+
+.header {
+    background-color: rgb(20, 20, 20);
+}
+
+.logo {
+    max-height: 50px;
+    width: auto;
+    transition: transform 0.3s;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+} */
+/* Active link style */
+.isActive {
+    background-color: #ff6600;
+    border-radius: 5px;
+}
+
+/* Text color transition and hover */
+.text-color {
+    color: #ff6600;
+    transition: all 0.3s ease;
+}
+
+.text-color:hover {
+    color: white;
+}
+
+/* Button-like appearance for 'Unirse al club' */
+.auth {
+    background-color: white;
+    border-radius: 10px;
+    color: #ff6600;
+    transition: all 0.3s ease;
+}
+
+.auth:hover {
+    color: black;
+    background-color: #ff6600;
+}
+
+/* Header background */
+.header {
+    background-color: rgb(20, 20, 20);
+}
+
+/* Logo hover effect */
+.logo {
+    max-height: 50px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+/* Nav link hover effect */
+.nav-link:hover {
+    color: #ff6600;
+}

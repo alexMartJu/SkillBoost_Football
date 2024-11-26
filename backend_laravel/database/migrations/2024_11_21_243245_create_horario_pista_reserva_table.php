@@ -15,7 +15,6 @@ return new class extends Migration {
             $table->foreignId('pista_id')->constrained()->onDelete('cascade');
             $table->foreignId('reserva_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            $table->softDeletes();
             $table->primary(['horario_id', 'pista_id']);
         });
     }
