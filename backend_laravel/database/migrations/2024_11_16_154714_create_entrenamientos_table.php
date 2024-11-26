@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->integer('precio');
             $table->foreignId('deporte_id')->constrained()->onDelete('cascade');
             $table->foreignId('horario_id')->constrained()->onDelete('cascade');
+            $table->foreignId('entrenador_id')->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

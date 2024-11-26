@@ -86,6 +86,10 @@ class DeportesController extends Controller
     {
         $deporte = Deporte::where('slug', $slug)->firstOrFail();
         $deporte->images()->delete();
+        // $deporte->pistas()->updateExistingPivot(
+        //     $deporte->pistas->pluck('id')->toArray(), 
+        //     ['deleted_at' => now()] 
+        // );
         $deporte->delete();
         return response()->json(['message' => 'Deporte eliminado correctamente.']);
     }

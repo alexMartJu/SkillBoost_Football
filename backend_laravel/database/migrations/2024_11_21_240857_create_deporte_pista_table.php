@@ -11,7 +11,6 @@ return new class extends Migration {
             $table->foreignId('deporte_id')->constrained()->onDelete('cascade');
             $table->foreignId('pista_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            $table->softDeletes();
             $table->primary(['deporte_id', 'pista_id']);
         });
     }
