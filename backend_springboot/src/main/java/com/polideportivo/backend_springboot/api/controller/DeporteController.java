@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@CrossOrigin(origins = {"http://localhost:5173","http://localhost:3333"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
