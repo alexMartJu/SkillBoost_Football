@@ -1,25 +1,25 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { getPistas } from '../../services/GetPistas';
 
 const PistaList = () => {
     const [pistas, setPistas] = useState([]); 
     const [loading, setLoading] = useState(true); 
 
-    useEffect(() => {
-        // Función para obtener deportes desde el backend
-        const fetchPistas = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/api/pistas');
-                setPistas(Array.isArray(response.data.pistas) ? response.data.pistas : []);
-                setLoading(false); 
-            } catch (error) {
-                console.error('Error fetching pistas:', error);
-                setLoading(false); 
-            }
-        };
-
-        fetchPistas();
+        useEffect(() => {
+            const fetchPistas = async () => {
+                try {
+                    const pistasData = await getPistas(); 
+                    setPistas(pistasData); 
+                } catch (error) {
+                    console.error('Error fetching pistas:', error);
+                } finally {
+                    setLoading(false); 
+                }
+            };
+    
+            fetchPistas();
     }, []);
 
     if (loading) return <p>Loading...</p>;
