@@ -1,16 +1,6 @@
 <template>
     <main>
-        <section>
-            <div v-if="slug">
-                <ul>
-                    <li v-for="pista in pistas" :key="pista.id">{{ pista.nombre }}</li>
-                </ul>
-            </div>
-
-            <div v-else>
-                <p>Selecciona un deporte</p>
-            </div>
-        </section>
+        <ListPistas />
     </main>
 </template>
 
@@ -18,8 +8,13 @@
 import usePistas from '@/composables/client/usePistas';
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import ListPistas from '../../components/ListPistas.vue';
 
 export default {
+    components: {
+        ListPistas
+    },
+
     setup() {
         const route = useRoute();
         const slug = route.params.slug || undefined;

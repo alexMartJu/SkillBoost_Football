@@ -22,7 +22,7 @@ export const pistas = {
                 const { data } = await pistaService.GetPistas();
                 // console.log(data);
 
-                store.commit(Constant.INITIALIZE_PISTA, data);
+                store.commit(Constant.INITIALIZE_PISTA, data.pistas);
             } catch (error) {
                 console.error("Error al cargar las pistas:", error);
             }
