@@ -1,23 +1,44 @@
 <template>
     <main>
         <section>
-            <ListDeportes />
+            <div v-if="slug">
+                <ul>
+                    <li v-for="pista in pistas" :key="pista.id">{{ pista.nombre }}</li>
+                </ul>
+            </div>
+
+            <div v-else>
+                <p>Selecciona un deporte</p>
+            </div>
         </section>
     </main>
 </template>
 
 <script>
-import ListDeportes from '../../components/ListDeportes.vue';
+import usePistas from '@/composables/client/usePistas';
+import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default {
-    components: {
-        ListDeportes
+    setup() {
+        const route = useRoute();
+        const slug = route.params.slug || undefined;
+
+        if (slug) {
+            const { pistas, fetchPistas } = usePistas(slug);
+
+            onMounted(fetchPistas);
+
+            return {
+                pistas
+            }
+        }
     }
 };
 </script>
 
 <style>
 main {
-    margin-top: 50px;
+    margin-top: 150px;
 }
 </style>
