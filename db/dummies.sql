@@ -1,10 +1,10 @@
 DELETE FROM `horarios`;
 DELETE FROM `deportes`;
 DELETE FROM `pistas`;
-DELETE FROM `entrenamientos`;
 DELETE FROM `images`;
 DELETE FROM `usuarios`;
 DELETE FROM `entrenadores`;
+DELETE FROM `entrenamientos`;
 DELETE FROM `admins`;
 DELETE FROM `salas`;
 DELETE FROM `reservas`;
@@ -38,13 +38,6 @@ INSERT INTO `pistas` (`id`, `nombre`, `slug`, `created_at`, `updated_at`) VALUES
 (4, 'Pista de Padel', 'pista-padel', '2024-11-17 15:44:29', '2024-11-17 15:44:29'),
 (5, 'Pista Ciclismo interior', 'pista-ciclismo-interior', '2024-11-17 15:44:29', '2024-11-17 15:44:29');
 
-INSERT INTO `entrenamientos` (`id`, `nombre`, `slug`, `descripcion`, `dia`, `duracion`, `max_plazas`, `precio`, `deporte_id`, `horario_id`,`entrenador_id`, `created_at`, `updated_at`) VALUES
-(1, 'Clase Básica A', 'clase-basica-a', 'Clase de iniciación al deporte A', 'Domingo', 60, 20, 15, 1, 1, 2,'2024-11-17 15:47:05', '2024-11-17 15:47:05'),
-(2, 'Clase Avanzada B', 'clase-avanzada-b', 'Clase avanzada de deporte B', 'Martes', 90, 15, 30, 2, 2, 1,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
-(3, 'Clase Intermedia C', 'clase-intermedia-c', 'Clase intermedia de deporte C', 'Jueves', 75, 25, 20, 3, 3, 3,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
-(4, 'Clase Intensiva D', 'clase-intensiva-d', 'Clase intensiva de deporte D', 'Domingo', 120, 10, 40, 4, 4, 2,'2024-11-17 15:52:06', '2024-11-17 15:52:06'),
-(5, 'Clase Adaptada E', 'clase-adaptada-e', 'Clase adaptada para personas con necesidades especiales', 'Miercoles', 60, 15, 25, 4, 2, 3,'2024-11-17 15:52:06', '2024-11-17 15:52:06');
-
 INSERT INTO `images` (`image_url`, `imageable_type`, `imageable_id`) VALUES
 ('futbol.jpg', 'App\\Models\\Deporte', 1),
 ('baloncesto.jpg', 'App\\Models\\Deporte', 2),
@@ -69,6 +62,13 @@ INSERT INTO `entrenadores` (`id`, `nombre`, `apellidos`, `DNI`, `email`, `passwo
 (1, 'Laura', 'Martínez', '45678901D', 'laura.martinez@example.com', 'trainerpass1', 1, 35),
 (2, 'Luis', 'Fernández', '56789012E', 'luis.fernandez@example.com', 'trainerpass2', 2, 40),
 (3, 'María', 'Gómez', '67890123F', 'maria.gomez@example.com', 'trainerpass3', 3, 32);
+
+INSERT INTO `entrenamientos` (`id`, `nombre`, `slug`, `descripcion`, `dia`, `duracion`, `max_plazas`, `precio`, `deporte_id`, `horario_id`,`entrenador_id`, `created_at`, `updated_at`) VALUES
+(1, 'Clase Básica A', 'clase-basica-a', 'Clase de iniciación al deporte A', 'Domingo', 60, 20, 15, 1, 1, 2,'2024-11-17 15:47:05', '2024-11-17 15:47:05'),
+(2, 'Clase Avanzada B', 'clase-avanzada-b', 'Clase avanzada de deporte B', 'Martes', 90, 15, 30, 2, 2, 1,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
+(3, 'Clase Intermedia C', 'clase-intermedia-c', 'Clase intermedia de deporte C', 'Jueves', 75, 25, 20, 3, 3, 3,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
+(4, 'Clase Intensiva D', 'clase-intensiva-d', 'Clase intensiva de deporte D', 'Domingo', 120, 10, 40, 4, 4, 2,'2024-11-17 15:52:06', '2024-11-17 15:52:06'),
+(5, 'Clase Adaptada E', 'clase-adaptada-e', 'Clase adaptada para personas con necesidades especiales', 'Miercoles', 60, 15, 25, 4, 2, 3,'2024-11-17 15:52:06', '2024-11-17 15:52:06');
 
 INSERT INTO `admins` (`id`, `nombre`, `email`, `password`) VALUES
 (1, 'Admin1', 'admin1@example.com', 'adminpass1');
