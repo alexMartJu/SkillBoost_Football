@@ -7,7 +7,7 @@ export default function usePistas(slug) {
     const fetchPistas = async () => {
         const { data } = await pistaService.GetPistasByDeporte(slug);
         pistas.value = data.pistas;
-        console.log(pistas.value);
+        // console.log(pistas.value);
     };
 
     return {

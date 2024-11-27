@@ -20,7 +20,7 @@ export const pistas = {
         [Constant.INITIALIZE_PISTA]: async (store) => {
             try {
                 const { data } = await pistaService.GetPistas();
-                console.log(data);
+                // console.log(data);
 
                 store.commit(Constant.INITIALIZE_PISTA, data);
             } catch (error) {
