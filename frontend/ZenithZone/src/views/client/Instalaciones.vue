@@ -26,11 +26,13 @@ export default {
 
         if (slug) {
             const { pistas, fetchPistas } = usePistas(slug);
+            console.log(pistas);
 
             onMounted(fetchPistas);
 
             return {
-                pistas
+                pistas,
+                slug
             }
         }
     }

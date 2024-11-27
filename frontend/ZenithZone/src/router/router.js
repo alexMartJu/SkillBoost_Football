@@ -18,8 +18,8 @@ const router = createRouter({
       component: () => import('../views/client/Instalaciones.vue'),
       children: [
         {
-          path: ":slug/pistas",
-          name: "pistasDeporte",
+          path: ":slug",
+          name: "InstalacionesSlug",
           component: () => import('../views/client/Instalaciones.vue')
         }
       ]
