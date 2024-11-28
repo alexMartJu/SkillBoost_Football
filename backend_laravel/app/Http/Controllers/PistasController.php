@@ -119,6 +119,7 @@ class PistasController extends Controller
         try {
             $pista = Pista::where('slug', $slug)->firstOrFail();
             $pista->images()->delete();
+            $pista->deportes()->detach();
             $pista->delete();
 
             return response()->json(['message' => 'Pista eliminada correctamente.']);
