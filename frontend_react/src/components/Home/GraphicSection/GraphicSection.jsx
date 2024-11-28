@@ -10,7 +10,7 @@ const GraphicSection = ()=>{
                 <div className="landing-section d-flex">
                     <div className="carousel-section col-md-6 p-0">
                         <div className="">
-                            <Graphics className="m-5" />
+                            <Graphics/>
                         </div>
                     </div>
                 </div>

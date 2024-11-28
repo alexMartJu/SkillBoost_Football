@@ -5,7 +5,7 @@ import './Graphics.css';
 
 Chart.register(...registerables);
 
-const RadarChart = () => {
+const Graphics = () => {
   const radarChart = useRef(null); 
 
   useEffect(() => {
@@ -90,4 +90,4 @@ const RadarChart = () => {
   );
 };
 
-export default RadarChart;
+export default Graphics;
