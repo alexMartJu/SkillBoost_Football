@@ -57,6 +57,11 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return handleResourceNotFound(ex, request, "pista");
     }
 
+    @ExceptionHandler(EntrenamientoNotFoundException.class)
+    public ResponseEntity<?> handleEntrenamientoNotFound(EntrenamientoNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "entrenamiento");
+    }
+
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> handleBusiness(BusinessException ex, WebRequest request) {
         var status = HttpStatus.INTERNAL_SERVER_ERROR;
