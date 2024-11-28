@@ -90,6 +90,7 @@ class DeportesController extends Controller
         //     $deporte->pistas->pluck('id')->toArray(), 
         //     ['deleted_at' => now()] 
         // );
+        $deporte->pistas()->detach();
         $deporte->delete();
         return response()->json(['message' => 'Deporte eliminado correctamente.']);
     }
