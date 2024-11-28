@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import usePistas from '@/composables/client/usePistas';
+import { usePistas } from '@/composables/client/usePistas.js';
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import ListPistas from '../../components/ListPistas.vue';
