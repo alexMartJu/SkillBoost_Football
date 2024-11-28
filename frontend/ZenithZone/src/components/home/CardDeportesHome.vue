@@ -1,6 +1,6 @@
 <template>
     <main>
-        <div class="card-deportes">
+        <div class="card-deportes" @click="handleClick">
             <img :src="`/assets/deportes/${deporte.images[0].imageUrl}`" alt="" class="card-img-top">
             <div class="card-img-overlay d-flex align-items-end justify-content-center text-white">
                 <div class="deportes-name">
@@ -12,14 +12,28 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+
 export default {
     props: {
         deporte: {
             type: Object,
             required: true
         }
-    }
-};
+    },
+    setup(props) {
+        const router = useRouter();
+
+        const handleClick = () => {
+            const slug = props.deporte.slug;
+            router.push({ name: 'InstalacionesSlug', params: { slug: props.deporte.slug } });
+        }
+
+        return {
+            handleClick
+        }
+    },
+}
 </script>
 
 <style scoped>

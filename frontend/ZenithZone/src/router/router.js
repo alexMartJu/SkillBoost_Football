@@ -15,7 +15,14 @@ const router = createRouter({
     {
       path: "/instalaciones",
       name: "instalaciones",
-      component: () => import('../views/client/Instalaciones.vue')
+      component: () => import('../views/client/Instalaciones.vue'),
+      children: [
+        {
+          path: ":slug",
+          name: "InstalacionesSlug",
+          component: () => import('../views/client/Instalaciones.vue')
+        }
+      ]
     },
     {
       path: "/servicios",
@@ -56,7 +63,7 @@ const router = createRouter({
       component: () => import('../views/dashboards/AdminDashboard.vue'),
       children: [
         {
-          path: "",  
+          path: "",
           name: "adminListar",
           component: () => import('../components/dashboards/admin/ListarAdmin.vue'),
         },
@@ -66,7 +73,7 @@ const router = createRouter({
           component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
         },
         {
-          path: 'editar/:type/:slug', 
+          path: 'editar/:type/:slug',
           name: 'adminEditar',
           component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
         },
