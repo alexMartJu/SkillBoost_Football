@@ -3,7 +3,7 @@
     
     <MiddleSection />
     <Olympics />
-    <GraphicSection />
+    <GraphicSection style="margin-top: 150px;"/>
     <ListDeportesHome />
 </template>
 

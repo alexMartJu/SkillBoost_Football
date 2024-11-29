@@ -35,7 +35,7 @@ export default {
         // return Api(secrets.URL_SPRING).get(`entrenamientos`);
     },
 
-    GetEntrenamientosPaginate(params) {
-        return Api(secrets.URL_SPRING).get(`entrenamientosPaginate?${this.FormatFilters(params)}`);
+    GetEntrenamientosData() {
+        return Api(secrets.URL_SPRING).get(`entrenamientosData`);
     }
 }

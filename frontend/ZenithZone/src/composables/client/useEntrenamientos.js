@@ -16,7 +16,7 @@ export const useEntrenamientosFilters = (filters = {}) => {
 
 export const useEntrenamientosPaginate = (filters = {}) => {
     const totalPages = ref(0)
-    entrenamientosService.GetEntrenamientos(filters)
+    entrenamientosService.GetEntrenamientosData()
         .then(res => {
             const limit = filters.limit ?? 4;
             const total = res.data.entrenamientos;

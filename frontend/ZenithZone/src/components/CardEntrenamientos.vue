@@ -1,6 +1,6 @@
 <template>
     <section class="mb-3">
-        <strong>Clase</strong>
+        <!-- <strong>Clase</strong> -->
         <div class="row g-3">
             <section class="col-md-12">
                     <div class="card">
