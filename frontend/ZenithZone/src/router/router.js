@@ -27,7 +27,14 @@ const router = createRouter({
     {
       path: "/servicios",
       name: "servicios",
-      component: () => import('../views/client/Servicios.vue')
+      component: () => import('../views/client/Servicios.vue'),
+      children: [
+        {
+          path: ":filters",
+          name: "serviciosFilter",
+          component: () => import('../views/client/Servicios.vue')
+        }
+      ]
     },
     {
       path: "/entrenadores",
