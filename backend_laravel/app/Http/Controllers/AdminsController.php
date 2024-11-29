@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Http\Resources\AdminsResources;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminsController extends Controller
 {
@@ -16,7 +17,7 @@ class AdminsController extends Controller
         
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'email' => 'required|email|unique:entrenadores,email',
+            'email' => 'required|email|unique:admins,email',
             'password' => 'required|string|min:8',
         ]);
 
@@ -25,7 +26,7 @@ class AdminsController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
+        return new AdminsResources($admin);
     }
 
 
