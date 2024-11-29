@@ -43,6 +43,7 @@
 .isActive {
     background-color: #ff6600;
     border-radius: 5px;
+    color: black;
 }
 
 /* Text color transition and hover */
@@ -85,6 +86,10 @@
 }
 
 /* Nav link hover effect */
+.nav-link {
+    transition: color 0.3s ease; 
+}
+
 .nav-link:hover {
-    color: #ff6600;
+    color: #ff6600; 
 }

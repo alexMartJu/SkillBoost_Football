@@ -43,6 +43,9 @@ class DeportesController extends Controller
     public function show($slug)
     {
         $deporte = Deporte::where('slug', $slug)->firstOrFail();
+        if (!$deporte) {
+            return response()->json(['error' => 'deporte no encontrado'], 404);
+        }
 
         return new DeportesResources($deporte);
     }

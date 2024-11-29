@@ -9,28 +9,35 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-class Pista extends Model
+
+
+class Entrenador extends Model
 {
     use HasFactory, SoftDeletes;
-
     protected $hidden = ['created_at', 'updated_at'];
     public $timestamps = true;
+     protected $table = 'entrenadores'; 
     protected $fillable = [
-        'nombre',
-        'slug',
+        'nombre', 
+        'apellidos', 
+        'DNI',
+        'email',
+        'password',
+        'deporte_id',
+        'edad'
     ];
-    public function setNombreAttribute(string $nombre): void
-    {
-        $this->attributes['nombre'] = $nombre;
 
-        $this->attributes['slug'] = Str::slug($nombre);
-    }
-    public function deportes(): BelongsToMany
+    
+    public function deporte()
     {
-        return $this->belongsToMany(Deporte::class, 'deporte_pista');
+        return $this->belongsTo(Deporte::class, 'deporte_id');
     }
 
+    
+    public function entrenamientos()
+    {
+        return $this->hasMany(Entrenamiento::class, 'entrenador_id');
+    }
     public function images(): MorphMany
     {
         return $this->morphMany(Image::class, 'imageable');

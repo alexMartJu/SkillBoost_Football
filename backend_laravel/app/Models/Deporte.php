@@ -15,10 +15,12 @@ class Deporte extends Model
     use HasFactory, SoftDeletes;
 
     protected $hidden = ['created_at', 'updated_at'];
+    public $timestamps = true;
     protected $fillable = [
         'nombre',
         'slug',
     ];
+    
     public function getRouteKeyName(): string
     {
         return 'slug';

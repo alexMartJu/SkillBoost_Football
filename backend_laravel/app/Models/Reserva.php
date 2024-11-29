@@ -10,29 +10,29 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-class Pista extends Model
+
+
+class Reserva extends Model
 {
     use HasFactory, SoftDeletes;
-
     protected $hidden = ['created_at', 'updated_at'];
     public $timestamps = true;
     protected $fillable = [
-        'nombre',
-        'slug',
+        'usuario_id',
+        'entrenamiento_id',
+        'fecha_reserva',
+        'plazas_reservadas',
+        'estado'
     ];
-    public function setNombreAttribute(string $nombre): void
+    public function usuario()
     {
-        $this->attributes['nombre'] = $nombre;
-
-        $this->attributes['slug'] = Str::slug($nombre);
-    }
-    public function deportes(): BelongsToMany
-    {
-        return $this->belongsToMany(Deporte::class, 'deporte_pista');
+        return $this->belongsTo(Usuario::class, 'usuario_id');
     }
 
-    public function images(): MorphMany
+  
+    public function entrenamiento()
     {
-        return $this->morphMany(Image::class, 'imageable');
+        return $this->belongsTo(Entrenamiento::class, 'entrenamiento_id');
     }
+
 }
