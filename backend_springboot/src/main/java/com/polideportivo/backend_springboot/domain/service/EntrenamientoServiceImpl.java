@@ -4,6 +4,10 @@ import com.polideportivo.backend_springboot.domain.exception.EntrenamientoNotFou
 import com.polideportivo.backend_springboot.domain.model.Entrenamiento;
 import com.polideportivo.backend_springboot.domain.repository.EntrenamientoRepository;
 import com.polideportivo.backend_springboot.infra.spec.EntrenamientoSpecification;
+import com.polideportivo.backend_springboot.api.model.entrenamiento.EntrenamientoDataResponse;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -36,6 +40,33 @@ public class EntrenamientoServiceImpl implements EntrenamientoService {
         // Asigna imágenes al entrenamiento
         entrenamiento.setImages(imageService.getImagesForEntity("App\\Models\\Entrenamiento", entrenamiento.getId()));
         return entrenamiento;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public EntrenamientoDataResponse getEntrenamientoData() {
+        // Obtener todos los entrenamientos no eliminados
+        List<Entrenamiento> entrenamientos = repository.findByDeletedAtIsNull();
+
+        // Calcular los datos usando Stream API
+        Long totalEntrenamientos = (long) entrenamientos.size();
+        Integer precioMinimo = entrenamientos.stream().mapToInt(Entrenamiento::getPrecio).min().orElse(0);
+        Integer precioMaximo = entrenamientos.stream().mapToInt(Entrenamiento::getPrecio).max().orElse(0);
+        Integer duracionMinima = entrenamientos.stream().mapToInt(Entrenamiento::getDuracion).min().orElse(0);
+        Integer duracionMaxima = entrenamientos.stream().mapToInt(Entrenamiento::getDuracion).max().orElse(0);
+        Integer plazasMinimas = entrenamientos.stream().mapToInt(Entrenamiento::getMaxPlazas).min().orElse(0);
+        Integer plazasMaximas = entrenamientos.stream().mapToInt(Entrenamiento::getMaxPlazas).max().orElse(0);
+
+        // Devolver los datos de forma ordenada
+        return EntrenamientoDataResponse.builder()
+        .totalEntrenamientos(totalEntrenamientos)
+        .precioMinimo(precioMinimo)
+        .precioMaximo(precioMaximo)
+        .duracionMinima(duracionMinima)
+        .duracionMaxima(duracionMaxima)
+        .plazasMinimas(plazasMinimas)
+        .plazasMaximas(plazasMaximas)
+        .build();
     }
 
 }
