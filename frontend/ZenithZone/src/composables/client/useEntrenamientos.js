@@ -20,7 +20,8 @@ export const useEntrenamientosPaginate = (filters = {}) => {
         .then(res => {
             const limit = filters.limit ?? 4;
             const total = res.data.entrenamientos;
-            const pages = Math.ceil(total / limit);
+            let totalCount = [...total].length;
+            const pages = Math.ceil(totalCount / limit);
             totalPages.value = pages;
         })
         .catch(error => console.error(error))
