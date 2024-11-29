@@ -36,6 +36,6 @@ export default {
     },
 
     GetEntrenamientosData() {
-        return Api(secrets.URL_SPRING).get(`entrenamientosData`);
+        return Api(secrets.URL_SPRING).get(`entrenamientos/data`);
     }
 }

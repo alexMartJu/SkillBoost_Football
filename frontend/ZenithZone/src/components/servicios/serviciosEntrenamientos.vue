@@ -12,8 +12,8 @@
         </div>
         <paginate 
             v-model="state.page" 
-            :page-count="10" 
-            :page-range="3" 
+            :page-count="state.totalPages" 
+            :page-range="2" 
             :margin-pages="2"
             :click-handler="clickCallback" 
             :prev-text="'Prev'" 
@@ -28,7 +28,7 @@
 <script>
 import Filters from '@/components/filters.vue';
 import CardClases from '../CardEntrenamientos.vue';
-import { useEntrenamientosFilters, useEntrenamientosPaginate } from '@/composables/client/useEntrenamientos';
+import { useEntrenamientosData, useEntrenamientosFilters } from '@/composables/client/useEntrenamientos';
 import { reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Paginate from 'vuejs-paginate-next';
@@ -66,7 +66,7 @@ export default {
             entrenamientos: useEntrenamientosFilters(filters_url),
             offset: filters_url.offset,
             filters: filters_url,
-            totalPages: useEntrenamientosPaginate(filters_url),
+            totalPages: useEntrenamientosData(filters_url.limit),
         });
 
         const ApplyFilters = (filters) => {
@@ -75,7 +75,7 @@ export default {
             console.log(filters_64);
             router.push({ name: 'serviciosEntrenamientosFilter', params: { filters: filters_64 } });
             state.entrenamientos = useEntrenamientosFilters(filters);
-            state.totalPages = useEntrenamientosPaginate(filters);
+            state.totalPages = useEntrenamientosData(filters_url.limit);
         }
 
         const resetFilters = () => {

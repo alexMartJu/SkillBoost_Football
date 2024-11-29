@@ -14,15 +14,15 @@ export const useEntrenamientosFilters = (filters = {}) => {
     return entrenamientos;
 };
 
-export const useEntrenamientosPaginate = (filters = {}) => {
+export const useEntrenamientosData = (filters_limit) => {
     const totalPages = ref(0)
     entrenamientosService.GetEntrenamientosData()
         .then(res => {
-            const limit = filters.limit ?? 4;
-            const total = res.data.entrenamientos;
-            let totalCount = [...total].length;
-            const pages = Math.ceil(totalCount / limit);
+            const limit = filters_limit ?? 4;
+            const { totalEntrenamientos } = res.data;
+            const pages = Math.ceil(totalEntrenamientos / limit);
             totalPages.value = pages;
+            console.log(`Total pages: ${pages}`);
         })
         .catch(error => console.error(error))
 
