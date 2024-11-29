@@ -1,21 +1,29 @@
 <template>
     <main>
         <section>
-            <ul>
-                <li v-for="entrenamiento in state.entrenamientos">{{ entrenamiento.nombre }}</li>
+            <filters @filters="ApplyFilters" @deleteFilters="resetFilters" :filters="filters_url" />
+            <ul v-for="entrenamiento in state.entrenamientos">
+                <li>Nombre: {{ entrenamiento.nombre }}</li>
+                <li>Deporte: {{ entrenamiento.deporte.nombre }}</li>
             </ul>
+            <paginate v-model="state.page" :page-count="10" :page-range="3" :margin-pages="2"
+                :click-handler="clickCallback" :prev-text="'Prev'" :next-text="'Next'" :container-class="'pagination'"
+                :page-class="'page-item'">
+            </paginate>
         </section>
     </main>
 </template>
 
 <script>
+import Filters from '@/components/filters.vue';
 import { useEntrenamientosFilters, useEntrenamientosPaginate } from '@/composables/client/useEntrenamientos';
 import { reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import Paginate from 'vuejs-paginate-next';
+
 
 export default {
-    components: {
-    },
+    components: { Filters, Paginate },
 
     setup() {
         const route = useRoute();
@@ -30,8 +38,8 @@ export default {
             maxPlazasMax: 0,
             precioMin: 0,
             precioMax: 0,
-            deporteId: 0,
-            page: 1,
+            deporteId: "",
+            offset: 0,
             limit: 4,
         };
 
@@ -45,12 +53,12 @@ export default {
 
         const state = reactive({
             entrenamientos: useEntrenamientosFilters(filters_url),
-            page: filters_url.page,
+            offset: filters_url.offset,
             filters: filters_url,
             totalPages: useEntrenamientosPaginate(filters_url),
         });
 
-        const ApplyFilters = () => {
+        const ApplyFilters = (filters) => {
             const filters_64 = btoa(JSON.stringify(filters));
             router.push({ name: 'serviciosFilter', params: { filters: filters_64 } });
             state.entrenamientos = useEntrenamientosFilters(filters);
@@ -67,8 +75,8 @@ export default {
                 maxPlazasMax: 0,
                 precioMin: 0,
                 precioMax: 0,
-                deporteId: 0,
-                page: 1,
+                deporteId: "",
+                offset: 0,
                 limit: 4,
             };
             ApplyFilters();
@@ -82,8 +90,10 @@ export default {
             } catch (error) {
                 console.log(error);
             }
-            filters_url.page = pageNum;
-            state.page = pageNum;
+            // console.log(pageNum);
+            filters_url.offset = pageNum - 1;
+            console.log(`pagenum`, pageNum);
+            state.offset = pageNum;
             ApplyFilters(filters_url);
         }
 
@@ -94,6 +104,7 @@ export default {
 
 <style>
 main {
-    margin-top: 50px;
+    margin-top: 150px;
+    margin-left: 100px;
 }
 </style>
