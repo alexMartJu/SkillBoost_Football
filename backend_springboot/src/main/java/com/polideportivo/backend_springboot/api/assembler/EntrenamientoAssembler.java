@@ -2,6 +2,7 @@ package com.polideportivo.backend_springboot.api.assembler;
 
 import com.polideportivo.backend_springboot.api.model.entrenamiento.EntrenamientoWrapper;
 import com.polideportivo.backend_springboot.api.model.entrenamiento.EntrenamientoResponse;
+import com.polideportivo.backend_springboot.api.model.entrenamiento.EntrenamientoDataResponse;
 import com.polideportivo.backend_springboot.domain.model.Entrenamiento;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -33,4 +34,25 @@ public class EntrenamientoAssembler {
                 .entrenamientos(entrenamientos)
                 .build();
     }
+
+    public EntrenamientoDataResponse toDataResponse(
+            Long totalEntrenamientos,
+            Integer precioMinimo,
+            Integer precioMaximo,
+            Integer duracionMinima,
+            Integer duracionMaxima,
+            Integer plazasMinimas,
+            Integer plazasMaximas) {
+
+        return EntrenamientoDataResponse.builder()
+                .totalEntrenamientos(totalEntrenamientos)
+                .precioMinimo(precioMinimo)
+                .precioMaximo(precioMaximo)
+                .duracionMinima(duracionMinima)
+                .duracionMaxima(duracionMaxima)
+                .plazasMinimas(plazasMinimas)
+                .plazasMaximas(plazasMaximas)
+                .build();
+    }
+
 }
