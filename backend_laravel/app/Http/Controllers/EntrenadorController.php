@@ -115,14 +115,14 @@ class EntrenadorController extends Controller
         
         if ($request->has('imagenes')) {
            
-            // $deporte->images()->delete();
+             $entrenador->images()->delete();
     
-            foreach ($request->input('imagenes') as $imageUrl) {
+          
                 
                 $entrenador->images()->create([
                     'image_url' => $imageUrl,
                 ]);
-            }
+            
         }
 
         
