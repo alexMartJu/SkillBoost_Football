@@ -1,5 +1,5 @@
 <template>
-    <main class="graph-main ms-5">
+    <div class="graph-main ms-5">
         <div class="section-graph d-flex">
             <div class="landing-section d-flex">
                 <div class="carousel-section col-md-6 p-0">
@@ -16,7 +16,7 @@
                 <p class="text-end fs-3 fst-italic me-5 pe-4">"Sigue el progreso del próximo campeón"</p>
             </div>
         </div>
-    </main>
+    </div>
     
 </template>
 
