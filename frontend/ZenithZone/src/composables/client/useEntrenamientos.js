@@ -4,21 +4,22 @@ import { ref } from 'vue';
 
 
 export const useEntrenamientosFilters = (filters = {}) => {
-    filters.limit = 9;
+    // console.log(filters);
+    // filters.limit = 9;
     const entrenamientos = ref([]);
     entrenamientosService.GetEntrenamientos(filters)
         .then(res => { entrenamientos.value = res.data.entrenamientos; })
         .catch(err => console.log(err));
 
-    return deportes;
+    return entrenamientos;
 };
 
 export const useEntrenamientosPaginate = (filters = {}) => {
     const totalPages = ref(0)
-    entrenamientosService.GetEntrenamientosPaginate(filters)
+    entrenamientosService.GetEntrenamientos(filters)
         .then(res => {
-            const limit = filters.limit ?? 9;
-            const total = res.data.deportes;
+            const limit = filters.limit ?? 4;
+            const total = res.data.entrenamientos;
             const pages = Math.ceil(total / limit);
             totalPages.value = pages;
         })
