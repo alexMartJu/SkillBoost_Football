@@ -1,6 +1,6 @@
 <template>
     <div class="main-servicios">
-            <nav class="btn-group justify-content-center align-items-center shadow bg-light col-12 mb-3" role="group">
+            <nav class="btn-group justify-content-center align-items-center shadow bg-light col-12 mb-4" role="group">
                 <router-link 
                     to="/servicios/deportes" 
                     class="btn fw-bold p-3" 

@@ -1,8 +1,8 @@
 <template>
-    <section>
+    <div class="container-fluid">
         <filters @filters="ApplyFilters" @deleteFilters="resetFilters" :filters="filters_url" />
-        <div class="container">
-            <div class="row g-4 justify-content-center">
+        <div>
+            <div class="row justify-content-center">
                 <CardClases 
                     v-for="entrenamiento in state.entrenamientos" 
                     :key="entrenamiento.id" 
@@ -21,7 +21,7 @@
             :container-class="'pagination'"
             :page-class="'page-item'">
         </paginate>
-    </section>
+    </div>
 </template>
 
 
