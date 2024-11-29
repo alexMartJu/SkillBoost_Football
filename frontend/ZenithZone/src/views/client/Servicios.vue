@@ -1,110 +1,56 @@
 <template>
-    <main>
-        <section>
-            <filters @filters="ApplyFilters" @deleteFilters="resetFilters" :filters="filters_url" />
-            <ul v-for="entrenamiento in state.entrenamientos">
-                <li>Nombre: {{ entrenamiento.nombre }}</li>
-                <li>Deporte: {{ entrenamiento.deporte.nombre }}</li>
-            </ul>
-            <paginate v-model="state.page" :page-count="10" :page-range="3" :margin-pages="2"
-                :click-handler="clickCallback" :prev-text="'Prev'" :next-text="'Next'" :container-class="'pagination'"
-                :page-class="'page-item'">
-            </paginate>
-        </section>
-    </main>
+    <div class="main-servicios">
+            <nav class="btn-group justify-content-center align-items-center shadow bg-light col-12 mb-3" role="group">
+                <router-link 
+                    to="/servicios/deportes" 
+                    class="btn fw-bold p-3" 
+                    active-class="active">
+                    Deportes
+                </router-link>
+                <router-link 
+                    to="/servicios/entrenamientos" 
+                    class="btn fw-bold p-3" 
+                    active-class="active">
+                    Entrenamientos
+                </router-link>
+                <router-link 
+                    to="/servicios/graficas" 
+                    class="btn fw-bold p-3" 
+                    active-class="active">
+                    Gráficas
+                </router-link>
+            </nav>
+
+            <router-view />
+        </div>
 </template>
 
-<script>
-import Filters from '@/components/filters.vue';
-import { useEntrenamientosFilters, useEntrenamientosPaginate } from '@/composables/client/useEntrenamientos';
-import { reactive } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import Paginate from 'vuejs-paginate-next';
 
+<script>
+import serviciosDeporte from '@/components/servicios/serviciosDeportes.vue';
+import serviciosEntrenamientos from '@/components/servicios/serviciosEntrenamientos.vue';
+import serviciosGraficas from '@/components/servicios/serviciosGraficas.vue';
 
 export default {
-    components: { Filters, Paginate },
-
-    setup() {
-        const route = useRoute();
-        const router = useRouter();
-
-        let filters_url = {
-            nombre: "",
-            dia: "",
-            duracionMin: 0,
-            duracionMax: 0,
-            maxPlazasMin: 0,
-            maxPlazasMax: 0,
-            precioMin: 0,
-            precioMax: 0,
-            deporteId: "",
-            offset: 0,
-            limit: 4,
-        };
-
-        try {
-            if (route.params.filters) {
-                filters_url = JSON.parse(atob(route.params.filters));
-            }
-        } catch (error) {
-            console.log(error);
-        }
-
-        const state = reactive({
-            entrenamientos: useEntrenamientosFilters(filters_url),
-            offset: filters_url.offset,
-            filters: filters_url,
-            totalPages: useEntrenamientosPaginate(filters_url),
-        });
-
-        const ApplyFilters = (filters) => {
-            const filters_64 = btoa(JSON.stringify(filters));
-            router.push({ name: 'serviciosFilter', params: { filters: filters_64 } });
-            state.entrenamientos = useEntrenamientosFilters(filters);
-            state.totalPages = useEntrenamientosPaginate(filters);
-        }
-
-        const resetFilters = () => {
-            state.filters = {
-                nombre: "",
-                dia: "",
-                duracionMin: 0,
-                duracionMax: 0,
-                maxPlazasMin: 0,
-                maxPlazasMax: 0,
-                precioMin: 0,
-                precioMax: 0,
-                deporteId: "",
-                offset: 0,
-                limit: 4,
-            };
-            ApplyFilters();
-        }
-
-        const clickCallback = (pageNum) => {
-            try {
-                if (route.params.filters !== '') {
-                    filters_url = JSON.parse(atob(route.params.filters));
-                }
-            } catch (error) {
-                console.log(error);
-            }
-            // console.log(pageNum);
-            filters_url.offset = pageNum - 1;
-            console.log(`pagenum`, pageNum);
-            state.offset = pageNum;
-            ApplyFilters(filters_url);
-        }
-
-        return { state, filters_url, ApplyFilters, resetFilters, clickCallback };
-    }
+    name: 'Servicios',
+    components: { serviciosDeporte, serviciosEntrenamientos, serviciosGraficas },
 };
 </script>
 
 <style>
-main {
-    margin-top: 150px;
-    margin-left: 100px;
+nav .btn {
+    border: none;
+    transition: all 0.3s ease;
+}
+
+nav .btn:hover {
+    background-color: rgb(20, 20, 20);
+    color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav .btn.active {
+    background-color: #ff6600;
+    color: #fff;
 }
 </style>
