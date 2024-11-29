@@ -70,7 +70,7 @@ class EntrenadorController extends Controller
 
     public function show($DNI)
     {
-        $entrenador = Entrenador::where('DNI', $dni)->firstOrFail();
+        $entrenador = Entrenador::where('DNI', $DNI)->firstOrFail();
         if (!$entrenador) {
             return response()->json(['error' => 'entrenador no encontrado'], 404);
         }
