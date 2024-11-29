@@ -3,6 +3,7 @@ package com.polideportivo.backend_springboot.api.controller;
 import com.polideportivo.backend_springboot.api.assembler.EntrenamientoAssembler;
 import com.polideportivo.backend_springboot.api.model.entrenamiento.EntrenamientoResponse;
 import com.polideportivo.backend_springboot.api.model.entrenamiento.EntrenamientoWrapper;
+import com.polideportivo.backend_springboot.api.model.entrenamiento.EntrenamientoDataResponse;
 import com.polideportivo.backend_springboot.domain.service.EntrenamientoService;
 import com.polideportivo.backend_springboot.infra.spec.EntrenamientoSpecification;
 
@@ -38,5 +39,23 @@ public class EntrenamientoController {
     public EntrenamientoResponse getEntrenamientoBySlug(@PathVariable String slug) {
         var entrenamiento = entrenamientoService.getEntrenamientoBySlug(slug);
         return entrenamientoAssembler.toResponse(entrenamiento);
+    }
+
+    //Obtener los datos de los entrenamientos para ponerlos en algunos filtros.
+    @GetMapping("/entrenamientos/data")
+    public EntrenamientoDataResponse getEntrenamientoData() {
+        // Obtenemos los datos desde el servicio
+        var data = entrenamientoService.getEntrenamientoData();
+
+        // Usamos el Assembler para convertir los datos a un DTO de respuesta
+        return entrenamientoAssembler.toDataResponse(
+            data.getTotalEntrenamientos(),
+            data.getPrecioMinimo(),
+            data.getPrecioMaximo(),
+            data.getDuracionMinima(),
+            data.getDuracionMaxima(),
+            data.getPlazasMinimas(),
+            data.getPlazasMaximas()
+        );
     }
 }
