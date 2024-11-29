@@ -30,10 +30,27 @@ const router = createRouter({
       component: () => import('../views/client/Servicios.vue'),
       children: [
         {
-          path: ":filters",
-          name: "serviciosFilter",
-          component: () => import('../views/client/Servicios.vue')
-        }
+          path: "deportes",
+          name: "serviciosDeportes",
+          component: () => import('../components/servicios/serviciosDeportes.vue')
+        },
+        {
+          path: "entrenamientos",
+          name: "serviciosEntrenamientos",
+          component: () => import('../components/servicios/serviciosEntrenamientos.vue'),
+          children: [
+            {
+              path: ":filters",
+              name: "serviciosEntrenamientosFilter",
+              component: () => import('../components/servicios/serviciosEntrenamientos.vue'),
+            }
+          ]
+        },
+        {
+          path: "graficas",
+          name: "serviciosGraficas",
+          component: () => import('../components/servicios/serviciosGraficas.vue')
+        },
       ]
     },
     {
