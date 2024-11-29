@@ -14,7 +14,7 @@ export const useEntrenamientosFilters = (filters = {}) => {
     return entrenamientos;
 };
 
-export const useEntrenamientosData = (filters_limit) => {
+export const useEntrenamientosPaginate = (filters_limit) => {
     const totalPages = ref(0)
     entrenamientosService.GetEntrenamientosData()
         .then(res => {
@@ -27,4 +27,13 @@ export const useEntrenamientosData = (filters_limit) => {
         .catch(error => console.error(error))
 
     return totalPages;
+};
+
+export const useEntrenamientosData = () => {
+    const entrenamientosData = ref([])
+    entrenamientosService.GetEntrenamientosData()
+        .then(res => { entrenamientosData.value = res.data })
+        .catch(error => console.error(error))
+
+    return entrenamientosData;
 };

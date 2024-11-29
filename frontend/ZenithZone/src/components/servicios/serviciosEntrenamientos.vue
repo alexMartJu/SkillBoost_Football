@@ -1,5 +1,6 @@
 <template>
     <div class="container-fluid">
+        <h1>{{ state.meta }}</h1>
         <filters @filters="ApplyFilters" @deleteFilters="resetFilters" :filters="filters_url" />
         <div>
             <div class="row justify-content-center">
@@ -28,10 +29,11 @@
 <script>
 import Filters from '@/components/filters.vue';
 import CardClases from '../CardEntrenamientos.vue';
-import { useEntrenamientosData, useEntrenamientosFilters } from '@/composables/client/useEntrenamientos';
+import { useEntrenamientosData, useEntrenamientosFilters, useEntrenamientosPaginate } from '@/composables/client/useEntrenamientos';
 import { reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Paginate from 'vuejs-paginate-next';
+import { entrenamientos } from '@/store/modules/client/entrenamientos';
 
 export default {
     components: { Filters, Paginate, CardClases },
@@ -66,7 +68,8 @@ export default {
             entrenamientos: useEntrenamientosFilters(filters_url),
             offset: filters_url.offset,
             filters: filters_url,
-            totalPages: useEntrenamientosData(filters_url.limit),
+            totalPages: useEntrenamientosPaginate(filters_url.limit),
+            meta: useEntrenamientosData(),
         });
 
         const ApplyFilters = (filters) => {
@@ -75,7 +78,7 @@ export default {
             console.log(filters_64);
             router.push({ name: 'serviciosEntrenamientosFilter', params: { filters: filters_64 } });
             state.entrenamientos = useEntrenamientosFilters(filters);
-            state.totalPages = useEntrenamientosData(filters_url.limit);
+            state.totalPages = useEntrenamientosPaginate(filters_url.limit);
         }
 
         const resetFilters = () => {
