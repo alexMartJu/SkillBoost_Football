@@ -73,7 +73,10 @@ export function useEntrenamientos() {
             offset: 0,
             limit: 4,
         };
-        ApplyFilters(state.filters);
+        // ApplyFilters(state.filters);
+        router.push({ name: 'serviciosEntrenamientos' }); // Actualiza la URL sin parámetros de filtro
+        fetchEntrenamientos(state.filters);
+        fetchTotalPages(state.filters, state.filters.limit);
     };
 
     const clickCallback = (pageNum) => {
