@@ -8,7 +8,6 @@
             :entrenamiento="entrenamiento" 
             class="col-md-6" />
     </div>
-    <!-- <CardEntreamientoComponent :entrenamientos="state.entrenamientos" /> -->
     <PaginateComponent :page="state.offset" :totalPages="state.totalPages" @update:page="updatePage" @page-click="clickCallback" />
 </div>
 </template>
