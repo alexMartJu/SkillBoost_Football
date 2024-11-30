@@ -2,6 +2,7 @@ package com.polideportivo.backend_springboot.api.assembler;
 
 import com.polideportivo.backend_springboot.api.model.entrenamiento.EntrenamientoWrapper;
 import com.polideportivo.backend_springboot.api.model.entrenamiento.EntrenamientoResponse;
+import com.polideportivo.backend_springboot.api.model.entrenamiento.EntrenamientoCountResponse;
 import com.polideportivo.backend_springboot.api.model.entrenamiento.EntrenamientoDataResponse;
 import com.polideportivo.backend_springboot.domain.model.Entrenamiento;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,10 @@ public class EntrenamientoAssembler {
                 .plazasMinimas(plazasMinimas)
                 .plazasMaximas(plazasMaximas)
                 .build();
+    }
+
+    public EntrenamientoCountResponse toCountResponse(int count) {
+        return new EntrenamientoCountResponse(count);
     }
 
 }
