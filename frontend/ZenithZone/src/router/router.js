@@ -27,7 +27,31 @@ const router = createRouter({
     {
       path: "/servicios",
       name: "servicios",
-      component: () => import('../views/client/Servicios.vue')
+      component: () => import('../views/client/Servicios.vue'),
+      children: [
+        {
+          path: "deportes",
+          name: "serviciosDeportes",
+          component: () => import('../components/servicios/serviciosDeportes.vue')
+        },
+        {
+          path: "entrenamientos",
+          name: "serviciosEntrenamientos",
+          component: () => import('../components/servicios/serviciosEntrenamientos.vue'),
+          children: [
+            {
+              path: ":filters",
+              name: "serviciosEntrenamientosFilter",
+              component: () => import('../components/servicios/serviciosEntrenamientos.vue'),
+            }
+          ]
+        },
+        {
+          path: "graficas",
+          name: "serviciosGraficas",
+          component: () => import('../components/servicios/serviciosGraficas.vue')
+        },
+      ]
     },
     {
       path: "/entrenadores",

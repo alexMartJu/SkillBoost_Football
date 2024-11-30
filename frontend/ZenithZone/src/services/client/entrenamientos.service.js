@@ -4,22 +4,40 @@ import Api from "../Api"
 export default {
     FormatFilters(params) {
         let params_ = [];
-        Object.entries(params).forEach(item => {
-            if (item[0] === 'categories' && item[1].length > 0) {
-                const categories = item[1].map(item => `categories=${item}`).join('&');
-                params_.push(categories)
-            } else if (item[1] != null) {
-                params_.push(`${item[0]}=${item[1]}`);
+        Object.entries(params).forEach(([key, value]) => {
+            if (key === 'nombre') {
+                if (value !== "") {
+                    params_.push(`${key}=${value}`);
+                }
+            } else if (key === 'diasSeleccionados') {
+                // Include each selected day as a separate 'dia' parameter
+                value.forEach(dia => {
+                    params_.push(`dia=${dia}`);
+                });
+            } else if (key.endsWith('Min') || key.endsWith('Max')) {
+                if (value > 0) {
+                    params_.push(`${key}=${value}`);
+                }
+            } else if (key === 'deporteId') {
+                if (value > 0) {
+                    params_.push(`${key}=${value}`);
+                }
+            } else {
+                params_.push(`${key}=${value}`);
             }
         });
-        return params_.join('&')
+        return params_.join('&');
     },
 
     GetEntrenamientos(params) {
         return Api(secrets.URL_SPRING).get(`entrenamientos?${this.FormatFilters(params)}`);
     },
 
-    GetEntrenamientosPaginate(params) {
-        return Api(secrets.URL_SPRING).get(`entrenamientosPaginate?${this.FormatFilters(params)}`);
+    GetEntrenamientosData() {
+        return Api(secrets.URL_SPRING).get(`entrenamientos/data`);
+    },
+
+    GetEntrenamientosTotalFiltered(params) {
+        return Api(secrets.URL_SPRING).get(`entrenamientos/totalNoPaginacion?${this.FormatFilters(params)}`);
     }
 }

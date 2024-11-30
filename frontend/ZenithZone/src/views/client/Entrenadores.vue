@@ -1,8 +1,6 @@
 <template>
-    <main>
-        <section>
-            <h1>Entrenadores</h1>
-        </section>
+    <main class="main-entrenadores">
+        <h1>Entrenadores</h1>
     </main>
 </template>
 
@@ -15,7 +13,7 @@ export default {
 </script>
 
 <style>
-main {
+.main-entrenadores {
     margin-top: 50px;
 }
 </style>

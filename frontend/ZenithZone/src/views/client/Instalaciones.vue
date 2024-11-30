@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <main class="main-instalaciones">
         <ListPistas />
     </main>
 </template>
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style>
-main {
-    margin-top: 150px;
+.main-instalaciones {
+    margin-top: 50px;
 }
 </style>

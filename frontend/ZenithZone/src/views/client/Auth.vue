@@ -1,8 +1,6 @@
 <template>
-    <main>
-        <section>
-            <h1>Auth</h1>
-        </section>
+    <main class="main-auth">
+        <h1>Auth</h1>
     </main>
 </template>
 
@@ -15,7 +13,7 @@ export default {
 </script>
 
 <style>
-main {
+.main-auth {
     margin-top: 50px;
 }
 </style>
