@@ -30,12 +30,14 @@ export default {
     },
 
     GetEntrenamientos(params) {
-        console.log(`entrenamientos?${this.FormatFilters(params)}`);
         return Api(secrets.URL_SPRING).get(`entrenamientos?${this.FormatFilters(params)}`);
-        // return Api(secrets.URL_SPRING).get(`entrenamientos`);
     },
 
     GetEntrenamientosData() {
         return Api(secrets.URL_SPRING).get(`entrenamientos/data`);
+    },
+
+    GetEntrenamientosTotalFiltered(params) {
+        return Api(secrets.URL_SPRING).get(`entrenamientos/totalNoPaginacion?${this.FormatFilters(params)}`);
     }
 }

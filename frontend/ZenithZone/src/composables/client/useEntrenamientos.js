@@ -34,14 +34,14 @@ export function useEntrenamientos() {
             .catch(err => console.log(err));
     };
 
-    const fetchTotalPages = (filters_limit) => {
-        entrenamientosService.GetEntrenamientosData()
+    const fetchTotalPages = (filters, filters_limit) => {
+
+        entrenamientosService.GetEntrenamientosTotalFiltered(filters)
             .then(res => {
                 const limit = filters_limit ?? 4;
-                const { totalEntrenamientos } = res.data;
-                const pages = Math.ceil(totalEntrenamientos / limit);
+                const { entrenamientosCount } = res.data;
+                const pages = Math.ceil(entrenamientosCount / limit);
                 state.totalPages = pages;
-                console.log(`Total pages: ${pages}`);
             })
             .catch(error => console.error(error));
     };
@@ -56,7 +56,7 @@ export function useEntrenamientos() {
         const filters_64 = btoa(JSON.stringify(filters));
         router.push({ name: 'serviciosEntrenamientosFilter', params: { filters: filters_64 } });
         fetchEntrenamientos(filters);
-        fetchTotalPages(filters.limit);
+        fetchTotalPages(filters, filters.limit);
     };
 
     const resetFilters = () => {
@@ -91,7 +91,7 @@ export function useEntrenamientos() {
 
     // Initial fetch
     fetchEntrenamientos(filters_url);
-    fetchTotalPages(filters_url.limit);
+    fetchTotalPages(filters_url, filters_url.limit);
     fetchEntrenamientosData();
 
     return { state, filters_url, ApplyFilters, resetFilters, clickCallback };
