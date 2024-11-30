@@ -30,7 +30,7 @@
                     <div class="d-flex row align-items-center">
                         <input 
                             type="range" 
-                            class="form-range me-3" 
+                            class="form-range me-5" 
                             :min="minPrice" 
                             :max="maxPrice" 
                             step="5"
@@ -157,11 +157,6 @@ select {
     border: 1px solid #ccc;
 }
 
-input[type="range"] {
-    width: 100%;
-    margin: 5px 0;
-}
-
 button {
     padding: 10px;
     margin: 10px;
@@ -169,4 +164,22 @@ button {
     border: 1px solid #ccc;
     background-color: #f1f1f1;
 }
+
+input[type="range"] {
+    width: 100%;
+    margin: 10px 0;
+    height: 5px;
+    background: #ddd;
+    /* border-radius: 5px; */
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background: #ddd;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    background: #ff6600;
+    /* border: 2px solid #000000; */
+}
+
 </style>
