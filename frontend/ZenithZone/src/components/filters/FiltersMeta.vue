@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import Constant from '../Constant';
+import Constant from '../../Constant';
 import { useStore } from 'vuex';
 import { reactive, getCurrentInstance, computed, watch } from 'vue';
 
