@@ -4,10 +4,12 @@ import org.springframework.data.jpa.domain.Specification;
 import jakarta.persistence.criteria.*;
 import com.polideportivo.backend_springboot.domain.model.Entrenamiento;
 
+import java.util.List;
+
 public class EntrenamientoSpecification implements Specification<Entrenamiento> {
 
     private final String nombre;
-    private final String dia;
+    private final List<String> dia;
     private final Integer duracionMin;
     private final Integer duracionMax;
     private final Integer maxPlazasMin;
@@ -16,7 +18,7 @@ public class EntrenamientoSpecification implements Specification<Entrenamiento> 
     private final Integer precioMax;
     private final Long deporteId;
 
-    public EntrenamientoSpecification(String nombre, String dia, Integer duracionMin, Integer duracionMax,
+    public EntrenamientoSpecification(String nombre, List<String> dia, Integer duracionMin, Integer duracionMax,
                                       Integer maxPlazasMin, Integer maxPlazasMax, Integer precioMin,
                                       Integer precioMax, Long deporteId) {
         this.nombre = nombre;
@@ -40,8 +42,9 @@ public class EntrenamientoSpecification implements Specification<Entrenamiento> 
             predicate = criteriaBuilder.and(predicate, 
                 criteriaBuilder.like(criteriaBuilder.lower(root.get("nombre")), "%" + nombre.toLowerCase() + "%"));
         }
-        if (dia != null) {
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("dia"), dia));
+        if (dia != null && !dia.isEmpty()) {
+            // Usamos "in" para que pueda recibir múltiples días
+            predicate = criteriaBuilder.and(predicate, root.get("dia").in(dia));
         }
         if (duracionMin != null) {
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.greaterThanOrEqualTo(root.get("duracion"), duracionMin));
