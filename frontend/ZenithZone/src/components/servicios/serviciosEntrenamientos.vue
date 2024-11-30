@@ -1,7 +1,9 @@
 <template>
-    <div class="container-fluid">
-        <h1>{{ state.meta }}</h1>
-        <filters @filters="ApplyFilters" @deleteFilters="resetFilters" :filters="filters_url" />
+    <div class="container-fluid">        
+        <div class="text-center">
+            <filters @filters="ApplyFilters" @deleteFilters="resetFilters" :filters="filters_url" :meta="state.meta" />
+        </div>
+
         <div>
             <div class="row justify-content-center">
                 <CardClases 
@@ -11,17 +13,21 @@
                     class="col-md-6" />
             </div>
         </div>
-        <paginate 
-            v-model="state.page" 
-            :page-count="state.totalPages" 
-            :page-range="2" 
-            :margin-pages="2"
-            :click-handler="clickCallback" 
-            :prev-text="'Prev'" 
-            :next-text="'Next'" 
-            :container-class="'pagination'"
-            :page-class="'page-item'">
-        </paginate>
+        
+        <div class="d-flex justify-content-center mt-4">
+            <paginate 
+                v-model="state.page" 
+                :page-count="state.totalPages" 
+                :page-range="2" 
+                :margin-pages="2"
+                :click-handler="clickCallback" 
+                :prev-text="'Prev'" 
+                :next-text="'Next'" 
+                :container-class="'pagination'"
+                :page-class="'page-item'">
+            </paginate>
+        </div>
+
     </div>
 </template>
 
@@ -33,7 +39,6 @@ import { useEntrenamientosData, useEntrenamientosFilters, useEntrenamientosPagin
 import { reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Paginate from 'vuejs-paginate-next';
-import { entrenamientos } from '@/store/modules/client/entrenamientos';
 
 export default {
     components: { Filters, Paginate, CardClases },
@@ -56,14 +61,6 @@ export default {
             limit: 4,
         };
 
-        try {
-            if (route.params.filters) {
-                filters_url = JSON.parse(atob(route.params.filters));
-            }
-        } catch (error) {
-            console.log(error);
-        }
-
         const state = reactive({
             entrenamientos: useEntrenamientosFilters(filters_url),
             offset: filters_url.offset,
@@ -73,9 +70,7 @@ export default {
         });
 
         const ApplyFilters = (filters) => {
-            console.log(filters);
             const filters_64 = btoa(JSON.stringify(filters));
-            console.log(filters_64);
             router.push({ name: 'serviciosEntrenamientosFilter', params: { filters: filters_64 } });
             state.entrenamientos = useEntrenamientosFilters(filters);
             state.totalPages = useEntrenamientosPaginate(filters_url.limit);
@@ -118,4 +113,23 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.pagination {
+    --bs-pagination-font-size: 20px;
+
+    --bs-pagination-color: black;
+    --bs-pagination-border-color: #000000;
+
+    --bs-pagination-active-color: white;
+    --bs-pagination-active-bg: #ff6600;
+    --bs-pagination-active-border-color: #000000;
+
+    --bs-pagination-hover-color: white;
+    --bs-pagination-hover-bg: black;
+    --bs-pagination-hover-border-color: black;
+
+    --bs-pagination-disabled-border-color: lightgrey;
+
+    --bs-pagination-focus-box-shadow: none;
+}
+</style>
