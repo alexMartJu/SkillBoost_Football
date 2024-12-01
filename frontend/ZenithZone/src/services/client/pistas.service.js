@@ -12,6 +12,6 @@ export default {
     },
 
     GetPistasInfinite(offset, limit) {
-        return Api(secrets.URL_SPRING).get('pistasInfinite', { params: { offset: offset, limit: limit } });
+        return Api(secrets.URL_SPRING).get(`pistasInfinite?offset=${offset}&limit=${limit}` );
     }
 }
