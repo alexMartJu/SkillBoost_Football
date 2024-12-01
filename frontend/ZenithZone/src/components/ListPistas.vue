@@ -9,6 +9,8 @@
 <script>
 import { reactive, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
+import { usePistas } from '@/composables/client/usePistas.js';
 import Constant from '../Constant';
 import CardPistas from './CardPistas.vue';
 
@@ -18,14 +20,31 @@ export default {
     },
     setup() {
         const store = useStore();
+        const route = useRoute();
+        const slug = route.params.slug || undefined;
 
-        store.dispatch(`pistas/${Constant.INITIALIZE_PISTA}`);
+        console.log(slug ? slug : 'sin slug');
 
-        const state = reactive({
-            pistas: computed(() => store.getters['pistas/GetPistas'])
-        });
+        if (slug) {
+            const { pistas, fetchPistas } = usePistas(slug);
+            console.log(pistas);
 
-        return { state };
+            onMounted(fetchPistas);
+
+            const state = reactive({
+                pistas: pistas
+            });
+
+            return { state };
+        } else {
+            store.dispatch(`pistas/${Constant.INITIALIZE_PISTA}`);
+
+            const state = reactive({
+                pistas: computed(() => store.getters['pistas/GetPistas'])
+            });
+
+            return { state };
+        }
     }
 };
 </script>
