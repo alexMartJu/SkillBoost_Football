@@ -11,10 +11,15 @@ export const usePistas = (slug) => {
     return { pistas, fetchPistas };
 };
 
-export const usePistasInfinite = (page = 1, limit = 3) => {
-    const pistas = ref([])
-    MesaService.GetMesasInfinite(page, limit)
-        .then(res => pistas.value = res.data)
-        .catch(error => console.error(error))
-    return mesas;
+export const usePistasInfinite = (offset, limit) => {
+    const pistas = ref([]);
+    return pistaService.GetPistasInfinite(offset, limit)
+        .then(res => {
+            pistas.value = res.data.pistas;
+            return pistas;
+        })
+        .catch(error => {
+            console.error(error);
+            return pistas;
+        });
 };

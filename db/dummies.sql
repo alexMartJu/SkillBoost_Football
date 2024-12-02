@@ -36,7 +36,22 @@ INSERT INTO `pistas` (`id`, `nombre`, `slug`, `created_at`, `updated_at`) VALUES
 (2, 'Piscina olímpica', 'piscina-olimpica', '2024-11-17 15:42:57', '2024-11-17 15:42:57'),
 (3, 'Rocódromo', 'rocodromo', '2024-11-17 15:42:57', '2024-11-17 15:42:57'),
 (4, 'Pista de Padel', 'pista-padel', '2024-11-17 15:44:29', '2024-11-17 15:44:29'),
-(5, 'Pista Ciclismo interior', 'pista-ciclismo-interior', '2024-11-17 15:44:29', '2024-11-17 15:44:29');
+(5, 'Pista Ciclismo interior', 'pista-ciclismo-interior', '2024-11-17 15:44:29', '2024-11-17 15:44:29'),
+(6, 'Cancha de Baloncesto', 'cancha-baloncesto', '2024-11-17 16:10:00', '2024-11-17 16:10:00'),
+(7, 'Campo de Futbol 11', 'campo-futbol-11', '2024-11-17 16:10:00', '2024-11-17 16:10:00'),
+(8, 'Pista de Tenis', 'pista-tenis', '2024-11-17 16:10:00', '2024-11-17 16:10:00'),
+(9, 'Cancha de Volleyball', 'cancha-volleyball', '2024-11-17 16:10:00', '2024-11-17 16:10:00'),
+(10, 'Velódromo', 'velodromo', '2024-11-17 16:10:00', '2024-11-17 16:10:00'),
+(11, 'Campo de Rugby', 'campo-rugby', '2024-12-02 10:00:00', '2024-12-02 10:00:00'),
+(12, 'Pista de Patinaje', 'pista-patinaje', '2024-12-02 10:00:00', '2024-12-02 10:00:00'),
+(13, 'Sala de Artes Marciales', 'sala-artes-marciales', '2024-12-02 10:00:00', '2024-12-02 10:00:00'),
+(14, 'Zona CrossFit', 'zona-crossfit', '2024-12-02 10:00:00', '2024-12-02 10:00:00'),
+(15, 'Estadio de Atletismo', 'estadio-atletismo', '2024-12-02 10:00:00', '2024-12-02 10:00:00'),
+(16, 'Zona de Tiro con Arco', 'zona-tiro-arco', '2024-12-02 10:00:00', '2024-12-02 10:00:00'),
+(17, 'Campo de Beisbol', 'campo-beisbol', '2024-12-02 10:00:00', '2024-12-02 10:00:00'),
+(18, 'Parque de Calistenia', 'parque-calistenia', '2024-12-02 10:00:00', '2024-12-02 10:00:00'),
+(19, 'Sala de Esgrima', 'sala-esgrima', '2024-12-02 10:00:00', '2024-12-02 10:00:00'),
+(20, 'Zona de Karts', 'zona-karts', '2024-12-02 10:00:00', '2024-12-02 10:00:00');
 
 INSERT INTO `images` (`image_url`, `imageable_type`, `imageable_id`) VALUES
 ('futbol.jpg', 'App\\Models\\Deporte', 1),
@@ -107,7 +122,22 @@ INSERT INTO `deporte_pista` (`deporte_id`, `pista_id`, `created_at`, `updated_at
 (2, 4, '2024-11-17 15:54:42', '2024-11-17 15:54:42'),
 (3, 5, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
 (4, 1, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
-(5, 2, '2024-11-17 15:55:55', '2024-11-17 15:55:55');
+(5, 2, '2024-11-17 15:55:55', '2024-11-17 15:55:55'),
+(2, 6, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Baloncesto - Cancha Baloncesto
+(1, 7, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Futbol - Campo Futbol 11
+(3, 8, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Tenis - Pista Tenis
+(4, 9, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Volleyball - Cancha Volleyball
+(6, 10, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Ciclismo - Velódromo
+(1, 11, '2024-12-02 10:10:00', '2024-12-02 10:10:00'), -- Futbol - Campo Rugby
+(7, 12, '2024-12-02 10:10:00', '2024-12-02 10:10:00'), -- Natación - Pista Patinaje (deporte alternativo indoor)
+(4, 13, '2024-12-02 10:10:00', '2024-12-02 10:10:00'), -- Volleyball - Sala Artes Marciales (Cross-skill training)
+(6, 14, '2024-12-02 10:10:00', '2024-12-02 10:10:00'), -- Ciclismo - Zona CrossFit (entrenamiento complementario)
+(1, 15, '2024-12-02 10:10:00', '2024-12-02 10:10:00'), -- Futbol - Estadio Atletismo
+(5, 16, '2024-12-02 10:10:00', '2024-12-02 10:10:00'), -- Escalada - Tiro con Arco (coordinación requerida)
+(8, 17, '2024-12-02 10:10:00', '2024-12-02 10:10:00'), -- Padel - Campo Beisbol (ubicación mixta)
+(4, 18, '2024-12-02 10:10:00', '2024-12-02 10:10:00'), -- Volleyball - Parque Calistenia
+(3, 19, '2024-12-02 10:10:00', '2024-12-02 10:10:00'), -- Tenis - Sala Esgrima (destreza y reflejos)
+(6, 20, '2024-12-02 10:10:00', '2024-12-02 10:10:00'); -- Ciclismo - Zona Karts
 
 INSERT INTO `horario_pista_reserva` (`horario_id`, `pista_id`, `reserva_id`) VALUES
 (1, 1, 1),
