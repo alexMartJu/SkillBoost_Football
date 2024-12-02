@@ -13,8 +13,13 @@ export const usePistas = (slug) => {
 
 export const usePistasInfinite = (offset, limit) => {
     const pistas = ref([]);
-    pistaService.GetPistasInfinite(offset, limit)
-        .then(res => pistas.value = res.data.pistas)
-        .catch(error => console.error(error));
-    return pistas
+    return pistaService.GetPistasInfinite(offset, limit)
+        .then(res => {
+            pistas.value = res.data.pistas;
+            return pistas;
+        })
+        .catch(error => {
+            console.error(error);
+            return pistas;
+        });
 };
