@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <div class="row g-4 justify-content-center">
-            <CardPistas v-for="pista in state.pistas" :key="pista.id" :pista="pista" class="col-md-3" />
+            <CardPistas v-for="pista in state.pistas" :key="pista.id" :pista="pista" class="col-md-4" />
         </div>
-        <InfiniteLoading @infinite="onInfinite"/>
+        <InfiniteLoading v-if="!slug" @infinite="onInfinite"/>
     </div>
 </template>
 
@@ -23,45 +23,54 @@ export default {
         const route = useRoute();
         const slug = route.params.slug || undefined;
 
-        console.log(slug ? slug : 'sin slug');
+        const state = reactive({
+            pistas: [],
+            offset: 0,
+            busy: false
+        });
 
-        if (slug) {
-            const { pistas, fetchPistas } = usePistas(slug);
-            console.log(pistas);
-
-            onMounted(fetchPistas);
-
-            const state = reactive({
-                pistas: pistas
+        const loadInitialPistas = () => {
+            state.busy = true;
+            usePistasInfinite(state.offset, 6).then(res => {
+                if (res.value.length) {
+                    state.pistas.push(...res.value);
+                    state.offset += 1;
+                }
+                state.busy = false;
+            }).catch(error => {
+                console.error(error);
+                state.busy = false;
             });
+        };
 
-            return { state };
-        } else {
-            store.dispatch(`pistas/${Constant.INITIALIZE_PISTA}`);
-
-            const state = reactive({
-                pistas: computed(() => store.getters['pistas/GetPistas']),
-                pistasInfinite: usePistasInfinite(1, 4),
-                offset: 1
-            });
-
-            const onInfinite = ($state) => {
-                state.offset += 1;
-                const newPistas = usePistasInfinite(state.offset, 3);
-                newPistas.then(res => {
-                    if (res.value.length) {
-                        state.pistas.push(...res.value);
-                        $state.loaded();
-                    } else {
-                        $state.complete();
-                    }
-                }).catch(() => {
-                    $state.complete();
+        onMounted(() => {
+            if (slug) {
+                const { pistas, fetchPistas } = usePistas(slug);
+                fetchPistas().then(() => {
+                    state.pistas = pistas.value;
                 });
-            };
+            } else {
+                console.log(`No slug`);
+                store.dispatch(`pistas/${Constant.INITIALIZE_PISTA}`);
+                loadInitialPistas();
+            }
+        });
 
-            return { state, onInfinite };
-        }
+        const onInfinite = () => {
+            if (state.busy) return;
+            state.busy = true;
+            usePistasInfinite(state.offset, 6).then(res => {
+                if (res.value.length) {
+                    state.pistas.push(...res.value);
+                    state.offset += 1;
+                }
+                state.busy = false;
+            }).catch(() => {
+                state.busy = false;
+            });
+        };
+
+        return { state, onInfinite, slug };
     }
 };
 </script>
