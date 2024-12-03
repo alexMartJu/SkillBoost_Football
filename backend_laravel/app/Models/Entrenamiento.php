@@ -53,4 +53,8 @@ class Entrenamiento extends Model
     {
         return $this->belongsTo(Entrenador::class, 'entrenador_id');
     }
+    public function usuarios()
+{
+    return $this->belongsToMany(Usuario::class, 'entrenamiento_usuario', 'entrenamiento_id', 'usuario_id');
+}
 }

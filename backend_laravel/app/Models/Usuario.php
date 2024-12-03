@@ -34,5 +34,8 @@ class Usuario extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
-   
+    public function entrenamientos()
+    {
+        return $this->belongsToMany(Entrenamiento::class, 'entrenamiento_usuario', 'usuario_id', 'entrenamiento_id');
+    }
 }

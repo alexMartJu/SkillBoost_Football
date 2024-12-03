@@ -17,7 +17,13 @@ class EntrenamientoResource extends JsonResource
             'duracion' => $this->duracion,
             'max_plazas' => $this->max_plazas,
             'precio' => $this->precio,
-            'deporte' => $this->deporte
+            'deporte' => $this->deporte,
+            'horario' => $this->horario ? $this->horario->hora : null, // Si tienes la relación Horario
+            'entrenador' => [
+                'nombre' => $this->entrenador->nombre,
+                'apellidos' => $this->entrenador->apellidos,
+            ],
+            'usuarios' => UsuariosResources::collection($this->whenLoaded('usuarios')),
         ];
     }
 }

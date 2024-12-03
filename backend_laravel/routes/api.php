@@ -38,3 +38,8 @@ Route::apiResource('horarios', HorariosController::class);
 Route::apiResource('reservas', ReservasController::class);
 Route::apiResource('usuarios', UsuariosController::class);
 Route::apiResource('salas', SalasController::class);
+
+//
+
+// Route::middleware('auth:api')->get('/entrenador/{DNI}/entrenamientos', [EntrenamientoController::class, 'getEntrenamientosByEntrenador']);
+Route::get('/entrenador/{DNI}/entrenamientos', [EntrenamientoController::class, 'getEntrenamientosByEntrenador']);

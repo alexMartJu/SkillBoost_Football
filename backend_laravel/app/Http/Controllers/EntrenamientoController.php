@@ -7,6 +7,7 @@ use App\Http\Resources\EntrenamientoResource;
 use App\Models\Clase;
 use App\Models\Deporte;
 use App\Models\Entrenamiento;
+use App\Models\Entrenador;  
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -80,4 +81,32 @@ class EntrenamientoController extends Controller
         $entrenamiento->delete();
         return response()->json(['message' => 'Clase eliminada']);
     }
+
+    public function getEntrenamientosByEntrenador(Request $request,$DNI)
+    {
+        $entrenador = Entrenador::where('DNI', $DNI)->first();
+
+        
+        if (!$entrenador) {
+            return response()->json(['error' => 'Entrenador no encontrado'], 404);
+        }
+
+
+
+        // $entrenadorId = auth()->user()->id; 
+
+        
+        $entrenamientos = Entrenamiento::where('entrenador_id', $entrenador->id)
+                                    ->with('usuarios')  
+                                    ->get();
+
+    
+        if ($entrenamientos->isEmpty()) {
+            return response()->json(['error' => 'No tienes entrenamientos asignados.'], 404);
+        }
+
+    
+        return EntrenamientoResource::collection($entrenamientos);
+    }
+
 }
