@@ -35,7 +35,7 @@
                             </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/auth" class="nav-link auth fw-bold fs-5"
+                            <router-link to="/login" class="nav-link auth fw-bold fs-5"
                                 active-class="isActive text-black">
                                 Unirse al club
                             </router-link>
