@@ -1,13 +1,17 @@
 <template>
     <main class="main-auth">
-        <h1>Auth</h1>
+        <!-- <h1>Auth</h1> -->
+        <LoginRegisterForm />
     </main>
 </template>
 
 <script>
+import LoginRegisterForm from '@/components/auth/loginRegisterForm.vue';
+
 
 export default {
     components: {
+        LoginRegisterForm
     }
 };
 </script>
