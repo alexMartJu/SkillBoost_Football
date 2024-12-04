@@ -18,24 +18,13 @@ class Usuario extends Model
     protected $hidden = ['created_at', 'updated_at'];
     public $timestamps = true;
     protected $fillable = [
-        'nombre',
-        'apellidos',
         'email',
-        'telefono',
         'password'
     ];
 
-   
-    public function reservas()
+    public function profile()
     {
-        return $this->hasMany(Reserva::class, 'usuario_id');
+        return $this->hasOne(Profile::class, 'usuario_id', 'profile_id');
     }
-    public function images(): MorphMany
-    {
-        return $this->morphMany(Image::class, 'imageable');
-    }
-    public function entrenamientos()
-    {
-        return $this->belongsToMany(Entrenamiento::class, 'entrenamiento_usuario', 'usuario_id', 'entrenamiento_id');
-    }
+    
 }

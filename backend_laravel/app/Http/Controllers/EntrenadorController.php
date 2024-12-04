@@ -5,12 +5,101 @@ use App\Models\Entrenador;
 use Illuminate\Http\Request;
 use App\Http\Resources\EntrenadoresResources;
 use Illuminate\Support\Facades\Hash;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Illuminate\Validation\ValidationException;
 class EntrenadorController extends Controller
+
 {
     public function index()
     {
         return EntrenadoresResources::collection(Entrenador::all());
     }
+
+    public function login(Request $request)
+    {
+          // Validación de las credenciales del usuario
+          $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        
+        $credentials = $request->only('email', 'password');
+
+       
+        if (!$token = auth('entrenador')->attempt($credentials)) {
+            
+            throw ValidationException::withMessages([
+                'email' => ['Credenciales inválidas.'],
+            ]);
+        }
+
+        // Si la autenticación es exitosa, devolver el token
+        return response()->json([
+            'message' => 'Inicio de sesión exitoso',
+            'entrenador_token' => $token,
+            'token_type' => 'Bearer',
+            'expires_in' => auth('entrenador')->factory()->getTTL() * 60, 
+        ]);
+    }
+    public function me()
+    {
+        return response()->json(auth()->user());
+    }
+    public function logout()
+    {
+        JWTAuth::invalidate(JWTAuth::getToken());
+
+        return response()->json(['message' => 'Cierre de sesión exitoso']);
+    }
+    public function register(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'email' => 'required|email|unique:entrenadores,email',
+            'password' => 'required|string|min:8|confirmed', // password_confirmation también requerido
+            'deporte_id' => 'required|integer|exists:deportes,id',
+            'edad' => 'required|integer|min:18',
+        ]);
+
+        do {
+            $numero = str_pad(random_int(1000, 9999), 4, '0', STR_PAD_LEFT);
+            $nombre = $request->nombre;
+            $numeroEntrenador=$nombre . '-' . $numero;
+        } while (Entrenador::where('numeroEntrenador', $numeroEntrenador)->exists());
+    
+        // Crear el entrenador
+        $entrenador = Entrenador::create([
+            'nombre' => $request->nombre,
+            'apellidos' => $request->apellidos,
+            'numeroEntrenador' => $numeroEntrenador,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'deporte_id' => $request->deporte_id,
+            'edad' => $request->edad,
+        ]);
+    
+        return response()->json([
+            'message' => 'Registro exitoso',
+            'entrenador' => $entrenador,
+        ], 201);
+    }
+
+
+
+
+
+
+
+
+
+
+
+//____________________________________________________________________________________
+
+
+    
     public function store(Request $request)
     {
         
