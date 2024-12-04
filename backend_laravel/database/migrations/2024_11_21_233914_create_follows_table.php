@@ -17,6 +17,7 @@ return new class extends Migration {
 
             // Asegurarse de que un usuario no pueda seguir al mismo usuario dos veces
             $table->unique(['follower_id', 'followed_id']);
+            $table->engine = 'InnoDB';
         });
     }
 

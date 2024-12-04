@@ -40,6 +40,21 @@ Route::apiResource('usuarios', UsuariosController::class);
 Route::apiResource('salas', SalasController::class);
 
 //
+Route::post('/entrenador/register', [EntrenadorController::class, 'register']);
 
-// Route::middleware('auth:api')->get('/entrenador/{DNI}/entrenamientos', [EntrenamientoController::class, 'getEntrenamientosByEntrenador']);
-Route::get('/entrenador/{DNI}/entrenamientos', [EntrenamientoController::class, 'getEntrenamientosByEntrenador']);
+Route::post('/entrenador/login', [EntrenadorController::class, 'login']);
+
+Route::middleware('auth:entrenador')->group(function () {
+    Route::get('/entrenador/me', [EntrenadorController::class, 'me']);
+    Route::post('/entrenador/logout', [EntrenadorController::class, 'logout']);
+});
+
+
+ Route::middleware('auth:entrenador')->get('/entrenador/{email}/entrenamientos', [EntrenamientoController::class, 'getEntrenamientosByEntrenador']);
+//Route::get('/entrenador/{DNI}/entrenamientos', [EntrenamientoController::class, 'getEntrenamientosByEntrenador']);
+Route::post('/admin/login', [AdminsController::class, 'login']);
+
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/admin/me', [AdminsController::class, 'me']);
+    Route::post('/adminr/logout', [AdminsController::class, 'logout']);
+});

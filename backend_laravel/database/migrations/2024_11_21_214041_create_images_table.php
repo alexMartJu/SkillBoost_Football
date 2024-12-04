@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->morphs('imageable');
             $table->timestamps();
             $table->softDeletes();
+            $table->engine = 'InnoDB';
         });
     }
 

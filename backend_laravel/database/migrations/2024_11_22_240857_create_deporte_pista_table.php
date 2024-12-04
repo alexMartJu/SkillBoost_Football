@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->foreignId('pista_id')->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->primary(['deporte_id', 'pista_id']);
+            $table->engine = 'InnoDB';
         });
     }
 

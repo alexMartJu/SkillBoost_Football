@@ -4,23 +4,22 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('entrenadores', function (Blueprint $table) {
+        Schema::create('profiles', function (Blueprint $table) {
+            // $table->unsignedBigInteger('usuario_id');
             $table->id();
+            $table->string('numerosocio')->unique();
             $table->string('nombre');
             $table->string('apellidos');
-            $table->string('numeroEntrenador')->unique();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->foreignId('deporte_id')->constrained()->onDelete('cascade');
             $table->integer('edad');
             $table->timestamps();
-            $table->softDeletes();
+            $table->foreign('id')->references('id')->on('usuarios')->onDelete('cascade');
             $table->engine = 'InnoDB';
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('entrenadores');
+        Schema::dropIfExists('profiles');
     }
 };

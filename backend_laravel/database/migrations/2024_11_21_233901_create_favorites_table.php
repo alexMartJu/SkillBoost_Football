@@ -17,6 +17,7 @@ return new class extends Migration {
 
 
             $table->unique(['usuario_id', 'entrenamiento_id']);
+            $table->engine = 'InnoDB';
         });
     }
 
