@@ -1,0 +1,9 @@
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;  /* Esto asegura que el footer se quede al final */
+}
+
+.flex-grow-1 {
+  flex-grow: 1; /* Esto hace que el contenido del router-view ocupe el espacio disponible */
+}

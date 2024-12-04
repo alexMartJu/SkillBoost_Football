@@ -1,0 +1,91 @@
+services:
+  # laravel:
+  #   build:
+  #     context: ./backend_laravel/laravel
+  #     dockerfile: Dockerfile
+  #   container_name: laravel_container
+  #   restart: on-failure
+  #   env_file: ./.env
+  #   ports:
+  #     - "$LARAVEL_LOCAL_PORT:$LARAVEL_DOCKER_PORT"
+  #   volumes:
+  #     - ./backend_laravel:/app
+  #   depends_on:
+  #     - mysql
+  #   tty: true
+  #   networks:
+  #     - ZenithZone
+
+  springboot:
+    build:
+      context: ./backend_springboot
+      dockerfile: Dockerfile
+    container_name: springboot_container
+    restart: on-failure
+    env_file: ./.env
+    ports:
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+    depends_on:
+      - mysql
+    environment:
+      - DB_HOST=mysql
+      - DB_USERNAME=root
+      - DB_PASSWORD=root_secret
+      - DB_NAME=ZenithZone
+    volumes:
+      - ./backend_springboot:/app
+    stdin_open: true
+    tty: true
+    networks:
+      - ZenithZone
+
+  vue:
+    build:
+      context: ./frontend/ZenithZone
+      dockerfile: Dockerfile
+    container_name: vue_container
+    env_file: ./.env
+    restart: on-failure
+    ports:
+      - "$VUE_LOCAL_PORT:$VUE_DOCKER_PORT"
+    volumes:
+      - ./frontend/ZenithZone:/app
+      - /app/node_modules
+    networks:
+      - ZenithZone
+
+  mysql:
+    image: mysql:8
+    container_name: mysql_container
+    env_file: ./.env
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_DATABASE: ZenithZone
+    ports:
+      - "$MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - ZenithZone
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: adminMySQL_contenidor
+    env_file: ./.env
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: $MYSQLDB_LOCAL_PORT
+    ports:
+      - "$PHP_MY_ADMIN_LOCAL_PORT:$PHP_MY_ADMIN_DOCKER_PORT"
+    depends_on:
+      - mysql
+    networks:
+      - ZenithZone
+
+volumes:
+  mysql_data:
+
+
+networks:
+  ZenithZone:
+    driver: bridge
