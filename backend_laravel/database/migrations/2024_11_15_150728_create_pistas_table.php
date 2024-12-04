@@ -15,9 +15,9 @@ return new class extends Migration {
             $table->string('nombre', 191);
             $table->string('slug', 191)->unique();
             $table->string('info')->nullable();
-            $table->string('image')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->engine = 'InnoDB';
         });
     }
 

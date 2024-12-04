@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('reserva_id')->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->primary(['horario_id', 'pista_id']);
+            $table->engine = 'InnoDB';
         });
     }
 

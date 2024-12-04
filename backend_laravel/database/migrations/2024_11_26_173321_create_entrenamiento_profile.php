@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('entrenamiento_usuario', function (Blueprint $table) {
+        Schema::create('entrenamiento_profile', function (Blueprint $table) {
             $table->foreignId('entrenamiento_id')->constrained()->onDelete('cascade');
-            $table->foreignId('usuario_id')->constrained()->onDelete('cascade');
+            $table->foreignId('profile_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            $table->primary(['entrenamiento_id', 'usuario_id']);
+            $table->primary(['entrenamiento_id', 'profile_id']);
+            $table->engine = 'InnoDB';
         });
     }
 
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('entrenamiento_usuario');
+        Schema::dropIfExists('entrenamiento_profile');
     }
 };
