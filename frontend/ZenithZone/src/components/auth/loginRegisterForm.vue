@@ -1,92 +1,86 @@
 <template>
     <div class="LoginRegisterForm">
-        <main class="main">
+        <main class="main py-5">
             <div class="container">
-                <section class="wrapper">
-                    <div class="heading" v-if="isLogin">
-                        <h1 class="text text-large">Login</h1>
-                        <p class="text text-normal">New user? <span><a class="text text-links"
-                                    @click="redirect.register()">Create an
-                                    account</a></span>
-                        </p>
-                    </div>
-                    <div class="heading" v-else>
-                        <h1 class="text text-large">Register</h1>
-                        <p class="text text-normal">Have an account? <span><a class="text text-links"
-                                    @click="redirect.login()">Sign up</a></span>
-                        </p>
-                    </div>
-                    <div name="signin" class="form">
-                        <div class="input-control">
-                            <label for="username" class="input-label">Username</label>
-                            <input type="username" name="username" id="username" class="input-field"
-                                placeholder="Username" v-model="state.username">
-                        </div>
-                        <div v-if="x$.username.$invalid">
-                            <label class="error">Invalid Username.</label>
-                            <br>
-                            <br>
-                        </div>
-                        <div class="input-control" v-if="!isLogin">
-                            <label for="email" class="input-label">Email Address</label>
-                            <input type="email" name="email" id="email" class="input-field" placeholder="Email Address"
-                                v-model="state.email">
-                        </div>
-                        <div v-if="x$.email.$invalid && !isLogin">
-                            <label class="error">Invalid EMAIL.</label>
-                            <br>
-                            <br>
-                        </div>
-                        <div class="input-control">
-                            <label for="password" class="input-label">Password</label>
-                            <input type="password" name="password" id="password" class="input-field"
-                                placeholder="Password" v-model="state.password">
-                        </div>
-                        <div v-if="x$.password.$invalid">
-                            <label class="error">Invalid Password.</label>
-                            <br>
-                            <br>
-                        </div>
-                        <div class="input-control" v-if="!isLogin">
-                            <label for="password" class="input-label">Repeat Password</label>
-                            <input type="password" name="password2" id="password2" class="input-field"
-                                placeholder="Repeat Password" v-model="state.password2">
-                        </div>
-                        <div v-if="!isLogin && state.password != state.password2">
-                            <label class="error">Passwords do not match</label>
-                            <br>
-                            <br>
-                        </div>
-                        <div v-if="x$.password2.$invalid && !isLogin">
-                            <label class="error">Need confirm password</label>
-                            <br>
-                            <br>
-                        </div>
-                        <div>
-                            <div class="input-control" v-if="isLogin">
-                                <button @click="login()" class="input-submit"
-                                    :disabled="v$.username.$invalid || v$.password.$invalid">Login</button>
+                <!-- Form Wrapper -->
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-4">
+                        <section class="wrapper">
+                            <div class="text-center mb-4" v-if="isLogin">
+                                <h1 class="h3 mb-3 fw-normal">Login</h1>
+                                <p class="text-muted">New user? <span><a href="javascript:void(0)" class="text-primary"
+                                            @click="redirect.register()">Create an
+                                            account</a></span></p>
                             </div>
-                        </div>
-
-                        <div>
-                            <div class="input-control" v-if="!isLogin">
-                                <button @click="register()" class="input-submit"
-                                    :disabled="x$.username.$invalid || x$.password.$invalid || x$.email.$invalid || x$.password2.$invalid || state.password2 !== state.password">Register</button>
+                            <div class="text-center mb-4" v-else>
+                                <h1 class="h3 mb-3 fw-normal">Register</h1>
+                                <p class="text-muted">Have an account? <span><a href="javascript:void(0)"
+                                            class="text-primary" @click="redirect.login()">Sign in</a></span></p>
                             </div>
-                        </div>
+                            <form name="signin" class="needs-validation">
+                                <div v-if="!isLogin" class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" name="nombre" id="nombre" class="form-control"
+                                        placeholder="Nombre" v-model="state.nombre" required>
+                                    <div v-if="x$.nombre.$invalid" class="text-danger small">
+                                        Invalid nombre.
+                                    </div>
+                                </div>
+                                <div v-if="!isLogin" class="mb-3">
+                                    <label for="apellidos" class="form-label">Apellidos</label>
+                                    <input type="text" name="apellidos" id="apellidos" class="form-control"
+                                        placeholder="Apellidos" v-model="state.apellidos" required>
+                                    <div v-if="x$.apellidos.$invalid" class="text-danger small">
+                                        Invalid apellidos.
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" name="email" id="email" class="form-control"
+                                        placeholder="Email Address" v-model="state.email" required>
+                                    <div v-if="x$.email.$invalid" class="text-danger small">
+                                        Invalid EMAIL.
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" name="password" id="password" class="form-control"
+                                        placeholder="Password" v-model="state.password" required>
+                                    <div v-if="x$.password.$invalid" class="text-danger small">
+                                        Invalid Password.
+                                    </div>
+                                </div>
+                                <div v-if="!isLogin" class="mb-3">
+                                    <label for="password2" class="form-label">Repeat Password</label>
+                                    <input type="password" name="password2" id="password2" class="form-control"
+                                        placeholder="Repeat Password" v-model="state.password2" required>
+                                    <div v-if="!isLogin && state.password != state.password2" class="text-danger small">
+                                        Passwords do not match.
+                                    </div>
+                                </div>
+                                <div class="d-grid">
+                                    <button v-if="isLogin" @click="login()" type="button" class="btn btn-primary"
+                                        :disabled="v$.email.$invalid || v$.password.$invalid">Login</button>
+                                    <button v-if="!isLogin" @click="register()" type="button" class="btn btn-primary"
+                                        :disabled="x$.nombre.$invalid || x$.apellidos.$invalid || x$.email.$invalid || x$.password.$invalid || x$.password2.$invalid || state.password2 !== state.password">Register</button>
+                                </div>
+                            </form>
+                        </section>
                     </div>
-                </section>
+                </div>
             </div>
         </main>
     </div>
 </template>
+
+
 
 <script>
 import { useRouter } from 'vue-router';
 import { getCurrentInstance, reactive, computed } from 'vue';
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, email, alphaNum } from '@vuelidate/validators'
+
 export default {
     props: {
         isLogin: Boolean
@@ -105,7 +99,8 @@ export default {
 
         const register = () => {
             const data = {
-                username: state.username,
+                nombre: state.nombre,
+                apellidos: state.apellidos,
                 email: state.email,
                 password: state.password,
                 password2: state.password2
@@ -115,26 +110,31 @@ export default {
         }
 
         const state = reactive({
-            username: '',
+            nombre: '',
+            apellidos: '',
             email: '',
             password: '',
             password2: '',
         });
 
         const rules_login = computed(() => ({
-            username: {
+            email: {
                 required,
                 minLength: minLength(2),
-                alphaNum
+                email
             },
             password: {
                 required,
-                minLength: minLength(4),
+                minLength: minLength(3),
             },
         }))
 
         const rules_register = computed(() => ({
-            username: {
+            nombre: {
+                required,
+                minLength: minLength(2),
+            },
+            apellidos: {
                 required,
                 minLength: minLength(2),
             },
@@ -145,11 +145,11 @@ export default {
             },
             password: {
                 required,
-                minLength: minLength(4),
+                minLength: minLength(3),
             },
             password2: {
                 required,
-                minLength: minLength(4),
+                minLength: minLength(3),
             },
         }))
 
@@ -160,7 +160,7 @@ export default {
 
         const login = () => {
             const data = {
-                username: state.username,
+                email: state.email,
                 password: state.password
             };
             emit('send', data);
