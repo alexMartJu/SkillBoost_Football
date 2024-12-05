@@ -4,6 +4,7 @@ import { adminDashboard } from './modules/dashboards/adminDashboard';
 import { entrenamientos } from "./modules/client/entrenamientos";
 import { pistas } from "./modules/client/pistas";
 import { entrenadorDashboard } from "./modules/dashboards/entrenadorDashboard";
+import { user } from "./modules/client/user";
 
 export default Vuex.createStore({
     modules: {
@@ -11,6 +12,7 @@ export default Vuex.createStore({
         adminDashboard: adminDashboard,
         entrenamientos: entrenamientos,
         pistas: pistas,
-        entrenadorDashboard: entrenadorDashboard
+        entrenadorDashboard: entrenadorDashboard,
+        user: user
     }
 });

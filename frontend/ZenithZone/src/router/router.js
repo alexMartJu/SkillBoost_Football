@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    // HOME
     {
       path: "/",
       redirect: { name: "home" }
@@ -12,6 +13,8 @@ const router = createRouter({
       name: "home",
       component: () => import('../views/client/Home.vue')
     },
+
+    // INSTALACIONES
     {
       path: "/instalaciones",
       name: "instalaciones",
@@ -24,6 +27,8 @@ const router = createRouter({
         }
       ]
     },
+
+    // SERVICIOS
     {
       path: "/servicios",
       name: "servicios",
@@ -53,17 +58,29 @@ const router = createRouter({
         },
       ]
     },
+
+    // ENTRENADORES
     {
       path: "/entrenadores",
       name: "entrenadores",
       component: () => import('../views/client/Entrenadores.vue')
     },
+
+    // LOGIN
     {
-      path: "/auth",
-      name: "auth",
-      component: () => import('../views/client/Auth.vue')
+      path: "/login",
+      name: "login",
+      component: () => import('../views/client/Login.vue'),
+      // beforeEnter: AuthGuards.noAuthGuard, meta: { requiresAuth: true }
+    },
+    {
+      path: "/register",
+      name: "register",
+      component: () => import('../views/client/Register.vue'),
+      // beforeEnter: AuthGuards.noAuthGuard, meta: { requiresAuth: true }
     },
 
+    // DASHBOARD ENTRENADOR
     {
       path: "/entrenadorDashboard",
       name: "entrenadorDashboard",
@@ -81,6 +98,8 @@ const router = createRouter({
         }
       ]
     },
+
+    // DASHBOARD ADMIN
     {
       path: "/admin",
       name: "adminDashboard",

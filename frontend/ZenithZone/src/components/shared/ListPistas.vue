@@ -12,7 +12,7 @@ import { reactive, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { usePistas, usePistasInfinite } from '@/composables/client/usePistas.js';
-import Constant from '../Constant';
+import Constant from '../../Constant';
 import CardPistas from './CardPistas.vue';
 import InfiniteLoading from "v3-infinite-loading";
 

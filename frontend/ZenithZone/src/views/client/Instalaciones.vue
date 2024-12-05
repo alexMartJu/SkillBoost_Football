@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ListPistas from '../../components/ListPistas.vue';
+import ListPistas from '../../components/shared/ListPistas.vue';
 
 export default {
     components: {
