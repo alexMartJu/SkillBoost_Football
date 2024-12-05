@@ -97,6 +97,11 @@ const router = createRouter({
           component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
         },
         {
+          path: "entrenador",
+          name: "registertrainer",
+          component: () => import('../components/dashboards/admin/RegisterTrainer.vue'),
+        },
+        {
           path: 'editar/:type/:slug',
           name: 'adminEditar',
           component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
