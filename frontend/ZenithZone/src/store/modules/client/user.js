@@ -6,22 +6,20 @@ export const user = {
     namespaced: true,
     state: {
         user: {},
+        token: "",
+        tokenAdmin: "",
+        tokenEntrenador: "",
         isAuth: false,
-        isAdmin: false
+        isAdmin: false,
+        isEntrenador: false,
     },
     actions: {
         [Constant.LOGIN]: async (store, payload) => {
             try {
                 const response = await UserService.Login(payload);
-                // if (response.status === 200) {
-                //     store.commit(Constant.LOGIN, response.data);
-                //     if (response.data.user.type == "admin") {
-                //         const response_admin = await UserService.Login_admin(payload);
-                //         if (response_admin.status === 200) {
-                //             store.commit(Constant.LOGIN_ADMIN, response_admin.data);
-                //         }
-                //     }
-                // }
+                if (response.status === 200) {
+                    store.commit(Constant.LOGIN, response.data);
+                }
             } catch (error) {
                 console.log(`error: `, error);
             }
@@ -31,10 +29,7 @@ export const user = {
             try {
                 const response = await UserService.Logout();
                 let data = { status: response.status };
-                // if (store.state.isAdmin) {
-                //     const response_admin = await UserService.Logout_admin();
-                //     data.status_admin = response_admin.status;
-                // }
+
                 store.commit(Constant.LOGOUT, data);
             } catch (error) {
                 console.log(`error: `, error);
@@ -63,47 +58,44 @@ export const user = {
                 console.error(error);
             }
         },//INITIALIZE_PROFILE
+    },
 
-    },//actions
+
     mutations: {
         [Constant.LOGIN]: (state, payload) => {
             if (payload) {
-                console.log(`login`);
-                // console.log(`Login successfuly`);
-                // localStorage.setItem("token", payload.token);
-                // localStorage.setItem("isAuth", true);
-                // state.user = payload.user;
-                // state.isAuth = true;
-                // router.push({ name: 'home' });
+                state.user = payload.user;
+
+                if (payload.tokenAdmin) {
+                    state.isAdmin = true;
+                    state.tokenAdmin = payload.tokenAdmin;
+                } else if (payload.tokenEntrenador) {
+                    state.isEntrenador = true;
+                    state.tokenEntrenador = payload.tokenEntrenador;
+                } else if (payload.token) {
+                    state.isAuth = true;
+                    state.token = payload.token;
+                }
+
+                router.push({ name: 'home' });
             }
         },//LOGIN
 
-        // [Constant.LOGIN_ADMIN]: (state, payload) => {
-        //     if (payload) {
-        //         console.log(`Login admin successfuly`);
-        //         localStorage.setItem("token_admin", payload.token);
-        //         localStorage.setItem("isAdmin", true);
-        //         state.user = payload.user;
-        //         state.isAdmin = true;
-        //         router.push({ name: 'home' });
-        //     }
-        // },//LOGIN_ADMIN
-
         [Constant.ADD_USER]: (state, payload) => {
             if (payload) {
-                console.log(`hola`);
-                // toaster.success('Register successfuly');
-                // router.push({ name: 'login' });
+                router.push({ name: 'login' });
             }
         },//ADD_USER
 
         [Constant.INITIALIZE_PROFILE]: (state, payload) => {
             if (payload) {
                 state.user = payload;
+                // preguntar a yolanda por qué se pone a true el auth o si sirve con el !!payload.token
                 state.isAuth = true;
-                state.isAdmin = payload.type === 'admin';
-                localStorage.setItem("isAuth", true);
-                localStorage.setItem("isAdmin", payload.type === 'admin');
+                state.isAuth = !!payload.token;
+                // ===============================
+                state.isAdmin = !!payload.tokenAdmin;
+                state.isEntrenador = !!payload.tokenEntrenador;
             }
         },//INITIALIZE_PROFILE
 
@@ -111,21 +103,20 @@ export const user = {
             state.user = {};
             state.isAuth = false;
             state.isAdmin = false;
-            localStorage.removeItem('token');
-            localStorage.removeItem('token_admin');
-            localStorage.removeItem('isAuth');
-            localStorage.removeItem('isAdmin');
+            state.isEntrenador = false;
+            state.token = "";
+            state.tokenAdmin = "";
+            state.tokenEntrenador = "";
+
             router.push({ name: 'home' });
 
             if (payload.status === 200) {
                 console.log(`Logout successfuly`);
             }
-            if (payload.status_admin === 200) {
-                console.log(`Logout admin successfuly`);
-            }
-
         },//LOGOUT
-    },//mutations
+    },
+
+
     getters: {
         GetProfile: (state) => {
             return state.user;
@@ -136,6 +127,9 @@ export const user = {
         GetIsAdmin: (state) => {
             return state.isAdmin;
         },//GetIsAdmin
+        GetIsEntrenador: (state) => {
+            return state.isEntrenador;
+        },//GetIsEntrenador
 
     }//getters
 }//export
