@@ -1,9 +1,7 @@
 import Constant from '../../../Constant';
-import UserService from '../../../services/client/UserService';
-import { createToaster } from "@meforma/vue-toaster";
+import UserService from '../../../services/client/user.service';
 import router from '../../../router/router'
 
-const toaster = createToaster({ "position": "top-right", "duration": 1500 });
 export const user = {
     namespaced: true,
     state: {
@@ -25,7 +23,7 @@ export const user = {
                 //     }
                 // }
             } catch (error) {
-                toaster.error('Username or password incorrect');
+                console.log(`error: `, error);
             }
         },//LOGIN
 
@@ -39,7 +37,7 @@ export const user = {
                 // }
                 store.commit(Constant.LOGOUT, data);
             } catch (error) {
-                toaster.error('Logout error');
+                console.log(`error: `, error);
                 store.commit(Constant.LOGOUT, { status: null, status_admin: null });
             }
         },//LOGOUT
@@ -51,7 +49,7 @@ export const user = {
                     store.commit(Constant.ADD_USER, true);
                 }
             } catch (error) {
-                toaster.error('Register error');
+                console.log(`error: `, error);
             }
         },//ADD_USER
 
@@ -70,17 +68,19 @@ export const user = {
     mutations: {
         [Constant.LOGIN]: (state, payload) => {
             if (payload) {
-                toaster.success('Login successfuly');
-                localStorage.setItem("token", payload.token);
-                localStorage.setItem("isAuth", true);
-                state.user = payload.user;
-                state.isAuth = true;
-                router.push({ name: 'home' });
+                console.log(`login`);
+                // console.log(`Login successfuly`);
+                // localStorage.setItem("token", payload.token);
+                // localStorage.setItem("isAuth", true);
+                // state.user = payload.user;
+                // state.isAuth = true;
+                // router.push({ name: 'home' });
             }
         },//LOGIN
+
         // [Constant.LOGIN_ADMIN]: (state, payload) => {
         //     if (payload) {
-        //         toaster.success('Login admin successfuly');
+        //         console.log(`Login admin successfuly`);
         //         localStorage.setItem("token_admin", payload.token);
         //         localStorage.setItem("isAdmin", true);
         //         state.user = payload.user;
@@ -88,12 +88,15 @@ export const user = {
         //         router.push({ name: 'home' });
         //     }
         // },//LOGIN_ADMIN
+
         [Constant.ADD_USER]: (state, payload) => {
             if (payload) {
-                toaster.success('Register successfuly');
-                router.push({ name: 'login' });
+                console.log(`hola`);
+                // toaster.success('Register successfuly');
+                // router.push({ name: 'login' });
             }
         },//ADD_USER
+
         [Constant.INITIALIZE_PROFILE]: (state, payload) => {
             if (payload) {
                 state.user = payload;
@@ -115,10 +118,10 @@ export const user = {
             router.push({ name: 'home' });
 
             if (payload.status === 200) {
-                toaster.success('Logout successfuly')
+                console.log(`Logout successfuly`);
             }
             if (payload.status_admin === 200) {
-                toaster.success('Logout admin successfuly')
+                console.log(`Logout admin successfuly`);
             }
 
         },//LOGOUT
