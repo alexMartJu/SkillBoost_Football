@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Admin;
-use App\Http\Resources\AdminsResources;
+use App\Http\Resources\AdminsResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
@@ -12,7 +12,7 @@ class AdminsController extends Controller
 {
     public function index()
     {
-        return AdminsResources::collection(Admin::all());
+        return AdminsResource::collection(Admin::all());
     }
     public function login(Request $request)
     {
@@ -36,7 +36,7 @@ class AdminsController extends Controller
         // Si la autenticación es exitosa, devolver el token
         return response()->json([
             'message' => 'Inicio de sesión exitoso',
-            'admin_token' => $token,
+            'tokenAdmin' => $token,
             'token_type' => 'Bearer',
             'expires_in' => auth('admin')->factory()->getTTL() * 60, 
         ]);
@@ -67,7 +67,7 @@ class AdminsController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        return new AdminsResources($admin);
+        return new AdminsResource($admin);
     }
 
 
@@ -77,7 +77,7 @@ class AdminsController extends Controller
         if (!$admin) {
             return response()->json(['error' => 'admin no encontrado'], 404);
         }
-        return new AdminsResources($admin);
+        return new Admins($admin);
     }
 
     public function update(Request $request, $slug)
