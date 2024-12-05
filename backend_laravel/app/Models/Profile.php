@@ -21,8 +21,8 @@ class Profile extends Model
         'numerosocio',
         'nombre',
         'apellidos',
+        'bio',
         'edad',
-        'telefono',
     ];
 
     // Relación con el usuario

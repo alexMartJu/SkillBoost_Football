@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('numerosocio')->unique();
             $table->string('nombre');
             $table->string('apellidos');
+            $table->string('bio');
             $table->integer('edad');
             $table->timestamps();
             $table->foreign('id')->references('id')->on('usuarios')->onDelete('cascade');
