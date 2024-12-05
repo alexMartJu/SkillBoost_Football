@@ -15,7 +15,7 @@
 
 <script>
 import FiltersComponent from '../filters/Filters.vue';
-import CardClases from '../CardEntrenamientos.vue';
+import CardClases from '../shared/CardEntrenamientos.vue';
 import PaginateComponent from '../filters/Paginate.vue';
 import {
     useEntrenamientos

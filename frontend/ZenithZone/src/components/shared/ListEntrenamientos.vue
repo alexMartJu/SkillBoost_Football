@@ -9,7 +9,7 @@
 <script>
 import { reactive, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import Constant from '../Constant';
+import Constant from '../../Constant';
 import CardClases from './CardEntrenamientos.vue';
 
 export default {

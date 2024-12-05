@@ -8,7 +8,7 @@
 
 <script>
 import { useStore } from 'vuex';
-import CardDeportes from '../CardDeportes.vue';
+import CardDeportes from '../shared/CardDeportes.vue';
 import { computed, reactive } from 'vue';
 import Constant from '@/Constant';
 
