@@ -90,10 +90,7 @@ export const user = {
         [Constant.INITIALIZE_PROFILE]: (state, payload) => {
             if (payload) {
                 state.user = payload;
-                // preguntar a yolanda por qué se pone a true el auth o si sirve con el !!payload.token
-                state.isAuth = true;
                 state.isAuth = !!payload.token;
-                // ===============================
                 state.isAdmin = !!payload.tokenAdmin;
                 state.isEntrenador = !!payload.tokenEntrenador;
             }
