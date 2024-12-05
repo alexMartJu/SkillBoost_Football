@@ -4,46 +4,46 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Usuario;
-use App\Http\Resources\UsuariosResources;
+use App\Http\Resources\UsuariosResource;
 use Illuminate\Support\Facades\Hash;
 
 class UsuariosController extends Controller
 {
     public function index()
     {
-        return UsuariosResources::collection(usuario::all());
+        return UsuariosResource::collection(Usuario::with('profile')->get());
     }
-    public function store(Request $request)
-    {
+    // public function store(Request $request)
+    // {
         
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellidos' => 'required|string|max:255',
-            'email' => 'required|email|unique:usuarios,email',
-            'telefono' => 'required|string|max:15',
-            'password' => 'required|string|min:8', 
-        ]);
+    //     $request->validate([
+    //         'nombre' => 'required|string|max:255',
+    //         'apellidos' => 'required|string|max:255',
+    //         'email' => 'required|email|unique:usuarios,email',
+    //         'telefono' => 'required|string|max:15',
+    //         'password' => 'required|string|min:8', 
+    //     ]);
 
         
-        $usuario = Usuario::create([
-            'nombre' => $request->nombre,
-            'apellidos' => $request->apellidos,
-            'email' => $request->email,
-            'telefono' => $request->telefono,
-            'password' => Hash::make($request->password), 
-        ]);
+    //     $usuario = Usuario::create([
+    //         'nombre' => $request->nombre,
+    //         'apellidos' => $request->apellidos,
+    //         'email' => $request->email,
+    //         'telefono' => $request->telefono,
+    //         'password' => Hash::make($request->password), 
+    //     ]);
 
        
-        return new UsuariosResources($usuario);
+    //     return new UsuariosResource($usuario);
 
-    }
+    // }
 
 
-    public function show($DNI)
+    public function show($email)
     {
-        $usuario = Usuario::where('DNI', $DNI)->firstOrFail();
+        $usuario = Usuario::where('email', $email)->firstOrFail();
 
-        return new UsuariosResources($usuario);
+        return new UsuariosResource($usuario);
     }
 
     public function update(Request $request, $slug)

@@ -28,7 +28,7 @@ class Profile extends Model
     // Relación con el usuario
     public function usuario(): BelongsTo
     {
-        return $this->belongsTo(Usuario::class, 'profile_id', 'usuario_id');
+        return $this->belongsTo(Usuario::class, 'id', 'id');
     }
 
     public function reservas()

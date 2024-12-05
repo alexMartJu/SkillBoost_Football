@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PistasResources extends JsonResource
+class AdminsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,12 +14,6 @@ class PistasResources extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'pistas_id' => $this->id,
-            'nombre' => $this->nombre,
-            'slug' => $this->slug,
-            'images' => $this->images,
-            'deportes' => $this->deportes,
-        ];
+        return parent::toArray($request);
     }
 }
