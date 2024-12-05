@@ -3,42 +3,47 @@
         <div class="container-fluid">
             <div class="d-flex justify-content-between align-items-center p-3">
                 <!-- Logo or App Name -->
-                <router-link to="/home" class="text-color fw-bold h2 mb-0 ms-3">
-                    <img src="/assets/logo_2.png" alt="" class="logo">
-                </router-link>
+                <div class="text-color fw-bold h2 mb-0 ms-3" @click="redirects.home">
+                    <img src="/assets/logo_2.png" alt="Logo" class="logo">
+                </div>
 
                 <!-- Navigation Links -->
                 <nav>
                     <ul class="nav me-5">
                         <li class="nav-item me-3">
-                            <router-link to="/home" class="nav-link text-color fw-bold fs-5"
-                                active-class="isActive text-black">
+                            <a @click="redirects.home" class="nav-link text-color fw-bold fs-5" 
+                                :class="{ isActive: isHome }">
                                 Home
-                            </router-link>
+                            </a>
                         </li>
                         <li class="nav-item me-3">
-                            <router-link to="/instalaciones" class="nav-link text-color fw-bold fs-5"
-                                active-class="isActive text-black">
+                            <a @click="redirects.instalaciones" class="nav-link text-color fw-bold fs-5" 
+                                :class="{ isActive: isInstalaciones }">
                                 Instalaciones
-                            </router-link>
+                            </a>
                         </li>
                         <li class="nav-item me-3">
-                            <router-link to="/Servicios/entrenamientos" class="nav-link text-color fw-bold fs-5"
-                                active-class="isActive text-black">
+                            <a @click="redirects.servicios" class="nav-link text-color fw-bold fs-5" 
+                                :class="{ isActive: isServicios }">
                                 Servicios
-                            </router-link>
+                            </a>
                         </li>
                         <li class="nav-item me-4">
-                            <router-link to="/entrenadores" class="nav-link text-color fw-bold fs-5"
-                                active-class="isActive text-black">
+                            <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5" 
+                                :class="{ isActive: isEntrenadores }">
                                 Entrenadores
-                            </router-link>
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <router-link to="/login" class="nav-link auth fw-bold fs-5"
-                                active-class="isActive text-black">
+                        <li v-if="!state.isLogged" class="nav-item">
+                            <a @click="redirects.login" class="nav-link auth fw-bold fs-5" 
+                                :class="{ isActive: isLogin }">
                                 Unirse al club
-                            </router-link>
+                            </a>
+                        </li>
+                        <li v-if="state.isLogged" class="nav-item">
+                            <a @click="logout" class="nav-link auth fw-bold fs-5">
+                                Cerrar sesión
+                            </a>
                         </li>
                     </ul>
                 </nav>
@@ -47,9 +52,61 @@
     </header>
 </template>
 
+
 <script>
+import Constant from '@/Constant';
+import { computed } from 'vue';
+import { reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
 export default {
     name: "Header",
+
+    computed: {
+        isHome() {
+            return this.$route.name === 'home';
+        },
+        isInstalaciones() {
+            return this.$route.name === 'instalaciones';
+        },
+        isServicios() {
+            return this.$route.path.startsWith('/servicios');
+        },
+        isEntrenadores() {
+            return this.$route.name === 'entrenadores';
+        },
+        isLogin() {
+            return ['/login', '/register'].includes(this.$route.path);
+        },
+    },
+
+    setup() {
+        const router = useRouter();
+        const store = useStore();
+
+        const redirects = {
+            home: () => router.push({ name: 'home' }),
+            instalaciones: () => router.push({ name: 'instalaciones' }),
+            servicios: () => router.push({ name: 'serviciosEntrenamientos' }),
+            entrenadores: () => router.push({ name: 'entrenadores' }),
+            login: () => router.push({ name: 'login' })
+        };
+
+        const state = reactive({
+            profile: computed(() => store.getters['user/GetProfile']),
+            isAdmin: computed(() => store.getters['user/GetIsAdmin']),
+            isEntrenador: computed(() => store.getters['user/GetIsEntrenador']),
+            isLogged: computed(() => store.getters['user/GetIsLogged']),
+        });
+
+        const logout = () => {
+            store.dispatch(`user/${Constant.LOGOUT}`);
+            router.push({ name: 'home' });
+        };
+
+        return { redirects, state, logout };
+    }
 };
 </script>
 
@@ -57,6 +114,7 @@ export default {
 <style scoped>
 .isActive {
     background-color: #ff6600;
+    color: black;
     border-radius: 5px;
 }
 
@@ -89,9 +147,14 @@ export default {
     max-height: 50px;
     width: auto;
     transition: transform 0.3s;
+    cursor: pointer;
 
     &:hover {
         transform: scale(1.1);
     }
+}
+
+.nav-link.isActive {
+    color: #000;
 }
 </style>
