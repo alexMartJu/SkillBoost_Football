@@ -8,8 +8,8 @@ const MiddleSection = () => {
     const [pistas, setPistas] = useState([]);
 
     useEffect(() => {
-       
-        const fetchPistas = async () => {   
+
+        const fetchPistas = async () => {
             const data = [
                 { id: 1, image: 'pista_atletismo.jpg' },
                 { id: 2, image: 'piscina.jpg' },
@@ -32,7 +32,7 @@ const MiddleSection = () => {
         pagination: true,
     };
     return (
-        <div className="landing-section d-flex">
+        <div className="landing-section-middle d-flex">
             {/* Text Section */}
             <div className="text-section col-md-6 d-flex flex-column justify-content-center px-4">
                 <div className="text-container">

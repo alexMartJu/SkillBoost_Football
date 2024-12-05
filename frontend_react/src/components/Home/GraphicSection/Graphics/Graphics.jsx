@@ -84,7 +84,7 @@ const Graphics = () => {
   }, []); // Solo se ejecuta una vez al montar el componente
 
   return (
-    <div className="mt-5">
+    <div className="mt-5 container-graphics">
       <canvas ref={radarChart}></canvas>
     </div>
   );
