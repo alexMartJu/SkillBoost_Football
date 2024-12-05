@@ -98,7 +98,7 @@ const router = createRouter({
         },
         {
           path: "entrenador",
-          name: "registertrainer",
+          name: "RegisterTrainer",
           component: () => import('../components/dashboards/admin/RegisterTrainer.vue'),
         },
         {
