@@ -13,7 +13,7 @@ DELETE FROM `favorites`;
 DELETE FROM `follows`;
 DELETE FROM `deporte_pista`;
 DELETE FROM `horario_pista_reserva`;
-DELETE FROM `entrenamiento_usuario`;
+DELETE FROM `entrenamiento_profile`;
 
 INSERT INTO `horarios` (`id`, `hora`) VALUES
 (1, 'manaña'),
@@ -68,15 +68,20 @@ INSERT INTO `images` (`image_url`, `imageable_type`, `imageable_id`) VALUES
 ('pista_padel.jpg', 'App\\Models\\Pista', 4),
 ('pista_ciclismo.jpg', 'App\\Models\\Pista', 5);
 
-INSERT INTO `usuarios` (`id`, `nombre`, `apellidos`, `DNI`, `email`, `password`, `edad`) VALUES
-(1, 'Juan', 'Pérez', '12345678A', 'juan.perez@example.com', 'password123', 30),
-(2, 'Ana', 'García', '23456789B', 'ana.garcia@example.com', 'securepass', 25),
-(3, 'Carlos', 'López', '34567890C', 'carlos.lopez@example.com', 'mypassword', 28);
+INSERT INTO `usuarios` (`id`,`email`, `password`, `token`) VALUES
+(1, 'juan.perez@example.com', 'password123', ''),
+(2, 'ana.garcia@example.com', 'securepass', ''),
+(3,'carlos.lopez@example.com', 'mypassword', '');
 
-INSERT INTO `entrenadores` (`id`, `nombre`, `apellidos`, `DNI`, `email`, `password`, `deporte_id`, `edad`) VALUES
-(1, 'Laura', 'Martínez', '45678901D', 'laura.martinez@example.com', 'trainerpass1', 1, 35),
-(2, 'Luis', 'Fernández', '56789012E', 'luis.fernandez@example.com', 'trainerpass2', 2, 40),
-(3, 'María', 'Gómez', '67890123F', 'maria.gomez@example.com', 'trainerpass3', 3, 32);
+INSERT INTO `profiles` (`id`,`numerosocio`, `nombre`, `apellidos`, `edad`) VALUES
+(1, 'Juan-3452', 'Juan', 'Pérez', 30),
+(2,  'Ana-8923', 'Ana', 'García', 25),
+(3, 'Carlos-4873','Carlos', 'López', 28);
+-- La contraseña sin hashear es: entrenador(nombre)-pass por ejemplo entrenadorlaura-pass
+INSERT INTO `entrenadores` (`id`, `nombre`, `apellidos`, `numeroEntrenador`, `email`, `password`, `deporte_id`, `edad`) VALUES
+(1, 'Laura', 'Martínez', 'Laura-4532', 'laura.martinez@example.com', '$2y$12$9X9mukcZO.xjHYRmBCKWCO9xq4ySP1GWnDx60x5D6IJVRbasYU.Ru', 1, 35),
+(2, 'Luis', 'Fernández', 'Luis-8233', 'luis.fernandez@example.com', '$2y$12$vCM7aGEpVWF0Zhw.lc\/DKe0E9.btFHJSB.3vZdzeGfei7Amxa0RA6', 2, 40),
+(3, 'María', 'Gómez', 'Maria-9267', 'maria.gomez@example.com', '$2y$12$gqMbj6IVYkc0FnZzmglFLeJoiwNpvacdKmAD7yLhXLdxbNmUDfKj6', 3, 32);
 
 INSERT INTO `entrenamientos` (`id`, `nombre`, `slug`, `descripcion`, `dia`, `duracion`, `max_plazas`, `precio`, `deporte_id`, `horario_id`,`entrenador_id`, `created_at`, `updated_at`) VALUES
 (1, 'Clase Básica A', 'clase-basica-a', 'Clase de iniciación al deporte A', 'Domingo', 60, 20, 15, 1, 1, 2,'2024-11-17 15:47:05', '2024-11-17 15:47:05'),
@@ -144,7 +149,7 @@ INSERT INTO `horario_pista_reserva` (`horario_id`, `pista_id`, `reserva_id`) VAL
 (2, 2, 2),
 (3, 3, 3);
 
-INSERT INTO `entrenamiento_usuario` (`entrenamiento_id`, `usuario_id`, `created_at`, `updated_at`) VALUES
+INSERT INTO `entrenamiento_profile` (`entrenamiento_id`, `profile_id`, `created_at`, `updated_at`) VALUES
 (1, 1, '2024-11-17 15:53:53', '2024-11-17 15:53:53'),
 (1, 2, '2024-11-17 15:53:53', '2024-11-17 15:53:53'),
 (2, 3, '2024-11-17 15:54:42', '2024-11-17 15:54:42'),
