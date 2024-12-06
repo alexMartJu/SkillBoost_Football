@@ -1,30 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Home from './components/Home/Home';
-import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-function App() {
-  const [count, setCount] = useState(0)
+import React, { Suspense } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
+import { DeporteContextProvider } from './context/DeportesContext';
+import { PistaContextProvider } from './context/PistasContext';
+import { EntrenamientoContextProvider } from './context/EntrenamietosContext';
+
+import Header from './components/Shared/Header/Header';
+import Footer from './components/Shared/Footer/Footer';
+// import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+
+const Home = React.lazy(() => import('./pages/Home/Home'))
+
+function App() {
   return (
-    <>
-      <Router>
-      <div id="app" className="d-flex flex-column min-vh-100">
-      <Header/>
-      <div className="flex-grow-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-        </Routes>
-        </div>
-      <Footer/>
-      </div>
-    </Router>
-      
-    </>
+    <div className='App'>
+      <Suspense>
+        <BrowserRouter>
+          <DeporteContextProvider>
+            <PistaContextProvider>
+              <Header />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
+              </Routes>
+              <Footer />
+            </PistaContextProvider>
+          </DeporteContextProvider>
+        </BrowserRouter>
+      </Suspense>
+
+    </div>
+
+
   )
 }
 
