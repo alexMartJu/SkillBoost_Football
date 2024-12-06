@@ -29,6 +29,10 @@ export default {
         return params_.join('&');
     },
 
+    GetAllEntrenamientos() {
+        return Api(secrets.URL_SPRING).get(`entrenamientos`);
+    },
+
     GetEntrenamientos(params) {
         return Api(secrets.URL_SPRING).get(`entrenamientos?${this.FormatFilters(params)}`);
     },
