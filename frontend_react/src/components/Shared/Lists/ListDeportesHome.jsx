@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import CardDeportes from './CardDeportes/CardDeportes'; 
-import { getDeportes } from '../../../services/GetDeportes'; 
+import CardDeportes from '../Cards/CardDeportes';
+import deporteService from '../../../services/Client/deportes.service';
 import './ListDeportesHome.css';
 
 const ListDeportesHome = () => {
@@ -8,10 +8,10 @@ const ListDeportesHome = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        
         const fetchDeportes = async () => {
-            const { data, loading } = await getDeportes();
-            setDeportes(data);
+            const { data, loading } = await deporteService.GetDeportes();
+            console.log(data.deportes);
+            setDeportes(data.deportes);
             setLoading(loading);
         };
 
@@ -26,8 +26,8 @@ const ListDeportesHome = () => {
                     <p className="text-center text-white text-deportes fst-italic mb-0">
                         LOS DEPORTES DE LA ÉLITE
                     </p>
-                </div>  
-            </div>        
+                </div>
+            </div>
             <div className="row justify-content-center">
                 {deportes.slice(0, 8).map((deporte) => (
                     <CardDeportes key={deporte.id} deporte={deporte} className="col-md-3" />
