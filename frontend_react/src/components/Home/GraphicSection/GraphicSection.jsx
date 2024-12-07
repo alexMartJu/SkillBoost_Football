@@ -1,4 +1,4 @@
-import Graphics from './Graphics/Graphics';
+import Graphics from './Graphics';
 import './GraphicSection.css';
 
 const GraphicSection = () => {
@@ -8,10 +8,8 @@ const GraphicSection = () => {
         <main className="graph-main ms-5">
             <div className="section-graph d-flex">
                 <div className="landing-section d-flex">
-                    <div className="carousel-section col-md-6 p-0">
-                        <div className="">
-                            <Graphics />
-                        </div>
+                    <div className="graphics-section col-md-6 p-0">
+                        <Graphics />
                     </div>
                 </div>
 
