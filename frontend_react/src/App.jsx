@@ -1,5 +1,5 @@
-import React, { Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -9,32 +9,24 @@ import { EntrenamientoContextProvider } from './context/EntrenamietosContext';
 
 import Header from './components/Shared/Header/Header';
 import Footer from './components/Shared/Footer/Footer';
-// import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-
-const Home = React.lazy(() => import('./pages/Home/Home'))
+import AppRouter from './routes/AppRouter';
 
 function App() {
   return (
     <div className='App'>
-      <Suspense>
-        <BrowserRouter>
-          <DeporteContextProvider>
-            <PistaContextProvider>
+      <BrowserRouter>
+        <DeporteContextProvider>
+          <PistaContextProvider>
+            <EntrenamientoContextProvider>
               <Header />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
-              </Routes>
+              <AppRouter />
               <Footer />
-            </PistaContextProvider>
-          </DeporteContextProvider>
-        </BrowserRouter>
-      </Suspense>
-
+            </EntrenamientoContextProvider>
+          </PistaContextProvider>
+        </DeporteContextProvider>
+      </BrowserRouter>
     </div>
-
-
-  )
+  );
 }
 
-export default App
+export default App;
