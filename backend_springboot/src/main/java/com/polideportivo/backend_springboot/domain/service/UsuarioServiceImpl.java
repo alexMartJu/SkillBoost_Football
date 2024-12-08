@@ -7,6 +7,7 @@ import com.polideportivo.backend_springboot.domain.repository.UsuarioRepository;
 
 import jakarta.persistence.EntityManager;
 
+import com.polideportivo.backend_springboot.domain.exception.EmailNotFoundException;
 import com.polideportivo.backend_springboot.domain.exception.EmailTakenException;
 import com.polideportivo.backend_springboot.domain.exception.NumeroSocioTakenException;
 
@@ -25,6 +26,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final ProfileService profileService;
     private final PasswordEncoder passwordEncoder;
     private final ProfileRepository profileRepository;
+
+    @Transactional(readOnly = true)
+    public Usuario getByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(EmailNotFoundException::new);
+    }
 
     @Transactional
     public Usuario save(Usuario user, Profile profile) {

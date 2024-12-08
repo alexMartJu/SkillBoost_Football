@@ -1,6 +1,7 @@
 package com.polideportivo.backend_springboot.api.security;
 
 import com.polideportivo.backend_springboot.api.assembler.UsuarioAssembler;
+import com.polideportivo.backend_springboot.api.model.usuario.UsuarioAuthenticate;
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioRegister;
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioResponse;
 import com.polideportivo.backend_springboot.domain.service.ProfileService;
@@ -30,5 +31,11 @@ public class AuthController {
         var profile = profileService.createNewProfile(user, register.getNombre(), register.getApellidos());
 
         return ResponseEntity.ok(authService.register(userService.save(user, profile)));
+    }
+
+    // Login de un usuario
+    @PostMapping("/users/login")
+    public ResponseEntity<UsuarioResponse> authenticate(@Valid @RequestBody UsuarioAuthenticate authenticate) {
+        return ResponseEntity.ok(authService.authenticate(authenticate));
     }
 }
