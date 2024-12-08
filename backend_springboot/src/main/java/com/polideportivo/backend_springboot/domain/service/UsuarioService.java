@@ -10,4 +10,6 @@ public interface UsuarioService {
     Usuario getByEmail(final String email);
 
     Usuario save(final Usuario user, final Profile profile);
+
+    Usuario saveUpdate(final Usuario user, final Profile profile);
 }

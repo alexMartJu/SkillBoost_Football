@@ -54,6 +54,22 @@ public class UsuarioServiceImpl implements UsuarioService {
         return user;
     }
 
+    @Transactional
+    public Usuario saveUpdate(Usuario user, Profile profile) {
+        entityManager.detach(user);
+
+        checkUserAvailable(user, profile);
+
+        if (user.getId() != null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setProfile(profile);
+        }
+
+        user = userRepository.save(user);
+        profileService.save(profile);
+        return user;
+    }
+
     private void checkUserAvailable(Usuario user, Profile profile) {
         if (numeroSocioTaken(profile)) {
             throw new NumeroSocioTakenException();
