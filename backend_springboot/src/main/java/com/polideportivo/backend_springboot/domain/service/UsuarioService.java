@@ -1,0 +1,9 @@
+package com.polideportivo.backend_springboot.domain.service;
+
+import com.polideportivo.backend_springboot.domain.model.Usuario;
+import com.polideportivo.backend_springboot.domain.model.Profile;
+
+public interface UsuarioService {
+
+    Usuario save(final Usuario user, final Profile profile);
+}
