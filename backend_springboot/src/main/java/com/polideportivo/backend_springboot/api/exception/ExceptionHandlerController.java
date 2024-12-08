@@ -48,6 +48,14 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
+    private ResponseEntity<?> handleTaken(TakenException ex, WebRequest request, String fieldName) {
+        var status = HttpStatus.UNPROCESSABLE_ENTITY;
+        var message = ex.getMessage();
+
+        var error = createErrorBuilder(toMap(fieldName, message)).build();
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
     @ExceptionHandler(DeporteNotFoundException.class)
     public ResponseEntity<?> handleDeporteNotFound(DeporteNotFoundException ex, WebRequest request) {
         return handleResourceNotFound(ex, request, "deporte");
@@ -61,6 +69,26 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EntrenamientoNotFoundException.class)
     public ResponseEntity<?> handleEntrenamientoNotFound(EntrenamientoNotFoundException ex, WebRequest request) {
         return handleResourceNotFound(ex, request, "entrenamiento");
+    }
+
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<?> handleEmailNotFound(EmailNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "email");
+    }
+
+    @ExceptionHandler(ProfileNotFoundException.class)
+    public ResponseEntity<?> handleProfileNotFound(ProfileNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "profile");
+    }
+
+    @ExceptionHandler(EmailTakenException.class)
+    public ResponseEntity<?> handleEmailTaken(EmailTakenException ex, WebRequest request) {
+        return handleTaken(ex, request, "email");
+    }
+
+    @ExceptionHandler(NumeroSocioTakenException.class)
+    public ResponseEntity<?> handleEmailTaken(NumeroSocioTakenException ex, WebRequest request) {
+        return handleTaken(ex, request, "numeroSocio");
     }
 
     @ExceptionHandler(BusinessException.class)
