@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('numerosocio')->unique();
             $table->string('nombre');
             $table->string('apellidos');
-            $table->integer('edad');
+            $table->string('bio')->nullable();
+            $table->string('image');
+            $table->integer('edad')->nullable();
             $table->timestamps();
             $table->foreign('id')->references('id')->on('usuarios')->onDelete('cascade');
             $table->engine = 'InnoDB';
