@@ -1,5 +1,6 @@
 package com.polideportivo.backend_springboot.domain.service;
 
+import com.polideportivo.backend_springboot.api.security.AuthUtils;
 import com.polideportivo.backend_springboot.domain.model.Usuario;
 import com.polideportivo.backend_springboot.domain.model.Profile;
 import com.polideportivo.backend_springboot.domain.repository.ProfileRepository;
@@ -21,11 +22,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
 
+    private final AuthUtils authUtils;
     private final UsuarioRepository userRepository;
     private final EntityManager entityManager;
     private final ProfileService profileService;
     private final PasswordEncoder passwordEncoder;
     private final ProfileRepository profileRepository;
+    
+    public Usuario getCurrentUser() {
+        return getByEmail(authUtils.getCurrentUserEmail());
+    }
 
     @Transactional(readOnly = true)
     public Usuario getByEmail(String email) {

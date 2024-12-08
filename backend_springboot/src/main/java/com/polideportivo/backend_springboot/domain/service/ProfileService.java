@@ -4,6 +4,8 @@ import com.polideportivo.backend_springboot.domain.model.Profile;
 import com.polideportivo.backend_springboot.domain.model.Usuario;
 
 public interface ProfileService {
+    
+    Profile getByNumeroSocio(final String numeroSocio);
 
     Profile save(final Profile profile);
 

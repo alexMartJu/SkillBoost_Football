@@ -3,6 +3,7 @@ package com.polideportivo.backend_springboot.domain.service;
 import com.polideportivo.backend_springboot.domain.model.Profile;
 import com.polideportivo.backend_springboot.domain.model.Usuario;
 import com.polideportivo.backend_springboot.domain.repository.ProfileRepository;
+import com.polideportivo.backend_springboot.domain.exception.ProfileNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -16,6 +17,11 @@ public class ProfileServiceImpl implements ProfileService {
 
 
     private final ProfileRepository profileRepository;
+
+    @Transactional(readOnly = true)
+    public Profile getByNumeroSocio(String numeroSocio) {
+        return profileRepository.findByNumeroSocio(numeroSocio).orElseThrow(ProfileNotFoundException::new);
+    }
 
     @Transactional
     public Profile save(Profile profile) {
