@@ -1,6 +1,5 @@
 <template>
     <form @submit.prevent="submitForm">
-        <!-- Nombre -->
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
             <input type="text" id="nombre" class="form-control" v-model="state.nombre" required />
@@ -8,8 +7,6 @@
                 Invalid nombre (must be at least 2 characters).
             </div>
         </div>
-
-        <!-- Apellidos -->
         <div class="mb-3">
             <label for="apellidos" class="form-label">Apellidos</label>
             <input type="text" id="apellidos" class="form-control" v-model="state.apellidos" required />
@@ -17,8 +14,6 @@
                 Invalid apellidos (must be at least 2 characters).
             </div>
         </div>
-
-        <!-- Email -->
         <div class="mb-3">
             <label for="email" class="form-label">Email Address</label>
             <input type="email" id="email" class="form-control" v-model="state.email" required />
@@ -26,8 +21,6 @@
                 Invalid email (must be a valid email).
             </div>
         </div>
-
-        <!-- Password -->
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" id="password" class="form-control" v-model="state.password" required />
@@ -35,8 +28,6 @@
                 Invalid password (must be at least 3 characters).
             </div>
         </div>
-
-        <!-- Repetir Password -->
         <div class="mb-3">
             <label for="password2" class="form-label">Repeat Password</label>
             <input type="password" id="password2" class="form-control" v-model="state.password2" required />
@@ -44,8 +35,6 @@
                 Passwords do not match.
             </div>
         </div>
-
-        <!-- Deporte (Dropdown) -->
         <div class="mb-3">
             <label for="deporte" class="form-label">Deporte</label>
             <select id="deporte" class="form-control" v-model="state.deporte_id" required>
@@ -57,10 +46,8 @@
                 Please select a sport.
             </div>
         </div>
-
-        <!-- Submit Button -->
         <div class="d-grid">
-            <button type="submit" class="btn btn-primary" :disabled="isFormInvalid">Register</button>
+            <button type="submit" class="btn btn-primary">Register</button>
         </div>
     </form>
 </template>
@@ -72,7 +59,7 @@ import { required, minLength, email } from '@vuelidate/validators';
 
 export default defineComponent({
     name: 'TrainerForm',
-    props: {
+    props: {    
         deportes: Array 
     },
     emits: ['submit'],
@@ -103,6 +90,7 @@ export default defineComponent({
 
         const submitForm = () => {
             if (!x$.$invalid && state.password === state.password2) {
+                console.log('Form is valid, emitting data...'); 
                 emit('submit', {
                     nombre: state.nombre,
                     apellidos: state.apellidos,
@@ -110,10 +98,12 @@ export default defineComponent({
                     password: state.password,
                     deporte_id: state.deporte_id
                 });
+            } else {
+                console.log('Form is invalid or passwords do not match.');
             }
         };
 
-        return { state, x$, isFormInvalid };
+        return { state, x$, isFormInvalid,submitForm };
     }
 });
 </script>
