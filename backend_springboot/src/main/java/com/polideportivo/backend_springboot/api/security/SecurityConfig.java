@@ -1,5 +1,6 @@
 package com.polideportivo.backend_springboot.api.security;
 
+import org.springframework.web.cors.CorsConfigurationSource;
 import com.polideportivo.backend_springboot.api.exception.RestAccessDeniedHandler;
 import com.polideportivo.backend_springboot.api.exception.RestAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class SecurityConfig {
     private final SecurityFilter securityFilter;
     private final RestAccessDeniedHandler restAccessDeniedHandler;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private final CorsConfigurationSource corsConfigurationSource;
 
     private static final String[] PUBLIC_READ_ENDPOINTS = {
             "/api/entrenamientos", "/api/entrenamientos/*",
@@ -44,6 +46,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, PUBLIC_WRITE_ENDPOINTS).permitAll()
