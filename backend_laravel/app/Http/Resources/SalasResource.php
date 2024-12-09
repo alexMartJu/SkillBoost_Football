@@ -4,9 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\EntrenadoresResources;
+use App\Http\Resources\EntrenadoresResource;
 
-class SalasResources extends JsonResource
+class SalasResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,7 +22,7 @@ class SalasResources extends JsonResource
             'ubicacion' => $this->ubicacion,
             'slug' => $this->slug,
             'entrenador_id' => $this->entrenador_id,
-            'entrenador' => new EntrenadoresResources($this->whenLoaded('entrenador')),
+            'entrenador' => new EntrenadoresResource($this->whenLoaded('entrenador')),
             'imagenes' => $this->images
         ];
     }

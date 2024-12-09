@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reserva;
-use App\Http\Resources\ReservasResources;
+use App\Http\Resources\ReservasResource;
 
 class ReservasController extends Controller
 {
     public function index()
     {
-        return ReservasResources::collection(Reserva::all());
+        return ReservasResource::collection(Reserva::all());
     }
     public function store(Request $request)
     {
@@ -28,7 +28,7 @@ class ReservasController extends Controller
             return response()->json(['error' => 'reserva no encontrada'], 404);
         }
 
-        return new ReservasResources($reserva);
+        return new ReservasResource($reserva);
     }
 
     public function update(Request $request, $slug)

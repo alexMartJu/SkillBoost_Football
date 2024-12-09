@@ -6,14 +6,14 @@ use App\Models\Deporte;
 use Illuminate\Http\Request;
 use App\Models\Deportes;
 use Illuminate\Support\Facades\Log;
-use App\Http\Resources\DeportesResources;
+use App\Http\Resources\DeportesResource;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DeportesController extends Controller
 {
     public function index()
     {
-        return DeportesResources::collection(Deporte::all());
+        return DeportesResource::collection(Deporte::all());
     }
     public function store(Request $request)
     {
@@ -35,7 +35,7 @@ class DeportesController extends Controller
                 ]);
             }
         }
-        return new DeportesResources($deporte);
+        return new DeportesResource($deporte);
 
     }
 
@@ -47,7 +47,7 @@ class DeportesController extends Controller
             return response()->json(['error' => 'deporte no encontrado'], 404);
         }
 
-        return new DeportesResources($deporte);
+        return new DeportesResource($deporte);
     }
 
     public function update(Request $request, $slug)
@@ -83,16 +83,13 @@ class DeportesController extends Controller
         }
     
         
-        return new DeportesResources($deporte);
+        return new DeportesResource($deporte);
     }
     public function destroy($slug)
     {
         $deporte = Deporte::where('slug', $slug)->firstOrFail();
         $deporte->images()->delete();
-        // $deporte->pistas()->updateExistingPivot(
-        //     $deporte->pistas->pluck('id')->toArray(), 
-        //     ['deleted_at' => now()] 
-        // );
+
         $deporte->pistas()->detach();
         $deporte->delete();
         return response()->json(['message' => 'Deporte eliminado correctamente.']);

@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sala;
-use App\Http\Resources\SalasResources;
+use App\Http\Resources\SalasResource;
 
 class SalasController extends Controller
 {
     
     public function index()
     {
-        return SalasResources::collection(Sala::all());
+        return SalasResource::collection(Sala::all());
     }
     public function store(Request $request)
     {
@@ -42,7 +42,7 @@ class SalasController extends Controller
         }
     
         
-        return new SalasResources($sala);
+        return new SalasResource($sala);
 
     }
 
@@ -55,7 +55,7 @@ class SalasController extends Controller
             return response()->json(['error' => 'sala no encontrada'], 404);
         }
 
-        return new SalasResources($sala);
+        return new SalasResource($sala);
     }
 
     public function update(Request $request, $slug)
@@ -90,7 +90,7 @@ class SalasController extends Controller
     }
 
     // Devolver la sala actualizada
-    return new SalasResources($sala);
+    return new SalasResource($sala);
         
         
     }
@@ -113,6 +113,6 @@ class SalasController extends Controller
     }
 
     $sala->restore();
-    return new SalasResources($sala);
+    return new SalasResource($sala);
 }
 }
