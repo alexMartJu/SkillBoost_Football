@@ -18,7 +18,7 @@ export const user = {
             try {
                 const response = await UserService.Login(payload);
                 if (response.status === 200) {
-                    store.commit(Constant.LOGIN, response.data);
+                    store.commit(Constant.LOGIN, response.data.usuario);
                 }
             } catch (error) {
                 console.log(`error: `, error);
@@ -64,15 +64,19 @@ export const user = {
     mutations: {
         [Constant.LOGIN]: (state, payload) => {
             if (payload) {
-                state.user = payload.user;
+                console.log(payload);
+                state.user = payload;
 
                 if (payload.tokenAdmin) {
+                    console.log(`tokenAdmin: `, payload.tokenAdmin);
                     state.isAdmin = true;
                     state.tokenAdmin = payload.tokenAdmin;
                 } else if (payload.tokenEntrenador) {
+                    console.log(`tokenEntrenador: `, payload.tokenEntrenador);
                     state.isEntrenador = true;
                     state.tokenEntrenador = payload.tokenEntrenador;
                 } else if (payload.token) {
+                    console.log(`token: `, payload.token);
                     state.isAuth = true;
                     state.token = payload.token;
                 }
