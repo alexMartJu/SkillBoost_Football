@@ -68,16 +68,17 @@ INSERT INTO `images` (`image_url`, `imageable_type`, `imageable_id`) VALUES
 ('pista_padel.jpg', 'App\\Models\\Pista', 4),
 ('pista_ciclismo.jpg', 'App\\Models\\Pista', 5);
 
-INSERT INTO `usuarios` (`id`,`email`, `password`, `token`) VALUES
-(1, 'juan.perez@example.com', 'password123', ''),
-(2, 'ana.garcia@example.com', 'securepass', ''),
-(3,'carlos.lopez@example.com', 'mypassword', '');
+-- INSERT INTO `usuarios` (`id`,`email`, `password`) VALUES
+-- (1, 'juan.perez@example.com', 'password123'),
+-- (2, 'ana.garcia@example.com', 'securepass'),
+-- (3,'carlos.lopez@example.com', 'mypassword');
 
-INSERT INTO `profiles` (`id`,`numerosocio`, `nombre`, `apellidos`, `edad`) VALUES
-(1, 'Juan-3452', 'Juan', 'Pérez', 30),
-(2,  'Ana-8923', 'Ana', 'García', 25),
-(3, 'Carlos-4873','Carlos', 'López', 28);
+-- INSERT INTO `profiles` (`id`,`numerosocio`, `nombre`, `apellidos`, `bio`, `image`, `edad`) VALUES
+-- (1, 'Juan-3452', 'Juan', 'Pérez', '', '', 30),
+-- (2,  'Ana-8923', 'Ana', 'García', '', '', 25),
+-- (3, 'Carlos-4873','Carlos', 'López', '', '', 28);
 -- La contraseña sin hashear es: entrenador(nombre)-pass por ejemplo entrenadorlaura-pass
+
 INSERT INTO `entrenadores` (`id`, `nombre`, `apellidos`, `numeroEntrenador`, `email`, `password`, `deporte_id`, `edad`) VALUES
 (1, 'Laura', 'Martínez', 'Laura-4532', 'laura.martinez@example.com', '$2y$12$9X9mukcZO.xjHYRmBCKWCO9xq4ySP1GWnDx60x5D6IJVRbasYU.Ru', 1, 35),
 (2, 'Luis', 'Fernández', 'Luis-8233', 'luis.fernandez@example.com', '$2y$12$vCM7aGEpVWF0Zhw.lc\/DKe0E9.btFHJSB.3vZdzeGfei7Amxa0RA6', 2, 40),
@@ -149,11 +150,11 @@ INSERT INTO `horario_pista_reserva` (`horario_id`, `pista_id`, `reserva_id`) VAL
 (2, 2, 2),
 (3, 3, 3);
 
-INSERT INTO `entrenamiento_profile` (`entrenamiento_id`, `profile_id`, `created_at`, `updated_at`) VALUES
-(1, 1, '2024-11-17 15:53:53', '2024-11-17 15:53:53'),
-(1, 2, '2024-11-17 15:53:53', '2024-11-17 15:53:53'),
-(2, 3, '2024-11-17 15:54:42', '2024-11-17 15:54:42'),
-(2, 2, '2024-11-17 15:54:42', '2024-11-17 15:54:42'),
-(3, 1, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
-(4, 2, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
-(5, 2, '2024-11-17 15:55:55', '2024-11-17 15:55:55');
+-- INSERT INTO `entrenamiento_profile` (`entrenamiento_id`, `profile_id`, `created_at`, `updated_at`) VALUES
+-- (1, 1, '2024-11-17 15:53:53', '2024-11-17 15:53:53'),
+-- (1, 2, '2024-11-17 15:53:53', '2024-11-17 15:53:53'),
+-- (2, 3, '2024-11-17 15:54:42', '2024-11-17 15:54:42'),
+-- (2, 2, '2024-11-17 15:54:42', '2024-11-17 15:54:42'),
+-- (3, 1, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
+-- (4, 2, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
+-- (5, 2, '2024-11-17 15:55:55', '2024-11-17 15:55:55');

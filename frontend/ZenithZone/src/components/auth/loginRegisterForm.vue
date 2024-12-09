@@ -103,7 +103,6 @@ export default {
                 apellidos: state.apellidos,
                 email: state.email,
                 password: state.password,
-                password2: state.password2
             };
 
             emit('send', data);
