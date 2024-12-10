@@ -16,7 +16,8 @@ class EntrenamientoController extends Controller
     // Obtener todas las clases
     public function index()
     {
-        return EntrenamientoResource::collection(Entrenamiento::all());
+        $entrenamientos = Entrenamiento::with('profiles')->get();
+    return EntrenamientoResource::collection($entrenamientos);
     }
 
     // Obtener una clase específica por su ID

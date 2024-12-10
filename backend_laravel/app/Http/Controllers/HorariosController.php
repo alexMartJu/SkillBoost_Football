@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Horario;
-use App\Http\Resources\HorariosResources;
+use App\Http\Resources\HorariosResource;
 class HorariosController extends Controller
 {
     public function index()
     {
-        return HorariosResources::collection(Horario::all());
+        return HorariosResource::collection(Horario::all());
     }
     public function store(Request $request)
     {
@@ -27,7 +27,7 @@ class HorariosController extends Controller
             return response()->json(['error' => 'horario no encontrado'], 404);
         }
 
-        return new HorariosResources($horario);
+        return new HorariosResource($horario);
     }
 
     public function update(Request $request, $slug)

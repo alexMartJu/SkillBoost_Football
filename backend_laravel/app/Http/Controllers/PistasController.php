@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pista;
 use Illuminate\Support\Facades\Log;
-use App\Http\Resources\PistasResources;
+use App\Http\Resources\PistasResource;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PistasController extends Controller
 {
     public function index()
     {
-        return PistasResources::collection(Pista::all());
+        return PistasResource::collection(Pista::all());
     }
 
     public function store(Request $request)
@@ -45,7 +45,7 @@ class PistasController extends Controller
             $pistas->deportes()->attach($validatedData['deportes']);
     
            
-            return new PistasResources($pistas);
+            return new PistasResource($pistas);
     
         } catch (\Exception $e) {
             
@@ -65,7 +65,7 @@ class PistasController extends Controller
     public function show($slug)
     {
         $pista = Pista::where('slug', $slug)->firstOrFail();
-        return new PistasResources($pista);
+        return new PistasResource($pista);
     }
 
     public function update(Request $request, $slug)
@@ -105,7 +105,7 @@ class PistasController extends Controller
         }
 
         // Devolver la pista actualizada
-        return new PistasResources($pista);
+        return new PistasResource($pista);
 
     } catch (\Exception $e) {
        

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Entrenador;
 use Illuminate\Http\Request;
-use App\Http\Resources\EntrenadoresResources;
+use App\Http\Resources\EntrenadoresResource;
 use Illuminate\Support\Facades\Hash;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Illuminate\Validation\ValidationException;
@@ -12,7 +12,7 @@ class EntrenadorController extends Controller
 {
     public function index()
     {
-        return EntrenadoresResources::collection(Entrenador::all());
+        return EntrenadoresResource::collection(Entrenador::all());
     }
 
     public function login(Request $request)
@@ -37,7 +37,7 @@ class EntrenadorController extends Controller
         // Si la autenticación es exitosa, devolver el token
         return response()->json([
             'message' => 'Inicio de sesión exitoso',
-            'entrenador_token' => $token,
+            'tokenEntrenador' => $token,
             'token_type' => 'Bearer',
             'expires_in' => auth('entrenador')->factory()->getTTL() * 60, 
         ]);
@@ -52,6 +52,9 @@ class EntrenadorController extends Controller
 
         return response()->json(['message' => 'Cierre de sesión exitoso']);
     }
+
+
+
     public function register(Request $request)
     {
         $request->validate([
@@ -137,7 +140,7 @@ class EntrenadorController extends Controller
             }
     
             // Retornar el entrenador creado
-            return new EntrenadoresResources($entrenador);
+            return new EntrenadoresResource($entrenador);
     
         } catch (\Illuminate\Validation\ValidationException $e) {
             
@@ -164,7 +167,7 @@ class EntrenadorController extends Controller
             return response()->json(['error' => 'entrenador no encontrado'], 404);
         }
 
-        return new EntrenadoresResources($entrenador);
+        return new EntrenadoresResource($entrenador);
     }
 
     public function update(Request $request, $DNI)
@@ -215,7 +218,7 @@ class EntrenadorController extends Controller
         }
 
         
-        return new EntrenadoresResources($entrenador);
+        return new EntrenadoresResource($entrenador);
     }
     public function destroy($DNI)
     {

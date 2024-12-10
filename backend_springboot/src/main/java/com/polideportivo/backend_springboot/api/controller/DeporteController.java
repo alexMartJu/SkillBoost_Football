@@ -5,6 +5,7 @@ import com.polideportivo.backend_springboot.api.assembler.PistaAssembler;
 import com.polideportivo.backend_springboot.api.model.deporte.DeporteResponse;
 import com.polideportivo.backend_springboot.api.model.deporte.DeporteWrapper;
 import com.polideportivo.backend_springboot.api.model.pista.PistaWrapper;
+import com.polideportivo.backend_springboot.api.security.authorization.CheckSecurity;
 import com.polideportivo.backend_springboot.domain.service.DeporteService;
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +24,7 @@ public class DeporteController {
     
     // Obtener todos los deportes
     @GetMapping("/deportes")
+    @CheckSecurity.Public.canRead
     @Transactional
     public DeporteWrapper getAllDeportes() {
 
@@ -32,6 +34,7 @@ public class DeporteController {
 
     // Obtener un deporte por su slug
     @GetMapping("/deportes/{slug}")
+    @CheckSecurity.Public.canRead
     public DeporteResponse getBySlug(@PathVariable String slug) {
         var deporte = deporteService.getBySlug(slug);
         return deporteAssembler.toResponse(deporte);
@@ -39,6 +42,7 @@ public class DeporteController {
 
     // Obtener las pistas de un deporte
     @GetMapping("/deportes/{slug}/pistas")
+    @CheckSecurity.Public.canRead
     public PistaWrapper getPistasByDeporte(@PathVariable String slug) {
         var deporte = deporteService.getBySlug(slug); // Busca por slug
         var pistas = deporte.getPistas();

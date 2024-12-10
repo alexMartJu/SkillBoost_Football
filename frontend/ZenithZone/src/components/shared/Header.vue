@@ -34,6 +34,12 @@
                                 Entrenadores
                             </a>
                         </li>
+                        <li v-if="state.user" class="nav-item me-4">
+                            <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5" 
+                                :class="{ isActive: isEntrenadores }">
+                                {{ state.user.nombre }}
+                            </a>
+                        </li>
                         <li v-if="!state.isLogged" class="nav-item">
                             <a @click="redirects.login" class="nav-link auth fw-bold fs-5" 
                                 :class="{ isActive: isLogin }">
@@ -94,10 +100,10 @@ export default {
         };
 
         const state = reactive({
-            profile: computed(() => store.getters['user/GetProfile']),
+            user: computed(() => store.getters['user/GetProfile']),
             isAdmin: computed(() => store.getters['user/GetIsAdmin']),
             isEntrenador: computed(() => store.getters['user/GetIsEntrenador']),
-            isLogged: computed(() => store.getters['user/GetIsLogged']),
+            isLogged: computed(() => store.getters['user/GetIsAuth']),
         });
 
         const logout = () => {

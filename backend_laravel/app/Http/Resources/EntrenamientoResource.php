@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\ProfilesResource;
 
 class EntrenamientoResource extends JsonResource
 {
@@ -23,7 +24,7 @@ class EntrenamientoResource extends JsonResource
                 'nombre' => $this->entrenador->nombre,
                 'apellidos' => $this->entrenador->apellidos,
             ],
-            'usuarios' => UsuariosResources::collection($this->whenLoaded('usuarios')),
+            'profiles' => ProfilesResource::collection($this->whenLoaded('profiles')),
         ];
     }
 }

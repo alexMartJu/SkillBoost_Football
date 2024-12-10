@@ -3,6 +3,7 @@ package com.polideportivo.backend_springboot.api.controller;
 import com.polideportivo.backend_springboot.api.assembler.PistaAssembler;
 import com.polideportivo.backend_springboot.api.model.pista.PistaResponse;
 import com.polideportivo.backend_springboot.api.model.pista.PistaWrapper;
+import com.polideportivo.backend_springboot.api.security.authorization.CheckSecurity;
 import com.polideportivo.backend_springboot.domain.service.PistaService;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,7 @@ public class PistaController {
 
     // Obtener todos las pistas
     @GetMapping("/pistas")
+    @CheckSecurity.Public.canRead
     @Transactional
     public PistaWrapper getAllPistas() {
 
@@ -30,6 +32,7 @@ public class PistaController {
 
     // Obtener una pista por su slug
     @GetMapping("/pistas/{slug}")
+    @CheckSecurity.Public.canRead
     public PistaResponse getBySlug(@PathVariable String slug) {
         var pista = pistaService.getBySlug(slug);
         return pistaAssembler.toResponse(pista);
@@ -37,6 +40,7 @@ public class PistaController {
 
     // Scroll de todas las pistas
     @GetMapping("/pistasInfinite")
+    @CheckSecurity.Public.canRead
     @Transactional
     public PistaWrapper getAllScrollPistas(
         @RequestParam(defaultValue = "0") int offset,

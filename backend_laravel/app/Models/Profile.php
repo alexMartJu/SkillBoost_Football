@@ -21,14 +21,14 @@ class Profile extends Model
         'numerosocio',
         'nombre',
         'apellidos',
+        'bio',
         'edad',
-        'telefono',
     ];
 
     // Relación con el usuario
     public function usuario(): BelongsTo
     {
-        return $this->belongsTo(Usuario::class, 'profile_id', 'usuario_id');
+        return $this->belongsTo(Usuario::class, 'id', 'id');
     }
 
     public function reservas()

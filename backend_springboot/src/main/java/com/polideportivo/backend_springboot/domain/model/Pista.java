@@ -29,9 +29,6 @@ public class Pista {
     @Column(name = "slug", length = 191, unique = true, nullable = false)
     private String slug;
 
-    @Column(name = "image", nullable = false)
-    private String image;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
         name = "deporte_pista",

@@ -11,6 +11,9 @@
         <router-link to="/admin/crear" class="btn btn-secondary">
           Crear
         </router-link>
+        <router-link to="/admin/entrenador" class="btn btn-secondary">
+          Registrar Entrenador
+        </router-link>
       </div>
   
       <!-- Cargar vistas de listado o creación según la ruta -->
