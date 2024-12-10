@@ -1,38 +1,37 @@
 .graph-main {
-    padding-left: 50px;
+    padding-left: 100px;
     z-index: -1;
-}
 
-.section-graph {
-    height: 70vh;
-    overflow: hidden;
-}
+    .section-graph {
+        height: 70vh;
+        overflow: hidden;
+    }
 
-.text-section-graph {
-    color: white;
-    width: 60%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 5%;
-}
+    .text-section {
+        width: 60%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 5%;
+    }
 
-.text-container-graph {
-    font-family: 'Roboto', sans-serif;
-    color: black;
-    display: flex;
-    justify-content: center;
-    text-align: justify;
-    align-items: center;
-    font-size: 42px;
-}
+    .text-container-graph {
+        font-family: 'Roboto', sans-serif;
+        color: black;
+        display: flex;
+        justify-content: center;
+        text-align: justify;
+        align-items: center;
+        font-size: 42px;
+    }
 
-.carousel-section {
-    position: relative;
-    width: 50%;
-    z-index: 1;
-}
+    .graphics-section {
+        position: relative;
+        width: 50%;
+        z-index: 1;
+    }
 
-.object-fit-cover {
-    object-fit: cover;
+    .object-fit-cover {
+        object-fit: cover;
+    }
 }

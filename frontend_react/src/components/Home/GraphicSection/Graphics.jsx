@@ -6,13 +6,13 @@ import './Graphics.css';
 Chart.register(...registerables);
 
 const Graphics = () => {
-  const radarChart = useRef(null); 
+  const radarChart = useRef(null);
 
   useEffect(() => {
-    
+
     const ctx = radarChart.current.getContext('2d');
     if (ctx) {
- 
+
       if (radarChart.current.chart) {
         radarChart.current.chart.destroy();
       }
@@ -84,7 +84,7 @@ const Graphics = () => {
   }, []); // Solo se ejecuta una vez al montar el componente
 
   return (
-    <div className="mt-5">
+    <div className="mt-5 container-graphics">
       <canvas ref={radarChart}></canvas>
     </div>
   );

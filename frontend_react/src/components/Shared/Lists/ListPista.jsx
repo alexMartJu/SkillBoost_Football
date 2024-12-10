@@ -1,25 +1,25 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getPistas } from '../../services/GetPistas';
+import pistaService from '../../../services/Client/pistas.service';
 
 const PistaList = () => {
-    const [pistas, setPistas] = useState([]); 
-    const [loading, setLoading] = useState(true); 
+    const [pistas, setPistas] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-        useEffect(() => {
-            const fetchPistas = async () => {
-                try {
-                    const pistasData = await getPistas(); 
-                    setPistas(pistasData); 
-                } catch (error) {
-                    console.error('Error fetching pistas:', error);
-                } finally {
-                    setLoading(false); 
-                }
-            };
-    
-            fetchPistas();
+    useEffect(() => {
+        const fetchPistas = async () => {
+            try {
+                const pistasData = await pistaService.GetPistas();
+                setPistas(pistasData);
+            } catch (error) {
+                console.error('Error fetching pistas:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPistas();
     }, []);
 
     if (loading) return <p>Loading...</p>;
