@@ -58,6 +58,9 @@
                                         Passwords do not match.
                                     </div>
                                 </div>
+                                <div class="alert alert-danger" v-if="errorMessage">
+                                    {{ errorMessage }}
+                                </div>
                                 <div class="d-grid">
                                     <button v-if="isLogin" @click="login()" type="button" class="btn btn-primary"
                                         :disabled="v$.email.$invalid || v$.password.$invalid">Login</button>
@@ -83,7 +86,8 @@ import { required, minLength, email, alphaNum } from '@vuelidate/validators'
 
 export default {
     props: {
-        isLogin: Boolean
+        isLogin: Boolean,
+        errorMessage: String,
     },
     emits: {
         send: Object

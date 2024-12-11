@@ -21,7 +21,7 @@ export const user = {
                     store.commit(Constant.LOGIN, response.data.usuario);
                 }
             } catch (error) {
-                console.log(`error: `, error);
+                throw error;
             }
         },//LOGIN
 
@@ -45,6 +45,7 @@ export const user = {
                 }
             } catch (error) {
                 console.log(`error: `, error);
+                throw error;
             }
         },//ADD_USER
 
