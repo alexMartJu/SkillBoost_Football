@@ -25,6 +25,14 @@ export default {
         return Api(secrets.URL_SPRING).get('user');
     },
 
+    GetCurrentUser(token) {
+        return Api(secrets.URL_SPRING).get('user', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    },
+
     Profile(numSocio) {
         console.log(`numSocio: ${numSocio}`);
         return Api(secrets.URL_SPRING).get(`profiles/${numSocio}`);

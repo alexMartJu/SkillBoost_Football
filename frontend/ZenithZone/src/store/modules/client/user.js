@@ -44,14 +44,15 @@ export const user = {
                     store.commit(Constant.ADD_USER, true);
                 }
             } catch (error) {
-                console.log(`error: `, error);
+                // console.log(`error: `, error);
                 throw error;
             }
         },//ADD_USER
 
-        [Constant.INITIALIZE_PROFILE]: async (store) => {
+        [Constant.INITIALIZE_PROFILE]: async (store, payload) => {
             try {
-                const response = await UserService.Profile();
+                console.log();
+                const response = await UserService.Profile(payload.numSocio);
                 if (response.status === 200) {
                     store.commit(Constant.INITIALIZE_PROFILE, response.data);
                 }
@@ -59,6 +60,19 @@ export const user = {
                 console.error(error);
             }
         },//INITIALIZE_PROFILE
+
+        [Constant.INITIALIZE_USER]: async (store, payload) => {
+            try {
+                // console.log(payload);
+                const response = await UserService.GetCurrentUser(payload);
+                if (response.status === 200) {
+                    // console.log(response.data.usuario);
+                    store.commit(Constant.INITIALIZE_USER, response.data.usuario);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        },//INITIALIZE_USER
     },
 
 
@@ -80,6 +94,7 @@ export const user = {
                     console.log(`token: `, payload.token);
                     state.isAuth = true;
                     state.token = payload.token;
+                    localStorage.setItem('token', payload.token);
                 }
 
                 router.push({ name: 'home' });
@@ -101,6 +116,15 @@ export const user = {
             }
         },//INITIALIZE_PROFILE
 
+        [Constant.INITIALIZE_USER]: (state, payload) => {
+            if (payload) {
+                state.user = payload;
+                state.isAuth = !!payload.numeroSocio;
+                state.isAdmin = !!payload.tokenAdmin;
+                state.isEntrenador = !!payload.tokenEntrenador;
+            }
+        },//INITIALIZE_USER
+
         [Constant.LOGOUT]: (state, payload) => {
             state.user = {};
             state.isAuth = false;
@@ -109,6 +133,7 @@ export const user = {
             state.token = "";
             state.tokenAdmin = "";
             state.tokenEntrenador = "";
+            localStorage.removeItem('token');
 
             router.push({ name: 'home' });
 
