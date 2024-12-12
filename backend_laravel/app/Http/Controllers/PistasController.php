@@ -7,6 +7,8 @@ use App\Models\Pista;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\PistasResource;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Requests\StorePistaRequest;
+use App\Http\Requests\UpdatePistaRequest;
 
 class PistasController extends Controller
 {
@@ -18,16 +20,12 @@ class PistasController extends Controller
     public function store(Request $request)
     {
         $admin = auth('admin')->user();
+
         if (!$admin) {
             return response()->json(['error' => 'Admin no encontrado'], 404);
         }
-        $validatedData = $request->validate([
-            'nombre' => 'required|string|max:191|unique:pistas',
-            'deportes' => 'required|array',
-            'deportes.*' => 'exists:deportes,id',
-            'imagenes' => 'nullable|array', 
-            'imagenes.*' => 'string|max:255', 
-        ]);
+        
+        $validatedData = $request->validated();
     
         try {
            
@@ -35,7 +33,6 @@ class PistasController extends Controller
                 'nombre' => $validatedData['nombre'],
             ]);
     
-           
             if ($request->has('imagenes')) {
                 foreach ($request->input('imagenes') as $imageUrl) {
                    
@@ -44,10 +41,8 @@ class PistasController extends Controller
                     ]);
                 }
             }
-    
-           
+               
             $pistas->deportes()->attach($validatedData['deportes']);
-    
            
             return new PistasResource($pistas);
     
@@ -79,13 +74,7 @@ class PistasController extends Controller
             return response()->json(['error' => 'Admin no encontrado'], 404);
         }
     // Validar los datos de la solicitud
-    $validatedData = $request->validate([
-        'nombre' => 'nullable|string|max:191|unique:pistas,nombre,' . $slug . ',slug', 
-        'deportes' => 'nullable|array', 
-        'deportes.*' => 'exists:deportes,id', 
-        'imagenes' => 'nullable|array', 
-        'imagenes.*' => 'string|max:255', 
-    ]);
+    $validatedData = $request->validated();
 
     try {
         // Buscar la pista por el slug

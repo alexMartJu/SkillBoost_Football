@@ -7,6 +7,10 @@ use App\Http\Resources\EntrenadoresResource;
 use Illuminate\Support\Facades\Hash;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Illuminate\Validation\ValidationException;
+use App\Http\Requests\LoginEntrenadorRequest;
+use App\Http\Requests\RegisterEntrenadorRequest;
+use App\Http\Requests\UpdateEntrenadorRequest;
+
 class EntrenadorController extends Controller
 
 {
@@ -15,13 +19,10 @@ class EntrenadorController extends Controller
         return EntrenadoresResource::collection(Entrenador::all());
     }
 
-    public function login(Request $request)
+    public function login(LoginEntrenadorRequest $request)
     {
           // Validación de las credenciales del usuario
-          $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string|min:8',
-        ]);
+          $validatedData = $request->validated();
 
         
         $credentials = $request->only('email', 'password');
@@ -55,21 +56,13 @@ class EntrenadorController extends Controller
 
 
 
-    public function register(Request $request)
+    public function register(RegisterEntrenadorRequest $request)
     {
         $admin = auth('admin')->user();
         if (!$admin) {
             return response()->json(['error' => 'Admin no encontrado'], 404);
         }
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellidos' => 'required|string|max:255',
-            'email' => 'required|email|unique:entrenadores,email',
-            'password' => 'required|string|min:8|confirmed', // password_confirmation también requerido
-            'deporte_id' => 'required|integer|exists:deportes,id',
-            'edad' => 'required|integer|min:18',
-        ]);
-
+        $validatedData = $request->validated();
         do {
             $numero = str_pad(random_int(1000, 9999), 4, '0', STR_PAD_LEFT);
             $nombre = $request->nombre;
@@ -126,26 +119,15 @@ class EntrenadorController extends Controller
         if (!$entrenador) {
             return response()->json(['error' => 'entrenador no encontrado'], 404);
         }
-       $request->validate([
-        'nombre' => 'nullable|string|max:255',
-        'apellidos' => 'nullable|string|max:255',
-        'email' => 'nullable|email|unique:entrenadores,email,' . $entrenador->id, 
-        'password' => 'nullable|string|min:8',
-        'deporte_id' => 'nullable|integer|exists:deportes,id',
-        'edad' => 'nullable|integer|min:18',
-        'imagenes' => 'nullable|array',
-        'imagenes.*' => 'string|max:255',
-    ]);
-
        
-    $entrenador->update($request->only([
-        'nombre', 
-        'apellidos', 
-        'email', 
-        'password', 
-        'deporte_id', 
-        'edad'
-    ]));
+        $entrenador->update($request->only([
+            'nombre', 
+            'apellidos', 
+            'email', 
+            'password', 
+            'deporte_id', 
+            'edad'
+        ]));
 
       
         if ($request->has('password')) {
@@ -155,22 +137,19 @@ class EntrenadorController extends Controller
         
         if ($request->has('imagenes')) {
            
-             $entrenador->images()->delete();
-    
-          
-                
-                $entrenador->images()->create([
-                    'image_url' => $imageUrl,
-                ]);
+            $entrenador->images()->delete();
+   
+            $entrenador->images()->create([
+                'image_url' => $imageUrl,
+            ]);
             
         }
-
-        
+    
         return new EntrenadoresResource($entrenador);
     }
-    public function destroy($DNI)
+    public function destroy($numeroEntrenador)
     {
-        $entrenador = Entrenador::where('DNI', $DNI)->firstOrFail();
+        $entrenador = Entrenador::where('numeroEntrenador', $numeroEntrenador)->firstOrFail();
         if (!$entrenador) {
             return response()->json(['error' => 'Entrenador no encontrado'], 404);
         }
@@ -180,10 +159,10 @@ class EntrenadorController extends Controller
     }
 
    
-    public function restore($DNI)
+    public function restore($numeroEntrenador)
     {
             
-        $entrenador = Entrenador::onlyTrashed()->where('DNI', $DNI)->first();
+        $entrenador = Entrenador::onlyTrashed()->where('numeroEntrenador', $numeroEntrenador)->first();
 
         if (!$entrenador) {
             return response()->json(['error' => 'Entrenador no encontrado'], 404);

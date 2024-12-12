@@ -8,6 +8,8 @@ use App\Models\Deportes;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\DeportesResource;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Requests\StoreDeporteRequest; 
+use App\Http\Requests\UpdateDeporteRequest;
 
 class DeportesController extends Controller
 {
@@ -15,17 +17,13 @@ class DeportesController extends Controller
     {
         return DeportesResource::collection(Deporte::all());
     }
-    public function store(Request $request)
+    public function store(StoreDeporteRequest $request)
     {
         $admin = auth('admin')->user();
         if (!$admin) {
             return response()->json(['error' => 'Admin no encontrado'], 404);
         }
-        $validatedData = $request->validate([
-            'nombre' => 'required|string|max:191|unique:deportes',
-            'imagenes' => 'nullable|array', 
-            'imagenes.*' => 'string|max:255', 
-        ]);
+        $validatedData = $request->validated();
 
         $deporte = Deporte::create([
             'nombre' => $validatedData['nombre'],
@@ -54,17 +52,13 @@ class DeportesController extends Controller
         return new DeportesResource($deporte);
     }
 
-    public function update(Request $request, $slug)
+    public function update(UpdateDeporteRequest $request, $slug)
     {
         $admin = auth('admin')->user();
         if (!$admin) {
             return response()->json(['error' => 'Admin no encontrado'], 404);
         }
-        $validatedData = $request->validate([
-            'nombre' => 'nullable|string|max:191|unique:deportes,nombre,' . $slug . ',slug', 
-            'imagenes' => 'nullable|array',
-            'imagenes.*' => 'string|max:255', 
-        ]);
+        $validatedData = $request->validated();
     
        
         $deporte = Deporte::where('slug', $slug)->firstOrFail();

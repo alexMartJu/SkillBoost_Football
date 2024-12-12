@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Policies\EntrenamientoPolicy;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\StoreEntrenamientoRequest; 
+use App\Http\Requests\UpdateEntrenamientoRequest; 
 
 class EntrenamientoController extends Controller
 {
@@ -32,21 +34,13 @@ class EntrenamientoController extends Controller
     }
 
     // Crear una nueva clase
-    public function store(Request $request)
+    public function store(StoreEntrenamientoRequest $request)
     {
         $entrenador = auth('entrenador')->user();
         
         if (!$entrenador) {
             return response()->json(['error' => 'No autenticado'], 401);
         }
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string|max:500',
-            'duracion' => 'required|integer|min:1',
-            'max_plazas' => 'required|integer|min:1',
-            'precio' => 'required|numeric|min:0',
-            'deporte_id' => 'required|exists:deportes,id', 
-        ]);
 
         $entrenamiento = Entrenamiento::create([
             'nombre' => $request->nombre,
@@ -62,25 +56,22 @@ class EntrenamientoController extends Controller
     }
 
     // Actualizar una clase existente
-    public function update(Request $request, $slug)
+    public function update(UpdateEntrenamientoRequest $request, $slug)
     {  
-        Log::debug('Token recibido: ' . request()->bearerToken());
+        // Log::debug('Token recibido: ' . request()->bearerToken());
         $entrenador = auth('entrenador')->user();
         $entrenamiento = Entrenamiento::where('slug', $slug)->firstOrFail();
         if (!$entrenamiento) {
-            Log::debug('entrenamiento no encontrado');
+            // Log::debug('entrenamiento no encontrado');
             return response()->json(['error' => 'entrenamiento no encontrado'], 404);
         }
         if (!$entrenador->can('update', $entrenamiento)) {
-            Log::debug('no autorizado');
+            // Log::debug('no autorizado');
             return response()->json(['error' => 'No autorizado'], 403);
         }
-        Log::debug('llegue aqui');
-        $request->validate([
-            'nombre' => 'nullable|string|max:255',
-            'deportes_id' => 'nullable|exists:deportes,id',  
-        ]);
-        Log::debug('llegue aqui tambien');
+        // Log::debug('llegue aqui');
+        
+        // Log::debug('llegue aqui tambien');
         $entrenamiento->update($request->all());
         return response()->json($entrenamiento);
     }
