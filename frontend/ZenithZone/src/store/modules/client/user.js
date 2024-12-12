@@ -86,14 +86,19 @@ export const user = {
                     console.log(`tokenAdmin: `, payload.tokenAdmin);
                     state.isAdmin = true;
                     state.tokenAdmin = payload.tokenAdmin;
+                    localStorage.setItem('isAdmin', true);
+                    localStorage.setItem('tokenAdmin', payload.tokenAdmin);
                 } else if (payload.tokenEntrenador) {
                     console.log(`tokenEntrenador: `, payload.tokenEntrenador);
                     state.isEntrenador = true;
                     state.tokenEntrenador = payload.tokenEntrenador;
+                    localStorage.setItem('isEntrenador', true);
+                    localStorage.setItem('tokenEntrenador', payload.tokenEntrenador);
                 } else if (payload.token) {
                     console.log(`token: `, payload.token);
                     state.isAuth = true;
                     state.token = payload.token;
+                    localStorage.setItem('isAuth', true);
                     localStorage.setItem('token', payload.token);
                 }
 
@@ -120,8 +125,8 @@ export const user = {
             if (payload) {
                 state.user = payload;
                 state.isAuth = !!payload.numeroSocio;
-                state.isAdmin = !!payload.tokenAdmin;
-                state.isEntrenador = !!payload.tokenEntrenador;
+                state.isAdmin = !!payload.numeroEntrenador;
+                state.isEntrenador = !!payload.numeroAdmin;
             }
         },//INITIALIZE_USER
 
@@ -133,7 +138,12 @@ export const user = {
             state.token = "";
             state.tokenAdmin = "";
             state.tokenEntrenador = "";
+            localStorage.removeItem('isAuth');
+            localStorage.removeItem('isAdmin');
+            localStorage.removeItem('isEntrenador');
             localStorage.removeItem('token');
+            localStorage.removeItem('tokenAdmin');
+            localStorage.removeItem('tokenEntrenador');
 
             router.push({ name: 'home' });
 
