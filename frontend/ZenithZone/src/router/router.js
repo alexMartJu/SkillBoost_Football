@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
+import AuthGuards from '../services/guards/AuthGuard';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -71,13 +72,13 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: () => import('../views/client/Login.vue'),
-      // beforeEnter: AuthGuards.noAuthGuard, meta: { requiresAuth: true }
+      beforeEnter: AuthGuards.noAuthGuard, meta: { requiresAuth: true }
     },
     {
       path: "/register",
       name: "register",
       component: () => import('../views/client/Register.vue'),
-      // beforeEnter: AuthGuards.noAuthGuard, meta: { requiresAuth: true }
+      beforeEnter: AuthGuards.noAuthGuard, meta: { requiresAuth: true }
     },
 
     // DASHBOARD ENTRENADOR
@@ -85,16 +86,19 @@ const router = createRouter({
       path: "/entrenadorDashboard",
       name: "entrenadorDashboard",
       component: () => import('../views/dashboards/EntrenadorDashboard.vue'),  // Vista principal del entrenador
+      beforeEnter: AuthGuards.authGuardEntrenador, meta: { requiresAuth: true },
       children: [
         {
           path: "",  // Si está vacío, se mostrará por defecto la vista de Listar Entrenamientos
           name: "entrenadorListarEntrenamientos",
           component: () => import('../components/dashboards/entrenador/ListEntrenamientosDashboard.vue'),  // Vista para listar entrenamientos
+          beforeEnter: AuthGuards.authGuardEntrenador
         },
         {
           path: "crear-entrenamiento",
           name: "entrenadorCrearEntrenamiento",
           component: () => import('../components/dashboards/entrenador/CreateEntrenamientoDashboard.vue'),  // Vista para crear un nuevo entrenamiento
+          beforeEnter: AuthGuards.authGuardEntrenador
         }
       ]
     },
@@ -104,29 +108,33 @@ const router = createRouter({
       path: "/admin",
       name: "adminDashboard",
       component: () => import('../views/dashboards/AdminDashboard.vue'),
+      beforeEnter: AuthGuards.authGuardAdmin, meta: { requiresAuth: true },
       children: [
         {
           path: "",
           name: "adminListar",
           component: () => import('../components/dashboards/admin/ListarAdmin.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
         },
         {
           path: "crear",
           name: "adminCrear",
           component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
         },
         {
           path: "entrenador",
           name: "RegisterTrainer",
           component: () => import('../components/dashboards/admin/RegisterTrainer.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
         },
         {
           path: 'editar/:type/:slug',
           name: 'adminEditar',
           component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
         },
       ]
-
     },
   ]
 })

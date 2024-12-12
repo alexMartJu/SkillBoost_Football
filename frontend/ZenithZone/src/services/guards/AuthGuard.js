@@ -1,6 +1,6 @@
 import store from '../../store';
 import Constant from '../../Constant';
-import UserService from '../client/UserService';
+import UserService from '../client/user.service';
 
 export default {
 
