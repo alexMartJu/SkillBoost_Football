@@ -55,7 +55,6 @@ class AdminsController extends Controller
     
     public function store(Request $request)
     {
-        
         $request->validate([
             'nombre' => 'required|string|max:255',
             'email' => 'required|email|unique:admins,email',

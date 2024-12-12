@@ -17,6 +17,10 @@ class DeportesController extends Controller
     }
     public function store(Request $request)
     {
+        $admin = auth('admin')->user();
+        if (!$admin) {
+            return response()->json(['error' => 'Admin no encontrado'], 404);
+        }
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:191|unique:deportes',
             'imagenes' => 'nullable|array', 
@@ -52,7 +56,10 @@ class DeportesController extends Controller
 
     public function update(Request $request, $slug)
     {
-       
+        $admin = auth('admin')->user();
+        if (!$admin) {
+            return response()->json(['error' => 'Admin no encontrado'], 404);
+        }
         $validatedData = $request->validate([
             'nombre' => 'nullable|string|max:191|unique:deportes,nombre,' . $slug . ',slug', 
             'imagenes' => 'nullable|array',
@@ -87,6 +94,10 @@ class DeportesController extends Controller
     }
     public function destroy($slug)
     {
+        $admin = auth('admin')->user();
+        if (!$admin) {
+            return response()->json(['error' => 'Admin no encontrado'], 404);
+        }
         $deporte = Deporte::where('slug', $slug)->firstOrFail();
         $deporte->images()->delete();
 

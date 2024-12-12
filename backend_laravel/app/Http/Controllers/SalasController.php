@@ -15,12 +15,12 @@ class SalasController extends Controller
     }
     public function store(Request $request)
     {
+        $entrenador = auth('entrenador')->user();
         
         $request->validate([
             'nombre' => 'required|string|max:255',
             'tamaño' => 'required|string|max:255',
             'ubicacion' => 'required|string|max:255',
-            'entrenador_id' => 'required|exists:entrenadores,id|unique:salas',
             'imagenes' => 'nullable|array',
             'imagenes.*' => 'string|max:255',
         ]);
@@ -30,7 +30,7 @@ class SalasController extends Controller
             'nombre' => $request->nombre,
             'tamaño' => $request->tamaño,
             'ubicacion' => $request->ubicacion,
-            'entrenador_id' => $request->entrenador_id,
+            'entrenador_id' =>$entrenador->id,
         ]);
         if ($request->has('imagenes')) {
             foreach ($request->input('imagenes') as $imageUrl) {
@@ -60,18 +60,24 @@ class SalasController extends Controller
 
     public function update(Request $request, $slug)
     {
-        
+    $entrenador = auth('entrenador')->user();
+
+
     $request->validate([
         'nombre' => 'nullable|string|max:255',     
         'tamaño' => 'nullable|string|max:255',
         'ubicacion' => 'nullable|string|max:255',
-        'entrenador_id' => 'nullable|exists:entrenadores,id',
         'imagenes' => 'nullable|array',
         'imagenes.*' => 'string|max:255', 
     ]);
 
     
-    $sala = Sala::where('slug', $slug)->firstOrFail();
+    $sala = Sala::where('id', $id)->firstOrFail();
+
+
+    if (!$entrenador->can('update', $sala)) {
+        return response()->json(['error' => 'No autorizado'], 403);
+    }
 
     // Actualizar solo los campos presentes en la solicitud
     $sala->update(
@@ -115,4 +121,15 @@ class SalasController extends Controller
     $sala->restore();
     return new SalasResource($sala);
 }
+
+public function getSalasByEntrenador()
+    {
+ 
+        $entrenador = auth('entrenador')->user();
+
+        $entrenadorId= $entrenador->id;
+        $salas = Sala::where('entrenador_id', $entrenadorId)->get();
+
+        return response()->json($salas);
+    }
 }

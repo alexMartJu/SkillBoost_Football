@@ -17,6 +17,10 @@ class PistasController extends Controller
 
     public function store(Request $request)
     {
+        $admin = auth('admin')->user();
+        if (!$admin) {
+            return response()->json(['error' => 'Admin no encontrado'], 404);
+        }
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:191|unique:pistas',
             'deportes' => 'required|array',
@@ -70,6 +74,10 @@ class PistasController extends Controller
 
     public function update(Request $request, $slug)
 {
+    $admin = auth('admin')->user();
+        if (!$admin) {
+            return response()->json(['error' => 'Admin no encontrado'], 404);
+        }
     // Validar los datos de la solicitud
     $validatedData = $request->validate([
         'nombre' => 'nullable|string|max:191|unique:pistas,nombre,' . $slug . ',slug', 
@@ -116,6 +124,10 @@ class PistasController extends Controller
 
     public function destroy($slug)
     {
+        $admin = auth('admin')->user();
+        if (!$admin) {
+            return response()->json(['error' => 'Admin no encontrado'], 404);
+        }
         try {
             $pista = Pista::where('slug', $slug)->firstOrFail();
             $pista->images()->delete();

@@ -50,8 +50,8 @@ return [
             'provider' => 'admins',
         ],
         'api' => [
-        'driver' => 'jwt',
-        'provider' => 'users',  // Asegúrate de que el proveedor esté configurado correctamente
+            'driver' => 'jwt',
+            'provider' => 'users',
         ],
     ],
 
