@@ -25,12 +25,8 @@ export default {
         return Api(secrets.URL_SPRING).get('user');
     },
 
-    GetCurrentUser(token) {
-        return Api(secrets.URL_SPRING).get('user', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+    GetCurrentUser() {
+        return Api(secrets.URL_SPRING).get('user');
     },
 
     Profile(numSocio) {
