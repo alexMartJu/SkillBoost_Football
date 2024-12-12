@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('nombre');
             $table->string('email')->unique();
+            $table->string('numeroAdmin')->unique();
             $table->string('password');
             $table->timestamps();
             $table->softDeletes();
