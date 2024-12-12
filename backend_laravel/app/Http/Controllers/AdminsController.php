@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Illuminate\Validation\ValidationException;
-
+use Illuminate\Support\Facades\Log;
 class AdminsController extends Controller
 {
     public function index()
@@ -26,24 +26,27 @@ class AdminsController extends Controller
         $credentials = $request->only('email', 'password');
 
        
-        if (!$token = auth('admin')->attempt($credentials)) {
+        if (!$admin= auth('admin')->attempt($credentials)) {
             
             throw ValidationException::withMessages([
                 'email' => ['Credenciales inválidas.'],
             ]);
         }
 
-        // Si la autenticación es exitosa, devolver el token
+            $admin=auth('admin')->user();
+            $admin->makeHidden(['password']);
+        $token = JWTAuth::fromUser($admin);
         return response()->json([
             'message' => 'Inicio de sesión exitoso',
             'tokenAdmin' => $token,
+            "admin"=>$admin,
             'token_type' => 'Bearer',
             'expires_in' => auth('admin')->factory()->getTTL() * 60, 
         ]);
     }
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(auth('admin')->user());
     }
     public function logout()
     {

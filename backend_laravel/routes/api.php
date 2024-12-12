@@ -45,8 +45,8 @@ Route::post('/admin/login', [AdminsController::class, 'login']);
 // });
 Route::middleware([AdminAuthenticate::class])->group(function () {
     // Solo accesibles por Admin
-    Route::post('/entrenadores/register', [EntrenadorController::class, 'register']);
-    Route::delete('/entrenadores/{entrenador}', [EntrenadorController::class, 'destroy']);
+    Route::post('/entrenador/register', [EntrenadorController::class, 'register']);
+    Route::delete('/entrenador/{entrenador}', [EntrenadorController::class, 'destroy']);
     Route::apiResource('deportes', DeportesController::class)->except(['index', 'show']);
     Route::apiResource('pistas', PistasController::class)->except(['index', 'show']);
     Route::get('/admin/me', [AdminsController::class, 'me']);
