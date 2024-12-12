@@ -22,6 +22,7 @@ class Admin extends Model  implements AuthenticatableContract, JWTSubject
     protected $fillable = [
         'nombre',
         'email',
+        'numeroAdmin',
         'password'
     ];
 
