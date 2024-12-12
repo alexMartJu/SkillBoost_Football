@@ -1,38 +1,41 @@
-import secrets from "@/secrets"
-import Api from "../Api"
+import secrets from "@/secrets";
+import Api from "../Api";
+
+const notSpringHeaders = () => ({
+    headers: {
+        'isSpringboot': false
+    }
+});
 
 export default {
     GetDeportes() {
-        return Api(secrets.URL_LARAVEL).get('deportes');
+        return Api(secrets.URL_SPRING).get('deportes', notSpringHeaders());
     },
     CreateDeporte(deporte) {
-        return Api(secrets.URL_LARAVEL).post('deportes', deporte);
-      },
-    GetPistas(){
-        return Api(secrets.URL_LARAVEL).get('pistas');
+        return Api(secrets.URL_SPRING).post('deportes', deporte, notSpringHeaders());
+    },
+    GetPistas() {
+        return Api(secrets.URL_SPRING).get('pistas', notSpringHeaders());
     },
     CreatePista(pista) {
-        return Api(secrets.URL_LARAVEL).post('pistas', pista);
-    }, 
+        return Api(secrets.URL_SPRING).post('pistas', pista, notSpringHeaders());
+    },
     GetPistaBySlug(slug) {
-        return Api(secrets.URL_LARAVEL).get(`pistas/${slug}`);
+        return Api(secrets.URL_SPRING).get(`pistas/${slug}`, notSpringHeaders());
     },
     GetDeporteBySlug(slug) {
-        return Api(secrets.URL_LARAVEL).get(`deportes/${slug}`);
+        return Api(secrets.URL_SPRING).get(`deportes/${slug}`, notSpringHeaders());
     },
-    UpdateDeporte(slug,deporte) {
-        console.log("deporte"+deporte);
-        return Api(secrets.URL_LARAVEL).put(`deportes/${slug}`, deporte);
+    UpdateDeporte(slug, deporte) {
+        return Api(secrets.URL_SPRING).put(`deportes/${slug}`, deporte, notSpringHeaders());
     },
-    UpdatePista(slug,pista) {
-        console.log("pista"+pista);
-        return Api(secrets.URL_LARAVEL).put(`pistas/${slug}`, pista);
+    UpdatePista(slug, pista) {
+        return Api(secrets.URL_SPRING).put(`pistas/${slug}`, pista, notSpringHeaders());
     },
     DeleteDeporte(deporteslug) {
-        return Api(secrets.URL_LARAVEL).delete(`deportes/${deporteslug}`);
-      },
-      DeletePista(pistaslug) {
-        return Api(secrets.URL_LARAVEL).delete(`pistas/${pistaslug}`);
-      },
-
-}
+        return Api(secrets.URL_SPRING).delete(`deportes/${deporteslug}`, notSpringHeaders());
+    },
+    DeletePista(pistaslug) {
+        return Api(secrets.URL_SPRING).delete(`pistas/${pistaslug}`, notSpringHeaders());
+    }
+};
