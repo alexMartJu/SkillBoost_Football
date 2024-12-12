@@ -92,9 +92,9 @@ INSERT INTO `entrenamientos` (`id`, `nombre`, `slug`, `descripcion`, `dia`, `dur
 (5, 'Clase Adaptada E', 'clase-adaptada-e', 'Clase adaptada para personas con necesidades especiales', 'Miercoles', 60, 15, 25, 4, 2, 3,'2024-11-17 15:52:06', '2024-11-17 15:52:06');
 
 INSERT INTO `admins` (`id`, `nombre`, `email`, `numeroAdmin`, `password`) VALUES
-(1, 'Admin1', 'admin1@example.com', 'adminpass1');
-(2, 'Admin2', 'admin2@example.com', '$2y$12$.5jtdYndBlMFKJVPIvpWTu1m9dinBzNiJkcyGw0En8oINrxh.y2ru');
---contraseña es adminpass2
+(1, 'Admin1', 'admin1@example.com','admin1-2343', 'adminpass1');
+(2, 'Admin2', 'admin2@example.com','admin2-3444' ,'$2y$12$.5jtdYndBlMFKJVPIvpWTu1m9dinBzNiJkcyGw0En8oINrxh.y2ru');
+--contraseña es adminpass2  
 
 INSERT INTO `salas` (`id`, `nombre`, `tamaño`, `ubicacion`, `entrenador_id`) VALUES
 (1, 'Sala de Cardio', 50, 'Edificio A', 1),
