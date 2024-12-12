@@ -28,25 +28,26 @@
                                 Servicios
                             </a>
                         </li>
-                        <li class="nav-item me-4">
+                        <li class="nav-item me-2">
                             <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5" 
                                 :class="{ isActive: isEntrenadores }">
                                 Entrenadores
                             </a>
                         </li>
-                        <li v-if="state.user.nombre" class="nav-item me-4">
+                        <li v-if="state.user.nombre" class="nav-item d-flex align-items-center ms-5">
+                            <img :src="state.user.image" alt="" class="profile-image">
                             <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5" 
                                 :class="{ isActive: isProfile }">
                                 {{ state.user.nombre }}
                             </a>
                         </li>
-                        <li v-if="!state.isLogged" class="nav-item">
+                        <li v-if="!state.isLogged" class="nav-item ms-4">
                             <a @click="redirects.login" class="nav-link auth fw-bold fs-5" 
                                 :class="{ isActive: isLogin }">
                                 Unirse al club
                             </a>
                         </li>
-                        <li v-if="state.isLogged" class="nav-item">
+                        <li v-if="state.isLogged" class="nav-item ms-4">
                             <a @click="logout" class="nav-link auth fw-bold fs-5">
                                 Cerrar sesión
                             </a>
@@ -174,5 +175,13 @@ export default {
 
 .nav-link.isActive {
     color: #000;
+}
+
+.profile-image {
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    border: 3px solid white;
+    object-fit: cover;
 }
 </style>
