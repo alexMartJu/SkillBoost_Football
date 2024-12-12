@@ -13,6 +13,8 @@ use App\Http\Controllers\HorariosController;
 use App\Models\Entrenamiento;
 use App\Models\Pista;
 use App\Models\Deporte;
+use App\Http\Middleware\AdminAuthenticate;
+use App\Http\Middleware\EntrenadorAuthenticate;
 
 // Define las rutas de recursos para cada controlador
 Route::apiResource('deportes', DeportesController::class)->only(['index', 'show']);  
@@ -31,21 +33,30 @@ Route::bind('entrenamientos', function ($value) {
 Route::post('/entrenador/login', [EntrenadorController::class, 'login']);
 Route::post('/admin/login', [AdminsController::class, 'login']);
 
-Route::middleware('auth:admin')->group(function () {
-    // Crear y eliminar entrenadores (solo admin puede hacer esto)
-    Route::post('/entrenadores/register', [EntrenadorController::class, 'register']);  
+// Route::middleware('auth:admin')->group(function () {
+//     // Crear y eliminar entrenadores (solo admin puede hacer esto)
+//     Route::post('/entrenadores/register', [EntrenadorController::class, 'register']);  
+//     Route::delete('/entrenadores/{entrenador}', [EntrenadorController::class, 'destroy']);
+//     Route::apiResource('deportes', DeportesController::class)->except(['index', 'show']);
+//     Route::apiResource('pistas', PistasController::class)->except(['index', 'show']);
+//     Route::get('/admin/me', [AdminsController::class, 'me']);  
+//     Route::post('/admin/logout', [AdminsController::class, 'logout']); 
+//     Route::apiResource('salas', SalasController::class)->except(['index', 'show']); 
+// });
+Route::middleware([AdminAuthenticate::class])->group(function () {
+    // Solo accesibles por Admin
+    Route::post('/entrenadores/register', [EntrenadorController::class, 'register']);
     Route::delete('/entrenadores/{entrenador}', [EntrenadorController::class, 'destroy']);
     Route::apiResource('deportes', DeportesController::class)->except(['index', 'show']);
     Route::apiResource('pistas', PistasController::class)->except(['index', 'show']);
-    Route::get('/admin/me', [AdminsController::class, 'me']);  
-    Route::post('/admin/logout', [AdminsController::class, 'logout']); 
-    Route::apiResource('salas', SalasController::class)->except(['index', 'show']); 
+    Route::get('/admin/me', [AdminsController::class, 'me']);
+    Route::post('/admin/logout', [AdminsController::class, 'logout']);
+    Route::apiResource('salas', SalasController::class)->except(['index', 'show']);
 });
-Route::middleware('auth:entrenador')->group(function () {
+Route::middleware([EntrenadorAuthenticate::class])->group(function () {
+    // Solo accesibles por Entrenador
     Route::get('/entrenador/{email}/entrenamientos', [EntrenamientoController::class, 'getEntrenamientosByEntrenador']);
-    // Ver y modificar salas del propio entrenador
-    Route::get('/entrenador/salas', [SalasController::class, 'getSalasByEntrenador']); 
-    // Ver información propia (del entrenador)
+    Route::get('/entrenador/salas', [SalasController::class, 'getSalasByEntrenador']);
     Route::get('/entrenador/me', [EntrenadorController::class, 'me']);
     Route::put('/entrenador/me', [EntrenadorController::class, 'update']);
     Route::post('/entrenador/logout', [EntrenadorController::class, 'logout']);
@@ -53,6 +64,16 @@ Route::middleware('auth:entrenador')->group(function () {
     Route::put('/entrenamientos/{slug}', [EntrenamientoController::class, 'update']);
     Route::delete('/entrenamientos/{slug}', [EntrenamientoController::class, 'destroy']);
 });
+// Route::middleware('auth:entrenador')->group(function () {
+//     Route::get('/entrenador/{email}/entrenamientos', [EntrenamientoController::class, 'getEntrenamientosByEntrenador']);
+//     Route::get('/entrenador/salas', [SalasController::class, 'getSalasByEntrenador']); 
+//     Route::get('/entrenador/me', [EntrenadorController::class, 'me']);
+//     Route::put('/entrenador/me', [EntrenadorController::class, 'update']);
+//     Route::post('/entrenador/logout', [EntrenadorController::class, 'logout']);
+//     Route::post('/entrenamientos', [EntrenamientoController::class, 'store']);
+//     Route::put('/entrenamientos/{slug}', [EntrenamientoController::class, 'update']);
+//     Route::delete('/entrenamientos/{slug}', [EntrenamientoController::class, 'destroy']);
+// });
 Route::apiResource('horarios', HorariosController::class);
 Route::apiResource('reservas', ReservasController::class);
 Route::apiResource('usuarios', UsuariosController::class);
