@@ -20,6 +20,7 @@ use App\Http\Middleware\EntrenadorAuthenticate;
 Route::apiResource('deportes', DeportesController::class)->only(['index', 'show']);  
 Route::apiResource('pistas', PistasController::class)->only(['index', 'show']);  
 Route::apiResource('salas', SalasController::class)->only(['index', 'show']); 
+Route::apiResource('entrenador', EntrenadorController::class)->only(['index', 'show']); 
 Route::apiResource('entrenamientos', EntrenamientoController::class)->only(['index', 'show']); 
 Route::bind('deportes', function ($value) {
     return Deporte::where('slug', $value)->firstOrFail();
