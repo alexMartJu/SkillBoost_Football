@@ -27,10 +27,9 @@ class AdminsController extends Controller
 
        
         if (!$admin= auth('admin')->attempt($credentials)) {
-            
-            throw ValidationException::withMessages([
-                'email' => ['Credenciales inválidas.'],
-            ]);
+            return response()->json([
+                'error' => 'Contraseña incorrecta'
+            ], 401); 
         }
 
             $admin=auth('admin')->user();
@@ -39,7 +38,7 @@ class AdminsController extends Controller
         return response()->json([
             'message' => 'Inicio de sesión exitoso',
             'tokenAdmin' => $token,
-            "admin"=>$admin,
+            "usuario"=>$admin,
             'token_type' => 'Bearer',
             'expires_in' => auth('admin')->factory()->getTTL() * 60, 
         ]);
