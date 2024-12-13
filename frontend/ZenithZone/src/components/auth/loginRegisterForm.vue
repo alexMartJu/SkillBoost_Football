@@ -18,45 +18,54 @@
                                             class="text-primary" @click="redirect.login()">Sign in</a></span></p>
                             </div>
                             <form name="signin" class="needs-validation">
-                                <div v-if="!isLogin" class="mb-3">
-                                    <label for="nombre" class="form-label">Nombre</label>
+                                <div v-if="!isLogin" class="form-floating mb-3">
                                     <input type="text" name="nombre" id="nombre" class="form-control"
-                                        placeholder="Nombre" v-model="state.nombre" required>
-                                    <div v-if="x$.nombre.$invalid" class="text-danger small">
+                                        placeholder="Nombre" v-model="state.nombre" required />
+                                    <label for="nombre">Nombre</label>
+                                    <div v-if="x$.nombre.$dirty && x$.nombre.$invalid && state.nombre.length > 0" class="text-danger small">
                                         Invalid nombre.
                                     </div>
                                 </div>
-                                <div v-if="!isLogin" class="mb-3">
-                                    <label for="apellidos" class="form-label">Apellidos</label>
+                                <div v-if="!isLogin" class="form-floating mb-3">
                                     <input type="text" name="apellidos" id="apellidos" class="form-control"
-                                        placeholder="Apellidos" v-model="state.apellidos" required>
-                                    <div v-if="x$.apellidos.$invalid" class="text-danger small">
+                                        placeholder="Apellidos" v-model="state.apellidos" required />
+                                    <label for="apellidos">Apellidos</label>
+                                    <div v-if="x$.apellidos.$invalid && state.apellidos.length > 0" class="text-danger small">
                                         Invalid apellidos.
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email Address</label>
+                                <div class="form-floating mb-3">
                                     <input type="email" name="email" id="email" class="form-control"
-                                        placeholder="Email Address" v-model="state.email" required>
-                                    <div v-if="x$.email.$invalid" class="text-danger small">
+                                        placeholder="Email Address" v-model="state.email" required />
+                                    <label for="email">Email Address</label>
+                                    <div v-if="x$.email.$invalid && state.email.length > 0" class="text-danger small">
                                         Invalid EMAIL.
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
+                                <div class="form-floating mb-3">
                                     <input type="password" name="password" id="password" class="form-control"
-                                        placeholder="Password" v-model="state.password" required>
-                                    <div v-if="x$.password.$invalid" class="text-danger small">
+                                        placeholder="Password" v-model="state.password" required />
+                                    <label for="password">Password</label>
+                                    <div v-if="x$.password.$dirty && x$.password.$invalid && state.password.length > 0" class="text-danger small">
                                         Invalid Password.
                                     </div>
                                 </div>
-                                <div v-if="!isLogin" class="mb-3">
-                                    <label for="password2" class="form-label">Repeat Password</label>
+                                <div v-if="!isLogin" class="form-floating mb-3">
                                     <input type="password" name="password2" id="password2" class="form-control"
-                                        placeholder="Repeat Password" v-model="state.password2" required>
-                                    <div v-if="!isLogin && state.password != state.password2" class="text-danger small">
+                                        placeholder="Repeat Password" v-model="state.password2" required />
+                                    <label for="password2">Repeat Password</label>
+                                    <div v-if="x$.password2.$dirty && x$.password2.$invalid && state.password2.length > 0" class="text-danger small">
+                                        Invalid Password.
+                                    </div>
+                                    <div v-if="!isLogin && state.password !== state.password2 && state.password2.length > 0" class="text-danger small">
                                         Passwords do not match.
                                     </div>
+                                </div>
+                                <div class="alert alert-danger" v-if="errorMessage">
+                                    {{ errorMessage }}
+                                </div>
+                                <div v-if="!isLogin">
+                                    <div v-if="registerSuccesful" class="alert alert-success text-center">usuario registrado correctamente</div>
                                 </div>
                                 <div class="d-grid">
                                     <button v-if="isLogin" @click="login()" type="button" class="btn btn-primary"
@@ -73,22 +82,22 @@
     </div>
 </template>
 
-
-
 <script>
 import { useRouter } from 'vue-router';
-import { getCurrentInstance, reactive, computed } from 'vue';
+import { getCurrentInstance, reactive, computed, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, email, alphaNum } from '@vuelidate/validators'
 
 export default {
     props: {
-        isLogin: Boolean
+        isLogin: Boolean,
+        errorMessage: String,
+        registerSuccesful: Boolean
     },
     emits: {
         send: Object
     },
-    setup() {
+    setup(props) {
         const { emit } = getCurrentInstance();
         const router = useRouter();
 
@@ -164,6 +173,16 @@ export default {
             };
             emit('send', data);
         }
+
+        watch(() => props.registerSuccesful, (Reset) => {
+            if (Reset) {
+                state.nombre = '';
+                state.apellidos = '';
+                state.email = '';
+                state.password = '';
+                state.password2 = '';
+            }
+        });
 
         return { redirect, login, register, state, v$, x$ }
     }

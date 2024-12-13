@@ -10,43 +10,44 @@
                 <!-- Navigation Links -->
                 <nav>
                     <ul class="nav me-5">
-                        <li class="nav-item me-3">
+                        <li class="nav-item me-2">
                             <a @click="redirects.home" class="nav-link text-color fw-bold fs-5" 
                                 :class="{ isActive: isHome }">
                                 Home
                             </a>
                         </li>
-                        <li class="nav-item me-3">
+                        <li class="nav-item me-2">
                             <a @click="redirects.instalaciones" class="nav-link text-color fw-bold fs-5" 
                                 :class="{ isActive: isInstalaciones }">
                                 Instalaciones
                             </a>
                         </li>
-                        <li class="nav-item me-3">
+                        <li class="nav-item me-2">
                             <a @click="redirects.servicios" class="nav-link text-color fw-bold fs-5" 
                                 :class="{ isActive: isServicios }">
                                 Servicios
                             </a>
                         </li>
-                        <li class="nav-item me-4">
+                        <li class="nav-item me-2">
                             <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5" 
                                 :class="{ isActive: isEntrenadores }">
                                 Entrenadores
                             </a>
                         </li>
-                        <li v-if="state.user" class="nav-item me-4">
+                        <li v-if="state.user.nombre" class="nav-item d-flex align-items-center ms-5">
+                            <img :src="state.user.image" alt="" class="profile-image">
                             <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5" 
-                                :class="{ isActive: isEntrenadores }">
+                                :class="{ isActive: isProfile }">
                                 {{ state.user.nombre }}
                             </a>
                         </li>
-                        <li v-if="!state.isLogged" class="nav-item">
+                        <li v-if="!state.isLogged" class="nav-item ms-4">
                             <a @click="redirects.login" class="nav-link auth fw-bold fs-5" 
                                 :class="{ isActive: isLogin }">
                                 Unirse al club
                             </a>
                         </li>
-                        <li v-if="state.isLogged" class="nav-item">
+                        <li v-if="state.isLogged" class="nav-item ms-4">
                             <a @click="logout" class="nav-link auth fw-bold fs-5">
                                 Cerrar sesión
                             </a>
@@ -61,7 +62,7 @@
 
 <script>
 import Constant from '@/Constant';
-import { computed } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -85,6 +86,9 @@ export default {
         isLogin() {
             return ['/login', '/register'].includes(this.$route.path);
         },
+        isProfile() {
+            return this.$route.path.startsWith('/profile');
+        }
     },
 
     setup() {
@@ -110,6 +114,11 @@ export default {
             store.dispatch(`user/${Constant.LOGOUT}`);
             router.push({ name: 'home' });
         };
+
+        const token = localStorage.getItem('token');
+        if (token) {
+            store.dispatch(`user/${Constant.INITIALIZE_USER}`, token);
+        }
 
         return { redirects, state, logout };
     }
@@ -160,7 +169,19 @@ export default {
     }
 }
 
+.nav-link {
+    cursor: pointer;
+}
+
 .nav-link.isActive {
     color: #000;
+}
+
+.profile-image {
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    border: 3px solid white;
+    object-fit: cover;
 }
 </style>

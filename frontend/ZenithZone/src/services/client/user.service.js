@@ -4,12 +4,12 @@ import secrets from "../../secrets";
 export default {
 
     Register(data) {
-        console.log(data);
+        // console.log(data);
         return Api(secrets.URL_SPRING).post('users', data);
     },//Register
 
     Login(data) {
-        console.log(data);
+        // console.log(data);
         return Api(secrets.URL_SPRING).post('users/login', data);
     },//Login
 
@@ -22,6 +22,10 @@ export default {
     },//UpdateUser
 
     CurrentUserProfile() {
+        return Api(secrets.URL_SPRING).get('user');
+    },
+
+    GetCurrentUser() {
         return Api(secrets.URL_SPRING).get('user');
     },
 
