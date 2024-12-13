@@ -8,6 +8,8 @@ export default (URL) => {
         baseURL: URL,
     });
 
+    api.defaults.headers.common['isSpringboot'] = true;
+
     const token = localStorage.getItem('token');
     const tokenAdmin = localStorage.getItem('tokenAdmin');
     const tokenEntrenador = localStorage.getItem('tokenEntrenador');
@@ -18,19 +20,19 @@ export default (URL) => {
     } else if (tokenAdmin) {
         console.log(`existe el tokenAdmin en api services`);
         api.defaults.headers.common['Authorization'] = `Bearer ${tokenAdmin}`;
+        api.defaults.headers.common['isSpringboot'] = false;
+
     } else if (tokenEntrenador) {
         console.log(`existe el tokenEntrenador en api services`);
         api.defaults.headers.common['Authorization'] = `Bearer ${tokenEntrenador}`;
+        api.defaults.headers.common['isSpringboot'] = false;
     }
-
-    api.defaults.headers.common['isSpringboot'] = true;
 
     api.interceptors.response.use(
         (response) => response,
         (error) => {
             console.log(error.response);
             if (error.response && error.response.status === 401) {
-                // Generar dinámicamente `store` y `router`
                 const store = useStore();
                 const router = useRouter();
 
