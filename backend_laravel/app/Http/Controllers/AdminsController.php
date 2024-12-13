@@ -36,11 +36,11 @@ class AdminsController extends Controller
             $admin->makeHidden(['password']);
         $token = JWTAuth::fromUser($admin);
         return response()->json([
-            'message' => 'Inicio de sesión exitoso',
+            // 'message' => 'Inicio de sesión exitoso',
             'tokenAdmin' => $token,
             "usuario"=>$admin,
-            'token_type' => 'Bearer',
-            'expires_in' => auth('admin')->factory()->getTTL() * 60, 
+            // 'token_type' => 'Bearer',
+            // 'expires_in' => auth('admin')->factory()->getTTL() * 60, 
         ]);
     }
     public function me()
