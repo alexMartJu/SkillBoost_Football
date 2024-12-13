@@ -29,20 +29,19 @@ class EntrenadorController extends Controller
 
        
         if (!$token = auth('entrenador')->attempt($credentials)) {
-            
-            throw ValidationException::withMessages([
-                'email' => ['Credenciales inválidas.'],
-            ]);
+            return response()->json([
+                'error' => 'Contraseña incorrecta'
+            ], 401); 
         }
         $entrenador=auth('entrenador')->user();
         $entrenador->makeHidden(['password']);
         // Si la autenticación es exitosa, devolver el token
         return response()->json([
-            'message' => 'Inicio de sesión exitoso',
+            // 'message' => 'Inicio de sesión exitoso',
             'tokenEntrenador' => $token,
-            'entrenador'=>$entrenador,
-            'token_type' => 'Bearer',
-            'expires_in' => auth('entrenador')->factory()->getTTL() * 60, 
+            'usuario'=>$entrenador,
+            // 'token_type' => 'Bearer',
+            // 'expires_in' => auth('entrenador')->factory()->getTTL() * 60, 
         ]);
     }
     public function me()

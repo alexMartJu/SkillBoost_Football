@@ -25,6 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     
+    private final DynamicProxyFilter dynamicProxyFilter;
     private final SecurityFilter securityFilter;
     private final RestAccessDeniedHandler restAccessDeniedHandler;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
@@ -57,7 +58,9 @@ public class SecurityConfig {
                 .exceptionHandling(handler -> handler
                         .accessDeniedHandler(restAccessDeniedHandler)
                         .authenticationEntryPoint(restAuthenticationEntryPoint))
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+                // .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(dynamicProxyFilter, UsernamePasswordAuthenticationFilter.class) // Agregar el filtro dinámico antes de UsernamePasswordAuthenticationFilter
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class); // Agregar el securityFilter antes de UsernamePasswordAuthenticationFilter
 
         return http.build();
     }

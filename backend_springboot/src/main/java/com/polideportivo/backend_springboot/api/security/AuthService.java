@@ -8,5 +8,5 @@ public interface AuthService {
     
     UsuarioResponse register(final Usuario user);
 
-    UsuarioResponse authenticate(final UsuarioAuthenticate authenticate);
+    Object authenticate(final UsuarioAuthenticate authenticate);
 }
