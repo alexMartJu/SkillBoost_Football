@@ -37,6 +37,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         final String token;
         final String email;
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        System.out.println("Entro Filterrrrrrr");
 
         // Verificar si el endpoint es público
         if (isPublicEndpoint(request)) {
