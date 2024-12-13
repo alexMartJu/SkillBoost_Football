@@ -78,11 +78,11 @@ public class AuthServiceImpl implements AuthService {
         String endpoint;
         if ("entrenador".equals(tipo)) {
             System.out.println("Entro Entrenador");
-            endpoint = "http://localhost:3000/api/entrenador/login";
+            endpoint = "http://laravel:3000/api/entrenador/login";
             System.out.println("Endpoint: " + endpoint);
         } else if ("admin".equals(tipo)) {
             System.out.println("Entro Admin");
-            endpoint = "http://localhost:3000/api/admin/login";
+            endpoint = "http://laravel:3000/api/admin/login";
             System.out.println("Endpoint: " + endpoint);
         } else {
             throw new IllegalArgumentException("Tipo no válido para autenticación en Laravel");

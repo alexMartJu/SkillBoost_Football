@@ -25,7 +25,7 @@ public class DynamicProxyFilter extends OncePerRequestFilter {
 
     public DynamicProxyFilter(WebClient.Builder webClientBuilder) {
         this.webClientBuilder = webClientBuilder;
-        this.laravelBaseUrl = "http://localhost:3000/api/"; // URL base para Laravel
+        this.laravelBaseUrl = "http://laravel:3000/api/"; // URL base para Laravel
     }
 
     @Override
