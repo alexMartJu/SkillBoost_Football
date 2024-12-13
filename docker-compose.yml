@@ -10,7 +10,6 @@ services:
     env_file: ./.env
     environment:
       DB_HOST: mysql
-      DB_PORT: 3306
       DB_NAME: ZenithZone
       DB_USERNAME: root
       DB_PASSWORD: root_secret
@@ -19,50 +18,50 @@ services:
       - /var/www/vendor # Excluye vendor para evitar conflictos
     ports:
       - "3000:3000"
-    entrypoint: [ "./wait-for-it.sh", "mysql:3306", "--", "php", "artisan", "serve", "--host=0.0.0.0", "--port=3000" ]
+    # entrypoint: [ "./wait-for-it.sh", "mysql:3306", "--", "php", "artisan", "serve", "--host=0.0.0.0", "--port=3000" ]
     # Para desarrollo
     stdin_open: true # Mantiene stdin abierto. Para interactuar con el contenedor (docker exec -it <container_id> bash)
     tty: true # Asigna un pseudo-terminal
     networks:
       - ZenithZone
 
-  springboot:
-    build:
-      context: ./backend_springboot
-      dockerfile: Dockerfile
-    container_name: springboot_container
-    restart: on-failure
-    env_file: ./.env
-    ports:
-      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
-    depends_on:
-      - mysql
-    environment:
-      - DB_HOST=mysql
-      - DB_USERNAME=root
-      - DB_PASSWORD=root_secret
-      - DB_NAME=ZenithZone
-    volumes:
-      - ./backend_springboot:/app
-    stdin_open: true
-    tty: true
-    networks:
-      - ZenithZone
+  # springboot:
+  #   build:
+  #     context: ./backend_springboot
+  #     dockerfile: Dockerfile
+  #   container_name: springboot_container
+  #   restart: on-failure
+  #   env_file: ./.env
+  #   ports:
+  #     - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+  #   depends_on:
+  #     - mysql
+  #   environment:
+  #     - DB_HOST=mysql
+  #     - DB_USERNAME=root
+  #     - DB_PASSWORD=root_secret
+  #     - DB_NAME=ZenithZone
+  #   volumes:
+  #     - ./backend_springboot:/app
+  #   stdin_open: true
+  #   tty: true
+  #   networks:
+  #     - ZenithZone
 
-  vue:
-    build:
-      context: ./frontend/ZenithZone
-      dockerfile: Dockerfile
-    container_name: vue_container
-    env_file: ./.env
-    restart: on-failure
-    ports:
-      - "$VUE_LOCAL_PORT:$VUE_DOCKER_PORT"
-    volumes:
-      - ./frontend/ZenithZone:/app
-      - /app/node_modules
-    networks:
-      - ZenithZone
+  # vue:
+  #   build:
+  #     context: ./frontend/ZenithZone
+  #     dockerfile: Dockerfile
+  #   container_name: vue_container
+  #   env_file: ./.env
+  #   restart: on-failure
+  #   ports:
+  #     - "$VUE_LOCAL_PORT:$VUE_DOCKER_PORT"
+  #   volumes:
+  #     - ./frontend/ZenithZone:/app
+  #     - /app/node_modules
+  #   networks:
+  #     - ZenithZone
 
   mysql:
     image: mysql:8
