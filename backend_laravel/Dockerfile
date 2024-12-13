@@ -1,28 +1,54 @@
-FROM php:8.1-fpm
+# Usa una imagen oficial de PHP (Debian) con soporte para Laravel
+FROM php:8.3-fpm
 
-# Set working directory
-WORKDIR /var/www
-
-# Install dependencies
+# Instala dependencias necesarias para Debian
 RUN apt-get update && apt-get install -y \
+    build-essential \
     libpng-dev \
-    libjpeg62-turbo-dev \
+    libjpeg-dev \
     libfreetype6-dev \
     locales \
     zip \
+    jpegoptim optipng pngquant gifsicle \
+    vim \
     unzip \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql
+    git \
+    curl \
+    libonig-dev
 
-# Install Composer
+# Limpia los archivos temporales y optimiza el entorno
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Instala extensiones de PHP
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
+# Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy existing application directory contents
-COPY . /var/www
+# Establece directorio de trabajo
+WORKDIR /var/www
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www
+# Copia el actual proyecto
+COPY . .
 
-# Expose port 9000 and start PHP-FPM server
-EXPOSE 9000
-CMD ["php-fpm"]
+# Copia el archivo .env
+COPY .env.example .env
+
+# Copia los permisos de directorio de la actual aplicación
+COPY --chown=www-data:www-data . /var/www
+
+# Cambia el actual usuario a www-data
+USER www-data
+
+# Instala las dependencias a través de Composer
+RUN composer install
+
+# Genera la clave de aplicación de Laravel
+RUN php artisan key:generate
+RUN php artisan jwt:secret
+
+# # Expone el puerto 8000
+EXPOSE 3000
+
+# Inicia servidor Laravel
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=3000"]
