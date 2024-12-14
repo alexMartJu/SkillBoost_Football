@@ -17,11 +17,11 @@ use App\Http\Middleware\AdminAuthenticate;
 use App\Http\Middleware\EntrenadorAuthenticate;
 
 // Define las rutas de recursos para cada controlador
-Route::apiResource('deportes', DeportesController::class)->only(['index', 'show']);  
-Route::apiResource('pistas', PistasController::class)->only(['index', 'show']);  
-Route::apiResource('salas', SalasController::class)->only(['index', 'show']); 
-Route::apiResource('entrenador', EntrenadorController::class)->only(['index', 'show']); 
-Route::apiResource('entrenamientos', EntrenamientoController::class)->only(['index', 'show']); 
+Route::apiResource('deportes', DeportesController::class)->only(['index', 'show']);
+Route::apiResource('pistas', PistasController::class)->only(['index', 'show']);
+Route::apiResource('salas', SalasController::class)->only(['index', 'show']);
+Route::apiResource('entrenador', EntrenadorController::class)->only(['index', 'show']);
+Route::apiResource('entrenamientos', EntrenamientoController::class)->only(['index', 'show']);
 Route::bind('deportes', function ($value) {
     return Deporte::where('slug', $value)->firstOrFail();
 });
@@ -50,7 +50,7 @@ Route::middleware([AdminAuthenticate::class])->group(function () {
     Route::delete('/entrenador/{entrenador}', [EntrenadorController::class, 'destroy']);
     Route::apiResource('deportes', DeportesController::class)->except(['index', 'show']);
     Route::apiResource('pistas', PistasController::class)->except(['index', 'show']);
-    Route::get('/admin/me', [AdminsController::class, 'me']);
+    Route::get('/currentAdmin', [AdminsController::class, 'me']);
     Route::post('/admin/logout', [AdminsController::class, 'logout']);
     Route::apiResource('salas', SalasController::class)->except(['index', 'show']);
 });
@@ -58,8 +58,8 @@ Route::middleware([EntrenadorAuthenticate::class])->group(function () {
     // Solo accesibles por Entrenador
     Route::get('/entrenador/{email}/entrenamientos', [EntrenamientoController::class, 'getEntrenamientosByEntrenador']);
     Route::get('/entrenador/salas', [SalasController::class, 'getSalasByEntrenador']);
-    Route::get('/entrenador/me', [EntrenadorController::class, 'me']);
-    Route::put('/entrenador/me', [EntrenadorController::class, 'update']);
+    Route::get('/currentEntrenador', [EntrenadorController::class, 'me']);
+    Route::put('/currentEntrenador', [EntrenadorController::class, 'update']);
     Route::post('/entrenador/logout', [EntrenadorController::class, 'logout']);
     Route::post('/entrenamientos', [EntrenamientoController::class, 'store']);
     Route::put('/entrenamientos/{slug}', [EntrenamientoController::class, 'update']);

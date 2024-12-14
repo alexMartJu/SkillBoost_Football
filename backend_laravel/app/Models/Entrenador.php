@@ -53,9 +53,7 @@ class Entrenador extends Model implements AuthenticatableContract, JWTSubject
 
     public function getJWTCustomClaims()
     {
-        return [
-            'email' => $this->email,
-        ];
+        return [];
     }
     /**
      * Obtén el nombre del identificador de usuario.
@@ -64,7 +62,7 @@ class Entrenador extends Model implements AuthenticatableContract, JWTSubject
      */
    public function getAuthIdentifierName()
    {
-       return 'email'; // o el nombre de la columna de tu tabla que sea el identificador
+       return 'id';
    }
 
    /**

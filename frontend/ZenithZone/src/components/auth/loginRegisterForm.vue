@@ -17,7 +17,7 @@
                                 <p class="text-muted">Have an account? <span><a href="javascript:void(0)"
                                             class="text-primary" @click="redirect.login()">Sign in</a></span></p>
                             </div>
-                            <form name="signin" class="needs-validation">
+                            <form name="signin" class="needs-validation" @submit.prevent="handleSubmit" @keyup.enter="handleSubmit">
                                 <div v-if="!isLogin" class="form-floating mb-3">
                                     <input type="text" name="nombre" id="nombre" class="form-control"
                                         placeholder="Nombre" v-model="state.nombre" required />
@@ -68,9 +68,9 @@
                                     <div v-if="registerSuccesful" class="alert alert-success text-center">usuario registrado correctamente</div>
                                 </div>
                                 <div class="d-grid">
-                                    <button v-if="isLogin" @click="login()" type="button" class="btn btn-primary"
+                                    <button v-if="isLogin" type="submit" class="btn btn-primary"
                                         :disabled="v$.email.$invalid || v$.password.$invalid">Login</button>
-                                    <button v-if="!isLogin" @click="register()" type="button" class="btn btn-primary"
+                                    <button v-if="!isLogin" type="submit" class="btn btn-primary"
                                         :disabled="x$.nombre.$invalid || x$.apellidos.$invalid || x$.email.$invalid || x$.password.$invalid || x$.password2.$invalid || state.password2 !== state.password">Register</button>
                                 </div>
                             </form>
@@ -174,6 +174,18 @@ export default {
             emit('send', data);
         }
 
+        const handleSubmit = () => {
+            if (props.isLogin) {
+                if (!v$.value.$invalid) {
+                    login();
+                }
+            } else {
+                if (!x$.value.$invalid && state.password === state.password2) {
+                    register();
+                }
+            }
+        }
+
         watch(() => props.registerSuccesful, (Reset) => {
             if (Reset) {
                 state.nombre = '';
@@ -184,7 +196,7 @@ export default {
             }
         });
 
-        return { redirect, login, register, state, v$, x$ }
+        return { redirect, login, register, state, v$, x$, handleSubmit }
     }
 }
 </script>

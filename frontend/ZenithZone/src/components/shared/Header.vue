@@ -34,6 +34,22 @@
                                 Entrenadores
                             </a>
                         </li>
+
+                        <!-- DASHBOARDS -->
+                        <li v-if="state.isAdmin" class="nav-item">
+                            <a @click="redirects.dashboardAdmin" class="nav-link text-color fw-bold fs-5" 
+                                :class="{ isActive: isDashboard }">
+                                Dashboard Admin
+                            </a>
+                        </li>
+                        <li v-if="state.isEntrenador" class="nav-item">
+                            <a @click="redirects.dashboardEntrenador" class="nav-link text-color fw-bold fs-5" 
+                                :class="{ isActive: isDashboard }">
+                                Dashboard Entrenador
+                            </a>
+                        </li>
+                        <!-- ================= -->
+                        
                         <li v-if="state.user.nombre" class="nav-item d-flex align-items-center ms-5">
                             <img :src="state.user.image" alt="" class="profile-image">
                             <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5" 
@@ -41,13 +57,13 @@
                                 {{ state.user.nombre }}
                             </a>
                         </li>
-                        <li v-if="!state.isLogged" class="nav-item ms-4">
+                        <li v-if="!isLogged" class="nav-item ms-4">
                             <a @click="redirects.login" class="nav-link auth fw-bold fs-5" 
                                 :class="{ isActive: isLogin }">
                                 Unirse al club
                             </a>
                         </li>
-                        <li v-if="state.isLogged" class="nav-item ms-4">
+                        <li v-if="isLogged" class="nav-item ms-4">
                             <a @click="logout" class="nav-link auth fw-bold fs-5">
                                 Cerrar sesión
                             </a>
@@ -62,7 +78,7 @@
 
 <script>
 import Constant from '@/Constant';
-import { computed, onMounted, watch } from 'vue';
+import { computed } from 'vue';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -88,6 +104,9 @@ export default {
         },
         isProfile() {
             return this.$route.path.startsWith('/profile');
+        },
+        isDashboard() {
+            return this.$route.path.startsWith('/dashboard');
         }
     },
 
@@ -100,15 +119,19 @@ export default {
             instalaciones: () => router.push({ name: 'instalaciones' }),
             servicios: () => router.push({ name: 'serviciosEntrenamientos' }),
             entrenadores: () => router.push({ name: 'entrenadores' }),
-            login: () => router.push({ name: 'login' })
+            login: () => router.push({ name: 'login' }),
+            dashboardAdmin: () => router.push({ name: 'DashboardAdmin' }),
+            dashboardEntrenador: () => router.push({ name: 'DashboardEntrenador' }),
         };
 
         const state = reactive({
             user: computed(() => store.getters['user/GetProfile']),
             isAdmin: computed(() => store.getters['user/GetIsAdmin']),
             isEntrenador: computed(() => store.getters['user/GetIsEntrenador']),
-            isLogged: computed(() => store.getters['user/GetIsAuth']),
+            isUser: computed(() => store.getters['user/GetIsAuth']),
         });
+
+        const isLogged = computed(() => state.isUser || state.isAdmin || state.isEntrenador);
 
         const logout = () => {
             store.dispatch(`user/${Constant.LOGOUT}`);
@@ -116,11 +139,17 @@ export default {
         };
 
         const token = localStorage.getItem('token');
+        const tokenAdmin = localStorage.getItem('tokenAdmin');
+        const tokenEntrenador = localStorage.getItem('tokenEntrenador');
         if (token) {
-            store.dispatch(`user/${Constant.INITIALIZE_USER}`, token);
+            store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"token": token});
+        } else if (tokenAdmin) {
+            store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"tokenAdmin": tokenAdmin});
+        } else if (tokenEntrenador) {
+            store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"tokenEntrenador": tokenEntrenador});
         }
 
-        return { redirects, state, logout };
+        return { redirects, state, logout, isLogged };
     }
 };
 </script>

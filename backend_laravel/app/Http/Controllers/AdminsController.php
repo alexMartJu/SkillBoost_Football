@@ -16,36 +16,39 @@ class AdminsController extends Controller
     }
     public function login(Request $request)
     {
-          // Validación de las credenciales del usuario
-          $request->validate([
+        // Validación de las credenciales del usuario
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required|string|min:8',
         ]);
 
-        
+
         $credentials = $request->only('email', 'password');
 
-       
-        if (!$admin= auth('admin')->attempt($credentials)) {
+
+        if (!$admin = auth('admin')->attempt($credentials)) {
             return response()->json([
                 'error' => 'Contraseña incorrecta'
-            ], 401); 
+            ], 401);
         }
 
-            $admin=auth('admin')->user();
-            $admin->makeHidden(['password']);
+        $admin = auth('admin')->user();
+        $admin->makeHidden(['password']);
         $token = JWTAuth::fromUser($admin);
+
+        $admin->tokenAdmin = $token;
         return response()->json([
-            // 'message' => 'Inicio de sesión exitoso',
-            'tokenAdmin' => $token,
-            "usuario"=>$admin,
-            // 'token_type' => 'Bearer',
-            // 'expires_in' => auth('admin')->factory()->getTTL() * 60, 
+            "usuario" => $admin,
         ]);
     }
     public function me()
     {
-        return response()->json(auth('admin')->user());
+        $admin = auth('admin')->user();
+        $admin->makeHidden(['password']);
+
+        return response()->json([
+            "usuario" => $admin,
+        ]);
     }
     public function logout()
     {
@@ -54,7 +57,7 @@ class AdminsController extends Controller
         return response()->json(['message' => 'Cierre de sesión exitoso']);
     }
 
-    
+
     public function store(Request $request)
     {
         $request->validate([
@@ -83,25 +86,25 @@ class AdminsController extends Controller
 
     public function update(Request $request, $slug)
     {
-       
-        
+
+
         return "update";
     }
     public function destroy($slug)
     {
         $admin = Admin::where('slug', $slug)->firstOrFail();
-       
+
         $admin->delete();
         return response()->json(['message' => 'admin eliminado correctamente.']);
     }
 
-   
-    public function restore($slug)
-{
-    
-    
 
-    return "restaurado";
-}
+    public function restore($slug)
+    {
+
+
+
+        return "restaurado";
+    }
 
 }
