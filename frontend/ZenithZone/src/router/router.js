@@ -83,13 +83,13 @@ const router = createRouter({
 
     // DASHBOARD ENTRENADOR
     {
-      path: "/entrenadorDashboard",
-      name: "entrenadorDashboard",
+      path: "/dashboardEntrenador",
+      name: "DashboardEntrenador",
       component: () => import('../views/dashboards/EntrenadorDashboard.vue'),  // Vista principal del entrenador
       beforeEnter: AuthGuards.authGuardEntrenador, meta: { requiresAuth: true },
       children: [
         {
-          path: "",  // Si está vacío, se mostrará por defecto la vista de Listar Entrenamientos
+          path: "listar",  // Si está vacío, se mostrará por defecto la vista de Listar Entrenamientos
           name: "entrenadorListarEntrenamientos",
           component: () => import('../components/dashboards/entrenador/ListEntrenamientosDashboard.vue'),  // Vista para listar entrenamientos
           beforeEnter: AuthGuards.authGuardEntrenador
@@ -105,13 +105,13 @@ const router = createRouter({
 
     // DASHBOARD ADMIN
     {
-      path: "/admin",
-      name: "adminDashboard",
+      path: "/dashboardAdmin",
+      name: "DashboardAdmin",
       component: () => import('../views/dashboards/AdminDashboard.vue'),
       beforeEnter: AuthGuards.authGuardAdmin, meta: { requiresAuth: true },
       children: [
         {
-          path: "",
+          path: "listar",
           name: "adminListar",
           component: () => import('../components/dashboards/admin/ListarAdmin.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
