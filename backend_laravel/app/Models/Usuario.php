@@ -26,5 +26,10 @@ class Usuario extends Model
     {
         return $this->hasOne(Profile::class, 'id', 'id');
     }
+
+    public function blacklists()
+    {
+        return $this->hasMany(Blacklist::class, 'usuario_id');
+    }
     
 }
