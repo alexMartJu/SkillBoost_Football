@@ -25,7 +25,7 @@ public class DynamicProxyFilter extends OncePerRequestFilter {
 
     public DynamicProxyFilter(WebClient.Builder webClientBuilder) {
         this.webClientBuilder = webClientBuilder;
-        this.laravelBaseUrl = "http://laravel:3000/api/"; // URL base para Laravel
+        this.laravelBaseUrl = "http://laravel:3000"; // URL base para Laravel
     }
 
     @Override
@@ -36,9 +36,15 @@ public class DynamicProxyFilter extends OncePerRequestFilter {
         if ("false".equalsIgnoreCase(isSpringbootHeader)) {
             // Si el header es false, redirigimos la solicitud a Laravel
             forwardToLaravel(request, response);
-        } else {
+        } else if ("true".equalsIgnoreCase(isSpringbootHeader)) {
             // Si el header es true, seguimos con el flujo normal de Spring Boot
             filterChain.doFilter(request, response);
+        } else {
+            // Si quieres solo devolver el header en la respuesta o si es null
+            response.setContentType("text/plain");
+            response.getWriter().write("Header 'isSpringboot': " + isSpringbootHeader);
+            response.getWriter().write("getRequestURI: " + request.getRequestURI());
+            return; // Evita continuar con el filtro
         }
     }
 
@@ -46,13 +52,15 @@ public class DynamicProxyFilter extends OncePerRequestFilter {
         try {
             // Construir la solicitud dinámica para Laravel
             String laravelUri = laravelBaseUrl + request.getRequestURI();
+            // response.getWriter().write("laravelURI: " + laravelUri);
 
             // Crear WebClient
             WebClient webClient = webClientBuilder.build();
 
             // Realizar la solicitud dinámica usando WebClient
             WebClient.RequestBodySpec requestSpec = webClient
-                    .method(HttpMethod.valueOf(request.getMethod())) // Establecer el tipo de método (GET, POST, PUT, etc.)
+                    .method(HttpMethod.valueOf(request.getMethod())) // Establecer el tipo de método (GET, POST, PUT,
+                                                                     // etc.)
                     .uri(laravelUri)
                     .headers(headers -> {
                         Enumeration<String> headerNames = request.getHeaderNames();
