@@ -50,7 +50,7 @@ Route::middleware([AdminAuthenticate::class])->group(function () {
     Route::delete('/entrenador/{entrenador}', [EntrenadorController::class, 'destroy']);
     Route::apiResource('deportes', DeportesController::class)->except(['index', 'show']);
     Route::apiResource('pistas', PistasController::class)->except(['index', 'show']);
-    Route::get('/admin/me', [AdminsController::class, 'me']);
+    Route::get('/currentadmin', [AdminsController::class, 'me']);
     Route::post('/admin/logout', [AdminsController::class, 'logout']);
     Route::apiResource('salas', SalasController::class)->except(['index', 'show']);
 });
