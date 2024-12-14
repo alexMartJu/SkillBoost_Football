@@ -19,7 +19,6 @@ class EntrenadoresResource extends JsonResource
             'id' => $this->id,
             'nombre' => $this->nombre,
             'apellidos' => $this->apellidos,
-            'DNI' => $this->DNI,
             'email' => $this->email,
             'deporte_id' => $this->deporte_id,
             'edad' => $this->edad,
