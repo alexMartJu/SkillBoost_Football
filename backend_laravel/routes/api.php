@@ -58,7 +58,7 @@ Route::middleware([EntrenadorAuthenticate::class])->group(function () {
     // Solo accesibles por Entrenador
     Route::get('/entrenador/{email}/entrenamientos', [EntrenamientoController::class, 'getEntrenamientosByEntrenador']);
     Route::get('/entrenador/salas', [SalasController::class, 'getSalasByEntrenador']);
-    Route::get('/entrenador/me', [EntrenadorController::class, 'me']);
+    Route::get('/currententrenador', [EntrenadorController::class, 'me']);
     Route::put('/entrenador/me', [EntrenadorController::class, 'update']);
     Route::post('/entrenador/logout', [EntrenadorController::class, 'logout']);
     Route::post('/entrenamientos', [EntrenamientoController::class, 'store']);
