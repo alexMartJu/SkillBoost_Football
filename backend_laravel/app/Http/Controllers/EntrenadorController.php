@@ -35,13 +35,10 @@ class EntrenadorController extends Controller
         }
         $entrenador=auth('entrenador')->user();
         $entrenador->makeHidden(['password']);
-        // Si la autenticación es exitosa, devolver el token
+
+        $entrenador->entrenadorToken = $token;
         return response()->json([
-            // 'message' => 'Inicio de sesión exitoso',
-            'tokenEntrenador' => $token,
             'usuario'=>$entrenador,
-            // 'token_type' => 'Bearer',
-            // 'expires_in' => auth('entrenador')->factory()->getTTL() * 60, 
         ]);
     }
     public function me()
