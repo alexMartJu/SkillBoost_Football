@@ -2,24 +2,22 @@ import Api from "../Api";
 import secrets from "../../secrets";
 
 export default {
-
+    // USER
     Register(data) {
-        // console.log(data);
         return Api(secrets.URL_SPRING).post('users', data);
-    },//Register
+    },
 
     Login(data) {
-        // console.log(data);
         return Api(secrets.URL_SPRING).post('users/login', data);
-    },//Login
+    },
 
     Logout() {
         return Api(secrets.URL_SPRING).post('logout');
-    },//Logout
+    },
 
     UpdateUser() {
         return Api(secrets.URL_SPRING).put('user');
-    },//UpdateUser
+    },
 
     CurrentUserProfile() {
         return Api(secrets.URL_SPRING).get('user');
@@ -29,17 +27,23 @@ export default {
         return Api(secrets.URL_SPRING).get('user');
     },
 
-    GetCurrentAdmin() {
-        return Api(secrets.URL_SPRING).get('admin/me');
-    },
-
-    GetCurrentEntrenador() {
-        return Api(secrets.URL_SPRING).get('entrenador/me');
-    },
-
     Profile(numSocio) {
         console.log(`numSocio: ${numSocio}`);
         return Api(secrets.URL_SPRING).get(`profiles/${numSocio}`);
-    },//Profile
+    },
+
+    // ADMIN
+    GetCurrentAdmin() {
+        return Api(secrets.URL_SPRING).get('currentAdmin');
+    },
+
+    // ENTRENADOR
+    GetCurrentEntrenador() {
+        return Api(secrets.URL_SPRING).get('currentEntrenador');
+    },
+
+    UpdateEntrenador() {
+        return Api(secrets.URL_SPRING).update('currentEntrenador');
+    },
 
 }//export
