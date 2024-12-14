@@ -29,6 +29,14 @@ export default {
         return Api(secrets.URL_SPRING).get('user');
     },
 
+    GetCurrentAdmin() {
+        return Api(secrets.URL_SPRING).get('admin/me');
+    },
+
+    GetCurrentEntrenador() {
+        return Api(secrets.URL_SPRING).get('entrenador/me');
+    },
+
     Profile(numSocio) {
         console.log(`numSocio: ${numSocio}`);
         return Api(secrets.URL_SPRING).get(`profiles/${numSocio}`);

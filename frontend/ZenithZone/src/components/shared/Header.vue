@@ -116,8 +116,14 @@ export default {
         };
 
         const token = localStorage.getItem('token');
+        const tokenAdmin = localStorage.getItem('tokenAdmin');
+        const tokenEntrenador = localStorage.getItem('tokenEntrenador');
         if (token) {
             store.dispatch(`user/${Constant.INITIALIZE_USER}`, token);
+        } else if (tokenAdmin) {
+            store.dispatch(`user/${Constant.INITIALIZE_USER}`, tokenAdmin);
+        } else if (tokenEntrenador) {
+            store.dispatch(`user/${Constant.INITIALIZE_USER}`, tokenEntrenador);
         }
 
         return { redirects, state, logout };
