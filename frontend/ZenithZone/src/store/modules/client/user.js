@@ -63,9 +63,17 @@ export const user = {
 
         [Constant.INITIALIZE_USER]: async (store, payload) => {
             try {
-                // console.log(payload);
-                const response = await UserService.GetCurrentUser();
-                if (response.status === 200) {
+                let response = null;
+
+                if (payload?.token) {
+                    response = await UserService.GetCurrentUser();
+                } else if (payload?.tokenAdmin) {
+                    response = await UserService.GetCurrentAdmin();
+                } else if (payload?.tokenEntrenador) {
+                    response = await UserService.GetCurrentEntrenador();
+                }
+
+                if (response && response.status === 200) {
                     // console.log(response.data.usuario);
                     store.commit(Constant.INITIALIZE_USER, response.data.usuario);
                 }
