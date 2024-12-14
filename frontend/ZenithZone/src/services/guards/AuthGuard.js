@@ -7,7 +7,7 @@ export default {
     async authGuardAdmin(to, from, next) {
         try {
             if (localStorage.getItem('isAdmin')) {
-                const response = await UserService.isAdmin();
+                const response = await UserService.GetCurrentAdmin();
                 if (response.status === 200) {
                     next();
                 }
@@ -23,7 +23,7 @@ export default {
     async authGuardEntrenador(to, from, next) {
         try {
             if (localStorage.getItem('isEntrenador')) {
-                const response = await UserService.isAdmin();
+                const response = await UserService.GetCurrentEntrenador();
                 if (response.status === 200) {
                     next();
                 }
