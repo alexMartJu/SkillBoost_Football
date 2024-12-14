@@ -43,8 +43,12 @@ class EntrenadorController extends Controller
     }
     public function me()
     {
-         
-        return response()->json(auth('entrenador')->user());
+        $entrenador=auth('entrenador')->user();
+        $entrenador->makeHidden(['password']);
+
+        return response()->json([
+            'usuario'=>$entrenador,
+        ]);
     }
     public function logout()
     {

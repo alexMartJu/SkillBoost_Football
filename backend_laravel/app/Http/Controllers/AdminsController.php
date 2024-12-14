@@ -35,7 +35,7 @@ class AdminsController extends Controller
         $admin = auth('admin')->user();
         $admin->makeHidden(['password']);
         $token = JWTAuth::fromUser($admin);
-        
+
         $admin->tokenAdmin = $token;
         return response()->json([
             "usuario" => $admin,
@@ -43,7 +43,12 @@ class AdminsController extends Controller
     }
     public function me()
     {
-        return response()->json(auth('admin')->user());
+        $admin = auth('admin')->user();
+        $admin->makeHidden(['password']);
+
+        return response()->json([
+            "usuario" => $admin,
+        ]);
     }
     public function logout()
     {
