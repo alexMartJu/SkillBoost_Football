@@ -1,17 +1,14 @@
 package com.polideportivo.backend_springboot.api.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,56 +37,86 @@ public class DynamicProxyFilter extends OncePerRequestFilter {
             // Si el header es true, seguimos con el flujo normal de Spring Boot
             filterChain.doFilter(request, response);
         } else {
-            // Si quieres solo devolver el header en la respuesta o si es null
+            // Si el header es null o no válido, devolvemos el header recibido
             response.setContentType("text/plain");
             response.getWriter().write("Header 'isSpringboot': " + isSpringbootHeader);
-            response.getWriter().write("getRequestURI: " + request.getRequestURI());
-            return; // Evita continuar con el filtro
+            response.getWriter().write("\ngetRequestURI: " + request.getRequestURI());
         }
     }
 
     private void forwardToLaravel(HttpServletRequest request, HttpServletResponse response) {
         try {
-            // Construir la solicitud dinámica para Laravel
+            // Construir la URI de Laravel
             String laravelUri = laravelBaseUrl + request.getRequestURI();
-            // response.getWriter().write("laravelURI: " + laravelUri);
+            logger.info("Forwarding request to Laravel: {}" + laravelUri);
 
-            // Crear WebClient
+            // Crear una instancia de WebClient con timeout configurado
             WebClient webClient = webClientBuilder.build();
 
-            // Realizar la solicitud dinámica usando WebClient
+            // Construir la solicitud dinámica
             WebClient.RequestBodySpec requestSpec = webClient
-                    .method(HttpMethod.valueOf(request.getMethod())) // Establecer el tipo de método (GET, POST, PUT,
-                                                                     // etc.)
+                    .method(HttpMethod.valueOf(request.getMethod())) // Establecer método HTTP
                     .uri(laravelUri)
-                    .headers(headers -> {
-                        Enumeration<String> headerNames = request.getHeaderNames();
-                        while (headerNames.hasMoreElements()) {
-                            String headerName = headerNames.nextElement();
-                            headers.add(headerName, request.getHeader(headerName));
-                        }
-                    });
+                    .headers(headers -> copyRequestHeaders(request, headers));
 
-            // Pasar el cuerpo de la solicitud (para POST/PUT)
+            // Leer el cuerpo de la solicitud si es POST o PUT
             if ("POST".equalsIgnoreCase(request.getMethod()) || "PUT".equalsIgnoreCase(request.getMethod())) {
                 requestSpec.body(BodyInserters.fromValue(request.getInputStream().readAllBytes()));
             }
 
-            // Ejecutar la solicitud y obtener la respuesta
+            // Realizar la solicitud y manejar la respuesta
             WebClient.ResponseSpec responseSpec = requestSpec.retrieve();
 
-            // Transformar la respuesta de Laravel a la respuesta original
-            responseSpec.toEntity(byte[].class).subscribe(responseEntity -> {
+            responseSpec.toEntity(byte[].class).blockOptional().ifPresentOrElse(responseEntity -> {
+                // Establecer el código de estado
                 response.setStatus(responseEntity.getStatusCode().value());
+
+                // Copiar los encabezados de la respuesta de Laravel
                 responseEntity.getHeaders().forEach((key, value) -> response.setHeader(key, String.join(",", value)));
+
+                // Escribir el cuerpo de la respuesta
                 try {
-                    response.getOutputStream().write(responseEntity.getBody());
+                    if (responseEntity.getBody() != null) {
+                        response.getOutputStream().write(responseEntity.getBody());
+                    }
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    logger.error("Error writing response body", e);
+                }
+            }, () -> {
+                // En caso de que no haya respuesta (null), devolver un error 502
+                logger.error("No response from Laravel");
+                response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+                try {
+                    response.getWriter().write("Error: No response from Laravel");
+                } catch (IOException e) {
+                    logger.error("Error writing error message", e);
                 }
             });
+
         } catch (Exception e) {
-            throw new RuntimeException("Error forwarding request to Laravel", e);
+            logger.error("Error forwarding request to Laravel", e);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            try {
+                response.getWriter().write("Error forwarding request to Laravel");
+            } catch (IOException ex) {
+                logger.error("Error writing error message", ex);
+            }
+        }
+    }
+
+    /**
+     * Copiar encabezados de la solicitud HTTP original al proxy.
+     */
+    private void copyRequestHeaders(HttpServletRequest request, HttpHeaders headers) {
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            if (!"content-length".equalsIgnoreCase(headerName)) { // Excluir Content-Length
+                Enumeration<String> values = request.getHeaders(headerName);
+                while (values.hasMoreElements()) {
+                    headers.add(headerName, values.nextElement());
+                }
+            }
         }
     }
 }
