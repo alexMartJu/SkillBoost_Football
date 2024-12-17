@@ -8,40 +8,59 @@ export default (URL) => {
         baseURL: URL,
     });
 
-    api.defaults.headers.common['isSpringboot'] = true;
+    api.interceptors.request.use(
+        (config) => {
+            const token = localStorage.getItem('token');
+            const tokenAdmin = localStorage.getItem('tokenAdmin');
+            const tokenEntrenador = localStorage.getItem('tokenEntrenador');
 
-    const token = localStorage.getItem('token');
-    const tokenAdmin = localStorage.getItem('tokenAdmin');
-    const tokenEntrenador = localStorage.getItem('tokenEntrenador');
+            config.headers = config.headers || {};
 
-    if (token) {
-        console.log(`existe el token en api services`);
-        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    } else if (tokenAdmin) {
-        console.log(`existe el tokenAdmin en api services`);
-        api.defaults.headers.common['Authorization'] = `Bearer ${tokenAdmin}`;
-        api.defaults.headers.common['isSpringboot'] = false;
+            if (token) {
+                console.log(`api services is Token`);
+                config.headers['Authorization'] = `Bearer ${token}`;
+                config.headers['isSpringboot'] = 'true';
+            } else if (tokenAdmin) {
+                console.log(`api services is tokenAdmin`);
+                config.headers['Authorization'] = `Bearer ${tokenAdmin}`;
+                config.headers['isSpringboot'] = 'false';
+            } else if (tokenEntrenador) {
+                console.log(`api services is tokenEntrenador`);
+                config.headers['Authorization'] = `Bearer ${tokenEntrenador}`;
+                config.headers['isSpringboot'] = 'false';
+            } else {
+                config.headers['isSpringboot'] = 'true';
+            }
 
-    } else if (tokenEntrenador) {
-        console.log(`existe el tokenEntrenador en api services`);
-        api.defaults.headers.common['Authorization'] = `Bearer ${tokenEntrenador}`;
-        api.defaults.headers.common['isSpringboot'] = false;
-    }
+            console.log('Request Headers:', config.headers);
+            return config;
+        },
+        (error) => {
+            return Promise.reject(error);
+        }
+    );
 
     api.interceptors.response.use(
-        (response) => response,
+        (response) => response, // Si la respuesta es correcta, continuar
         (error) => {
-            console.log(error.response);
+            console.log('Error Response:', error.response);
             if (error.response && error.response.status === 401) {
                 const store = useStore();
                 const router = useRouter();
-
-                store.dispatch(`user/${Constant.LOGOUT}`);
-                router.push({ name: 'home' });
+                try {
+                    const refreshToken = localStorage.getItem('refreshToken');
+                    console.log('Attempting token refresh...');
+                    // Aquí podrías llamar a un endpoint de refresco
+                    // y actualizar el token en el state y localStorage
+                } catch {
+                    console.log('Refresh token failed, logging out...');
+                    store.dispatch(`user/${Constant.LOGOUT}`);
+                    router.push({ name: 'home' });
+                }
             }
             return Promise.reject(error);
         }
     );
 
-    return api;
+    return api; // Devolver la instancia de Axios configurada
 };
