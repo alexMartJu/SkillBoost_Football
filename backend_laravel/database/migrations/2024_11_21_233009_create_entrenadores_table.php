@@ -14,13 +14,14 @@ return new class extends Migration {
             $table->id();
             $table->string('nombre');
             $table->string('apellidos');
-            $table->string('DNI')->unique();
+            $table->string('numeroEntrenador')->unique();
             $table->string('email')->unique();
             $table->string('password');
             $table->foreignId('deporte_id')->constrained()->onDelete('cascade');
             $table->integer('edad');
             $table->timestamps();
             $table->softDeletes();
+            $table->engine = 'InnoDB';
         });
     }
 

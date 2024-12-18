@@ -8,7 +8,7 @@ export default {
     },
 
     // Crear un nuevo entrenamiento en la API
-    CreateEntrenamiento(nuevoEntrenamiento) {   
+    CreateEntrenamiento(nuevoEntrenamiento) {
         return Api(secrets.URL_LARAVEL).post('entrenamientos', nuevoEntrenamiento);
     }
 };

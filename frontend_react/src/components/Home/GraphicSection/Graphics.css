@@ -1,0 +1,8 @@
+.container-graphics {
+    width: 200%;
+
+    canvas {
+        max-width: 700px !important;
+        height: 500px !important;
+    }
+}

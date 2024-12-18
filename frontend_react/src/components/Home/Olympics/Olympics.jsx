@@ -2,7 +2,7 @@ import'./olympics.css';
 const Olympics = () => {
     return (
 
-        <div className="landing-section d-flex">
+        <div className="landing-section-olympics d-flex">
             <div className="carousel-section col-md-6 p-0">
                 <div className="anillos-div">
                     <img src="/assets/anillos.png" alt="" className="anillos"/>

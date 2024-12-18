@@ -4,10 +4,10 @@
             <!-- Barra de navegación interna para cambiar entre Listar y Crear entrenamientos -->
             <div class="col-12 mb-4">
                 <div class="btn-group" role="group">
-                    <router-link to="/entrenadorDashboard" class="btn btn-primary">
+                    <router-link to="/dashboardEntrenador/listar" class="btn btn-primary">
                         Listar Entrenamientos
                     </router-link>
-                    <router-link to="/entrenadorDashboard/crear-entrenamiento" class="btn btn-secondary">
+                    <router-link to="/dashboardEntrenador/crear-entrenamiento" class="btn btn-secondary">
                         Crear Entrenamiento
                     </router-link>
                 </div>

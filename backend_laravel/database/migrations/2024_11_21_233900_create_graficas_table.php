@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->foreignId('usuario_id')->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
+            $table->engine = 'InnoDB';
         });
     }
 

@@ -5,11 +5,14 @@
   
       <!-- Barra de navegación interna -->
       <div class="btn-group" role="group">
-        <router-link to="/admin" class="btn btn-primary">
+        <router-link to="/dashboardAdmin/listar" class="btn btn-primary">
           Listar
         </router-link>
-        <router-link to="/admin/crear" class="btn btn-secondary">
+        <router-link to="/dashboardAdmin/crear" class="btn btn-secondary">
           Crear
+        </router-link>
+        <router-link to="/dashboardAdmin/entrenador" class="btn btn-secondary">
+          Registrar Entrenador
         </router-link>
       </div>
   

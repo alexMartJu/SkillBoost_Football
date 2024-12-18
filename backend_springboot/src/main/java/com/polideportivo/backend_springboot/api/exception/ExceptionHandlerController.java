@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -47,6 +48,14 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
+    private ResponseEntity<?> handleTaken(TakenException ex, WebRequest request, String fieldName) {
+        var status = HttpStatus.UNPROCESSABLE_ENTITY;
+        var message = ex.getMessage();
+
+        var error = createErrorBuilder(toMap(fieldName, message)).build();
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
     @ExceptionHandler(DeporteNotFoundException.class)
     public ResponseEntity<?> handleDeporteNotFound(DeporteNotFoundException ex, WebRequest request) {
         return handleResourceNotFound(ex, request, "deporte");
@@ -62,11 +71,41 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return handleResourceNotFound(ex, request, "entrenamiento");
     }
 
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<?> handleEmailNotFound(EmailNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "email");
+    }
+
+    @ExceptionHandler(ProfileNotFoundException.class)
+    public ResponseEntity<?> handleProfileNotFound(ProfileNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "profile");
+    }
+
+    @ExceptionHandler(EmailTakenException.class)
+    public ResponseEntity<?> handleEmailTaken(EmailTakenException ex, WebRequest request) {
+        return handleTaken(ex, request, "email");
+    }
+
+    @ExceptionHandler(NumeroSocioTakenException.class)
+    public ResponseEntity<?> handleEmailTaken(NumeroSocioTakenException ex, WebRequest request) {
+        return handleTaken(ex, request, "numeroSocio");
+    }
+
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> handleBusiness(BusinessException ex, WebRequest request) {
         var status = HttpStatus.INTERNAL_SERVER_ERROR;
 
         var error = createErrorBuilder(ex.getMessage()).build();
+
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccessDenied(AccessDeniedException ex, WebRequest request) {
+        var status = HttpStatus.FORBIDDEN;
+        var message = "You don't have access to this resource";
+
+        var error = createErrorBuilder(message).build();
 
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }

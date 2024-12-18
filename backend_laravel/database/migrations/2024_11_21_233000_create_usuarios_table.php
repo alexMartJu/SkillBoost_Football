@@ -12,14 +12,11 @@ return new class extends Migration {
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('apellidos');
-            $table->string('DNI')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->integer('edad');
             $table->timestamps();
             $table->softDeletes();
+            $table->engine = 'InnoDB';
         });
     }
 

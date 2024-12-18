@@ -18,15 +18,15 @@ class Reserva extends Model
     protected $hidden = ['created_at', 'updated_at'];
     public $timestamps = true;
     protected $fillable = [
-        'usuario_id',
+        'profile_id',
         'entrenamiento_id',
         'fecha_reserva',
         'plazas_reservadas',
         'estado'
     ];
-    public function usuario()
+    public function profile()
     {
-        return $this->belongsTo(Usuario::class, 'usuario_id');
+        return $this->belongsTo(Profile::class, 'profile_id');
     }
 
   
