@@ -6,7 +6,8 @@ export const adminDashboard = {
 
     state: {
         deportes: [],
-        pistas: []
+        pistas: [],
+        entrenadores: [],
     },
 
     mutations: {
@@ -39,6 +40,13 @@ export const adminDashboard = {
         [Constant.DELETE_ONE_PISTA](state, pistaslug) {
             state.pistas = state.pistas.filter(pista => pista.slug !== pistaslug);
         },
+        [Constant.INITIALIZE_ENTRENADOR](state, entrenadores) {
+            state.entrenadores = entrenadores;
+          },
+          [Constant.DELETE_ONE_ENTRENADOR](state, entrenadorId) {
+            state.entrenadores = state.entrenadores.filter(entrenador => entrenador.id !== entrenadorId);
+        }
+
     },
 
     actions: {
@@ -135,6 +143,22 @@ export const adminDashboard = {
               console.error("Error al eliminar la pista:", error);
             }
           },
+          async [Constant.INITIALIZE_ENTRENADOR]({ commit }) {
+            try {
+              const { data } = await adminDashboardService.GetEntrenadores(); 
+              commit(Constant.INITIALIZE_ENTRENADOR, data); 
+            } catch (error) {
+              console.error("Error al obtener la lista de entrenadores:", error);
+            }
+          },
+          async [Constant.DELETE_ONE_ENTRENADOR]({ commit }, numeroEntrenador) {
+            try {
+              await adminDashboardService.DeleteEntrenador(numeroEntrenador);
+              commit(Constant.DELETE_ONE_ENTRENADOR, numeroEntrenador);
+            } catch (error) {
+              console.error("Error al eliminar el entrenador:", error);
+            }
+          },
     },
 
     getters: {
@@ -149,6 +173,9 @@ export const adminDashboard = {
           },
         GetCurrentDeporte(state){
             return state.currentDeporte;
+        },
+        GetEntrenadores(state){
+            return state.entrenadores
         }
     }
 };

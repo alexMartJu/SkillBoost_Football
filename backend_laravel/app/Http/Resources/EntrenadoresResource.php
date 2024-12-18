@@ -22,7 +22,8 @@ class EntrenadoresResource extends JsonResource
             'email' => $this->email,
             'deporte_id' => $this->deporte_id,
             'edad' => $this->edad,
-            'imagenes' => $this->images
+            'imagenes' => $this->images,
+            'numeroEntrenador'=> $this->numeroEntrenador
         ];
     }
 }

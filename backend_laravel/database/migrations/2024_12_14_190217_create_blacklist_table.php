@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('blacklist', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('usuario_id')->constrained()->onDelete('cascade');
+            $table->string('token');
             $table->timestamps();
         });
     }

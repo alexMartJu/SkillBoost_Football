@@ -123,9 +123,15 @@ const router = createRouter({
           beforeEnter: AuthGuards.authGuardAdmin
         },
         {
-          path: "entrenador",
+          path: "entrenador/register",
           name: "RegisterTrainer",
           component: () => import('../components/dashboards/admin/RegisterTrainer.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "entrenador",
+          name: "ListEntrenadores",
+          component: () => import('../components/dashboards/admin/ListEntrenadores.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
         {

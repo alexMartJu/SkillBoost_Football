@@ -12,8 +12,12 @@
           Crear
         </router-link>
         <router-link to="/dashboardAdmin/entrenador" class="btn btn-secondary">
+          Entrenadoress
+        </router-link>
+        <router-link to="/dashboardAdmin/entrenador/register" class="btn btn-secondary">
           Registrar Entrenador
         </router-link>
+        
       </div>
   
       <!-- Cargar vistas de listado o creación según la ruta -->

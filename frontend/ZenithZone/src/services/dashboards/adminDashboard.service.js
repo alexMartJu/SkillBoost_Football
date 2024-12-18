@@ -31,5 +31,14 @@ export default {
     },
     DeletePista(pistaslug) {
         return Api(secrets.URL_SPRING).delete(`pistas/${pistaslug}`);
-    }
+    },
+    RegisterEntrenador(){
+        return Api(secrets.URL_SPRING).post(`entrenador/register`);
+    },
+    DeleteEntrenador(numeroEntrenador){
+        return Api(secrets.URL_SPRING).delete(`entrenador/${numeroEntrenador}`);
+    },
+    GetEntrenadores() {
+        return Api(secrets.URL_SPRING).get("entrenador");
+      },
 };
