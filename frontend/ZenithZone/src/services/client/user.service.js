@@ -34,16 +34,16 @@ export default {
 
     // ADMIN
     GetCurrentAdmin() {
-        return Api(secrets.URL_SPRING).get('currentAdmin');
+        return Api(secrets.URL_SPRING, 'false').get('currentAdmin',);
     },
 
     // ENTRENADOR
     GetCurrentEntrenador() {
-        return Api(secrets.URL_SPRING).get('currentEntrenador');
+        return Api(secrets.URL_SPRING, 'false').get('currentEntrenador');
     },
 
     UpdateEntrenador() {
-        return Api(secrets.URL_SPRING).update('currentEntrenador');
+        return Api(secrets.URL_SPRING, 'false').update('currentEntrenador');
     },
 
 }//export

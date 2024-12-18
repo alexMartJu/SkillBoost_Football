@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-export default (URL) => {
+export default (URL, isSpringboot = 'true') => {
     const api = axios.create({
         baseURL: URL,
     });
@@ -13,23 +13,24 @@ export default (URL) => {
             const token = localStorage.getItem('token');
             const tokenAdmin = localStorage.getItem('tokenAdmin');
             const tokenEntrenador = localStorage.getItem('tokenEntrenador');
+            console.log(`api services isSpringboot: ${isSpringboot}`);
 
             config.headers = config.headers || {};
 
             if (token) {
                 console.log(`api services is Token`);
                 config.headers['Authorization'] = `Bearer ${token}`;
-                config.headers['isSpringboot'] = 'true';
+                config.headers['isSpringboot'] = isSpringboot;
             } else if (tokenAdmin) {
                 console.log(`api services is tokenAdmin`);
                 config.headers['Authorization'] = `Bearer ${tokenAdmin}`;
-                config.headers['isSpringboot'] = 'false';
+                config.headers['isSpringboot'] = isSpringboot;  
             } else if (tokenEntrenador) {
                 console.log(`api services is tokenEntrenador`);
                 config.headers['Authorization'] = `Bearer ${tokenEntrenador}`;
-                config.headers['isSpringboot'] = 'false';
+                config.headers['isSpringboot'] = isSpringboot;
             } else {
-                config.headers['isSpringboot'] = 'true';
+                config.headers['isSpringboot'] = isSpringboot;
             }
 
             console.log('Request Headers:', config.headers);
