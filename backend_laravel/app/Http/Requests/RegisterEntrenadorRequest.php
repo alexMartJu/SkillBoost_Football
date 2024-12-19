@@ -3,7 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 class RegisterEntrenadorRequest extends FormRequest
 {
     /**
@@ -21,6 +22,7 @@ class RegisterEntrenadorRequest extends FormRequest
      */
     public function rules(): array
     {
+        Log::debug('Datos recibidos en RegisterEntrenadorRequest:', $this->all());
         return [
             'nombre' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',

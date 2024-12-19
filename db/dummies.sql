@@ -66,7 +66,11 @@ INSERT INTO `images` (`image_url`, `imageable_type`, `imageable_id`) VALUES
 ('piscina.jpg', 'App\\Models\\Pista', 2),
 ('rocodromo.jpg', 'App\\Models\\Pista', 3),
 ('pista_padel.jpg', 'App\\Models\\Pista', 4),
-('pista_ciclismo.jpg', 'App\\Models\\Pista', 5);
+('pista_ciclismo.jpg', 'App\\Models\\Pista', 5),
+('maria.jpg', 'App\\Models\\Entrenador', 3),
+('luis.jpg', 'App\\Models\\Entrenador', 2),
+('laura.jpg', 'App\\Models\\Entrenador', 1);
+
 
 INSERT INTO `usuarios` (`id`,`email`, `password`) VALUES
 (1, 'juan.perez@example.com', 'password123'),

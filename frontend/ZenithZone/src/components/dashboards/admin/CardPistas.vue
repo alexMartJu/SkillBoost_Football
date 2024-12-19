@@ -27,13 +27,13 @@
       },
       confirmarEliminar(pistaSlug) {
         if (confirm("¿Estás seguro de que deseas eliminar esta pista?")) {
-            this.eliminarDeporte(pistaSlug);
+            this.eliminarPista(pistaSlug);
         }
         },
-        eliminarDeporte(pistaSlug) {
+        eliminarPista(pistaSlug) {
             this.$store.dispatch('adminDashboard/DeteleOnePista', pistaSlug   )
-            .then(() => console.log("Deporte eliminado correctamente"))
-            .catch(error => console.error("Error al eliminar el deporte:", error));
+            .then(() => console.log("Pista eliminado correctamente"))
+            .catch(error => console.error("Error al eliminar la Pista:", error));
         }
     }
   };

@@ -11,6 +11,12 @@
                             <div v-if="isLoading" class="text-center">
                                 <p>Cargando deportes...</p>
                             </div>
+                            <div v-if="registrationSuccess" class="alert alert-success text-center">
+                                Entrenador registrado exitosamente.
+                            </div>
+                            <div v-if="registrationError" class="alert alert-danger text-center">
+                                Ocurrió un error al registrar al entrenador.
+                            </div>
                             <TrainerForm
                                 v-else
                                 :deportes="deportes"
@@ -24,39 +30,50 @@
     </div>
 </template>
 
-
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import Constant from '@/Constant';
 import TrainerForm from '@/components/dashboards/admin/TrainerForm.vue';
-import Constant from '../../../Constant';
-
+import { mapGetters, mapActions } from 'vuex';
 export default {
     name: 'RegisterTrainer',
     components: {
-        TrainerForm
+        TrainerForm,
     },
     data() {
         return {
-            isLoading: true, 
+            isLoading: true,
+            registrationSuccess: false,
+            registrationError: false,
         };
     },
     computed: {
         ...mapGetters('adminDashboard', {
-            deportes: 'GetDeportes', 
+            deportes: 'GetDeportes',
         }),
     },
     methods: {
         ...mapActions('adminDashboard', {
-            fetchDeportes: Constant.INITIALIZE_DEPORTE, 
+            fetchDeportes: Constant.INITIALIZE_DEPORTE,
+            registerEntrenador: Constant.REGISTER_ENTRENADOR,
         }),
         handleFormSubmit(formData) {
-            console.log('Form data received:', formData);
-           
+            this.registerEntrenador(formData)
+                .then(() => {
+                    this.registrationSuccess = true;
+                    this.registrationError = false;
+                    setTimeout(() => {
+                        this.registrationSuccess = false;
+                    }, 3000); 
+                })
+                .catch((error) => {
+                    this.registrationError = true;
+                    this.registrationSuccess = false;
+                });
         },
     },
     async created() {
         try {
-            await this.fetchDeportes(); 
+            await this.fetchDeportes();
             this.isLoading = false;
         } catch (error) {
             console.error('Error al cargar los deportes:', error);
@@ -64,4 +81,3 @@ export default {
     },
 };
 </script>
-

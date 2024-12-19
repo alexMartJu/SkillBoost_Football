@@ -34,4 +34,9 @@ export default {
     LOGIN: "Login",
     LOGIN_ADMIN: "Login_admin",
     LOGOUT: "Logout",
+    //entrenadores
+    INITIALIZE_ENTRENADOR: "initializeEntrenador",
+    DELETE_ONE_ENTRENADOR: "deleteOneEntrenador",
+    REGISTER_ENTRENADOR:"registerOneEntrenador",
+    ADD_NEW_ENTRENADOR: "addOneEntrenador"
 }
