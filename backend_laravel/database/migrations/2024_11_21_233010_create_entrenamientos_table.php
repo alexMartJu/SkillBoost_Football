@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('status');
             $table->foreignId('deporte_id')->constrained()->onDelete('cascade');
             $table->foreignId('horario_id')->constrained()->onDelete('cascade');
+            $table->foreignId('pista_privada_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('entrenador_id');
             $table->foreign('entrenador_id')->references('id')->on('entrenadores')->onDelete('cascade');
             $table->timestamps();

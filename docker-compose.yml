@@ -25,43 +25,43 @@ services:
     networks:
       - ZenithZone
 
-  springboot:
-    build:
-      context: ./backend_springboot
-      dockerfile: Dockerfile
-    container_name: springboot_container
-    restart: on-failure
-    env_file: ./.env
-    ports:
-      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
-    depends_on:
-      - mysql
-    environment:
-      - DB_HOST=mysql
-      - DB_USERNAME=root
-      - DB_PASSWORD=root_secret
-      - DB_NAME=ZenithZone
-    volumes:
-      - ./backend_springboot:/app
-    stdin_open: true
-    tty: true
-    networks:
-      - ZenithZone
+  # springboot:
+  #   build:
+  #     context: ./backend_springboot
+  #     dockerfile: Dockerfile
+  #   container_name: springboot_container
+  #   restart: on-failure
+  #   env_file: ./.env
+  #   ports:
+  #     - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+  #   depends_on:
+  #     - mysql
+  #   environment:
+  #     - DB_HOST=mysql
+  #     - DB_USERNAME=root
+  #     - DB_PASSWORD=root_secret
+  #     - DB_NAME=ZenithZone
+  #   volumes:
+  #     - ./backend_springboot:/app
+  #   stdin_open: true
+  #   tty: true
+  #   networks:
+  #     - ZenithZone
 
-  vue:
-    build:
-      context: ./frontend/ZenithZone
-      dockerfile: Dockerfile
-    container_name: vue_container
-    env_file: ./.env
-    restart: on-failure
-    ports:
-      - "$VUE_LOCAL_PORT:$VUE_DOCKER_PORT"
-    volumes:
-      - ./frontend/ZenithZone:/app
-      - /app/node_modules
-    networks:
-      - ZenithZone
+  # vue:
+  #   build:
+  #     context: ./frontend/ZenithZone
+  #     dockerfile: Dockerfile
+  #   container_name: vue_container
+  #   env_file: ./.env
+  #   restart: on-failure
+  #   ports:
+  #     - "$VUE_LOCAL_PORT:$VUE_DOCKER_PORT"
+  #   volumes:
+  #     - ./frontend/ZenithZone:/app
+  #     - /app/node_modules
+  #   networks:
+  #     - ZenithZone
 
   mysql:
     image: mysql:8

@@ -10,13 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('reservas', function (Blueprint $table) {
+        Schema::create('pista_privadas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('profile_id')->constrained()->onDelete('cascade');
-            $table->foreignId('pista_id')->constrained()->onDelete('cascade');
-            $table->foreignId('horario_id')->constrained()->onDelete('cascade');
-            $table->string('dia');
-            $table->string('status');
+            $table->string('nombre', 191);
+            $table->string('slug', 191)->unique();
+            $table->string('info')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->engine = 'InnoDB';
@@ -28,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('reservas');
+        Schema::dropIfExists('pista_privadas');
     }
 };
