@@ -11,12 +11,10 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('favorites', function (Blueprint $table) {
-            $table->foreignId('usuario_id')->constrained()->onDelete('cascade');
+            $table->foreignId('profile_id')->constrained()->onDelete('cascade');
             $table->foreignId('entrenamiento_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-
-
-            $table->unique(['usuario_id', 'entrenamiento_id']);
+            $table->unique(['profile_id', 'entrenamiento_id']);
             $table->engine = 'InnoDB';
         });
     }
