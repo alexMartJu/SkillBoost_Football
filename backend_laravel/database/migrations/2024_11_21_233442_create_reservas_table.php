@@ -12,11 +12,14 @@ return new class extends Migration {
     {
         Schema::create('reservas', function (Blueprint $table) {
             $table->id();
-            $table->string('info')->nullable();
-            $table->foreignId('usuario_id')->constrained()->onDelete('cascade');
+            $table->foreignId('profile_id')->constrained()->onDelete('cascade');
+            $table->foreignId('pista_id')->constrained()->onDelete('cascade');
+            $table->foreignId('horario_id')->constrained()->onDelete('cascade');
+            $table->string('dia');
             $table->string('status');
             $table->timestamps();
             $table->softDeletes();
+            $table->primary(['pista_id', 'profile_id']);
             $table->engine = 'InnoDB';
         });
     }
