@@ -1,44 +1,44 @@
 import secrets from "@/secrets";
 import Api from "../Api";
-
+const isSpringboot = "false";
 export default {
     GetDeportes() {
-        return Api(secrets.URL_SPRING).get('deportes');
+        return Api(secrets.URL_SPRING,isSpringboot).get('deportes');
     },
     CreateDeporte(deporte) {
-        return Api(secrets.URL_SPRING).post('deportes', deporte);
+        return Api(secrets.URL_SPRING,isSpringboot).post('deportes', deporte);
     },
     GetPistas() {
-        return Api(secrets.URL_SPRING).get('pistas');
+        return Api(secrets.URL_SPRING,isSpringboot).get('pistas');
     },
     CreatePista(pista) {
-        return Api(secrets.URL_SPRING).post('pistas', pista);
+        return Api(secrets.URL_SPRING,isSpringboot).post('pistas', pista);
     },
     GetPistaBySlug(slug) {
-        return Api(secrets.URL_SPRING).get(`pistas/${slug}`);
+        return Api(secrets.URL_SPRING,isSpringboot).get(`pistas/${slug}`);
     },
     GetDeporteBySlug(slug) {
-        return Api(secrets.URL_SPRING).get(`deportes/${slug}`);
+        return Api(secrets.URL_SPRING,isSpringboot).get(`deportes/${slug}`);
     },
     UpdateDeporte(slug, deporte) {
-        return Api(secrets.URL_SPRING).put(`deportes/${slug}`, deporte);
+        return Api(secrets.URL_SPRING,isSpringboot).put(`deportes/${slug}`, deporte);
     },
     UpdatePista(slug, pista) {
-        return Api(secrets.URL_SPRING).put(`pistas/${slug}`, pista);
+        return Api(secrets.URL_SPRING,isSpringboot).put(`pistas/${slug}`, pista);
     },
     DeleteDeporte(deporteslug) {
-        return Api(secrets.URL_SPRING).delete(`deportes/${deporteslug}`);
+        return Api(secrets.URL_SPRING,isSpringboot).delete(`deportes/${deporteslug}`);
     },
     DeletePista(pistaslug) {
-        return Api(secrets.URL_SPRING).delete(`pistas/${pistaslug}`);
+        return Api(secrets.URL_SPRING,isSpringboot).delete(`pistas/${pistaslug}`);
     },
-    RegisterEntrenador(){
-        return Api(secrets.URL_SPRING).post(`entrenador/register`);
+    RegisterEntrenador(entrenadorData){
+        return Api(secrets.URL_SPRING,isSpringboot).post('entrenador/register', entrenadorData);
     },
     DeleteEntrenador(numeroEntrenador){
-        return Api(secrets.URL_SPRING).delete(`entrenador/${numeroEntrenador}`);
+        return Api(secrets.URL_SPRING,isSpringboot).delete(`entrenador/${numeroEntrenador}`);
     },
     GetEntrenadores() {
-        return Api(secrets.URL_SPRING).get("entrenador");
+        return Api(secrets.URL_SPRING,isSpringboot).get("entrenador");
       },
 };

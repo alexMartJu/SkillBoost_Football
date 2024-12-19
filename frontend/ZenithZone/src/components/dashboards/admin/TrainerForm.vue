@@ -29,10 +29,29 @@
             </div>
         </div>
         <div class="mb-3">
-            <label for="password2" class="form-label">Repeat Password</label>
-            <input type="password" id="password2" class="form-control" v-model="state.password2" required />
-            <div v-if="state.password !== state.password2" class="text-danger small">
+            <label for="password_confirmation" class="form-label">Repeat Password</label>
+            <input type="password" id="password_confirmation" class="form-control" v-model="state.password_confirmation" required />
+            <div v-if="state.password !== state.password_confirmation" class="text-danger small">
                 Passwords do not match.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="edad" class="form-label">Edad (mínimo 18)</label>
+            <input
+                type="range"
+                id="edad"
+                class="form-control"
+                v-model="state.edad"
+                :min="18"
+                :max="100"
+                step="1"
+                required
+            />
+            <div>
+                <span>Edad seleccionada: {{ state.edad }}</span>
+            </div>
+            <div v-if="state.edad < 18" class="text-danger small">
+                La edad debe ser al menos 18 años.
             </div>
         </div>
         <div class="mb-3">
@@ -69,8 +88,9 @@ export default defineComponent({
             apellidos: '',
             email: '',
             password: '',
-            password2: '',
+            password_confirmation: '',
             deporte_id: null,
+            edad:18,
         });
 
         const rules = computed(() => ({
@@ -78,24 +98,27 @@ export default defineComponent({
             apellidos: { required, minLength: minLength(2) },
             email: { required, email },
             password: { required, minLength: minLength(3) },
-            password2: { required, minLength: minLength(3) },
+            password_confirmation: { required, minLength: minLength(3) },
             deporte_id: { required },
+            edad: { required },
         }));
 
         const x$ = useVuelidate(rules, state);
 
         const isFormInvalid = computed(() => {
-            return x$.$invalid || state.password !== state.password2;
+            return x$.$invalid || state.password !== state.password_confirmation;
         });
 
         const submitForm = () => {
-            if (!x$.$invalid && state.password === state.password2) {
+            if (!x$.$invalid && state.password === state.password_confirmation) {
                 console.log('Form is valid, emitting data...'); 
                 emit('submit', {
                     nombre: state.nombre,
                     apellidos: state.apellidos,
                     email: state.email,
                     password: state.password,
+                    password_confirmation: state.password_confirmation,
+                    edad: state.edad,
                     deporte_id: state.deporte_id
                 });
             } else {

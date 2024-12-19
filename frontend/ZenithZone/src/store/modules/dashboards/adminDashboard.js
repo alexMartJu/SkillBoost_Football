@@ -45,7 +45,11 @@ export const adminDashboard = {
           },
           [Constant.DELETE_ONE_ENTRENADOR](state, entrenadorId) {
             state.entrenadores = state.entrenadores.filter(entrenador => entrenador.id !== entrenadorId);
+        },
+        [Constant.ADD_NEW_ENTRENADOR](state, newEntrenador) {
+            state.entrenadores.push(newEntrenador);
         }
+        
 
     },
 
@@ -159,6 +163,17 @@ export const adminDashboard = {
               console.error("Error al eliminar el entrenador:", error);
             }
           },
+          async [Constant.REGISTER_ENTRENADOR]({ commit }, entrenadorData) {
+            try {
+                const { data } = await adminDashboardService.RegisterEntrenador(entrenadorData);
+                console.log("Entrenador registrado:", data);
+                // Puedes agregar una mutación para actualizar el estado si es necesario, como agregar el nuevo entrenador a la lista.
+                 commit(Constant.ADD_NEW_ENTRENADOR, data);
+            } catch (error) {
+                console.error("Error al registrar el entrenador:", error);
+            }
+        }
+          
     },
 
     getters: {
