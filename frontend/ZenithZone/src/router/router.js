@@ -140,6 +140,19 @@ const router = createRouter({
           component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
+        {
+          path: 'entrenamientos',
+          name: 'ListEntrenamientos',
+          component: () => import('../components/dashboards/admin/ListEntrenamientos.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: 'salas',
+          name: 'ListCreateSalas',
+          component: () => import('../components/dashboards/admin/salas.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+
       ]
     },
   ]
