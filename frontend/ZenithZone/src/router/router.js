@@ -49,6 +49,11 @@ const router = createRouter({
               path: ":filters",
               name: "serviciosEntrenamientosFilter",
               component: () => import('../components/servicios/serviciosEntrenamientos.vue'),
+            },
+            {
+              path: "details/:slug",
+              name: "detailsEntrenamiento",
+              component: () => import('../components/servicios/detailsEntrenamiento.vue')
             }
           ]
         },
@@ -79,6 +84,59 @@ const router = createRouter({
       name: "register",
       component: () => import('../views/client/Register.vue'),
       beforeEnter: AuthGuards.noAuthGuard, meta: { requiresAuth: true }
+    },
+
+    // PROFILE
+    {
+      path: "/profile/:numeroSocio",
+      name: "profile",
+      component: () => import('../views/client/Profile.vue'),
+      children: [
+        {
+          path: "/",
+          name: "profileInfo",
+          component: () => import('../components/profile/Profile.vue'),
+        },
+        {
+          path: "/editar",
+          name: "profileEdit",
+          component: () => import('../components/profile/ProfileEdit.vue'),
+        },
+        {
+          path: "/graficas",
+          name: "profileGraficas",
+          component: () => import('../components/profile/Graficas.vue'),
+        },
+        {
+          path: "/reservas",
+          name: "profileReservas",
+          component: () => import('../components/profile/ProfileReservas.vue'),
+        },
+        {
+          path: "/entrenamientos",
+          name: "profileEntrenamientos",
+          component: () => import('../components/profile/ProfileEntrenamientos.vue'),
+        },
+      ]
+    },
+
+    // Profile Entrenador
+    {
+      path: "/entrenador/:numeroEntrenador",
+      name: "profileEntrenador",
+      component: () => import('../views/client/ProfileEntrenador.vue'),
+      children: [
+        {
+          path: "/",
+          name: "entrenadorInfo",
+          component: () => import('../components/entrenador/Profile.vue'),
+        },
+        {
+          path: "/editar",
+          name: "profileEdit",
+          component: () => import('../components/entrenador/ProfileEdit.vue'),
+        },
+      ]
     },
 
     // DASHBOARD ENTRENADOR
