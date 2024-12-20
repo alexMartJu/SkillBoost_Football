@@ -19,7 +19,8 @@ class EntrenamientoResource extends JsonResource
             'max_plazas' => $this->max_plazas,
             'precio' => $this->precio,
             'deporte' => $this->deporte,
-            'horario' => $this->horario ? $this->horario->hora : null, // Si tienes la relación Horario
+            'horario' => $this->horario ? $this->horario->hora : null,
+            'status' => $this->status,
             'entrenador' => [
                 'nombre' => $this->entrenador->nombre,
                 'apellidos' => $this->entrenador->apellidos,
