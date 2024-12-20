@@ -22,4 +22,5 @@ public class UsuarioResponse extends BaseResponse {
     private Integer edad;
 
     private String token;
+    private String refreshToken;
 }

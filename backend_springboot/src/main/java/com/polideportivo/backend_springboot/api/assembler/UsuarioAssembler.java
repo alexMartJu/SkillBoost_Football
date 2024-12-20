@@ -1,5 +1,6 @@
 package com.polideportivo.backend_springboot.api.assembler;
 
+import com.polideportivo.backend_springboot.api.model.usuario.UsuarioNewAccessTokenResponse;
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioRegister;
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioResponse;
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioUpdate;
@@ -33,5 +34,11 @@ public class UsuarioAssembler {
 
     public void copyToEntity(UsuarioUpdate update, Usuario user) {
         modelMapper.map(update, user);
+    }
+
+    public UsuarioNewAccessTokenResponse toNewAccessTokenResponse(String token) {
+        return UsuarioNewAccessTokenResponse.builder()
+                .token(token)
+                .build();
     }
 }
