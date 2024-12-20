@@ -2,6 +2,7 @@ package com.polideportivo.backend_springboot.api.security;
 
 import java.util.Map;
 import java.util.Date;
+import java.security.Key;
 
 public interface TokenService {
     
@@ -9,11 +10,23 @@ public interface TokenService {
 
     String generateToken(final Map<String, Object> extraClaims, final String subject);
 
+    String generateRefreshToken(final String subject);
+
+    String generateRefreshToken(final Map<String, Object> extraClaims, final String subject);
+
     boolean isTokenValid(final String token, final String subject);
 
-    boolean isTokenExpired(final String token);
+    boolean isRefreshTokenValid(final String token, final String subject);
 
-    Date extractExpiration(String token);
+    boolean isTokenExpired(final String token, final Key key);
 
-    String extractEmail(final String token);
+    Date extractExpiration(String token, final Key key);
+
+    String extractEmail(final String token, final Key key);
+
+    Key getAccessTokenKeyPublic();
+
+    Key getRefreshTokenKeyPublic();
+
+    String extractEmailFromExpiredOrValidToken(final String token, final Key key);
 }

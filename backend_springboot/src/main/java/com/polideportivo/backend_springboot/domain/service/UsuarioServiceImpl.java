@@ -89,4 +89,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         var existingUser = userRepository.findByEmail(user.getEmail());
         return existingUser.isPresent() && !existingUser.get().equals(user);
     }
+
+    @Transactional
+    public void setRefreshToken(Usuario user, String refreshToken) {
+        user.setRefreshToken(refreshToken);
+        userRepository.save(user);
+    }
 }

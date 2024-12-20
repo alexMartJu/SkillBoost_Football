@@ -29,7 +29,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             "/api/entrenamientos", "/api/entrenamientos/*",
             "/api/profiles", "/api/profiles/*",
             "/api/pistas", "/api/pistas/*", "/api/pistasInfinite",
-            "/api/users", "/api/users/login"
+            "/api/users", "/api/users/login", "/api/refresh", "/api/logout"
     );
 
     @Override
@@ -52,7 +52,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         }
 
         token = authHeader.substring(7); // "Bearer " son 7 caracteres
-        email = tokenService.extractEmail(token);
+        email = tokenService.extractEmail(token, tokenService.getAccessTokenKeyPublic());
 
         if (email != null && !isAuthenticated()) {
             var userDetails = userDetailsService.loadUserByUsername(email);

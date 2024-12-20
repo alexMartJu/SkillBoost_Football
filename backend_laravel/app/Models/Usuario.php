@@ -19,7 +19,8 @@ class Usuario extends Model
     public $timestamps = true;
     protected $fillable = [
         'email',
-        'password'
+        'password',
+        'refresh_token'
     ];
 
     public function profile()
@@ -27,9 +28,9 @@ class Usuario extends Model
         return $this->hasOne(Profile::class, 'id', 'id');
     }
 
-    public function blacklists()
+    public function blacklistTokens()
     {
-        return $this->hasMany(Blacklist::class, 'usuario_id');
+        return $this->hasMany(BlacklistToken::class, 'usuario_id');
     }
     
 }
