@@ -1,17 +1,3 @@
-<!-- <template>
-    <div class="entrenamiento-list">
-      <h1>Lista de Entrenamientos</h1>
-      <div v-if="entrenamientos.length > 0">
-        <CardEntrenamientos
-            v-for="entrenamiento in entrenamientos"
-            :key="entrenamiento.id"
-            :entrenamiento="entrenamiento"
-            @cambiarEstado="cambiarEstado"
-            @eliminarEntrenamiento="eliminarEntrenamiento"
-        />
-        </div>
-    </div>
-  </template> -->
   <template>
     <div class="entrenamiento-list">
       <h1>Lista de Entrenamientos</h1>
@@ -21,7 +7,7 @@
       <div v-if="pendientes.length > 0">
         <CardEntrenamientos
           v-for="entrenamiento in pendientes"
-          :key="entrenamiento.id"
+          :key="entrenamiento.slug"
           :entrenamiento="entrenamiento"
           @cambiarEstado="cambiarEstado"
           @eliminarEntrenamiento="eliminarEntrenamiento"
@@ -34,7 +20,7 @@
       <div v-if="aceptadosOdenegados.length > 0">
         <CardEntrenamientos
           v-for="entrenamiento in aceptadosOdenegados"
-          :key="entrenamiento.id"
+          :key="entrenamiento.slug"
           :entrenamiento="entrenamiento"
           @cambiarEstado="cambiarEstado"
           @eliminarEntrenamiento="eliminarEntrenamiento"
@@ -58,28 +44,36 @@
         entrenamientos: 'adminDashboard/GetEntrenamientos', 
       }),
       pendientes() {
-      return this.entrenamientos.filter(entrenamiento => entrenamiento.estado === 'Pendiente');
+      return this.entrenamientos.filter(entrenamiento => entrenamiento.status === 'pending');
     },
         aceptadosOdenegados() {
         return this.entrenamientos.filter(entrenamiento => 
-            entrenamiento.estado === 'Aceptado' || entrenamiento.estado === 'Denegado'||  !entrenamiento.estado);
+            entrenamiento.status === 'accepted' || entrenamiento.status === 'denied'||  !entrenamiento.status);
         },
 
     },
     methods: {
      
-      cambiarEstado(id, estado) {
-        this.$store.dispatch('adminDashboard/cambiarEstadoEntrenamiento', { id, estado })
-          .then(() => {
-            console.log("Estado actualizado con éxito");
-          })
-          .catch(error => {
-            console.error("Error al cambiar el estado del entrenamiento:", error);
-          });
-      },
+        cambiarEstado(slug, status) {
+       
+            // const status = payload.status;
+
+            
+            // if (status === 'accepted' || status === 'denied') {
+            this.$store.dispatch('adminDashboard/cambiarEstadoEntrenamiento', { slug, status })
+                .then(() => {
+                console.log("Estado actualizado con éxito");
+                })
+                .catch(error => {
+                console.error("Error al cambiar el estado del entrenamiento:", error);
+                });
+            // } else {
+            // console.error("Estado no válido:", status);
+            // }
+        },
      
-      eliminarEntrenamiento(id) {
-        this.$store.dispatch('adminDashboard/eliminarEntrenamiento', id)
+      eliminarEntrenamiento(slug) {
+        this.$store.dispatch('adminDashboard/eliminarEntrenamiento', slug)
           .then(() => {
             console.log("Entrenamiento eliminado con éxito");
           })
