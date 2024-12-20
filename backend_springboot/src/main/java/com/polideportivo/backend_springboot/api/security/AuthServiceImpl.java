@@ -2,9 +2,11 @@ package com.polideportivo.backend_springboot.api.security;
 
 import com.polideportivo.backend_springboot.api.assembler.UsuarioAssembler;
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioAuthenticate;
+import com.polideportivo.backend_springboot.api.model.usuario.UsuarioNewAccessTokenResponse;
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioResponse;
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioToken;
 import com.polideportivo.backend_springboot.domain.model.Usuario;
+import com.polideportivo.backend_springboot.domain.service.BlacklistTokenService;
 import com.polideportivo.backend_springboot.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import com.polideportivo.backend_springboot.domain.repository.EntrenadorRepository;
@@ -29,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
     private final EntrenadorRepository entrenadorRepository;
     private final AdminRepository adminRepository;
     private final WebClient.Builder webClientBuilder;
+    private final BlacklistTokenService blacklistTokenService;
 
     public UsuarioResponse register(Usuario user) {
         return userAssembler.toResponse(user);
@@ -50,16 +53,21 @@ public class AuthServiceImpl implements AuthService {
         );
     
         var user = userService.getByEmail(authenticate.getEmail());
+        // Generar los tokens (Access y Refresh)
         var token = tokenService.generateToken(setDefaultClaims(user), user.getEmail());
+        var refreshToken = tokenService.generateRefreshToken(setDefaultClaims(user), user.getEmail());
+
+        userService.setRefreshToken(user, refreshToken);
     
         // Crear la respuesta para un usuario (como estaba antes)
-        return toUserResponse(user, token); // Devolvemos la respuesta en formato UsuarioResponse
+        return toUserResponse(user, token, refreshToken); // Devolvemos la respuesta en formato UsuarioResponse
     }
     
 
-    private UsuarioResponse toUserResponse(Usuario user, String token) {
+    private UsuarioResponse toUserResponse(Usuario user, String token, String refreshToken) {
         var response = userAssembler.toResponse(user);
         response.setToken(token); // Agregar el token a la respuesta
+        response.setRefreshToken(refreshToken);
         return response;
     }
 
@@ -103,6 +111,56 @@ public class AuthServiceImpl implements AuthService {
         }
     }
     
+    // Refrescar el Access Token
+    public UsuarioNewAccessTokenResponse refreshAccessToken(String refreshToken) {
+        // Validar si el Refresh Token está en la blacklist
+        if (blacklistTokenService.isTokenBlacklisted(refreshToken)) {
+            throw new RuntimeException("Refresh token is blacklisted");
+        }
+        
+        // Validar si el Refresh Token ha expirado
+        if (tokenService.isTokenExpired(refreshToken, tokenService.getRefreshTokenKeyPublic())) {
+            throw new RuntimeException("Refresh token has expired");
+        }
+
+        // Extraer el email (subject) del Refresh Token
+        String email = tokenService.extractEmail(refreshToken, tokenService.getRefreshTokenKeyPublic());
+
+        // Verificar que el usuario asociado existe
+        var user = userService.getByEmail(email);
+
+        // Generar un nuevo Access Token
+        String token = tokenService.generateToken(setDefaultClaims(user), email);
+
+        return userAssembler.toNewAccessTokenResponse(token);
+    }
+
+    // Logout del usuario
+    public void logout(String refreshToken) {
+        // Verificar que el Refresh Token haya sido proporcionado
+        if (refreshToken == null || refreshToken.isEmpty()) {
+            throw new RuntimeException("Refresh token is required");
+        }
+
+        // Validar si el Refresh Token está en la blacklist
+        if (blacklistTokenService.isTokenBlacklisted(refreshToken)) {
+            throw new RuntimeException("Refresh token is already blacklisted");
+        }
+
+        // Extraer el email del token, independientemente de si ha expirado o no
+        String email = tokenService.extractEmailFromExpiredOrValidToken(refreshToken, tokenService.getRefreshTokenKeyPublic());
+
+        // Verificar que el usuario asociado existe
+        var user = userService.getByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        // Añadir el Refresh Token a la Blacklist
+        blacklistTokenService.addTokenToBlacklist(refreshToken, user.getId());
+
+        userService.setRefreshToken(user, null);
+    }
     
 
 
