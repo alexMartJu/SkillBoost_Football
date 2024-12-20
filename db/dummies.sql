@@ -87,12 +87,12 @@ INSERT INTO `entrenadores` (`id`, `nombre`, `apellidos`, `numeroEntrenador`, `em
 (2, 'Luis', 'Fernández', 'Luis-8233', 'luis.fernandez@example.com', '$2y$12$vCM7aGEpVWF0Zhw.lc\/DKe0E9.btFHJSB.3vZdzeGfei7Amxa0RA6', 2, 40),
 (3, 'María', 'Gómez', 'Maria-9267', 'maria.gomez@example.com', '$2y$12$gqMbj6IVYkc0FnZzmglFLeJoiwNpvacdKmAD7yLhXLdxbNmUDfKj6', 3, 32);
 
-INSERT INTO `entrenamientos` (`id`, `nombre`, `slug`, `descripcion`, `dia`, `duracion`, `max_plazas`, `precio`, `deporte_id`, `horario_id`,`entrenador_id`, `created_at`, `updated_at`) VALUES
-(1, 'Clase Básica A', 'clase-basica-a', 'Clase de iniciación al deporte A', 'Domingo', 60, 20, 15, 1, 1, 2,'2024-11-17 15:47:05', '2024-11-17 15:47:05'),
-(2, 'Clase Avanzada B', 'clase-avanzada-b', 'Clase avanzada de deporte B', 'Martes', 90, 15, 30, 2, 2, 1,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
-(3, 'Clase Intermedia C', 'clase-intermedia-c', 'Clase intermedia de deporte C', 'Jueves', 75, 25, 20, 3, 3, 3,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
-(4, 'Clase Intensiva D', 'clase-intensiva-d', 'Clase intensiva de deporte D', 'Domingo', 120, 10, 40, 4, 4, 2,'2024-11-17 15:52:06', '2024-11-17 15:52:06'),
-(5, 'Clase Adaptada E', 'clase-adaptada-e', 'Clase adaptada para personas con necesidades especiales', 'Miercoles', 60, 15, 25, 4, 2, 3,'2024-11-17 15:52:06', '2024-11-17 15:52:06');
+INSERT INTO `entrenamientos` (`id`, `nombre`, `slug`, `descripcion`, `dia`, `duracion`, `max_plazas`, `precio`,`status`, `deporte_id`, `horario_id`,`entrenador_id`, `created_at`, `updated_at`) VALUES
+(1, 'Clase Básica A', 'clase-basica-a', 'Clase de iniciación al deporte A', 'Domingo', 60, 20, 15,"pending", 1, 1, 2,'2024-11-17 15:47:05', '2024-11-17 15:47:05'),
+(2, 'Clase Avanzada B', 'clase-avanzada-b', 'Clase avanzada de deporte B', 'Martes', 90, 15, 30,"pending" ,2, 2, 1,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
+(3, 'Clase Intermedia C', 'clase-intermedia-c', 'Clase intermedia de deporte C', 'Jueves', 75, 25, 20, "accepted",3, 3, 3,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
+(4, 'Clase Intensiva D', 'clase-intensiva-d', 'Clase intensiva de deporte D', 'Domingo', 120, 10, 40,"denied", 4, 4, 2,'2024-11-17 15:52:06', '2024-11-17 15:52:06'),
+(5, 'Clase Adaptada E', 'clase-adaptada-e', 'Clase adaptada para personas con necesidades especiales', 'Miercoles', 60, 15, 25,"accepted", 4, 2, 3,'2024-11-17 15:52:06', '2024-11-17 15:52:06');
 
 INSERT INTO `admins` (`id`, `nombre`, `email`, `numeroAdmin`, `password`) VALUES
 (1, 'Admin1', 'admin1@example.com','admin1-2343', 'adminpass1'),
