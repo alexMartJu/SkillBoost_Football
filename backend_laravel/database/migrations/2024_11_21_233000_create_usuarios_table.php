@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('refresh_token', 512)->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->engine = 'InnoDB';
