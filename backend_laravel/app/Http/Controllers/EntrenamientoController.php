@@ -12,7 +12,8 @@ use App\Policies\EntrenamientoPolicy;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreEntrenamientoRequest; 
-use App\Http\Requests\UpdateEntrenamientoRequest; 
+use App\Http\Requests\UpdateEntrenamientoRequest;
+use App\Http\Requests\UpdateStatusRequest;  
 
 class EntrenamientoController extends Controller
 {
@@ -75,6 +76,29 @@ class EntrenamientoController extends Controller
         $entrenamiento->update($request->all());
         return response()->json($entrenamiento);
     }
+    public function status(UpdateStatusRequest $request,$slug){
+        Log::debug('Petición recibida: ' . json_encode($request->all()));
+        $admin = auth('admin')->user();
+        if (!$admin) {
+            Log::error('Admin no encontrado o no autenticado');
+            return response()->json(['error' => 'Admin no encontrado'], 404);
+        }
+        $entrenamiento = Entrenamiento::where('slug', $slug)->firstOrFail();
+
+        if (!$entrenamiento) {
+            // Log::debug('entrenamiento no encontrado');
+            return response()->json(['error' => 'entrenamiento no encontrado'], 404);
+        }
+
+        Log::debug('Estado recibido: ' . $request->status);
+        $entrenamiento->status = $request->status; 
+        $entrenamiento->save();
+    
+
+        return response()->json(['message' => 'Estado actualizado correctamente', 'data' => $entrenamiento]);
+
+
+    }
 
     // Eliminar una clase
     public function destroy($slug)
@@ -90,6 +114,7 @@ class EntrenamientoController extends Controller
         $entrenamiento->delete();
         return response()->json(['message' => 'Clase eliminada']);
     }
+    
 
     public function getEntrenamientosByEntrenador(Request $request,$DNI)
     {

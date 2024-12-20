@@ -41,8 +41,11 @@ export default {
     GetEntrenadores() {
         return Api(secrets.URL_SPRING,isSpringboot).get("entrenador");
       },
-      GetEntrenamientos() {
+    GetEntrenamientos() {
         return Api(secrets.URL_SPRING,isSpringboot).get("entrenamientos");
-      },
+    },
+    UpdateStatus(entrenamientoSlug,status){
+        return Api(secrets.URL_SPRING,isSpringboot).put(`entrenamientos/status/${entrenamientoSlug}`,status);
+    }
 
 };
