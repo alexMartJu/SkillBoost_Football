@@ -12,4 +12,6 @@ public interface UsuarioService {
     Usuario save(final Usuario user, final Profile profile);
 
     Usuario saveUpdate(final Usuario user, final Profile profile);
+
+    void setRefreshToken(final Usuario user, final String token);
 }
