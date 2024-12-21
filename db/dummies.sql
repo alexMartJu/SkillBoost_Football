@@ -1,6 +1,7 @@
 DELETE FROM `horarios`;
 DELETE FROM `deportes`;
 DELETE FROM `pistas`;
+DELETE FROM `pista_privadas`;
 DELETE FROM `images`;
 DELETE FROM `usuarios`;
 DELETE FROM `entrenadores`;
@@ -12,7 +13,6 @@ DELETE FROM `graficas`;
 DELETE FROM `favorites`;
 DELETE FROM `follows`;
 DELETE FROM `deporte_pista`;
-DELETE FROM `horario_pista_reserva`;
 DELETE FROM `entrenamiento_profile`;
 
 INSERT INTO `horarios` (`id`, `hora`) VALUES
@@ -53,6 +53,12 @@ INSERT INTO `pistas` (`id`, `nombre`, `slug`, `created_at`, `updated_at`) VALUES
 (19, 'Sala de Esgrima', 'sala-esgrima', '2024-12-02 10:00:00', '2024-12-02 10:00:00'),
 (20, 'Zona de Karts', 'zona-karts', '2024-12-02 10:00:00', '2024-12-02 10:00:00');
 
+INSERT INTO `pista_privadas` (`id`, `nombre`, `slug`, `info`, `created_at`, `updated_at`) VALUES
+(1, 'Pista privada 1', 'Pista-privada 1', "", '2024-11-17 15:42:34', '2024-11-17 15:42:34'),
+(2, 'Pista privada 2', 'Pista-privada-2', "", '2024-11-17 15:42:57', '2024-11-17 15:42:57'),
+(3, 'Pista privada 3', 'Pista-privada-3', "", '2024-11-17 15:42:57', '2024-11-17 15:42:57'),
+(4, 'Pista privada 4', 'Pista-privada-4', "", '2024-11-17 15:44:29', '2024-11-17 15:44:29');
+
 INSERT INTO `images` (`image_url`, `imageable_type`, `imageable_id`) VALUES
 ('futbol.jpg', 'App\\Models\\Deporte', 1),
 ('baloncesto.jpg', 'App\\Models\\Deporte', 2),
@@ -87,12 +93,12 @@ INSERT INTO `entrenadores` (`id`, `nombre`, `apellidos`, `numeroEntrenador`, `em
 (2, 'Luis', 'Fernández', 'Luis-8233', 'luis.fernandez@example.com', '$2y$12$vCM7aGEpVWF0Zhw.lc\/DKe0E9.btFHJSB.3vZdzeGfei7Amxa0RA6', 2, 40),
 (3, 'María', 'Gómez', 'Maria-9267', 'maria.gomez@example.com', '$2y$12$gqMbj6IVYkc0FnZzmglFLeJoiwNpvacdKmAD7yLhXLdxbNmUDfKj6', 3, 32);
 
-INSERT INTO `entrenamientos` (`id`, `nombre`, `slug`, `descripcion`, `dia`, `duracion`, `max_plazas`, `precio`,`status`, `deporte_id`, `horario_id`,`entrenador_id`, `created_at`, `updated_at`) VALUES
-(1, 'Clase Básica A', 'clase-basica-a', 'Clase de iniciación al deporte A', 'Domingo', 60, 20, 15,"pending", 1, 1, 2,'2024-11-17 15:47:05', '2024-11-17 15:47:05'),
-(2, 'Clase Avanzada B', 'clase-avanzada-b', 'Clase avanzada de deporte B', 'Martes', 90, 15, 30,"pending" ,2, 2, 1,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
-(3, 'Clase Intermedia C', 'clase-intermedia-c', 'Clase intermedia de deporte C', 'Jueves', 75, 25, 20, "accepted",3, 3, 3,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
-(4, 'Clase Intensiva D', 'clase-intensiva-d', 'Clase intensiva de deporte D', 'Domingo', 120, 10, 40,"denied", 4, 4, 2,'2024-11-17 15:52:06', '2024-11-17 15:52:06'),
-(5, 'Clase Adaptada E', 'clase-adaptada-e', 'Clase adaptada para personas con necesidades especiales', 'Miercoles', 60, 15, 25,"accepted", 4, 2, 3,'2024-11-17 15:52:06', '2024-11-17 15:52:06');
+INSERT INTO `entrenamientos` (`id`, `nombre`, `slug`, `descripcion`, `dia`, `duracion`, `max_plazas`, `precio`,`status`, `deporte_id`, `horario_id`, `pista_privada_id`,`entrenador_id`, `created_at`, `updated_at`) VALUES
+(1, 'Clase Básica A', 'clase-basica-a', 'Clase de iniciación al deporte A', 'Domingo', 60, 20, 15,"pending", 1, 1, 1, 2,'2024-11-17 15:47:05', '2024-11-17 15:47:05'),
+(2, 'Clase Avanzada B', 'clase-avanzada-b', 'Clase avanzada de deporte B', 'Martes', 90, 15, 30,"pending" ,2, 2, 1, 1,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
+(3, 'Clase Intermedia C', 'clase-intermedia-c', 'Clase intermedia de deporte C', 'Jueves', 75, 25, 20, "accepted",3, 3, 2, 3,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
+(4, 'Clase Intensiva D', 'clase-intensiva-d', 'Clase intensiva de deporte D', 'Domingo', 120, 10, 40,"denied", 4, 4, 3, 2,'2024-11-17 15:52:06', '2024-11-17 15:52:06'),
+(5, 'Clase Adaptada E', 'clase-adaptada-e', 'Clase adaptada para personas con necesidades especiales', 'Miercoles', 60, 15, 25,"accepted", 4, 2, 4, 3,'2024-11-17 15:52:06', '2024-11-17 15:52:06');
 
 INSERT INTO `admins` (`id`, `nombre`, `email`, `numeroAdmin`, `password`) VALUES
 (1, 'Admin1', 'admin1@example.com','admin1-2343', 'adminpass1'),
@@ -103,19 +109,18 @@ INSERT INTO `salas` (`id`, `nombre`, `tamaño`, `ubicacion`, `entrenador_id`) VA
 (2, 'Sala de Pesas', 70, 'Edificio B', 2),
 (3, 'Sala de Yoga', 30, 'Edificio C', 3);
 
-INSERT INTO `reservas` (`id`, `info`, `usuario_id`, `status`) VALUES
-(1, 'Reserva de pista de atletismo', 1, 'confirmada'),
-(2, 'Reserva de piscina', 2, 'pendiente'),
-(3, 'Reserva de rocódromo', 3, 'cancelada');
+INSERT INTO `reservas` (`id`, `profile_id`, `pista_id`, `horario_id`, `dia`, `status`) VALUES
+(1, 1, 1, 1, 'Lunes', 'confirmada'),
+(2, 2, 2, 2, 'Jueves', 'pendiente');
 
-INSERT INTO `graficas` (`id`, `seccion`, `nivel`, `usuario_id`) VALUES
+INSERT INTO `graficas` (`id`, `seccion`, `nivel`, `profile_id`) VALUES
 (1, 'Motivación', 70, 1),
 (2, 'Agilidad', 60, 1),
 (3, 'Velocidad', 50, 1),
 (4, 'Aguante', 90, 1),
 (5, 'Fuerza', 80, 1);
 
-INSERT INTO `favorites` (`usuario_id`, `entrenamiento_id`) VALUES
+INSERT INTO `favorites` (`profile_id`, `entrenamiento_id`) VALUES
 (1, 2),
 (2, 3),
 (3, 4);
@@ -148,11 +153,6 @@ INSERT INTO `deporte_pista` (`deporte_id`, `pista_id`, `created_at`, `updated_at
 (4, 18, '2024-12-02 10:10:00', '2024-12-02 10:10:00'), -- Volleyball - Parque Calistenia
 (3, 19, '2024-12-02 10:10:00', '2024-12-02 10:10:00'), -- Tenis - Sala Esgrima (destreza y reflejos)
 (6, 20, '2024-12-02 10:10:00', '2024-12-02 10:10:00'); -- Ciclismo - Zona Karts
-
-INSERT INTO `horario_pista_reserva` (`horario_id`, `pista_id`, `reserva_id`) VALUES
-(1, 1, 1),
-(2, 2, 2),
-(3, 3, 3);
 
 INSERT INTO `entrenamiento_profile` (`entrenamiento_id`, `profile_id`, `created_at`, `updated_at`) VALUES
 (1, 1, '2024-11-17 15:53:53', '2024-11-17 15:53:53'),
