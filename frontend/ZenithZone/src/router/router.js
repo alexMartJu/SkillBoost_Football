@@ -53,7 +53,7 @@ const router = createRouter({
             {
               path: "details/:slug",
               name: "detailsEntrenamiento",
-              component: () => import('../components/servicios/detailsEntrenamiento.vue')
+              component: () => import('../views/client/Details.vue')
             }
           ]
         },
@@ -92,11 +92,11 @@ const router = createRouter({
       name: "profile",
       component: () => import('../views/client/Profile.vue'),
       children: [
-        {
-          path: "/",
-          name: "profileInfo",
-          component: () => import('../components/profile/Profile.vue'),
-        },
+        // {
+        //   path: "/",
+        //   name: "profileInfo",
+        //   component: () => import('../views/client/Profile.vue'),
+        // },
         {
           path: "/editar",
           name: "profileEdit",
@@ -105,7 +105,7 @@ const router = createRouter({
         {
           path: "/graficas",
           name: "profileGraficas",
-          component: () => import('../components/profile/Graficas.vue'),
+          component: () => import('../components/profile/ProfileGraficas.vue'),
         },
         {
           path: "/reservas",
@@ -124,7 +124,7 @@ const router = createRouter({
     {
       path: "/entrenador/:numeroEntrenador",
       name: "profileEntrenador",
-      component: () => import('../views/client/ProfileEntrenador.vue'),
+      component: () => import('../views/client/Entrenador.vue'),
       children: [
         {
           path: "/",

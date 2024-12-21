@@ -2,6 +2,7 @@ import Constant from '@/Constant';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import userService from './client/user.service';
 
 export default (URL, isSpringboot = 'true') => {
     const api = axios.create({
@@ -24,7 +25,7 @@ export default (URL, isSpringboot = 'true') => {
             } else if (tokenAdmin) {
                 console.log(`api services is tokenAdmin`);
                 config.headers['Authorization'] = `Bearer ${tokenAdmin}`;
-                config.headers['isSpringboot'] = isSpringboot;  
+                config.headers['isSpringboot'] = isSpringboot;
             } else if (tokenEntrenador) {
                 console.log(`api services is tokenEntrenador`);
                 config.headers['Authorization'] = `Bearer ${tokenEntrenador}`;
@@ -43,25 +44,40 @@ export default (URL, isSpringboot = 'true') => {
 
     api.interceptors.response.use(
         (response) => response, // Si la respuesta es correcta, continuar
-        (error) => {
-            console.log('Error Response:', error.response);
+        async (error) => {
             if (error.response && error.response.status === 401) {
                 const store = useStore();
                 const router = useRouter();
-                try {
-                    const refreshToken = localStorage.getItem('refreshToken');
-                    console.log('Attempting token refresh...');
-                    // Aquí podrías llamar a un endpoint de refresco
-                    // y actualizar el token en el state y localStorage
-                } catch {
-                    console.log('Refresh token failed, logging out...');
+
+                const refreshToken = { refreshToken: localStorage.getItem('refreshToken') };
+
+                if (!refreshToken) {
+                    console.warn('No refresh token available, logging out...');
                     store.dispatch(`user/${Constant.LOGOUT}`);
-                    router.push({ name: 'home' });
+                    return Promise.reject(error);
+                }
+
+                try {
+                    console.log('Attempting token refresh...');
+                    const { token } = await userService.Refresh(refreshToken);
+                    localStorage.setItem('token', token);
+                    store.dispatch(`user/${Constant.INITIALIZE_USER}`, { "token": token });
+
+                    // Reintentar la solicitud original con el nuevo token.
+                    error.config.headers['Authorization'] = `Bearer ${token}`;
+                    return api.request(error.config);
+                } catch (refreshError) {
+                    console.error('Token refresh failed, logging out...');
+                    store.dispatch(`user/${Constant.LOGOUT}`);
+                    await userService.BlacklistToken(refreshToken);
+
+                    return Promise.reject(refreshError);
                 }
             }
+
             return Promise.reject(error);
         }
     );
 
-    return api; // Devolver la instancia de Axios configurada
+    return api;
 };
