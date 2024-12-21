@@ -11,9 +11,9 @@ export default {
         return Api(secrets.URL_SPRING).post('users/login', data);
     },
 
-    Logout() {
-        return Api(secrets.URL_SPRING).post('logout');
-    },
+    // Logout() {
+    //     return Api(secrets.URL_SPRING).post('logout');
+    // },
 
     UpdateUser() {
         return Api(secrets.URL_SPRING).put('user');
@@ -28,8 +28,15 @@ export default {
     },
 
     Profile(numSocio) {
-        console.log(`numSocio: ${numSocio}`);
         return Api(secrets.URL_SPRING).get(`profiles/${numSocio}`);
+    },
+
+    Refresh(refreshToken) {
+        return Api(secrets.URL_SPRING).post(`refresh`, refreshToken);
+    },
+
+    BlacklistToken(refreshToken) {
+        return Api(secrets.URL_SPRING).post(`logout`, refreshToken);
     },
 
     // ADMIN

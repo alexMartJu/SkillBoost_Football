@@ -7,6 +7,7 @@ export const user = {
     state: {
         user: {},
         token: "",
+        refreshToken: "",
         tokenAdmin: "",
         tokenEntrenador: "",
         isAuth: false,
@@ -106,8 +107,10 @@ export const user = {
                     console.log(`token: `, payload.token);
                     state.isAuth = true;
                     state.token = payload.token;
+                    state.refreshToken = payload.refreshToken;
                     localStorage.setItem('isAuth', true);
                     localStorage.setItem('token', payload.token);
+                    localStorage.setItem('refreshToken', payload.refreshToken);
                 }
 
                 router.push({ name: 'home' });
@@ -150,6 +153,7 @@ export const user = {
             localStorage.removeItem('isAdmin');
             localStorage.removeItem('isEntrenador');
             localStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
             localStorage.removeItem('tokenAdmin');
             localStorage.removeItem('tokenEntrenador');
 
