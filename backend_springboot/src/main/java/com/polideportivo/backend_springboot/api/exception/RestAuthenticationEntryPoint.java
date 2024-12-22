@@ -13,15 +13,15 @@ import java.io.IOException;
 
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    
+
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse httpResponse, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse httpResponse,
+            AuthenticationException authException) throws IOException, ServletException {
         var status = HttpStatus.UNAUTHORIZED;
         var error = Error.builder()
                 .message("Missing credentials or token invalid")
                 .status("error")
                 .build();
-
 
         httpResponse.setStatus(status.value());
         httpResponse.setContentType("application/json");

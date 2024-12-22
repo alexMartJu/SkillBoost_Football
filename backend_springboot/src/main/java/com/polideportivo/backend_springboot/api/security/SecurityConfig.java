@@ -58,7 +58,7 @@ public class SecurityConfig {
                 .exceptionHandling(handler -> handler
                         .accessDeniedHandler(restAccessDeniedHandler)
                         .authenticationEntryPoint(restAuthenticationEntryPoint))
-                // .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+                        // .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
                 .addFilterBefore(dynamicProxyFilter, UsernamePasswordAuthenticationFilter.class) // Agregar el filtro dinámico antes de UsernamePasswordAuthenticationFilter
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class); // Agregar el securityFilter antes de UsernamePasswordAuthenticationFilter
 

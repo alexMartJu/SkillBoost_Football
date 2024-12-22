@@ -17,7 +17,7 @@ import java.util.*;
 @Slf4j
 @RestControllerAdvice
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
-    
+
     private static final String GENERIC_ERROR_MESSAGE = "Oops! Something went wrong.";
 
     private Error.ErrorBuilder createErrorBuilder(Map<String, Object> errors) {
@@ -32,7 +32,8 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
+            HttpStatusCode statusCode, WebRequest request) {
         if (body == null || body instanceof String) {
             body = createErrorBuilder(GENERIC_ERROR_MESSAGE)
                     .build();
@@ -89,6 +90,16 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NumeroSocioTakenException.class)
     public ResponseEntity<?> handleEmailTaken(NumeroSocioTakenException ex, WebRequest request) {
         return handleTaken(ex, request, "numeroSocio");
+    }
+
+    // REFRESH TOKEN
+    @ExceptionHandler(ExpiredTokenException.class)
+    public ResponseEntity<?> handleRefreshToken(ExpiredTokenException ex, WebRequest request) {
+        var status = HttpStatus.INTERNAL_SERVER_ERROR; // EL CODIGO DE ERROR QUE ELIJAMOS (500)
+
+        var error = createErrorBuilder(ex.getMessage()).build();
+
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(BusinessException.class)

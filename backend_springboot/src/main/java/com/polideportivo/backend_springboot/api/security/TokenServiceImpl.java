@@ -1,5 +1,6 @@
 package com.polideportivo.backend_springboot.api.security;
 
+import com.polideportivo.backend_springboot.domain.exception.ExpiredTokenException;
 import com.polideportivo.backend_springboot.domain.repository.UsuarioRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -19,7 +20,7 @@ import java.util.function.Function;
 @Service
 @RequiredArgsConstructor
 public class TokenServiceImpl implements TokenService {
-    
+
     private final AuthProperties properties;
     private final UsuarioRepository repository;
 
@@ -40,7 +41,7 @@ public class TokenServiceImpl implements TokenService {
     public String generateRefreshToken(Map<String, Object> extraClaims, String subject) {
         return buildToken(extraClaims, subject, getRefreshTokenExpiration(), getRefreshTokenKey());
     }
-    
+
     /** Construir un token */
     private String buildToken(Map<String, Object> extraClaims, String subject, long expiration, Key key) {
         var nowMillis = System.currentTimeMillis();
@@ -111,7 +112,7 @@ public class TokenServiceImpl implements TokenService {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException ex) {
-            throw new RuntimeException("Token invalid");
+            throw new ExpiredTokenException("Token invalid");
         }
     }
 
@@ -138,23 +139,23 @@ public class TokenServiceImpl implements TokenService {
     }
 
     public Key getAccessTokenKeyPublic() {
-        return getAccessTokenKey();  // Un getter público para acceder a la clave
+        return getAccessTokenKey(); // Un getter público para acceder a la clave
     }
 
     public Key getRefreshTokenKeyPublic() {
-        return getRefreshTokenKey();  // Un getter público para acceder a la clave
+        return getRefreshTokenKey(); // Un getter público para acceder a la clave
     }
 
     // private Key getKey() {
-    //     byte[] bytes = Decoders.BASE64.decode(properties.getToken().getSecret());
-    //     return Keys.hmacShaKeyFor(bytes);
+    // byte[] bytes = Decoders.BASE64.decode(properties.getToken().getSecret());
+    // return Keys.hmacShaKeyFor(bytes);
     // }
 
     /**
      * Extraer el email de un token válido o expirado.
      * 
      * @param token el JWT.
-     * @param key la clave con la que se firmó el token.
+     * @param key   la clave con la que se firmó el token.
      * @return el email contenido en el token.
      */
     public String extractEmailFromExpiredOrValidToken(String token, Key key) {
@@ -162,11 +163,11 @@ public class TokenServiceImpl implements TokenService {
         return claims.getSubject(); // Extraer el email (subject) de los claims
     }
 
-        /**
+    /**
      * Extraer los claims del token, incluso si ha expirado.
      * 
      * @param token el JWT.
-     * @param key la clave con la que se firmó el token.
+     * @param key   la clave con la que se firmó el token.
      * @return los claims del token.
      */
     private Claims extractClaimsFromToken(String token, Key key) {
@@ -178,7 +179,8 @@ public class TokenServiceImpl implements TokenService {
                     .parseClaimsJws(token) // Si el token está bien formado, extrae los claims
                     .getBody();
         } catch (ExpiredJwtException ex) {
-            // Si el token ha expirado, podemos acceder a los claims a través de la excepción
+            // Si el token ha expirado, podemos acceder a los claims a través de la
+            // excepción
             return ex.getClaims(); // Devuelve los claims del token expirado
         } catch (Exception ex) {
             // Si hay un error diferente, lanzamos una excepción personalizada
