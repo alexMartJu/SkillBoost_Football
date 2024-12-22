@@ -14,7 +14,7 @@ export default (URL, isSpringboot = 'true') => {
             const token = localStorage.getItem('token');
             const tokenAdmin = localStorage.getItem('tokenAdmin');
             const tokenEntrenador = localStorage.getItem('tokenEntrenador');
-            console.log(`api services isSpringboot: ${isSpringboot}`);
+            // console.log(`api services isSpringboot: ${isSpringboot}`);
 
             config.headers = config.headers || {};
 
@@ -34,7 +34,7 @@ export default (URL, isSpringboot = 'true') => {
                 config.headers['isSpringboot'] = isSpringboot;
             }
 
-            console.log('Request Headers:', config.headers);
+            // console.log('Request Headers:', config.headers);
             return config;
         },
         (error) => {

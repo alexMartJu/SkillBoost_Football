@@ -50,11 +50,6 @@ const router = createRouter({
               name: "serviciosEntrenamientosFilter",
               component: () => import('../components/servicios/serviciosEntrenamientos.vue'),
             },
-            {
-              path: "details/:slug",
-              name: "detailsEntrenamiento",
-              component: () => import('../views/client/Details.vue')
-            }
           ]
         },
         {
@@ -63,6 +58,13 @@ const router = createRouter({
           component: () => import('../components/servicios/serviciosGraficas.vue')
         },
       ]
+    },
+
+    // DETAILS
+    {
+      path: "/entrenamiento/:slug",
+      name: "detailsEntrenamiento",
+      component: () => import('../views/client/Details.vue')
     },
 
     // ENTRENADORES
