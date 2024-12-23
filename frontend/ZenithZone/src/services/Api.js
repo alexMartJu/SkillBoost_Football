@@ -46,6 +46,11 @@ export default (URL, isSpringboot = 'true') => {
     api.interceptors.response.use(
         (response) => response, // Si la respuesta es correcta, continuar
         async (error) => {
+            // Este IF evita un bucle infinito, ya que poner mal las credenciales de login genera un 401 tambien
+            if (error.config && error.config.url.includes('/login')) {
+                return Promise.reject(error);
+            }
+
             if (error.response && error.response.status === 401) {
                 const refreshToken = { refreshToken: localStorage.getItem('refreshToken') };
 
