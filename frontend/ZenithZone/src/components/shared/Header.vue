@@ -141,13 +141,16 @@ export default {
 
         const token = localStorage.getItem('token');
         const tokenAdmin = localStorage.getItem('tokenAdmin');
-        const tokenEntrenador = localStorage.getItem('tokenEntrenador');
+        const entrenadorToken = localStorage.getItem('entrenadorToken');
         if (token) {
+            console.log(`checkea user`);
             store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"token": token});
         } else if (tokenAdmin) {
+            console.log(`checkea admin`);
             store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"tokenAdmin": tokenAdmin});
-        } else if (tokenEntrenador) {
-            store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"tokenEntrenador": tokenEntrenador});
+        } else if (entrenadorToken) {
+            console.log(`checkea entrenador`, entrenadorToken);
+            store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"entrenadorToken": entrenadorToken});
         }
 
         return { redirects, state, logout, isLogged };

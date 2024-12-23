@@ -14,7 +14,7 @@ export default (URL, isSpringboot = 'true') => {
         (config) => {
             const token = localStorage.getItem('token');
             const tokenAdmin = localStorage.getItem('tokenAdmin');
-            const tokenEntrenador = localStorage.getItem('tokenEntrenador');
+            const entrenadorToken = localStorage.getItem('entrenadorToken');
             // console.log(`api services isSpringboot: ${isSpringboot}`);
 
             config.headers = config.headers || {};
@@ -27,9 +27,9 @@ export default (URL, isSpringboot = 'true') => {
                 console.log(`api services is tokenAdmin`);
                 config.headers['Authorization'] = `Bearer ${tokenAdmin}`;
                 config.headers['isSpringboot'] = isSpringboot;
-            } else if (tokenEntrenador) {
-                console.log(`api services is tokenEntrenador`);
-                config.headers['Authorization'] = `Bearer ${tokenEntrenador}`;
+            } else if (entrenadorToken) {
+                console.log(`api services is entrenadorToken`);
+                config.headers['Authorization'] = `Bearer ${entrenadorToken}`;
                 config.headers['isSpringboot'] = isSpringboot;
             } else {
                 config.headers['isSpringboot'] = isSpringboot;
