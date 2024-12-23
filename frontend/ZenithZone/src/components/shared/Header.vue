@@ -134,7 +134,8 @@ export default {
         const isLogged = computed(() => state.isUser || state.isAdmin || state.isEntrenador);
 
         const logout = () => {
-            store.dispatch(`user/${Constant.LOGOUT}`);
+            const refreshToken = { refreshToken: localStorage.getItem('refreshToken') };
+            store.dispatch(`user/${Constant.LOGOUT}`, refreshToken);
             router.push({ name: 'home' });
         };
 

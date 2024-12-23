@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import userService from './client/user.service';
+import store from '@/store';
 
 export default (URL, isSpringboot = 'true') => {
     const api = axios.create({
@@ -14,7 +15,7 @@ export default (URL, isSpringboot = 'true') => {
             const token = localStorage.getItem('token');
             const tokenAdmin = localStorage.getItem('tokenAdmin');
             const tokenEntrenador = localStorage.getItem('tokenEntrenador');
-            console.log(`api services isSpringboot: ${isSpringboot}`);
+            // console.log(`api services isSpringboot: ${isSpringboot}`);
 
             config.headers = config.headers || {};
 
@@ -34,7 +35,7 @@ export default (URL, isSpringboot = 'true') => {
                 config.headers['isSpringboot'] = isSpringboot;
             }
 
-            console.log('Request Headers:', config.headers);
+            // console.log('Request Headers:', config.headers);
             return config;
         },
         (error) => {
@@ -46,9 +47,6 @@ export default (URL, isSpringboot = 'true') => {
         (response) => response, // Si la respuesta es correcta, continuar
         async (error) => {
             if (error.response && error.response.status === 401) {
-                const store = useStore();
-                const router = useRouter();
-
                 const refreshToken = { refreshToken: localStorage.getItem('refreshToken') };
 
                 if (!refreshToken) {
@@ -58,18 +56,16 @@ export default (URL, isSpringboot = 'true') => {
                 }
 
                 try {
-                    console.log('Attempting token refresh...');
-                    const { token } = await userService.Refresh(refreshToken);
-                    localStorage.setItem('token', token);
-                    store.dispatch(`user/${Constant.INITIALIZE_USER}`, { "token": token });
+                    const token = await userService.Refresh(refreshToken);
+                    const newAccessToken = token.data.token;
+                    localStorage.setItem('token', newAccessToken);
+                    store.dispatch(`user/${Constant.INITIALIZE_USER}`, { "token": newAccessToken });
 
                     // Reintentar la solicitud original con el nuevo token.
-                    error.config.headers['Authorization'] = `Bearer ${token}`;
+                    error.config.headers['Authorization'] = `Bearer ${newAccessToken}`;
                     return api.request(error.config);
                 } catch (refreshError) {
-                    console.error('Token refresh failed, logging out...');
-                    store.dispatch(`user/${Constant.LOGOUT}`);
-                    await userService.BlacklistToken(refreshToken);
+                    store.dispatch(`user/${Constant.LOGOUT}`, refreshToken);
 
                     return Promise.reject(refreshError);
                 }
