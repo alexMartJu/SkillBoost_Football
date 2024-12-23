@@ -26,9 +26,9 @@ export const user = {
             }
         },//LOGIN
 
-        [Constant.LOGOUT]: async (store) => {
+        [Constant.LOGOUT]: async (store, payload) => {
             try {
-                const response = await UserService.Logout();
+                const response = await UserService.BlacklistToken(payload);
                 let data = { status: response.status };
 
                 store.commit(Constant.LOGOUT, data);
@@ -67,10 +67,13 @@ export const user = {
                 let response = null;
 
                 if (payload?.token) {
+                    Headers.Authorization = `Bearer ${payload.token}`;
                     response = await UserService.GetCurrentUser();
                 } else if (payload?.tokenAdmin) {
+                    Headers.Authorization = `Bearer ${payload.tokenAdmin}`;
                     response = await UserService.GetCurrentAdmin();
                 } else if (payload?.tokenEntrenador) {
+                    Headers.Authorization = `Bearer ${payload.tokenEntrenador}`;
                     response = await UserService.GetCurrentEntrenador();
                 }
 
