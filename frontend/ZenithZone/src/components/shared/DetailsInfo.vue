@@ -1,0 +1,47 @@
+<template>
+    <div v-if="isEntrenamiento">
+        <div class="entrenamiento-info" v-if="state.entrenamiento">
+            <h1>{{ state.entrenamiento.nombre }}</h1>
+            <p>{{ state.entrenamiento.descripcion }}</p>
+            <p>{{ state.entrenamiento.dia }}</p>
+            <p>{{ state.entrenamiento.duracion }} minutos</p>
+            <p>Plazas máximas: {{ state.entrenamiento.maxPlazas }}</p>
+            <p>Precio: {{ state.entrenamiento.precio }}€</p>
+            <div>
+                <h2>Pistas de {{ state.entrenamiento.deporte?.nombre }}</h2>
+                <ul v-for="pista in state.entrenamiento.deporte?.pistas" :key="pista.id">
+                    <li>{{ pista.nombre }}</li>
+                </ul>
+            </div>
+            <button class="btn btn-primary">Botón para las reservas</button>
+        </div>
+        <div v-else>
+            <p>Cargando información de entrenamiento...</p>
+        </div>
+    </div>
+    <!-- SI ES DETAILS PISTA -->
+    <div v-else>
+        <div class="pista-info" v-if="state.pista">
+            <h1>{{ state.pista.nombre }}</h1>
+            <button class="btn btn-primary">Botón para las reservas</button>
+        </div>
+        <div v-else>
+            <p>Cargando información de la pista...</p>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        props: {
+            isEntrenamiento: {
+                type: Boolean,
+                Required: true
+            },
+            state: {
+                type: Object,
+                Required: true
+            }
+        }
+    }
+</script>
