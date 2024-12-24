@@ -6,6 +6,7 @@ export const user = {
     namespaced: true,
     state: {
         user: {},
+        profile: {},
         token: "",
         refreshToken: "",
         tokenAdmin: "",
@@ -60,8 +61,7 @@ export const user = {
 
         [Constant.INITIALIZE_PROFILE]: async (store, payload) => {
             try {
-                console.log();
-                const response = await UserService.Profile(payload.numSocio);
+                const response = await UserService.Profile(payload);
                 if (response.status === 200) {
                     store.commit(Constant.INITIALIZE_PROFILE, response.data);
                 }
@@ -136,7 +136,7 @@ export const user = {
 
         [Constant.INITIALIZE_PROFILE]: (state, payload) => {
             if (payload) {
-                state.user = payload;
+                state.profile = payload;
                 state.isAuth = !!payload.token;
                 state.isAdmin = !!payload.tokenAdmin;
                 state.isEntrenador = !!payload.entrenadorToken;
@@ -179,8 +179,11 @@ export const user = {
 
     getters: {
         GetProfile: (state) => {
-            return state.user;
+            return state.profile;
         },//GetProfile
+        GetCurrentUser: (state) => {
+            return state.user;
+        },//GetCurrentUser
         GetIsAuth: (state) => {
             return state.isAuth;
         },//GetIsAuth
