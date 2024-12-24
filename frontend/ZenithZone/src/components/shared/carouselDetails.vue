@@ -9,18 +9,12 @@
         <SplideSlide>
             <img src="https://via.placeholder.com/500" class="d-block w-100 h-100 object-fit-cover" alt="" />
         </SplideSlide>
-        <SplideSlide>
-            <img src="https://via.placeholder.com/500" class="d-block w-100 h-100 object-fit-cover" alt="" />
-        </SplideSlide>
-        <SplideSlide>
-            <img src="https://via.placeholder.com/500" class="d-block w-100 h-100 object-fit-cover" alt="" />
-        </SplideSlide>
     </Splide>
 
     <!-- Este es el carrusel si hay imagenes -->
     <!-- <Splide :options="splideOptions">
-        <SplideSlide v-for="pista in pistas" :key="pista.id">
-            <img :src="`/assets/details/${pista.image}`" class="d-block w-100 h-100 object-fit-cover" alt="" />
+        <SplideSlide v-for="pista in pistas.images" :key="pista.id">
+            <img :src="`/assets/pistas/${pista.imageUrl}`" class="d-block w-100 h-100 object-fit-cover" alt="" />
         </SplideSlide>
     </Splide> -->
 </template>
