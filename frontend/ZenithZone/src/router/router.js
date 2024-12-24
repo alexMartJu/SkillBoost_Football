@@ -66,6 +66,11 @@ const router = createRouter({
       name: "detailsEntrenamiento",
       component: () => import('../views/client/Details.vue')
     },
+    {
+      path: "/pista/:slug",
+      name: "detailsPista",
+      component: () => import('../views/client/Details.vue')
+    },
 
     // ENTRENADORES
     {
