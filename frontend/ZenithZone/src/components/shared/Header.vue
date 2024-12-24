@@ -52,7 +52,7 @@
                         
                         <li v-if="state.user.nombre" class="nav-item d-flex align-items-center ms-5">
                             <img :src="state.user.image" alt="" class="profile-image">
-                            <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.profile" class="nav-link text-color fw-bold fs-5" 
                                 :class="{ isActive: isProfile }">
                                 {{ state.user.nombre }}
                             </a>
@@ -114,22 +114,23 @@ export default {
         const router = useRouter();
         const store = useStore();
 
+        const state = reactive({
+            user: computed(() => store.getters['user/GetCurrentUser']),
+            isAdmin: computed(() => store.getters['user/GetIsAdmin']),
+            isEntrenador: computed(() => store.getters['user/GetIsEntrenador']),
+            isUser: computed(() => store.getters['user/GetIsAuth']),
+        });
+
         const redirects = {
             home: () => router.push({ name: 'home' }),
             instalaciones: () => router.push({ name: 'instalaciones' }),
             servicios: () => router.push({ name: 'serviciosEntrenamientos' }),
             entrenadores: () => router.push({ name: 'entrenadores' }),
+            profile: () => router.push({name: 'profile', params: {numeroSocio: state.user.numeroSocio}}),
             login: () => router.push({ name: 'login' }),
             dashboardAdmin: () => router.push({ name: 'DashboardAdmin' }),
             dashboardEntrenador: () => router.push({ name: 'DashboardEntrenador' }),
         };
-
-        const state = reactive({
-            user: computed(() => store.getters['user/GetProfile']),
-            isAdmin: computed(() => store.getters['user/GetIsAdmin']),
-            isEntrenador: computed(() => store.getters['user/GetIsEntrenador']),
-            isUser: computed(() => store.getters['user/GetIsAuth']),
-        });
 
         const isLogged = computed(() => state.isUser || state.isAdmin || state.isEntrenador);
 
