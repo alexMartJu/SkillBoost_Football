@@ -3,62 +3,63 @@
         <section class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="entrenamiento-info" v-if="state.entrenamientos">
-                        <h1>{{ state.entrenamientos.nombre }}</h1>
-                        <p>{{ state.entrenamientos.descripcion }}</p>
-                        <p>{{ state.entrenamientos.dia }}</p>
-                        <p>{{ state.entrenamientos.duracion }} minutos</p>
-                        <p>Plazas máximas: {{ state.entrenamientos.maxPlazas }}</p>
-                        <p>Precio: {{ state.entrenamientos.precio }}€</p>
-                        <div>
-                            <h2>Pistas de {{ state.entrenamientos.deporte?.nombre }}</h2>
-                            <ul v-for="pista in state.entrenamientos.deporte?.pistas" :key="pista.id">
-                                <li>{{ pista.nombre }}</li>
-                            </ul>
-                        </div>
-                        <button class="btn btn-primary">Botón para las reservas</button>
-                    </div>
-                    <div v-else>
-                        <p>Cargando información de entrenamiento...</p>
-                    </div>
+                    <DetailsInfo :isEntrenamiento="isEntrenamiento" :state="state"/>
                 </div>
-                <!-- Carousel -->
+                <!-- CARRUSEL -->
                 <div class="col-md-6">
-                    <!-- <CarouselDetails /> -->
-                    <CarouselDetails :pistas="state.entrenamientos.deporte.pistas"/>
+                    <DetailsCarousel :pistas="isEntrenamiento ? state.entrenamiento.deporte?.pistas : state.pista"/>
                 </div>
             </div>
         </section>
     </main>
 </template>
 
-
 <script>
-import CarouselDetails from '@/components/shared/carouselDetails.vue';
+import DetailsCarousel from '@/components/shared/DetailsCarousel.vue';
+import DetailsInfo from '@/components/shared/DetailsInfo.vue';
 import Constant from '@/Constant';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { reactive } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default {
     components: {
-        CarouselDetails
+        DetailsCarousel,
+        DetailsInfo
     },
 
     setup() {
         const store = useStore();
         const route = useRoute();
-        const router = useRouter();
         const slug = route.params.slug;
 
-        store.dispatch(`entrenamientos/${Constant.INITIALIZE_ONE_STATE_ENTRENAMIENTO}`, slug);
-
         const state = reactive({
-            entrenamientos: computed(() => store.getters['entrenamientos/GetOneEntrenamiento'])
+            entrenamiento: computed(() => store.getters['entrenamientos/GetOneEntrenamiento']),
+            pista: computed(() => store.getters['pistas/GetOnePista'])
         });
 
-        return { state };
+        const isEntrenamiento = route.path.includes('entrenamiento');
+
+        const fetchData = () => {
+            if (isEntrenamiento) {
+                store.dispatch(`entrenamientos/${Constant.INITIALIZE_ONE_STATE_ENTRENAMIENTO}`, slug);
+            } else {
+                store.dispatch(`pistas/${Constant.INITIALIZE_ONE_STATE_PISTA}`, slug);
+            }
+        };
+
+        fetchData();
+
+        watch(
+            () => route.params.slug,
+            () => {
+                console.log(`cambia slug`);
+                fetchData();
+            }
+        )
+
+        return { state, isEntrenamiento };
     }
 }
 </script>
