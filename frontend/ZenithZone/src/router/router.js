@@ -99,11 +99,11 @@ const router = createRouter({
       name: "profile",
       component: () => import('../views/client/Profile.vue'),
       children: [
-        // {
-        //   path: "/",
-        //   name: "profileInfo",
-        //   component: () => import('../views/client/Profile.vue'),
-        // },
+        {
+          path: "/",
+          name: "profileInfo",
+          component: () => import('../views/client/Profile.vue'),
+        },
         {
           path: "/editar",
           name: "profileEdit",
@@ -135,12 +135,12 @@ const router = createRouter({
       children: [
         {
           path: "/",
-          name: "entrenadorInfo",
+          name: "profileEntrenadorInfo",
           component: () => import('../components/entrenador/Profile.vue'),
         },
         {
           path: "/editar",
-          name: "profileEdit",
+          name: "profileEntrenadorEdit",
           component: () => import('../components/entrenador/ProfileEdit.vue'),
         },
       ]
