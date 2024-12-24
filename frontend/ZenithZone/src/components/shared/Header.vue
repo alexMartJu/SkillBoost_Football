@@ -57,13 +57,13 @@
                                 {{ state.user.nombre }}
                             </a>
                         </li>
-                        <li v-if="!isLogged" class="nav-item ms-4">
+                        <li v-if="!state.isLogged" class="nav-item ms-4">
                             <a @click="redirects.login" class="nav-link auth fw-bold fs-5" 
                                 :class="{ isActive: isLogin }">
                                 Unirse al club
                             </a>
                         </li>
-                        <li v-if="isLogged" class="nav-item ms-4">
+                        <li v-if="state.isLogged" class="nav-item ms-4">
                             <a @click="logout" class="nav-link auth fw-bold fs-5">
                                 Cerrar sesión
                             </a>
@@ -78,7 +78,7 @@
 
 <script>
 import Constant from '@/Constant';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -119,6 +119,7 @@ export default {
             isAdmin: computed(() => store.getters['user/GetIsAdmin']),
             isEntrenador: computed(() => store.getters['user/GetIsEntrenador']),
             isUser: computed(() => store.getters['user/GetIsAuth']),
+            isLogged: false
         });
 
         const redirects = {
@@ -132,10 +133,13 @@ export default {
             dashboardEntrenador: () => router.push({ name: 'DashboardEntrenador' }),
         };
 
-        let isLogged = false;
-        if (state.user) {
-            isLogged = true;
-        }
+        watch(
+            () => state.user.nombre,
+            (newValue) => {
+                state.isLogged = !!newValue;
+            },
+            { immediate: true }
+        );
 
         const logout = () => {
             const refreshToken = { refreshToken: localStorage.getItem('refreshToken') };
@@ -156,7 +160,7 @@ export default {
             store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"entrenadorToken": entrenadorToken});
         }
 
-        return { redirects, state, logout, isLogged };
+        return { redirects, state, logout };
     }
 };
 </script>
