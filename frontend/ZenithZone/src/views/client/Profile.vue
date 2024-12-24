@@ -13,7 +13,7 @@ import ProfileInfo from '@/components/profile/ProfileInfo.vue';
 import ProfileNav from '@/components/profile/ProfileNav.vue';
 import Constant from '@/Constant';
 import { reactive, computed, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default {
@@ -25,7 +25,6 @@ export default {
     },
 
     setup() {
-        const router = useRouter();
         const route = useRoute();
         const store = useStore();
 
