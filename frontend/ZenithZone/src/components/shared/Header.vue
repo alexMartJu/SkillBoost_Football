@@ -132,7 +132,10 @@ export default {
             dashboardEntrenador: () => router.push({ name: 'DashboardEntrenador' }),
         };
 
-        const isLogged = computed(() => state.isUser || state.isAdmin || state.isEntrenador);
+        let isLogged = false;
+        if (state.user) {
+            isLogged = true;
+        }
 
         const logout = () => {
             const refreshToken = { refreshToken: localStorage.getItem('refreshToken') };
@@ -144,7 +147,6 @@ export default {
         const tokenAdmin = localStorage.getItem('tokenAdmin');
         const entrenadorToken = localStorage.getItem('entrenadorToken');
         if (token) {
-            console.log(`checkea user`);
             store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"token": token});
         } else if (tokenAdmin) {
             console.log(`checkea admin`);
