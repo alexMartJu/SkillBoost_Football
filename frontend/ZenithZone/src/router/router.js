@@ -105,11 +105,6 @@ const router = createRouter({
           component: () => import('../views/client/Profile.vue'),
         },
         {
-          path: "editar",
-          name: "profileEdit",
-          component: () => import('../components/profile/ProfileEdit.vue'),
-        },
-        {
           path: "graficas",
           name: "profileGraficas",
           component: () => import('../components/profile/ProfileGraficas.vue'),
@@ -126,6 +121,12 @@ const router = createRouter({
         },
       ]
     },
+    // Editar perfil. Se pone aparte para que no salga como una pestaña en el perfil
+    {
+      path: "/profile/:numeroSocio/editar",
+      name: "profileEdit",
+      component: () => import('../components/profile/ProfileEdit.vue'),
+    },
 
     // Profile Entrenador
     {
@@ -138,12 +139,13 @@ const router = createRouter({
           name: "profileEntrenadorInfo",
           component: () => import('../components/entrenador/Profile.vue'),
         },
-        {
-          path: "editar",
-          name: "profileEntrenadorEdit",
-          component: () => import('../components/entrenador/ProfileEdit.vue'),
-        },
       ]
+    },
+    // Editar perfil. Se pone aparte para que no salga como una pestaña en el perfil
+    {
+      path: "/entrenador/:numeroEntrenador/editar",
+      name: "profileEntrenadorEdit",
+      component: () => import('../components/entrenador/ProfileEdit.vue'),
     },
 
     // DASHBOARD ENTRENADOR
