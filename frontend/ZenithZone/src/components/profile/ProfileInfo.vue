@@ -13,14 +13,14 @@
                     <div class="col-md-10">
                         <h1 class="card-title">{{ profile.nombre }} {{ profile.apellidos }}</h1>
                         <h4>{{ profile.edad }} años</h4>
-                        <h4 class="card-subtitle mb-3 text-muted">Bio: {{ profile.bio }}</h4>                    
+                        <h4 class="card-subtitle mb-3 text-muted">{{ profile.bio }}</h4>                    
                         <p class="mt-2">
                             <strong>Numero de afiliación: </strong><span class="fw-bold">{{ profile.numeroSocio }}</span>
                         </p>
                     </div>
-                    <div class="col-md-2 d-flex align-items-center justify-content-center">
+                    <div class="col-md-2 d-flex align-items-center justify-content-center separador">
                         <div v-if="isCurrentUser">
-                            <button class="btn btn-edit fw-bold shadow-sm">Editar Perfil</button>
+                            <button class="btn btn-edit fw-bold shadow-sm" @click="redirects.edit">Editar Perfil</button>
                         </div>
                     </div>
                 </div>
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import router from '@/router/router';
+
 export default {
     props: {
         profile: {
@@ -41,6 +43,14 @@ export default {
             type: Boolean,
             required: true
         }
+    },
+
+    setup() {
+        const redirects = {
+            edit: () => router.push({ name: 'profileEdit' }),
+        };
+
+        return { redirects }
     }
 }
 </script>
@@ -56,5 +66,9 @@ export default {
             color: black;
             background-color: #ff6600;
         }
+    }
+
+    .separador {
+        border-left: 1px solid rgb(170, 170, 170);
     }
 </style>
