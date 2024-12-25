@@ -1,6 +1,7 @@
 import Constant from '../../../Constant';
 import UserService from '../../../services/client/user.service';
 import router from '../../../router/router'
+import profileService from '@/services/client/profile.service';
 
 export const user = {
     namespaced: true,
@@ -61,7 +62,7 @@ export const user = {
 
         [Constant.INITIALIZE_PROFILE]: async (store, payload) => {
             try {
-                const response = await UserService.Profile(payload);
+                const response = await profileService.Profile(payload);
                 if (response.status === 200) {
                     store.commit(Constant.INITIALIZE_PROFILE, response.data.profile);
                 }

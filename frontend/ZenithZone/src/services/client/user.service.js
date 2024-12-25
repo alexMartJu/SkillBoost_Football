@@ -11,10 +11,6 @@ export default {
         return Api(secrets.URL_SPRING).post('users/login', data);
     },
 
-    // Logout() {
-    //     return Api(secrets.URL_SPRING).post('logout');
-    // },
-
     UpdateUser() {
         return Api(secrets.URL_SPRING).put('user');
     },
@@ -25,10 +21,6 @@ export default {
 
     GetCurrentUser() {
         return Api(secrets.URL_SPRING).get('user');
-    },
-
-    Profile(numSocio) {
-        return Api(secrets.URL_SPRING).get(`profiles/${numSocio}`);
     },
 
     Refresh(refreshToken) {
