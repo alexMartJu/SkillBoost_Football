@@ -3,7 +3,7 @@
         <div class="container">
             <ProfileInfo :profile="state.Profile" :isCurrentUser="isCurrentUser"/>
         </div>
-        <ProfileNav :profile="state.Profile" :isCurrentUser="isCurrentUser" />
+        <ProfileNav v-if="isCurrentUser" :profile="state.Profile" />
     </main>
 
 </template>

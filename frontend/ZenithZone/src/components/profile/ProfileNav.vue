@@ -2,7 +2,7 @@
     <main class="ProfileNav-main">
 
     </main>
-    <nav class="btn-group justify-content-center align-items-center shadow bg-light col-12 mb-4" role="group">
+    <nav class="btn-group justify-content-center align-items-center shadow bg-light col-12 mb-4">
         <router-link
             v-for="tab in tabs"
             :to="tab.route"
@@ -37,10 +37,13 @@ export default {
     setup() {
         const route = useRoute();
 
+        /**
+         *  Estas tabs son para moverse a los componentes del perfil
+         */
         const tabs = [
             { name: 'graficas', label: 'Mis gráficas', route: { name: 'profileGraficas' } },
-            { name: 'reservas', label: 'Reservas', route: { name: 'profileReservas' } },
-            { name: 'entrenamientos', label: 'Entrenamientos', route: { name: 'profileEntrenamientos' } },
+            { name: 'reservas', label: 'Mis Reservas', route: { name: 'profileReservas' } },
+            { name: 'entrenamientos', label: 'Mis Entrenamientos', route: { name: 'profileEntrenamientos' } },
         ];
 
         return { tabs, route };
