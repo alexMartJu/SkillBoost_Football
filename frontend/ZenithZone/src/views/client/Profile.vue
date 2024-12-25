@@ -37,10 +37,9 @@ export default {
             CurrentUser: computed(() => store.getters['user/GetCurrentUser']),
         });
 
-        let isCurrentUser = false
-        if (state.Profile.numeroSocio === state.CurrentUser.numeroSocio) {
-            isCurrentUser = true;
-        }
+        const isCurrentUser = computed(() => {
+            return state.Profile.numeroSocio === state.CurrentUser.numeroSocio;
+        });
 
         watch(
             () => [route.params.numeroSocio],
