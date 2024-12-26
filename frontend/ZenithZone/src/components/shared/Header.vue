@@ -52,18 +52,18 @@
                         
                         <li v-if="state.user.nombre" class="nav-item d-flex align-items-center ms-5">
                             <img :src="state.user.image" alt="" class="profile-image">
-                            <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.profile" class="nav-link text-color fw-bold fs-5" 
                                 :class="{ isActive: isProfile }">
                                 {{ state.user.nombre }}
                             </a>
                         </li>
-                        <li v-if="!isLogged" class="nav-item ms-4">
+                        <li v-if="!state.isLogged" class="nav-item ms-4">
                             <a @click="redirects.login" class="nav-link auth fw-bold fs-5" 
                                 :class="{ isActive: isLogin }">
                                 Unirse al club
                             </a>
                         </li>
-                        <li v-if="isLogged" class="nav-item ms-4">
+                        <li v-if="state.isLogged" class="nav-item ms-4">
                             <a @click="logout" class="nav-link auth fw-bold fs-5">
                                 Cerrar sesión
                             </a>
@@ -78,7 +78,7 @@
 
 <script>
 import Constant from '@/Constant';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -114,24 +114,32 @@ export default {
         const router = useRouter();
         const store = useStore();
 
+        const state = reactive({
+            user: computed(() => store.getters['user/GetCurrentUser']),
+            isAdmin: computed(() => store.getters['user/GetIsAdmin']),
+            isEntrenador: computed(() => store.getters['user/GetIsEntrenador']),
+            isUser: computed(() => store.getters['user/GetIsAuth']),
+            isLogged: false
+        });
+
         const redirects = {
             home: () => router.push({ name: 'home' }),
             instalaciones: () => router.push({ name: 'instalaciones' }),
             servicios: () => router.push({ name: 'serviciosEntrenamientos' }),
             entrenadores: () => router.push({ name: 'entrenadores' }),
+            profile: () => router.push({name: 'profile', params: {numeroSocio: state.user.numeroSocio}}),
             login: () => router.push({ name: 'login' }),
             dashboardAdmin: () => router.push({ name: 'DashboardAdmin' }),
             dashboardEntrenador: () => router.push({ name: 'DashboardEntrenador' }),
         };
 
-        const state = reactive({
-            user: computed(() => store.getters['user/GetProfile']),
-            isAdmin: computed(() => store.getters['user/GetIsAdmin']),
-            isEntrenador: computed(() => store.getters['user/GetIsEntrenador']),
-            isUser: computed(() => store.getters['user/GetIsAuth']),
-        });
-
-        const isLogged = computed(() => state.isUser || state.isAdmin || state.isEntrenador);
+        watch(
+            () => state.user.nombre,
+            (newValue) => {
+                state.isLogged = !!newValue;
+            },
+            { immediate: true }
+        );
 
         const logout = () => {
             const refreshToken = { refreshToken: localStorage.getItem('refreshToken') };
@@ -143,7 +151,6 @@ export default {
         const tokenAdmin = localStorage.getItem('tokenAdmin');
         const entrenadorToken = localStorage.getItem('entrenadorToken');
         if (token) {
-            console.log(`checkea user`);
             store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"token": token});
         } else if (tokenAdmin) {
             console.log(`checkea admin`);
@@ -153,7 +160,7 @@ export default {
             store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"entrenadorToken": entrenadorToken});
         }
 
-        return { redirects, state, logout, isLogged };
+        return { redirects, state, logout };
     }
 };
 </script>

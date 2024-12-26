@@ -1,25 +1,29 @@
 <template>
-<div class="mt-5">
-    <canvas ref="radarChart"></canvas>
-</div>
+    <div class="mt-5">
+        <canvas ref="radarChart"></canvas>
+    </div>
 </template>
 
-
 <script>
-import {
-    Chart,
-    registerables
-} from 'chart.js';
-import {
-    onMounted,
-    ref
-} from 'vue';
+import { Chart, registerables } from 'chart.js';
+import { reactive } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
 
 Chart.register(...registerables);
 
 export default {
     name: 'RadarChart',
-    setup() {
+
+    props: {
+        sets: {
+            type: Array,
+            required: true,
+        },
+    },
+
+    setup(sets) {
+        console.log(sets);
         const radarChart = ref(null);
 
         onMounted(() => {
@@ -32,19 +36,12 @@ export default {
                 type: 'radar',
                 data: {
                     labels: ['Motivación', 'Agilidad', 'Velocidad', 'Aguante', 'Fuerza',],
-                    datasets: [{
-                            data: [90, 70, 90, 43, 56],
-                            borderColor: 'rgba(255, 162, 80, 1)', // Azul
-                            backgroundColor: 'rgba(255, 162, 80, 0.2)', // Transparencia
-                            borderWidth: 2,
-                        },
-                        {
-                            data: [40, 40, 50, 73, 96],
-                            borderColor: 'rgba(55, 162, 80, 1)', // Azul
-                            backgroundColor: 'rgba(55, 162, 80, 0.2)', // Transparencia
-                            borderWidth: 2,
-                        },
-                    ],
+                    datasets: sets.sets.map((set, index) => ({
+                        data: set,
+                        borderColor: `rgba(${index * 50}, 162, 80, 1)`, // Color dinámico
+                        backgroundColor: `rgba(${index * 50}, 162, 80, 0.2)`, // Transparencia dinámica
+                        borderWidth: 2,
+                    })),
                 },
                 options: {
                     responsive: true,
@@ -89,7 +86,7 @@ export default {
 };
 </script>
 
-  
+
 <style>
 canvas {
     max-width: 700px;
