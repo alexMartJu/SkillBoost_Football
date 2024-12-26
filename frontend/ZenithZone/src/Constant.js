@@ -48,5 +48,10 @@
         DELETE_ONE_SALA: "DeleteOneSala",
         UPDATE_ONE_SALA: "UpdateOneSala",
         FETCH_SALA_BY_ID: "FetchSalaById",
-        SET_CURRENT_SALA: "SetCurrentSala"
+        SET_CURRENT_SALA: "SetCurrentSala",
+
+        //graficas
+        INITIALIZE_GRAFICAS:"InitializeGraficas",
+        UPDATE_ONE_GRAFICA: "UpdateOneGrafica",
+
     }
