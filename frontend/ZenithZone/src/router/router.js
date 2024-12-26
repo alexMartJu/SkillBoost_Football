@@ -145,7 +145,7 @@ const router = createRouter({
     {
       path: "/entrenador/:numeroEntrenador/editar",
       name: "profileEntrenadorEdit",
-      component: () => import('../components/entrenador/ProfileEdit.vue'),
+      component: () => import('../components/profile/ProfileEdit.vue'),
     },
 
     // DASHBOARD ENTRENADOR

@@ -51,7 +51,7 @@
                         <!-- ================= -->
                         
                         <li v-if="state.user.nombre" class="nav-item d-flex align-items-center ms-5">
-                            <img :src="state.user.image" alt="" class="profile-image">
+                            <img :src="state.user.image" alt="" class="profile-image me-2">
                             <a v-if="state.user.numeroSocio" @click="redirects.profile" class="nav-link text-color fw-bold fs-5" 
                                 :class="{ isActive: isProfile }">
                                 {{ state.user.nombre }}

@@ -24,7 +24,8 @@
                     </div>
                     <div class="col-md-2 d-flex align-items-center justify-content-center separador">
                         <div v-if="isCurrentUser">
-                            <button class="btn btn-edit fw-bold shadow-sm" @click="redirects.edit">Editar Perfil</button>
+                            <button class="btn btn-edit fw-bold shadow-sm" v-if="profile.numeroSocio" @click="redirects.edit">Editar Perfil</button>
+                            <button class="btn btn-edit fw-bold shadow-sm" v-else-if="profile.numeroEntrenador" @click="redirects.editEntrenador">Editar Perfil</button>
                         </div>
                     </div>
                 </div>
@@ -52,6 +53,7 @@ export default {
     setup(props) {
         const redirects = {
             edit: () => router.push({ name: 'profileEdit' }),
+            editEntrenador: () => router.push({ name: 'profileEntrenadorEdit' }),
         };
 
         const numeroUser = props.profile.numeroSocio ? props.profile.numeroSocio : props.profile.numeroEntrenador;

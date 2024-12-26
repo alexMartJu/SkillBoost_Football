@@ -5,6 +5,9 @@ export default {
     Profile(numSocio) {
         return Api(secrets.URL_SPRING).get(`profiles/${numSocio}`);
     },
+    UpdateProfile(data) {
+        return Api(secrets.URL_SPRING).put(`user`, data);
+    },
     // Entrenamientos(numeroSocio) {
     //     return Api(secrets.URL_SPRING).post('profileEntrenamientos', numeroSocio);
     // },
