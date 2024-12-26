@@ -3,7 +3,8 @@
         <CardEntrenamientos 
             v-for="entrenamiento in state.entrenamientos" 
             :key="entrenamiento.id" 
-            :entrenamiento="entrenamiento" 
+            :entrenamiento="entrenamiento"
+            :isProfile="true"
             class="col-md-6" />
     </div>
 </template>
