@@ -13,7 +13,7 @@
                             <p><strong>Día:</strong></p>
                             <p><strong>Horario:</strong></p>
                         </div>
-                        <button class="btn btn-danger align-self-end">Cancelar Reserva</button>
+                        <button class="btn btn-danger align-self-end" @click="cancelarReserva">Cancelar Reserva</button>
                     </div>
                 </div>
             </section>
@@ -22,12 +22,30 @@
 </template>
 
 <script>
+import profileService from '@/services/client/profile.service';
+import { useRoute, useRouter } from 'vue-router';
+
 export default {
     props: {
-        reservas: {
+        reserva: {
             type: Object,
             required: true
         }
+    },
+
+    setup(props) {
+        const route = useRoute();
+        const data = {
+            idReserva: props.reserva.id,
+            numeroSocio: route.params.numeroSocio
+        }
+
+        const cancelarReserva = async () => {
+            // await profileService.CancelarReserva(data);
+            console.log(data);
+        }
+
+        return { cancelarReserva }
     }
 }
 </script>
