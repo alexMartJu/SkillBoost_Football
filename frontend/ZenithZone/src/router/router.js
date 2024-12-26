@@ -166,7 +166,14 @@ const router = createRouter({
           name: "entrenadorCrearEntrenamiento",
           component: () => import('../components/dashboards/entrenador/CreateEntrenamientoDashboard.vue'),  // Vista para crear un nuevo entrenamiento
           beforeEnter: AuthGuards.authGuardEntrenador
-        }
+        },
+        {
+          path: '/alumno/:profileId',
+          name: "AlumnoDetail",
+          component: () => import('../components/dashboards/entrenador/AlumnoDetail.vue'),  // Vista para crear un nuevo entrenamiento
+          beforeEnter: AuthGuards.authGuardEntrenador
+        },
+
       ]
     },
 

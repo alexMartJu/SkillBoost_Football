@@ -43,6 +43,10 @@ class Profile extends Model
     {
         return $this->belongsToMany(Entrenamiento::class, 'entrenamiento_profile', 'profile_id', 'entrenamiento_id');
     }
+    public function graficas()
+    {
+        return $this->hasMany(Grafica::class);
+    }
     
 
 }

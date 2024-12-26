@@ -64,35 +64,6 @@ class EntrenadorController extends Controller
         return response()->json(['message' => 'Test exitoso']);
     }
 
-    // public function register(RegisterEntrenadorRequest $request)
-    // {
-    //     $admin = auth('admin')->user();
-    //     if (!$admin) {
-    //         return response()->json(['error' => 'Admin no encontrado'], 404);
-    //     }
-    //     $validatedData = $request->validated();
-    //     do {
-    //         $numero = str_pad(random_int(1000, 9999), 4, '0', STR_PAD_LEFT);
-    //         $nombre = $request->nombre;
-    //         $numeroEntrenador=$nombre . '-' . $numero;
-    //     } while (Entrenador::where('numeroEntrenador', $numeroEntrenador)->exists());
-    
-    //     // Crear el entrenador
-    //     $entrenador = Entrenador::create([
-    //         'nombre' => $request->nombre,
-    //         'apellidos' => $request->apellidos,
-    //         'numeroEntrenador' => $numeroEntrenador,
-    //         'email' => $request->email,
-    //         'password' => Hash::make($request->password),
-    //         'deporte_id' => $request->deporte_id,
-    //         // 'edad' => $request->edad,
-    //     ]);
-    
-    //     return response()->json([
-    //         'message' => 'Registro exitoso',
-    //         'entrenador' => $entrenador,
-    //     ], 201);
-    // }
     public function register(RegisterEntrenadorRequest $request)
     {
      

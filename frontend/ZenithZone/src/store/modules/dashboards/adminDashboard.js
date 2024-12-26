@@ -9,6 +9,7 @@
             pistas: [],
             entrenadores: [],
             entrenamientos: [],
+            salas:[],
         },
 
         mutations: {
@@ -42,7 +43,7 @@
                 state.pistas = state.pistas.filter(pista => pista.slug !== pistaslug);
             },
             [Constant.INITIALIZE_ENTRENADOR](state, entrenadores) {
-                state.entrenadores = entrenadores;
+                state.entrenadores = entrenadores;  
             },
             [Constant.DELETE_ONE_ENTRENADOR](state, entrenadorId) {
                 state.entrenadores = state.entrenadores.filter(entrenador => entrenador.id !== entrenadorId);
@@ -65,6 +66,15 @@
                     entrenamiento.status = status; 
                 }
             },
+            [Constant.INITIALIZE_SALAS](state, salas) {
+                state.salas = salas;
+            },
+            [Constant.CREATE_ONE_SALA](state, nuevaSala) {
+                state.salas.push(nuevaSala);
+            },
+            [Constant.DELETE_ONE_SALA](state, salaId) {
+                state.salas = state.salas.filter(sala => sala.id !== salaId);
+              },
             
 
         },
@@ -213,7 +223,35 @@
                     } catch (error) {
                         console.error("Error al cambiar el estado del entrenamiento:", error);
                     }
-                }
+                },
+                async [Constant.INITIALIZE_SALAS]({ commit }) {
+                    try {
+                      const { data } = await adminDashboardService.GetSalas();
+                      console.log("Datos de salas:", data);
+                      commit(Constant.INITIALIZE_SALAS, data);
+                    } catch (error) {
+                      console.error("Error al inicializar salas:", error);
+                    }
+                  },
+                  async  [Constant.CREATE_ONE_SALA]({ commit }, sala) {
+                    try {
+                        const { data } =  await adminDashboardService.CreateSalas(sala);
+                      console.log(JSON.stringify(data)+"data");
+                      commit(Constant.CREATE_ONE_SALA, data);
+                    } catch (error) {
+                      console.error("Error al crear sala:", error);
+                    }
+                  },
+                  async  [Constant.DELETE_ONE_SALA]({ commit }, sala) {
+                    try {
+                        const { data } =  await adminDashboardService.DeleteSalas(sala);
+                      console.log(JSON.stringify(data)+"data");
+                      commit(Constant.DELETE_ONE_SALA, data);
+                    } catch (error) {
+                      console.error("Error al crear sala:", error);
+                    }
+                  },
+                  
             
         },
 
@@ -235,6 +273,12 @@
             },
             GetEntrenamientos: (state) => {
                 return state.entrenamientos; 
+            },
+            GetSalas(state) {
+                return state.salas;
+            },
+            GetEntrenadores(state) {
+                return state.entrenadores;
             },
         }
     };
