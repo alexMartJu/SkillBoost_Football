@@ -11,8 +11,8 @@ export default {
     GetCurrentEntrenador() {
         return Api(secrets.URL_SPRING, 'false').get('currentEntrenador');
     },
-    UpdateEntrenador() {
-        return Api(secrets.URL_SPRING, 'false').update('currentEntrenador');
+    UpdateEntrenador(data) {
+        return Api(secrets.URL_SPRING, 'false').put('currentEntrenador', data);
     },
 
 }
