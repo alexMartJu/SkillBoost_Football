@@ -15,7 +15,7 @@
                         <h4>{{ profile.edad }} años</h4>
                         <h4 class="card-subtitle mb-3 text-muted">{{ profile.bio }}</h4>                    
                         <p class="mt-2">
-                            <strong>Numero de afiliación: </strong><span class="fw-bold">{{ profile.numeroSocio }}</span>
+                            <strong>Numero de afiliación: </strong><span class="fw-bold">{{ numeroUser }}</span>
                         </p>
                     </div>
                     <div class="col-md-2 d-flex align-items-center justify-content-center separador">
@@ -45,12 +45,14 @@ export default {
         }
     },
 
-    setup() {
+    setup(props) {
         const redirects = {
             edit: () => router.push({ name: 'profileEdit' }),
         };
 
-        return { redirects }
+        const numeroUser = props.profile.numeroSocio ? props.profile.numeroSocio : props.profile.numeroEntrenador;
+
+        return { redirects, numeroUser }
     }
 }
 </script>

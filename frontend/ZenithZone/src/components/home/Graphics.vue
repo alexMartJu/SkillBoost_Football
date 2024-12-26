@@ -23,7 +23,6 @@ export default {
     },
 
     setup(sets) {
-        console.log(sets);
         const radarChart = ref(null);
 
         onMounted(() => {
