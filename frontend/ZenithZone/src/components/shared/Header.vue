@@ -52,11 +52,16 @@
                         
                         <li v-if="state.user.nombre" class="nav-item d-flex align-items-center ms-5">
                             <img :src="state.user.image" alt="" class="profile-image">
-                            <a @click="redirects.profile" class="nav-link text-color fw-bold fs-5" 
+                            <a v-if="state.user.numeroSocio" @click="redirects.profile" class="nav-link text-color fw-bold fs-5" 
                                 :class="{ isActive: isProfile }">
                                 {{ state.user.nombre }}
                             </a>
+                            <a v-else @click="redirects.profileEntrenador" class="nav-link text-color fw-bold fs-5" 
+                                :class="{ isActive: isProfile }">
+                                {{ state.user.numeroEntrenador }}
+                            </a>
                         </li>
+                        
                         <li v-if="!state.isLogged" class="nav-item ms-4">
                             <a @click="redirects.login" class="nav-link auth fw-bold fs-5" 
                                 :class="{ isActive: isLogin }">
@@ -128,6 +133,7 @@ export default {
             servicios: () => router.push({ name: 'serviciosEntrenamientos' }),
             entrenadores: () => router.push({ name: 'entrenadores' }),
             profile: () => router.push({name: 'profile', params: {numeroSocio: state.user.numeroSocio}}),
+            profileEntrenador: () => router.push({name: 'profileEntrenador', params: {numeroEntrenador: state.user.numeroEntrenador}}),
             login: () => router.push({ name: 'login' }),
             dashboardAdmin: () => router.push({ name: 'DashboardAdmin' }),
             dashboardEntrenador: () => router.push({ name: 'DashboardEntrenador' }),
@@ -156,7 +162,7 @@ export default {
             console.log(`checkea admin`);
             store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"tokenAdmin": tokenAdmin});
         } else if (entrenadorToken) {
-            console.log(`checkea entrenador`, entrenadorToken);
+            // console.log(`checkea entrenador`, entrenadorToken);
             store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"entrenadorToken": entrenadorToken});
         }
 

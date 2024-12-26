@@ -36,13 +36,4 @@ export default {
         return Api(secrets.URL_SPRING, 'false').get('currentAdmin',);
     },
 
-    // ENTRENADOR
-    GetCurrentEntrenador() {
-        return Api(secrets.URL_SPRING, 'false').get('currentEntrenador');
-    },
-
-    UpdateEntrenador() {
-        return Api(secrets.URL_SPRING, 'false').update('currentEntrenador');
-    },
-
 }//export

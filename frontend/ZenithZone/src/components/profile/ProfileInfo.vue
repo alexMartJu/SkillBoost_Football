@@ -1,9 +1,13 @@
 <template>
 <div class="container mt-5">
     <div class="row justify-content-center align-items-center">
-        <!-- Imagen del perfil -->
         <div class="col-md-4 text-center mb-3 mb-md-0">
-            <img :src="profile.image" alt="Perfil" class="img-fluid rounded-circle" style="width: 200px;">
+            <!-- Imagen si es entrenador -->
+            <img v-if="profile?.numeroEntrenador" :src="`/assets/entrenadores/${profile.imagenes[0].image_url}`" alt="Perfil" 
+                class="img-fluid rounded-circle" style="max-height: 200px;">
+            <!-- Imagen si es user -->
+            <img v-else :src="profile.image" alt="Perfil" 
+            class="img-fluid rounded-circle" style="max-height: 200px;">
         </div>
 
         <!-- Información del perfil -->
@@ -15,7 +19,7 @@
                         <h4>{{ profile.edad }} años</h4>
                         <h4 class="card-subtitle mb-3 text-muted">{{ profile.bio }}</h4>                    
                         <p class="mt-2">
-                            <strong>Numero de afiliación: </strong><span class="fw-bold">{{ profile.numeroSocio }}</span>
+                            <strong>Numero de afiliación: </strong><span class="fw-bold">{{ numeroUser }}</span>
                         </p>
                     </div>
                     <div class="col-md-2 d-flex align-items-center justify-content-center separador">
@@ -45,12 +49,14 @@ export default {
         }
     },
 
-    setup() {
+    setup(props) {
         const redirects = {
             edit: () => router.push({ name: 'profileEdit' }),
         };
 
-        return { redirects }
+        const numeroUser = props.profile.numeroSocio ? props.profile.numeroSocio : props.profile.numeroEntrenador;
+
+        return { redirects, numeroUser }
     }
 }
 </script>

@@ -132,7 +132,7 @@ const router = createRouter({
     {
       path: "/entrenador/:numeroEntrenador",
       name: "profileEntrenador",
-      component: () => import('../views/client/Entrenador.vue'),
+      component: () => import('../views/client/Profile.vue'),
       children: [
         {
           path: "info",

@@ -2,6 +2,7 @@ import Constant from '../../../Constant';
 import UserService from '../../../services/client/user.service';
 import router from '../../../router/router'
 import profileService from '@/services/client/profile.service';
+import entrenadorService from '@/services/client/entrenador.service';
 
 export const user = {
     namespaced: true,
@@ -62,9 +63,19 @@ export const user = {
 
         [Constant.INITIALIZE_PROFILE]: async (store, payload) => {
             try {
-                const response = await profileService.Profile(payload);
+                let response = null;
+                let res = null;
+
+                if (payload.numeroSocio) {
+                    response = await profileService.Profile(payload.numeroSocio);
+                    res = response.data.profile;
+                } else if (payload.numeroEntrenador) {
+                    response = await entrenadorService.Profile(payload.numeroEntrenador);
+                    res = response.data.data;
+                }
+
                 if (response.status === 200) {
-                    store.commit(Constant.INITIALIZE_PROFILE, response.data.profile);
+                    store.commit(Constant.INITIALIZE_PROFILE, res);
                 }
             } catch (error) {
                 console.error(error);
@@ -83,7 +94,7 @@ export const user = {
                     response = await UserService.GetCurrentAdmin();
                 } else if (payload?.entrenadorToken) {
                     Headers.Authorization = `Bearer ${payload.entrenadorToken}`;
-                    response = await UserService.GetCurrentEntrenador();
+                    response = await entrenadorService.GetCurrentEntrenador();
                 }
 
                 if (response && response.status === 200) {
@@ -138,9 +149,9 @@ export const user = {
         [Constant.INITIALIZE_PROFILE]: (state, payload) => {
             if (payload) {
                 state.profile = payload;
-                state.isAuth = !!payload.token;
-                state.isAdmin = !!payload.tokenAdmin;
-                state.isEntrenador = !!payload.entrenadorToken;
+                state.isAuth = !!payload.numeroSocio;
+                state.isAdmin = !!payload.numeroAdmin;
+                state.isEntrenador = !!payload.numeroEntrenador;
             }
         },//INITIALIZE_PROFILE
 
