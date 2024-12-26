@@ -113,12 +113,17 @@ INSERT INTO `reservas` (`id`, `profile_id`, `pista_id`, `horario_id`, `dia`, `st
 (1, 1, 1, 1, 'Lunes', 'confirmada'),
 (2, 2, 2, 2, 'Jueves', 'pendiente');
 
-INSERT INTO `graficas` (`id`, `seccion`, `nivel`, `profile_id`) VALUES
-(1, 'Motivación', 70, 1),
-(2, 'Agilidad', 60, 1),
-(3, 'Velocidad', 50, 1),
-(4, 'Aguante', 90, 1),
-(5, 'Fuerza', 80, 1);
+INSERT INTO `graficas` (`id`, `seccion`, `nivel`, `Año`, `Mes`, `profile_id`) VALUES
+(1, 'Motivación', 70, 1, 2024, 1),
+(2, 'Agilidad', 60, 1, 2024, 1),
+(3, 'Velocidad', 50, 1, 2024, 1),
+(4, 'Aguante', 90, 1, 2024, 1),
+(5, 'Fuerza', 80, 1, 2024, 1),
+(6, 'Motivación', 70, 2, 2024, 1),
+(7, 'Agilidad', 60, 2, 2024, 1),
+(8, 'Velocidad', 50, 2, 2024, 1),
+(9, 'Aguante', 90, 2, 2024, 1),
+(10, 'Fuerza', 80, 2, 2024, 1);
 
 INSERT INTO `favorites` (`profile_id`, `entrenamiento_id`) VALUES
 (1, 2),
