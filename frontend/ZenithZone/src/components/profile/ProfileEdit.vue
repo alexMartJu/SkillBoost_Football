@@ -16,6 +16,13 @@
                     Bio is required.
                 </div>
             </div>
+            <div class="mb-3" v-if="route.params.numeroSocio">
+                <label for="image" class="form-label">Image</label>
+                <input type="text" id="image" class="form-control" v-model="state.image" />
+                <div v-if="x$.image.$invalid && x$.image.$dirty" class="text-danger small">
+                    Image is required.
+                </div>
+            </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" id="password" class="form-control" v-model="state.password" />
@@ -70,6 +77,7 @@ export default {
             bio: '',
             password: '',
             password_confirmation: '',
+            image: ''
         });
 
         const rules = computed(() => ({
@@ -77,6 +85,7 @@ export default {
             bio: {},
             password: { minLength: minLength(3) },
             password_confirmation: { minLength: minLength(3) },
+            image: {}
         }));
 
         const getData = () => {
@@ -85,11 +94,13 @@ export default {
             if (state.bio) data.bio = state.bio;
             if (state.password) data.password = state.password;
             if (state.password_confirmation) data.password_confirmation = state.password_confirmation;
+            if (state.image) data.image = state.image;
             return data;
         }; // solo añadir info a los campos con datos
 
         const isDirty = computed(() => {
             const data = getData();
+            console.log(data);
             return Object.keys(data).length > 0;
         }); // false si getData no tiene nada
 
@@ -117,7 +128,7 @@ export default {
             }
         };
 
-        return { state, x$, submitForm, isDirty, alertMessage, errorMessage };
+        return { state, x$, submitForm, isDirty, alertMessage, errorMessage, route };
     }
 };
 </script>
