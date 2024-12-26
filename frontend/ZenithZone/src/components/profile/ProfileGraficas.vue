@@ -22,6 +22,10 @@
 
 <script>
 import Graphics from '@/components/home/Graphics.vue';
+import Constant from '@/Constant';
+import { reactive } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default {
     components: {
@@ -29,12 +33,22 @@ export default {
     },
 
     setup() {
+        const store = useStore();
+        const route = useRoute();
+
         const sets = [
             [60, 70, 90, 43, 56],
             [69, 79, 93, 50, 45]
         ];
 
+        // store.dispatch(`profile/${Constant.INITIALIZE_GRAFICA_PROFILE}`, route.params.numeroSocio);
+
+        // const state = reactive({
+        //     graficas: computed(() => store.getters['profile/GetGraficasProfile'])
+        // });
+
         return {sets};
+        // return { state }
     }
 };
 </script>
