@@ -26,22 +26,33 @@ export default {
     FETCH_PISTA_BY_SLUG: "FetchPistaBySlug",
     SET_CURRENT_PISTA: "SetCurrentPista",
 
-    // User
-    INITIALIZE_PROFILE: "InitializeProfile",
-    INITIALIZE_USER: "InitializeUser",
-    INITIALIZE_ONE_USER: "InitializeOneUser",
-    ADD_USER: "AddUser",
-    DELETE_USER: "DeleteUser",
-    UPDATE_USER: "UpdateUser",
-    LOGIN: "Login",
-    LOGIN_ADMIN: "Login_admin",
-    LOGOUT: "Logout",
+        // User
+        INITIALIZE_PROFILE: "InitializeProfile",
+        INITIALIZE_USER: "InitializeUser",
+        INITIALIZE_ONE_USER: "InitializeOneUser",
+        ADD_USER: "AddUser",
+        DELETE_USER: "DeleteUser",
+        UPDATE_USER: "UpdateUser",
+        LOGIN: "Login",
+        LOGIN_ADMIN: "Login_admin",
+        LOGOUT: "Logout",
+        //entrenadores
+        INITIALIZE_ENTRENADOR: "initializeEntrenador",
+        DELETE_ONE_ENTRENADOR: "deleteOneEntrenador",
+        REGISTER_ENTRENADOR:"registerOneEntrenador",
+        ADD_NEW_ENTRENADOR: "addOneEntrenador",
 
-    //entrenadores
-    INITIALIZE_ENTRENADOR: "initializeEntrenador",
-    DELETE_ONE_ENTRENADOR: "deleteOneEntrenador",
-    REGISTER_ENTRENADOR: "registerOneEntrenador",
-    ADD_NEW_ENTRENADOR: "addOneEntrenador",
+        //Salas
+        INITIALIZE_SALAS: "InitializeSalas",
+        CREATE_ONE_SALA: "CreateOneSala",
+        DELETE_ONE_SALA: "DeleteOneSala",
+        UPDATE_ONE_SALA: "UpdateOneSala",
+        FETCH_SALA_BY_ID: "FetchSalaById",
+        SET_CURRENT_SALA: "SetCurrentSala",
+
+        //graficas
+        INITIALIZE_GRAFICAS:"InitializeGraficas",
+        UPDATE_ONE_GRAFICA: "UpdateOneGrafica",
 
     // Profile
     INITIALIZE_ENTRENAMIENTO_PROFILE: "initizalizeEntrenamientoProfile",

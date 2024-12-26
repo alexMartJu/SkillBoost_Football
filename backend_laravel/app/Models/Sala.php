@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Sala extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $hidden = ['created_at', 'updated_at'];
     
     protected $fillable = [
