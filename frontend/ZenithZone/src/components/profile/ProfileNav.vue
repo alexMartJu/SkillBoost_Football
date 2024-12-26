@@ -28,10 +28,6 @@ export default {
             type: Object,
             required: true,
         },
-        isCurrentUser: {
-            type: Boolean,
-            required: true
-        }
     },
 
     setup() {

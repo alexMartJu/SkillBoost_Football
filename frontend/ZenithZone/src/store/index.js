@@ -5,6 +5,7 @@ import { entrenamientos } from "./modules/client/entrenamientos";
 import { pistas } from "./modules/client/pistas";
 import { entrenadorDashboard } from "./modules/dashboards/entrenadorDashboard";
 import { user } from "./modules/client/user";
+import { profile } from "./modules/client/profile";
 
 export default Vuex.createStore({
     modules: {
@@ -13,6 +14,7 @@ export default Vuex.createStore({
         entrenamientos: entrenamientos,
         pistas: pistas,
         entrenadorDashboard: entrenadorDashboard,
-        user: user
+        user: user,
+        profile: profile
     }
 });

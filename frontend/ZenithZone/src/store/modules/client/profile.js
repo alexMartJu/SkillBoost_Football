@@ -1,4 +1,5 @@
 import Constant from '@/Constant';
+import profileService from '@/services/client/profile.service';
 // import entrenamientosService from '../../../services/client/entrenamientos.service';
 
 export const profile = {
@@ -13,30 +14,29 @@ export const profile = {
     actions: {
         [Constant.INITIALIZE_ENTRENAMIENTO_PROFILE]: async (store) => {
             try {
-                const { data } = await entrenamientosService.GetEntrenamientos();
-                // console.log(data);
+                const { data } = await profileService.Entrenamientos();
 
-                store.commit(Constant.INITIALIZE_ENTRENAMIENTO_PROFILE, data);
+                store.commit(Constant.INITIALIZE_ENTRENAMIENTO_PROFILE, data.entrenamientos);
             } catch (error) {
                 console.error("Error al cargar las entrenamientos:", error);
             }
         },
-        [Constant.INITIALIZE_RESERVA_PROFILE]: async (store, slug) => {
+        [Constant.INITIALIZE_RESERVA_PROFILE]: async (store, numeroSocio) => {
             try {
-                const { data } = await entrenamientosService.GetOneEntrenamiento(slug);
+                const { data } = await profileService.Reservas(numeroSocio);
                 // console.log(data);
 
-                store.commit(Constant.INITIALIZE_RESERVA_PROFILE, data);
+                store.commit(Constant.INITIALIZE_RESERVA_PROFILE, data.reservas);
             } catch (error) {
                 console.error("Error al cargar las reservas:", error);
             }
         },
-        [Constant.INITIALIZE_GRAFICA_PROFILE]: async (store, slug) => {
+        [Constant.INITIALIZE_GRAFICA_PROFILE]: async (store, numeroSocio) => {
             try {
-                const { data } = await entrenamientosService.GetOneEntrenamiento(slug);
+                const { data } = await profileService.Graficas(numeroSocio);
                 // console.log(data);
 
-                store.commit(Constant.INITIALIZE_GRAFICA_PROFILE, data);
+                store.commit(Constant.INITIALIZE_GRAFICA_PROFILE, data.graficas);
             } catch (error) {
                 console.error("Error al cargar las graficas:", error);
             }
@@ -44,9 +44,8 @@ export const profile = {
     },
 
     mutations: {
-        [Constant.INITIALIZE_ENTRENAMIENTO](state, payload) {
+        [Constant.INITIALIZE_ENTRENAMIENTO_PROFILE](state, payload) {
             if (payload) {
-                console.log(payload);
                 state.entrenamientos = payload;
             }
         },
