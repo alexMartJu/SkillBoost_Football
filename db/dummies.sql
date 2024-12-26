@@ -113,7 +113,7 @@ INSERT INTO `reservas` (`id`, `profile_id`, `pista_id`, `horario_id`, `dia`, `st
 (1, 1, 1, 1, 'Lunes', 'confirmada'),
 (2, 2, 2, 2, 'Jueves', 'pendiente');
 
-INSERT INTO `graficas` (`id`, `seccion`, `nivel`, `Año`, `Mes`, `profile_id`) VALUES
+INSERT INTO `graficas` (`id`, `seccion`, `nivel`, `Mes`, `año`, `profile_id`) VALUES
 (1, 'Motivación', 70, 1, 2024, 1),
 (2, 'Agilidad', 60, 1, 2024, 1),
 (3, 'Velocidad', 50, 1, 2024, 1),
