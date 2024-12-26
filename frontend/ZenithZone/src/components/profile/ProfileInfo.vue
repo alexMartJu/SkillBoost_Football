@@ -3,7 +3,7 @@
     <div class="row justify-content-center align-items-center">
         <div class="col-md-4 text-center mb-3 mb-md-0">
             <!-- Imagen si es entrenador -->
-            <img v-if="profile?.numeroEntrenador" :src="`/assets/entrenadores/${profile.imagenes[0].image_url}`" alt="Perfil" 
+            <img v-if="profile?.numeroentrenador" :src="`/assets/entrenadores/${profile.imagenes[0].image_url}`" alt="Perfil" 
                 class="img-fluid rounded-circle" style="max-height: 200px;">
             <!-- Imagen si es user -->
             <img v-else :src="profile.image" alt="Perfil" 
@@ -25,7 +25,7 @@
                     <div class="col-md-2 d-flex align-items-center justify-content-center separador">
                         <div v-if="isCurrentUser">
                             <button class="btn btn-edit fw-bold shadow-sm" v-if="profile.numeroSocio" @click="redirects.edit">Editar Perfil</button>
-                            <button class="btn btn-edit fw-bold shadow-sm" v-else-if="profile.numeroEntrenador" @click="redirects.editEntrenador">Editar Perfil</button>
+                            <button class="btn btn-edit fw-bold shadow-sm" v-else-if="profile.numeroentrenador" @click="redirects.editEntrenador">Editar Perfil</button>
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ export default {
             editEntrenador: () => router.push({ name: 'profileEntrenadorEdit' }),
         };
 
-        const numeroUser = props.profile.numeroSocio ? props.profile.numeroSocio : props.profile.numeroEntrenador;
+        const numeroUser = props.profile.numeroSocio ? props.profile.numeroSocio : props.profile.numeroentrenador;
 
         return { redirects, numeroUser }
     }

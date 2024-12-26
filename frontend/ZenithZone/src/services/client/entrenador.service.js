@@ -5,8 +5,8 @@ export default {
     GetEntrenadores() {
         return Api(secrets.URL_SPRING, 'false').get(`entrenador`);
     },
-    Profile(numeroEntrenador) {
-        return Api(secrets.URL_SPRING, 'false').get(`entrenador/${numeroEntrenador}`);
+    Profile(numeroentrenador) {
+        return Api(secrets.URL_SPRING, 'false').get(`entrenador/${numeroentrenador}`);
     },
     GetCurrentEntrenador() {
         return Api(secrets.URL_SPRING, 'false').get('currentEntrenador');

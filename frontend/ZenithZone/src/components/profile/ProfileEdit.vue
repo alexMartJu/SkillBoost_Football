@@ -113,7 +113,7 @@ export default {
             try {
                 if (route.params.numeroSocio) {
                     await profileService.UpdateProfile(getData());
-                } else if (route.params.numeroEntrenador) {
+                } else if (route.params.numeroentrenador) {
                     await entrenadorService.UpdateEntrenador(getData());
                 }
 

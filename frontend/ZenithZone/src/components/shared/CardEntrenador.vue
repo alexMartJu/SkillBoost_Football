@@ -32,7 +32,7 @@ export default {
         const router = useRouter();
 
         const redirects = {
-            profileEntrenador: () => router.push({ name: 'profileEntrenador', params: {numeroEntrenador: props.entrenador.numeroEntrenador} }),
+            profileEntrenador: () => router.push({ name: 'profileEntrenador', params: {numeroentrenador: props.entrenador.numeroentrenador} }),
         };
 
         return { redirects }

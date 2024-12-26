@@ -3,7 +3,7 @@
     <h1>Lista de Entrenadores</h1>
     <CardEntrenadores
       v-for="entrenador in entrenadores.data"
-      :key="entrenador.numeroEntrenador"
+      :key="entrenador.numeroentrenador"
       :entrenador="entrenador"
       @eliminarEntrenador="eliminarEntrenador"
     />
@@ -28,8 +28,8 @@ export default {
 
   },
   methods: {
-    eliminarEntrenador(numeroEntrenador) {
-      this.$store.dispatch('adminDashboard/deleteOneEntrenador', numeroEntrenador)
+    eliminarEntrenador(numeroentrenador) {
+      this.$store.dispatch('adminDashboard/deleteOneEntrenador', numeroentrenador)
         .then(() => {
           console.log("Entrenador eliminado con éxito");
         })

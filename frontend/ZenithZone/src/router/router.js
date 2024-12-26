@@ -130,7 +130,7 @@ const router = createRouter({
 
     // Profile Entrenador
     {
-      path: "/entrenador/:numeroEntrenador",
+      path: "/entrenador/:numeroentrenador",
       name: "profileEntrenador",
       component: () => import('../views/client/Profile.vue'),
       children: [
@@ -143,7 +143,7 @@ const router = createRouter({
     },
     // Editar perfil. Se pone aparte para que no salga como una pestaña en el perfil
     {
-      path: "/entrenador/:numeroEntrenador/editar",
+      path: "/entrenador/:numeroentrenador/editar",
       name: "profileEntrenadorEdit",
       component: () => import('../components/profile/ProfileEdit.vue'),
     },

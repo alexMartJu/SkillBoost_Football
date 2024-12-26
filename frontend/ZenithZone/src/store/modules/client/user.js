@@ -69,8 +69,8 @@ export const user = {
                 if (payload.numeroSocio) {
                     response = await profileService.Profile(payload.numeroSocio);
                     res = response.data.profile;
-                } else if (payload.numeroEntrenador) {
-                    response = await entrenadorService.Profile(payload.numeroEntrenador);
+                } else if (payload.numeroentrenador) {
+                    response = await entrenadorService.Profile(payload.numeroentrenador);
                     res = response.data.data;
                 }
 
@@ -151,7 +151,7 @@ export const user = {
                 state.profile = payload;
                 state.isAuth = !!payload.numeroSocio;
                 state.isAdmin = !!payload.numeroAdmin;
-                state.isEntrenador = !!payload.numeroEntrenador;
+                state.isEntrenador = !!payload.numeroentrenador;
             }
         },//INITIALIZE_PROFILE
 
@@ -160,7 +160,7 @@ export const user = {
                 state.user = payload;
                 state.isAuth = !!payload.numeroSocio;
                 state.isAdmin = !!payload.numeroAdmin;
-                state.isEntrenador = !!payload.numeroEntrenador;
+                state.isEntrenador = !!payload.numeroentrenador;
             }
         },//INITIALIZE_USER
 

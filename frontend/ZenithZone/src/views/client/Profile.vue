@@ -5,7 +5,7 @@
         </div>
         <ProfileNav v-if="isCurrentUser && state.Profile?.numeroSocio" :profile="state.Profile" />
         <div class="d-flex justify-content-center mt-4">
-            <button v-if="isCurrentUser && state.Profile?.numeroEntrenador" @click="redirects.dashboardEntrenador"
+            <button v-if="isCurrentUser && state.Profile?.numeroentrenador" @click="redirects.dashboardEntrenador"
             class="btn btn-lg btn-primary">
             Accede a tu Dashboard
             </button>
@@ -34,7 +34,7 @@ export default {
         const store = useStore();
         const router = useRouter();
         const data = {
-            numeroEntrenador: route.params.numeroEntrenador,
+            numeroentrenador: route.params.numeroentrenador,
             numeroSocio: route.params.numeroSocio
         }
 
@@ -61,7 +61,7 @@ export default {
         });
 
         watch(
-            () => [route.params.numeroSocio || route.params.numeroEntrenador],
+            () => [route.params.numeroSocio || route.params.numeroentrenador],
             fetchData(),
         );
 

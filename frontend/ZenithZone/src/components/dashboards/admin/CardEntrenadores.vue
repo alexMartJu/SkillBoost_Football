@@ -12,7 +12,7 @@
           <p>{{ entrenador.email }}</p>
         </div>
       </div>
-      <button @click="confirmarEliminar(entrenador.numeroEntrenador)">Eliminar</button>
+      <button @click="confirmarEliminar(entrenador.numeroentrenador)">Eliminar</button>
     </div>
   </template>
   

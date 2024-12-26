@@ -58,7 +58,7 @@
                             </a>
                             <a v-else @click="redirects.profileEntrenador" class="nav-link text-color fw-bold fs-5" 
                                 :class="{ isActive: isProfile }">
-                                {{ state.user.numeroEntrenador }}
+                                {{ state.user.numeroentrenador }}
                             </a>
                         </li>
                         
@@ -133,7 +133,7 @@ export default {
             servicios: () => router.push({ name: 'serviciosEntrenamientos' }),
             entrenadores: () => router.push({ name: 'entrenadores' }),
             profile: () => router.push({name: 'profile', params: {numeroSocio: state.user.numeroSocio}}),
-            profileEntrenador: () => router.push({name: 'profileEntrenador', params: {numeroEntrenador: state.user.numeroEntrenador}}),
+            profileEntrenador: () => router.push({name: 'profileEntrenador', params: {numeroentrenador: state.user.numeroentrenador}}),
             login: () => router.push({ name: 'login' }),
             dashboardAdmin: () => router.push({ name: 'DashboardAdmin' }),
             dashboardEntrenador: () => router.push({ name: 'DashboardEntrenador' }),

@@ -181,10 +181,10 @@
                     console.error("Error al obtener la lista de entrenadores:", error);
                     }
                 },
-                async [Constant.DELETE_ONE_ENTRENADOR]({ commit }, numeroEntrenador) {
+                async [Constant.DELETE_ONE_ENTRENADOR]({ commit }, numeroentrenador) {
                     try {
-                    await adminDashboardService.DeleteEntrenador(numeroEntrenador);
-                    commit(Constant.DELETE_ONE_ENTRENADOR, numeroEntrenador);
+                    await adminDashboardService.DeleteEntrenador(numeroentrenador);
+                    commit(Constant.DELETE_ONE_ENTRENADOR, numeroentrenador);
                     } catch (error) {
                     console.error("Error al eliminar el entrenador:", error);
                     }

@@ -35,8 +35,8 @@ export default {
     RegisterEntrenador(entrenadorData){
         return Api(secrets.URL_SPRING,isSpringboot).post('entrenador/register', entrenadorData);
     },
-    DeleteEntrenador(numeroEntrenador){
-        return Api(secrets.URL_SPRING,isSpringboot).delete(`entrenador/${numeroEntrenador}`);
+    DeleteEntrenador(numeroentrenador){
+        return Api(secrets.URL_SPRING,isSpringboot).delete(`entrenador/${numeroentrenador}`);
     },
     GetEntrenadores() {
         return Api(secrets.URL_SPRING,isSpringboot).get("entrenador");
