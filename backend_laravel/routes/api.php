@@ -10,6 +10,8 @@ use App\Http\Controllers\EntrenadorController;
 use App\Http\Controllers\SalasController;
 use App\Http\Controllers\ReservasController;
 use App\Http\Controllers\HorariosController;
+use App\Http\Controllers\GraficasController;
+use App\Http\Controllers\ProfilesController;       
 use App\Models\Entrenamiento;
 use App\Models\Pista;
 use App\Models\Deporte;
@@ -47,6 +49,9 @@ Route::middleware([AdminAuthenticate::class])->group(function () {
 });
 Route::middleware([EntrenadorAuthenticate::class])->group(function () {
     // Solo accesibles por Entrenador
+    Route::get('profile/{id}', [ProfilesController::class, 'show']);
+    Route::get('/graficas/profile/{profileId}', [GraficasController::class, 'obtenerGraficas']);
+    Route::post('/graficas/profile/{profileId}', [GraficasController::class, 'actualizarGrafica']);
     Route::get('/entrenador/{email}/entrenamientos', [EntrenamientoController::class, 'getEntrenamientosByEntrenador']);
     Route::get('/entrenador/salas', [SalasController::class, 'getSalasByEntrenador']);
     Route::get('/currentEntrenador', [EntrenadorController::class, 'me']);
