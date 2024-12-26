@@ -44,8 +44,18 @@ export default {
     GetEntrenamientos() {
         return Api(secrets.URL_SPRING,isSpringboot).get("entrenamientos");
     },
-    UpdateStatus(entrenamientoSlug,status){
+    UpdateStatus(entrenamientoSlug,status){ 
         return Api(secrets.URL_SPRING,isSpringboot).put(`entrenamientos/status/${entrenamientoSlug}`,status);
+    },
+    GetSalas(){
+        return Api(secrets.URL_SPRING,isSpringboot).get('salas');
+    },
+    CreateSalas(sala) {
+        console.log("sala"+JSON.stringify(sala));
+        return Api(secrets.URL_SPRING,isSpringboot).post('salas', sala);
+    },
+    DeleteSalas(sala){
+        return Api(secrets.URL_SPRING,isSpringboot).delete(`salas/${sala}`);
     }
 
 };

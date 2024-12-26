@@ -40,5 +40,13 @@
         INITIALIZE_ENTRENADOR: "initializeEntrenador",
         DELETE_ONE_ENTRENADOR: "deleteOneEntrenador",
         REGISTER_ENTRENADOR:"registerOneEntrenador",
-        ADD_NEW_ENTRENADOR: "addOneEntrenador"
+        ADD_NEW_ENTRENADOR: "addOneEntrenador",
+
+        //Salas
+        INITIALIZE_SALAS: "InitializeSalas",
+        CREATE_ONE_SALA: "CreateOneSala",
+        DELETE_ONE_SALA: "DeleteOneSala",
+        UPDATE_ONE_SALA: "UpdateOneSala",
+        FETCH_SALA_BY_ID: "FetchSalaById",
+        SET_CURRENT_SALA: "SetCurrentSala"
     }
