@@ -16,5 +16,13 @@ export default {
     },
     Graficas(numeroSocio) {
         return Api(secrets.URL_SPRING).get('profileGraficas', numeroSocio);
+    },
+
+    // Botones de cancelar
+    CancelarReserva(data) {
+        return Api(secrets.URL_SPRING).delete('profileReservas', data);
+    },
+    CancelarEntrenamiento(data) {
+        return Api(secrets.URL_SPRING).delete('profileEntrenamiento', data);
     }
 }
