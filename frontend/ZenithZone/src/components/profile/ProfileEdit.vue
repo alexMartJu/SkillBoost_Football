@@ -52,13 +52,15 @@ import useVuelidate from '@vuelidate/core';
 import { minLength, email } from '@vuelidate/validators';
 import profileService from '@/services/client/profile.service';
 import { reactive, computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Constant from '@/Constant';
+import entrenadorService from '@/services/client/entrenador.service';
 
 export default {
     setup() {
         const router = useRouter();
+        const route = useRoute();
         const store = useStore();
         let alertMessage = ref('');
         let errorMessage = ref('');
@@ -98,10 +100,15 @@ export default {
             errorMessage.value = null;
 
             try {
-                await profileService.UpdateProfile(getData());
+                if (route.params.numeroSocio) {
+                    await profileService.UpdateProfile(getData());
+                } else if (route.params.numeroEntrenador) {
+                    await entrenadorService.UpdateEntrenador(getData());
+                }
+
                 if (getData().email || getData().password) {
                     const refreshToken = { refreshToken: localStorage.getItem('refreshToken') };
-                    store.dispatch(`user/${Constant.LOGOUT}`, refreshToken);
+                    refreshToken ? store.dispatch(`user/${Constant.LOGOUT}`, refreshToken) : store.dispatch(`user/${Constant.LOGOUT}`);
                     router.push({ name: 'home' });
                 }
                 alertMessage.value = "Perfil actualizado correctamente"
