@@ -11,7 +11,7 @@
                             <p><strong>Plazas totales:</strong> {{ entrenamiento.maxPlazas }}</p>
                             <p><strong>Precio:</strong> {{ entrenamiento.precio }}€</p>
                         </div>
-                        <button v-if="isProfile" class="btn btn-primary align-self-end" 
+                        <button class="btn btn-primary align-self-end" 
                             @click="details(entrenamiento.slug)">
                             Más info
                         </button>
@@ -73,6 +73,6 @@ export default {
 
 .card:hover {
     cursor: pointer;
-    background-color: rgb(237, 242, 244);
+    background-color: rgb(249, 250, 250);
 }
 </style>

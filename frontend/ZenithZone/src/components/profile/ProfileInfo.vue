@@ -1,9 +1,13 @@
 <template>
 <div class="container mt-5">
     <div class="row justify-content-center align-items-center">
-        <!-- Imagen del perfil -->
         <div class="col-md-4 text-center mb-3 mb-md-0">
-            <img :src="profile.image" alt="Perfil" class="img-fluid rounded-circle" style="width: 200px;">
+            <!-- Imagen si es entrenador -->
+            <img v-if="profile?.numeroEntrenador" :src="`/assets/entrenadores/${profile.imagenes[0].image_url}`" alt="Perfil" 
+                class="img-fluid rounded-circle" style="max-height: 200px;">
+            <!-- Imagen si es user -->
+            <img v-else :src="profile.image" alt="Perfil" 
+            class="img-fluid rounded-circle" style="max-height: 200px;">
         </div>
 
         <!-- Información del perfil -->
