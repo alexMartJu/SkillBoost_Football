@@ -6,8 +6,9 @@ export const entrenadorDashboard = {
 
     state: {
         entrenamientos: [],
-        gráficas: [],
+        graficas: [],
         profile: {},
+        entrenador: null,
     },
 
     mutations: {
@@ -16,21 +17,26 @@ export const entrenadorDashboard = {
                 state.entrenamientos = payload;
             }
         },
-
+        [Constant.INITIALIZE_ENTRENADOR](state, payload) {
+            state.entrenador = payload; 
+          },
         [Constant.CREATE_ONE_ENTRENAMIENTO](state, nuevoEntrenamiento) {
-            state.entrenamientos.push(nuevoEntrenamiento);  // Añadir el nuevo entrenamiento a la lista
+            state.entrenamientos.push(nuevoEntrenamiento);  
+        },
+        [Constant.DELETE_ONE_ENTRENAMIENTO](state, entrenamientoId) {
+            state.entrenamientos = state.entrenamientos.filter(entrenamiento => entrenamiento.id !== entrenamientoId);
         },
 
         [Constant.INITIALIZE_GRAFICAS](state, payload) {
             if (payload) {
-              state.gráficas = payload;
+              state.graficas = payload;
             }
           },
       
-          [Constant.UPDATE_ONE_GRAFICA](state, updatedGrafica) {
-            const index = state.gráficas.findIndex(grafica => grafica.id === updatedGrafica.id);
+          [Constant.UPDATE_ONE_GRAFICA](state, updatedGraficas) {
+            const index = state.graficas.findIndex(graficas => graficas.id === updatedGraficas.id);
             if (index !== -1) {
-              state.gráficas.splice(index, 1, updatedGrafica);
+              state.graficas.splice(index, 1, updatedGraficas);
             }
           },
           [Constant.INITIALIZE_PROFILE](state, payload) {
@@ -39,7 +45,17 @@ export const entrenadorDashboard = {
     },
 
     actions: {
-        // Acción para inicializar los entrenamientos
+        async [Constant.INITIALIZE_ENTRENADOR]({ commit }) {
+            try {
+              // Aquí haces la llamada a tu servicio para obtener los datos del entrenador
+              const response = await entrenadorDashboardService.GetEntrenador();
+              console.log(response+ "entrenador");
+              // Guardas los datos del entrenador en el estado
+              commit(Constant.INITIALIZE_ENTRENADOR, response.data);
+            } catch (error) {
+              console.error("Error al cargar el entrenador:", error);
+            }
+          },
         [Constant.INITIALIZE_ENTRENAMIENTO]: async (store) => {
             try {
                 const { data } = await entrenadorDashboardService.GetEntrenamientos();
@@ -49,7 +65,6 @@ export const entrenadorDashboard = {
             }
         },
 
-        // Acción para crear un nuevo entrenamiento
         [Constant.CREATE_ONE_ENTRENAMIENTO]: async (store, nuevoEntrenamiento) => {
             try {
                 const { data } = await entrenadorDashboardService.CreateEntrenamiento(nuevoEntrenamiento);
@@ -57,30 +72,45 @@ export const entrenadorDashboard = {
             } catch (error) {
                 console.error("Error al crear el entrenamiento:", error);
             }
+        },  
+        async [Constant.DELETE_ONE_ENTRENAMIENTO]({ store}, entrenamientoId) {
+            try {
+                const { data } = await entrenadorDashboardService.DeleteEntrenamiento(entrenamientoId);
+                store.commit(Constant.INITIALIZE_ENTRENAMIENTO, data.data);
+            } catch (error) {
+                console.error("Error al eliminar el entrenamiento:", error);
+                throw error;
+            }
         },
-        [Constant.INITIALIZE_GRAFICAS]: async (store, id) => {
+        async [Constant.INITIALIZE_GRAFICAS]({ store }, profileId) {
             try {
-              const { data } = await entrenadorDashboardService.GetGraficas(id);
-              store.commit(Constant.INITIALIZE_GRAFICAS, data.data);
+              const response = await entrenadorDashboardService.GetGraficas(profileId);
+              console.log('Respuesta de la API:', response.data);
+             store.commit(Constant.INITIALIZE_GRAFICAS, response.data);
             } catch (error) {
-              console.error("Error al cargar las gráficas del alumno:", error);
+              console.error('Error al obtener gráficas:', error);
             }
           },
-      
-          // Acción para actualizar las gráficas de un alumno
-          [Constant.UPDATE_ONE_GRAFICA]: async (store, { id, graficas }) => {
+        [Constant.UPDATE_ONE_GRAFICA]: async (store, { id, graficas }) => {
             try {
-              const { data } = await entrenadorDashboardService.UpdateGraficas(id, graficas);
-              store.commit(Constant.UPDATE_ONE_GRAFICA, data.data);  // Actualizar las gráficas en el estado
+                console.log("id:", id, "grafica:", graficas);  
+        
+                if (!graficas || !graficas.seccion || graficas.nivel === undefined) {
+                    console.error("Error: 'graficas' está mal formada o vacía:", graficas);
+                    return;
+                }
+        
+                const { data } = await entrenadorDashboardService.UpdateGraficas(id, graficas);
+                console.log("data"+data)
+                store.commit(Constant.UPDATE_ONE_GRAFICA, data); 
             } catch (error) {
-              console.error("Error al actualizar las gráficas:", error);
+                console.error("Error al actualizar la gráfica:", error);
             }
-          },
+        },
 
           [Constant.INITIALIZE_PROFILE]: async (store, profileId) => {
             try {
                 const { data } = await entrenadorDashboardService.GetProfile(profileId); 
-                console.log("Data"+data.data);
                 store.commit(Constant.INITIALIZE_PROFILE, data.data); 
             } catch (error) {
                 console.error("Error al cargar el profile:", error);
@@ -97,6 +127,9 @@ export const entrenadorDashboard = {
         },
         GetGraficas(state) {
             return state.graficas;
-          },
+        },
+        GetEntrenador(state){
+            return state.entrenador;
+        }
     }
 };

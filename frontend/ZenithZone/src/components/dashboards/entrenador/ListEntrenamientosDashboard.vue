@@ -9,6 +9,9 @@
       <button @click="toggleDetails(entrenamiento.id)" class="details-button">
         {{ showDetails[entrenamiento.id] ? 'Ocultar Alumnos' : 'Ver Alumnos' }}
       </button>
+      <button @click="deleteEntrenamiento(entrenamiento.id)" class="delete-button">
+        Eliminar
+      </button>
 
       <!-- Lista de alumnos (se muestra al abrir detalles) -->
       <div v-if="showDetails[entrenamiento.id]" class="alumnos-list">
@@ -30,7 +33,7 @@
 </template>
 
 <script>
-import { reactive, computed } from 'vue';
+import { onMounted, reactive, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Constant from '../../../Constant';
@@ -43,7 +46,14 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
-    const entrenadorLogueado = 'Luis Fernández'; // Cambiar según el entrenador logueado
+    onMounted(() => {
+      console.log("Despachando la acción para cargar el entrenador...");
+      store.dispatch(`entrenadorDashboard/${Constant.INITIALIZE_ENTRENADOR}`).then(() => {
+          console.log("Entrenador cargado con éxito");
+      }).catch(error => {
+      console.error("Error al cargar el entrenador:", error);
+      });
+    });
 
     // Inicializar datos en Vuex
     store.dispatch(`entrenadorDashboard/${Constant.INITIALIZE_ENTRENAMIENTO}`);
@@ -53,16 +63,25 @@ export default {
       entrenamientos: computed(() => store.getters['entrenadorDashboard/GetEntrenamientos']),
     });
 
-    const showDetails = reactive({}); // Control de detalles visibles
 
-    // Filtrar entrenamientos por el entrenador logueado
-    const filteredEntrenamientos = computed(() =>
-      state.entrenamientos.filter(
-        (entrenamiento) =>
-          `${entrenamiento.entrenador.nombre} ${entrenamiento.entrenador.apellidos}` ===
-          entrenadorLogueado
-      )
+    const showDetails = reactive({}); // Control de detalles visibles
+    const entrenadorId = reactive({ value: null });
+    watch(
+      () => store.state.entrenadorDashboard.entrenador.usuario,
+      (newEntrenador) => {
+        if (newEntrenador) {
+          entrenadorId.value = newEntrenador.id;
+          console.log("Entrenador ID cargado:", entrenadorId.value);
+        }
+      },
+      { immediate: true } 
     );
+
+    
+    const filteredEntrenamientos = computed(() => {
+      if (!entrenadorId.value) return [];
+      return state.entrenamientos.filter((entrenamiento) => entrenamiento.entrenador.id === entrenadorId.value);
+  });
 
     // Alternar detalles de alumnos
     const toggleDetails = (entrenamientoId) => {
@@ -78,7 +97,20 @@ export default {
     const viewAlumno = (ProfileId) => {
       router.push({ name: 'AlumnoDetail', params: { profileId: ProfileId } });
     };
-
+    const deleteEntrenamiento = async (entrenamientoId) => {
+      const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este entrenamiento?");
+        if (confirmDelete) {
+          try {
+            await store.dispatch(`entrenadorDashboard/${Constant.DELETE_ONE_ENTRENAMIENTO}`, entrenamientoId);
+            alert("Entrenamiento eliminado exitosamente.");
+            // Refrescar la lista de entrenamientos después de eliminar
+            await store.dispatch(`entrenadorDashboard/${Constant.INITIALIZE_ENTRENAMIENTO}`);
+          } catch (error) {
+            console.error("Error al eliminar el entrenamiento:", error);
+            alert("Hubo un problema al intentar eliminar el entrenamiento.");
+          }
+        }
+    };
     return {
       state,
       filteredEntrenamientos,
@@ -86,8 +118,11 @@ export default {
       showDetails,
       getProfileImageUrl,
       viewAlumno,
+      deleteEntrenamiento,
     };
+    
   },
+  
 };
 </script>
 

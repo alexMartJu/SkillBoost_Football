@@ -21,4 +21,10 @@ export default {
     GetProfile(id) {
         return Api(secrets.URL_SPRING, isSpringboot).get(`profile/${id}`);
     },
+    DeleteEntrenamiento(id){
+        return Api(secrets.URL_SPRING,isSpringboot).delete(`entrenamientos/${id}`);
+    },
+    GetEntrenador(){
+        return Api(secrets.URL_SPRING,isSpringboot).get(`currentEntrenador`);
+    }
 };
