@@ -125,20 +125,7 @@ class EntrenadorController extends Controller
         }
     }
 
-
-
-
-
-
-
-
-
-
 //____________________________________________________________________________________
-
-
-    
-
 
     public function show($numeroEntrenador)
     {

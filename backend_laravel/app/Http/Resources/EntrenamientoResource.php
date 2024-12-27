@@ -24,6 +24,7 @@ class EntrenamientoResource extends JsonResource
             'entrenador' => [
                 'nombre' => $this->entrenador->nombre,
                 'apellidos' => $this->entrenador->apellidos,
+                'id' => $this->entrenador->id,
             ],
             'profiles' => ProfilesResource::collection($this->whenLoaded('profiles')),
         ];

@@ -58,8 +58,8 @@ Route::middleware([EntrenadorAuthenticate::class])->group(function () {
     Route::put('/currentEntrenador', [EntrenadorController::class, 'update']);
     Route::post('/entrenador/logout', [EntrenadorController::class, 'logout']);
     Route::post('/entrenamientos', [EntrenamientoController::class, 'store']);
-    Route::put('/entrenamientos/{slug}', [EntrenamientoController::class, 'update']);
-    Route::delete('/entrenamientos/{slug}', [EntrenamientoController::class, 'destroy']);
+    Route::put('/entrenamientos/{id}', [EntrenamientoController::class, 'update']);
+    Route::delete('/entrenamientos/{id}', [EntrenamientoController::class, 'destroy']);
 });
 
 Route::apiResource('horarios', HorariosController::class);

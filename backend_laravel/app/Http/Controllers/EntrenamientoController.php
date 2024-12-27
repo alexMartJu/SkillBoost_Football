@@ -57,11 +57,11 @@ class EntrenamientoController extends Controller
     }
 
     // Actualizar una clase existente
-    public function update(UpdateEntrenamientoRequest $request, $slug)
+    public function update(UpdateEntrenamientoRequest $request, $id)
     {  
         // Log::debug('Token recibido: ' . request()->bearerToken());
         $entrenador = auth('entrenador')->user();
-        $entrenamiento = Entrenamiento::where('slug', $slug)->firstOrFail();
+        $entrenamiento = Entrenamiento::where('slug', $id)->firstOrFail();
         if (!$entrenamiento) {
             // Log::debug('entrenamiento no encontrado');
             return response()->json(['error' => 'entrenamiento no encontrado'], 404);
@@ -101,19 +101,31 @@ class EntrenamientoController extends Controller
     }
 
     // Eliminar una clase
-    public function destroy($slug)
-    {
-        $entrenador = auth('entrenador')->user();
-        $entrenamiento = Entrenamiento::where('slug', $slug)->firstOrFail();
-        if (!$entrenamiento) {
-            return response()->json(['error' => 'Clase no encontrada'], 404);
-        }
-        if (!$entrenador->can('delete', $entrenamiento)) {
-            return response()->json(['error' => 'No autorizado'], 403);
-        }
-        $entrenamiento->delete();
-        return response()->json(['message' => 'Clase eliminada']);
+    public function destroy($id){
+    $entrenador = auth('entrenador')->user();
+    Log::info("Entrenador autenticado: ", ['id' => $entrenador->id]);
+    
+    $entrenamiento = Entrenamiento::find($id);
+    if (!$entrenamiento) {
+        Log::warning("Entrenamiento no encontrado: ", ['id' => $id]);
+        return response()->json(['error' => 'Clase no encontrada'], 404);
     }
+
+    if (!$entrenador->can('delete', $entrenamiento)) {
+        Log::error("No autorizado: ", ['entrenador_id' => $entrenador->id, 'entrenamiento_id' => $id]);
+        return response()->json(['error' => 'No autorizado'], 403);
+    }
+
+    try {
+        $entrenamiento->delete();
+        Log::info("Entrenamiento eliminado correctamente: ", ['id' => $id]);
+        return response()->json(['message' => 'Clase eliminada']);
+    } catch (\Exception $e) {
+        Log::error("Error al eliminar el entrenamiento: ", ['id' => $id, 'error' => $e->getMessage()]);
+        return response()->json(['error' => 'Error interno del servidor'], 500);
+    }
+}
+
     
 
     public function getEntrenamientosByEntrenador(Request $request,$DNI)
