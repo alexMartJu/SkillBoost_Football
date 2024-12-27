@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -29,7 +30,7 @@ public class Entrenador {
     @Column(name = "apellidos", nullable = false)
     private String apellidos;
 
-    @Column(name = "numeroEntrenador", unique = true , nullable = false)
+    @Column(name = "numeroentrenador", unique = true , nullable = false)
     private String numeroEntrenador;
 
     @Column(name = "email", unique = true , nullable = false)
@@ -37,6 +38,19 @@ public class Entrenador {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "edad", nullable = true)
+    private Integer edad;
+
+    @ManyToOne
+    @JoinColumn(name = "deporte_id", nullable = false)
+    private Deporte deporte;
+
+    @OneToMany(mappedBy = "entrenador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Entrenamiento> entrenamientos;
+    
+    @Transient
+    private List<Image> images;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

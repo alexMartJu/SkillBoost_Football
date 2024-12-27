@@ -37,6 +37,9 @@ public class Deporte {
     @ToString.Exclude
     private List<Pista> pistas;
 
+    @OneToMany(mappedBy = "deporte", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Entrenador> entrenadores;
+
     @Transient
     private List<Image> images;
 
