@@ -3,7 +3,7 @@ import secrets from "../../secrets";
 
 export default {
     GetEntrenadores() {
-        return Api(secrets.URL_SPRING, 'false').get(`entrenador`);
+        return Api(secrets.URL_SPRING).get(`entrenadores`);
     },
     Profile(numeroentrenador) {
         return Api(secrets.URL_SPRING, 'false').get(`entrenador/${numeroentrenador}`);

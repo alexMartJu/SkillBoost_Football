@@ -12,9 +12,8 @@ export const entrenadores = {
         [Constant.INITIALIZE_ENTRENADOR]: async (store) => {
             try {
                 const { data } = await entrenadorService.GetEntrenadores();
-                console.log(data.data);
 
-                store.commit(Constant.INITIALIZE_ENTRENADOR, data.data);
+                store.commit(Constant.INITIALIZE_ENTRENADOR, data.entrenadores);
             } catch (error) {
                 console.error("Error al cargar las entrenamientos:", error);
             }
@@ -24,6 +23,7 @@ export const entrenadores = {
     mutations: {
         [Constant.INITIALIZE_ENTRENADOR](state, payload) {
             if (payload) {
+                console.log(payload);
                 state.entrenadores = payload;
             }
         },

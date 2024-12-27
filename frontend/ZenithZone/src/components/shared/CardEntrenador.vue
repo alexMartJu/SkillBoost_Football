@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <img :src="`/assets/entrenadores/${entrenador.imagenes[0].image_url}`"  alt="Perfil" class="img-fluid rounded-circle mb-3" style="max-height: 100px;">
+                    <img :src="`/assets/entrenadores/${entrenador.images[0].imageUrl}`"  alt="Perfil" class="img-fluid rounded-circle mb-3" style="max-height: 100px;">
                     <h1 class="card-title">{{ entrenador.nombre }} {{ entrenador.apellidos }}</h1>
                     <h4>{{ entrenador.edad }} años</h4>
                     <h4 class="card-subtitle mb-3 text-muted">{{ entrenador.bio }}</h4>
