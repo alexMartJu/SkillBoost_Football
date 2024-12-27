@@ -36,7 +36,8 @@ public class SecurityConfig {
             "/api/profiles", "/api/profiles/*",
             "/api/deportes", "/api/deportes/*", "/api/deportes/**",
             "/api/pistas", "/api/pistas/*",
-            "/api/pistasInfinite"
+            "/api/pistasInfinite",
+            "/api/entrenadores"
     };
 
     private static final String[] PUBLIC_WRITE_ENDPOINTS = {

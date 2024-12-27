@@ -5,7 +5,6 @@ import com.polideportivo.backend_springboot.api.model.usuario.UsuarioAuthenticat
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioNewAccessTokenResponse;
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioResponse;
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioToken;
-import com.polideportivo.backend_springboot.domain.exception.ExpiredTokenException;
 import com.polideportivo.backend_springboot.domain.model.Usuario;
 import com.polideportivo.backend_springboot.domain.service.BlacklistTokenService;
 import com.polideportivo.backend_springboot.domain.service.UsuarioService;
