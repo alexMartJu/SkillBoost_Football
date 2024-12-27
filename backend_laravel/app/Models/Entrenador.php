@@ -23,7 +23,7 @@ class Entrenador extends Model implements AuthenticatableContract, JWTSubject
     protected $fillable = [
         'nombre', 
         'apellidos', 
-        'numeroEntrenador',
+        'numeroentrenador',
         'email',
         'password',
         'deporte_id',

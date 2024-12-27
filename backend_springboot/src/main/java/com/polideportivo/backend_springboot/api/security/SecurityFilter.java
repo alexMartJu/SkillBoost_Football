@@ -29,7 +29,8 @@ public class SecurityFilter extends OncePerRequestFilter {
             "/api/entrenamientos", "/api/entrenamientos/*",
             "/api/profiles", "/api/profiles/*",
             "/api/pistas", "/api/pistas/*", "/api/pistasInfinite",
-            "/api/users", "/api/users/login", "/api/refresh", "/api/logout"
+            "/api/users", "/api/users/login", "/api/refresh", "/api/logout",
+            "/api/entrenadores"
     );
 
     @Override

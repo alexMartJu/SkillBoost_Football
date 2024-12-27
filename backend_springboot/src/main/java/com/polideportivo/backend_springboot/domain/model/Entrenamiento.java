@@ -49,6 +49,10 @@ public class Entrenamiento {
     @JoinColumn(name = "deporte_id", nullable = false)
     private Deporte deporte;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "entrenador_id", nullable = false)
+    private Entrenador entrenador;
+
     @Transient
     private List<Image> images;
 
