@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -45,6 +47,9 @@ public class Profile {
 
     @Column(name = "edad", nullable = true)
     private Integer edad;
+
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Grafica> graficas;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

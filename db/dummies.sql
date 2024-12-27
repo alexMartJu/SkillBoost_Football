@@ -79,14 +79,14 @@ INSERT INTO `images` (`image_url`, `imageable_type`, `imageable_id`) VALUES
 
 
 INSERT INTO `usuarios` (`id`,`email`, `password`) VALUES
-(1, 'juan.perez@example.com', 'password123'),
-(2, 'ana.garcia@example.com', 'securepass'),
-(3,'carlos.lopez@example.com', 'mypassword');
+(1, 'juan.perez@example.com', '$2a$10$A12RsAXyZ6L8y/SmFFSSQORyA3oCqx1mzRsI3BWb1Zdp/lSQIG3Kq'),
+(2, 'ana.garcia@example.com', '$2a$10$A12RsAXyZ6L8y/SmFFSSQORyA3oCqx1mzRsI3BWb1Zdp/lSQIG3Kq'),
+(3,'carlos.lopez@example.com', '$2a$10$A12RsAXyZ6L8y/SmFFSSQORyA3oCqx1mzRsI3BWb1Zdp/lSQIG3Kq');
 
 INSERT INTO `profiles` (`id`,`numerosocio`, `nombre`, `apellidos`, `bio`, `image`, `edad`) VALUES
-(1, 'Juan-3452', 'Juan', 'Pérez', '', '', 30),
-(2,  'Ana-8923', 'Ana', 'García', '', '', 25),
-(3, 'Carlos-4873','Carlos', 'López', '', '', 28);
+(1, '12345678', 'Juan', 'Pérez', '', '', 30),
+(2,  '87654321', 'Ana', 'García', '', '', 25),
+(3, '22223333','Carlos', 'López', '', '', 28);
 
 INSERT INTO `entrenadores` (`id`, `nombre`, `apellidos`, `numeroEntrenador`, `email`, `password`, `deporte_id`, `edad`) VALUES
 (1, 'Laura', 'Martínez', 'Laura-4532', 'laura.martinez@example.com', '$2y$12$9X9mukcZO.xjHYRmBCKWCO9xq4ySP1GWnDx60x5D6IJVRbasYU.Ru', 1, 35),
