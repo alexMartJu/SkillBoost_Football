@@ -17,7 +17,7 @@
 import ProfileInfo from '@/components/profile/ProfileInfo.vue';
 import ProfileNav from '@/components/profile/ProfileNav.vue';
 import Constant from '@/Constant';
-import { reactive, computed, watch } from 'vue';
+import { reactive, computed, watch, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -37,6 +37,7 @@ export default {
             numeroentrenador: route.params.numeroentrenador,
             numeroSocio: route.params.numeroSocio
         }
+        const año = new Date().getFullYear();
 
         const redirects = {
             dashboardEntrenador: () => router.push({ name: 'DashboardEntrenador' }),
@@ -49,7 +50,9 @@ export default {
             } else if (localStorage.getItem('entrenadorToken')) {
                 store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"entrenadorToken": localStorage.getItem('entrenadorToken')});
             }
-        };        
+        };
+
+        store.dispatch(`profile/${Constant.INITIALIZE_GRAFICA_PROFILE}`, año);
 
         const state = reactive({
             Profile: computed(() => store.getters['user/GetProfile']),
@@ -60,10 +63,9 @@ export default {
             return state.Profile.numeroSocio === state.CurrentUser.numeroSocio;
         });
 
-        watch(
-            () => [route.params.numeroSocio || route.params.numeroentrenador],
-            fetchData(),
-        );
+        watchEffect(() => {
+            fetchData()
+        });
 
         return { isCurrentUser, state, redirects };
     },

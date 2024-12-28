@@ -4,10 +4,10 @@
         <div class="col-md-4 text-center mb-3 mb-md-0">
             <!-- Imagen si es entrenador -->
             <img v-if="profile?.numeroentrenador" :src="`/assets/entrenadores/${profile.imagenes[0].image_url}`" alt="Perfil" 
-                class="img-fluid rounded-circle" style="max-height: 200px;">
+                class="img-fluid rounded-circle img-perfil">
             <!-- Imagen si es user -->
             <img v-else :src="profile.image" alt="Perfil" 
-            class="img-fluid rounded-circle" style="max-height: 200px;">
+            class="img-fluid rounded-circle img-perfil">
         </div>
 
         <!-- Información del perfil -->
@@ -17,9 +17,9 @@
                     <div class="col-md-10">
                         <h1 class="card-title">{{ profile.nombre }} {{ profile.apellidos }}</h1>
                         <h4>{{ profile.edad }} años</h4>
-                        <h4 class="card-subtitle mb-3 text-muted">{{ profile.bio }}</h4>                    
+                        <h4 class="card-subtitle mb-3 text-muted">{{ profile.bio }}</h4>
                         <p class="mt-2">
-                            <strong>Numero de afiliación: </strong><span class="fw-bold">{{ numeroUser }}</span>
+                            <strong>Numero de afiliación: </strong>{{ numeroUser }}
                         </p>
                     </div>
                     <div class="col-md-2 d-flex align-items-center justify-content-center separador">
@@ -78,5 +78,12 @@ export default {
 
     .separador {
         border-left: 1px solid rgb(170, 170, 170);
+    }
+
+    .img-perfil {
+        height: 200px;
+        width: 200px;
+        object-fit: cover;
+        border: 5px solid black;
     }
 </style>

@@ -31,10 +31,9 @@ export const profile = {
                 console.error("Error al cargar las reservas:", error);
             }
         },
-        [Constant.INITIALIZE_GRAFICA_PROFILE]: async (store, numeroSocio) => {
+        [Constant.INITIALIZE_GRAFICA_PROFILE]: async (store, año) => {
             try {
-                const { data } = await profileService.Graficas(numeroSocio);
-                // console.log(data);
+                const { data } = await profileService.Graficas(año);
 
                 store.commit(Constant.INITIALIZE_GRAFICA_PROFILE, data.graficas);
             } catch (error) {
@@ -66,9 +65,10 @@ export const profile = {
             return state.entrenamientos;
         },
         GetReservasProfile(state) {
-            return state.entrenamientos;
+            return state.reservas;
         },
         GetGraficasProfile(state) {
+            // console.log(state.graficas);
             return state.graficas;
         }
     }
