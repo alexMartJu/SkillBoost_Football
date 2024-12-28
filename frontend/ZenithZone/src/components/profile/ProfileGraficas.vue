@@ -4,8 +4,9 @@
             <div class="landing-section d-flex">
                 <div class="carousel-section">
                     <div class="">
-                        <Graphics class="me-5" :sets="sets"/>
+                        <Graphics class="me-5" :graficas="state.graficaValues"/>
                     </div>
+                    <div></div>
                 </div>
             </div>
 
@@ -23,6 +24,7 @@
 <script>
 import Graphics from '@/components/home/Graphics.vue';
 import Constant from '@/Constant';
+import { computed, watchEffect } from 'vue';
 import { reactive } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
@@ -34,21 +36,27 @@ export default {
 
     setup() {
         const store = useStore();
-        const route = useRoute();
 
-        const sets = [
-            [60, 70, 90, 43, 56],
-            [69, 79, 93, 50, 45]
-        ];
+        const state = reactive({
+            graficas: store.getters['profile/GetGraficasProfile'],
+            graficaValues: []
+        });
 
-        // store.dispatch(`profile/${Constant.INITIALIZE_GRAFICA_PROFILE}`, route.params.numeroSocio);
+        const valuesGrafica = () => { 
+            let data = [];
 
-        // const state = reactive({
-        //     graficas: computed(() => store.getters['profile/GetGraficasProfile'])
-        // });
+            state.graficas.forEach(values => {
+                data.push(values);
+            });
 
-        return {sets};
-        // return { state }
+            return data;
+        }
+
+        watchEffect(() => {
+            state.graficaValues = valuesGrafica();
+        });
+
+        return { state }
     }
 };
 </script>
