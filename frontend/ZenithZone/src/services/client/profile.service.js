@@ -17,8 +17,8 @@ export default {
     Reservas(numeroSocio) {
         return Api(secrets.URL_SPRING).get('profileReservas', numeroSocio);
     },
-    Graficas(numeroSocio) {
-        return Api(secrets.URL_SPRING).get('profileGraficas', numeroSocio);
+    Graficas(año = 2024) {
+        return Api(secrets.URL_SPRING).get(`profileGraficas?año=${año}`);
     },
 
     // Botones de cancelar

@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 
 export default {
@@ -32,15 +33,17 @@ export default {
 
     setup() {
         const route = useRoute();
-
-        /**
-         *  Estas tabs son para moverse a los componentes del perfil
-         */
+        
+        // Estas tabs son para moverse a los componentes del perfil
         const tabs = [
             { name: 'graficas', label: 'Mis gráficas', route: { name: 'profileGraficas' } },
             { name: 'reservas', label: 'Mis Reservas', route: { name: 'profileReservas' } },
             { name: 'entrenamientos', label: 'Mis Entrenamientos', route: { name: 'profileEntrenamientos' } },
         ];
+
+        watchEffect(() => {
+            console.log(route.name);
+        })
 
         return { tabs, route };
     }
