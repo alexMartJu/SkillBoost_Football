@@ -6,9 +6,7 @@
 
 <script>
 import { Chart, registerables } from 'chart.js';
-import { reactive } from 'vue';
 import { onMounted, ref } from 'vue';
-import { useStore } from 'vuex';
 
 Chart.register(...registerables);
 
@@ -16,13 +14,25 @@ export default {
     name: 'RadarChart',
 
     props: {
-        sets: {
+        graficas: {
             type: Array,
             required: true,
         },
     },
 
-    setup(sets) {
+    setup(props) {
+        const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        let nivelesPorGrafica = [
+            [60, 70, 90, 43, 56],
+            [69, 79, 93, 50, 45]
+        ]; // estos son los datos default que pinta en el home
+
+        if (props.graficas != undefined) {
+            nivelesPorGrafica = props.graficas.map((grafica) => {
+                return grafica.secciones.map(seccion => seccion.nivel);
+            });
+        } // aquí es cuando se le asignan los datos de las gráficas del perfil
+
         const radarChart = ref(null);
 
         onMounted(() => {
@@ -35,9 +45,10 @@ export default {
                 type: 'radar',
                 data: {
                     labels: ['Motivación', 'Agilidad', 'Velocidad', 'Aguante', 'Fuerza',],
-                    datasets: sets.sets.map((set, index) => ({
+                    datasets: nivelesPorGrafica.map((set, index) => ({
+                        label: meses[index],
                         data: set,
-                        borderColor: `rgba(${index * 50}, 162, 80, 1)`, // Color dinámico
+                        borderColor: `rgba(${index * 50}, 162, 80, 1)`, // Color del borde
                         backgroundColor: `rgba(${index * 50}, 162, 80, 0.2)`, // Transparencia dinámica
                         borderWidth: 2,
                     })),
