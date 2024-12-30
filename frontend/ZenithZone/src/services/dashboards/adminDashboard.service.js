@@ -56,6 +56,18 @@ export default {
     },
     DeleteSalas(sala){
         return Api(secrets.URL_SPRING,isSpringboot).delete(`salas/${sala}`);
-    }
+    },
+    GetPistasPrivadas() {
+        return Api(secrets.URL_SPRING, isSpringboot).get('pistasprivadas');
+    },
+    CreatePistaPrivada(pistaPrivada) {
+        return Api(secrets.URL_SPRING, isSpringboot).post('pistasprivadas', pistaPrivada);
+    },
+    GetPistaPrivadaBySlug(slug) {
+        return Api(secrets.URL_SPRING, isSpringboot).get(`pistasprivadas/${slug}`);
+    },
+    DeletePistaPrivada(pistaslug) {
+        return Api(secrets.URL_SPRING, isSpringboot).delete(`pistasprivadas/${pistaslug}`);
+    },
 
 };
