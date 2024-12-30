@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 class StoreEntrenamientoRequest extends FormRequest
 {
     /**
@@ -21,6 +22,7 @@ class StoreEntrenamientoRequest extends FormRequest
      */
     public function rules(): array
     {
+        Log::info('Datos recibidos para crear el entrenamiento:', $this->all());
         return [
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|max:500',
@@ -28,6 +30,7 @@ class StoreEntrenamientoRequest extends FormRequest
             'max_plazas' => 'required|integer|min:1',
             'precio' => 'required|numeric|min:0',
             'deporte_id' => 'required|exists:deportes,id',
+            'dia' => 'required|string|max:20',
         ];
     }
 }
