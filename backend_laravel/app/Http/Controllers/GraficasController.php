@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grafica;
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use App\Http\Resources\GraficasResource;
 
 class GraficasController extends Controller
 {
@@ -54,7 +55,8 @@ class GraficasController extends Controller
                 'seccion' => $request->seccion,
                 'nivel' => $request->nivel,
             ]);
-            return response()->json($graficaNueva, 201);
+            return new GraficasResource($graficaNueva, 201);
+           
         }
     }
 }

@@ -10,9 +10,7 @@
           <p>Número de Socio: {{ profile.numerosocio }}</p>
         </div>
       </div>
-  
-      <h2>Progreso del Alumno</h2>
-      <!-- La gráfica será lo más grande en la pantalla -->
+      <h2>Progreso del Usuario</h2>  
       <div class="grafica-container">
         <GraficaAlumno :profileId="profile.id" />
       </div>

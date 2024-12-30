@@ -36,6 +36,11 @@ class Deporte extends Model
     {
         return $this->belongsToMany(Pista::class, 'deporte_pista');
     }
+
+    public function pista_privadas(): BelongsToMany
+    {
+        return $this->belongsToMany(Pista_privada::class, 'deporte_pista_privada');
+    }
     public function entrenamientos(): HasMany
     {
         return $this->hasMany(Entrenamiento::class);

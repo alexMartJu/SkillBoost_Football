@@ -23,10 +23,22 @@ class Entrenamiento extends Model
         'duracion',
         'max_plazas',
         'precio',
+        'status',
         'deporte_id',
         'horario_id',
-        'entrenador_id'
+        'entrenador_id',
+        'pista_privada_id'
     ];
+    protected static function boot()
+{
+    parent::boot();
+
+    static::creating(function ($entrenamiento) {
+        if (is_null($entrenamiento->status)) {
+            $entrenamiento->status = 'pending';
+        }
+    });
+}
 
     public function getRouteKeyName(): string
     {

@@ -49,6 +49,9 @@ class EntrenamientoPolicy
      */
     public function delete(Entrenador $entrenador, Entrenamiento $entrenamiento): bool
     {
+        Log::debug('Evaluando autorización delete:');
+        Log::debug('Entrenador ID: ' . $entrenador->id);
+        Log::debug('Entrenamiento Entrenador ID: ' . $entrenamiento->entrenador_id);
         return $entrenador->id === $entrenamiento->entrenador_id;
     }
 

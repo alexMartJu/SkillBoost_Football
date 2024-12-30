@@ -226,6 +226,12 @@ const router = createRouter({
           component: () => import('../components/dashboards/admin/salas.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
+        {
+          path: 'pistasprivadas',
+          name: 'ListCreatepistasprivadas',
+          component: () => import('../components/dashboards/admin/pistasprivadas.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
 
       ]
     },

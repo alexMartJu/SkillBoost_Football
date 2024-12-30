@@ -37,31 +37,50 @@ class EntrenamientoController extends Controller
     // Crear una nueva clase
     public function store(StoreEntrenamientoRequest $request)
     {
+        Log::debug('Store method called');
+    
         $entrenador = auth('entrenador')->user();
-        
+    
+        // Verifica si el usuario está autenticado
         if (!$entrenador) {
+            Log::debug('No autenticado - Usuario entrenador no encontrado');
             return response()->json(['error' => 'No autenticado'], 401);
         }
-
-        $entrenamiento = Entrenamiento::create([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'duracion' => $request->duracion,
-            'max_plazas' => $request->max_plazas,
-            'precio' => $request->precio,
-            'deporte_id' => $request->deporte_id,
-            'entrenador_id'=>$entrenador->id,
-        ]);
-
-        return response()->json($entrenamiento, 201);
+    
+        Log::debug('Usuario autenticado', ['entrenador_id' => $entrenador->id]);
+    
+        try {
+            $entrenamiento = Entrenamiento::create([
+                'nombre' => $request->nombre,
+                'pista_privada_id'=>$request->pista_privada_id,
+                'descripcion' => $request->descripcion,
+                'duracion' => $request->duracion,
+                'max_plazas' => $request->max_plazas,
+                'dia'=>$request->dia,
+                'precio' => $request->precio,
+                'deporte_id' => $request->deporte_id,
+                'horario_id' => $request->horario_id,
+                'entrenador_id' => $entrenador->id,
+            ]);
+    
+            Log::debug('Entrenamiento creado correctamente', ['entrenamiento' => $entrenamiento->toArray()]);
+            return response()->json($entrenamiento, 201);   
+    
+        } catch (\Exception $e) {
+            Log::debug('Error al crear el entrenamiento', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+    
+            return response()->json(['error' => 'Error interno del servidor'], 500);
+        }
     }
-
     // Actualizar una clase existente
-    public function update(UpdateEntrenamientoRequest $request, $slug)
+    public function update(UpdateEntrenamientoRequest $request, $id)
     {  
         // Log::debug('Token recibido: ' . request()->bearerToken());
         $entrenador = auth('entrenador')->user();
-        $entrenamiento = Entrenamiento::where('slug', $slug)->firstOrFail();
+        $entrenamiento = Entrenamiento::where('slug', $id)->firstOrFail();
         if (!$entrenamiento) {
             // Log::debug('entrenamiento no encontrado');
             return response()->json(['error' => 'entrenamiento no encontrado'], 404);
@@ -101,19 +120,31 @@ class EntrenamientoController extends Controller
     }
 
     // Eliminar una clase
-    public function destroy($slug)
-    {
-        $entrenador = auth('entrenador')->user();
-        $entrenamiento = Entrenamiento::where('slug', $slug)->firstOrFail();
-        if (!$entrenamiento) {
-            return response()->json(['error' => 'Clase no encontrada'], 404);
-        }
-        if (!$entrenador->can('delete', $entrenamiento)) {
-            return response()->json(['error' => 'No autorizado'], 403);
-        }
-        $entrenamiento->delete();
-        return response()->json(['message' => 'Clase eliminada']);
+    public function destroy($id){
+    $entrenador = auth('entrenador')->user();
+    Log::info("Entrenador autenticado: ", ['id' => $entrenador->id]);
+    
+    $entrenamiento = Entrenamiento::find($id);
+    if (!$entrenamiento) {
+        Log::warning("Entrenamiento no encontrado: ", ['id' => $id]);
+        return response()->json(['error' => 'Clase no encontrada'], 404);
     }
+
+    if (!$entrenador->can('delete', $entrenamiento)) {
+        Log::error("No autorizado: ", ['entrenador_id' => $entrenador->id, 'entrenamiento_id' => $id]);
+        return response()->json(['error' => 'No autorizado'], 403);
+    }
+
+    try {
+        $entrenamiento->delete();
+        Log::info("Entrenamiento eliminado correctamente: ", ['id' => $id]);
+        return response()->json(['message' => 'Clase eliminada']);
+    } catch (\Exception $e) {
+        Log::error("Error al eliminar el entrenamiento: ", ['id' => $id, 'error' => $e->getMessage()]);
+        return response()->json(['error' => 'Error interno del servidor'], 500);
+    }
+}
+
     
 
     public function getEntrenamientosByEntrenador(Request $request,$DNI)
@@ -142,5 +173,12 @@ class EntrenamientoController extends Controller
     
         return EntrenamientoResource::collection($entrenamientos);
     }
+    public function getHorariosOcupados($pistaId){
+        $ocupados = Entrenamiento::where('pista_privada_id', $pistaId)
+        ->select('dia', 'horario_id') 
+        ->get();
+
+    return response()->json($ocupados);
+}
 
 }

@@ -10,9 +10,25 @@
             entrenadores: [],
             entrenamientos: [],
             salas:[],
+            pistasPrivadas: [],
+            currentPistaPrivada: null,
         },
 
         mutations: {
+            [Constant.INITIALIZE_PISTA_PRIVADA](state, payload) {
+                if (payload) {
+                    state.pistasPrivadas = payload;
+                }
+            },
+            [Constant.CREATE_ONE_PISTA_PRIVADA](state, newPistaPrivada) {
+                state.pistasPrivadas.push(newPistaPrivada);
+            },
+            [Constant.SET_CURRENT_PISTA_PRIVADA](state, pista) {
+                state.currentPistaPrivada = pista;
+            },
+            [Constant.DELETE_ONE_PISTA_PRIVADA](state, pistaslug) {
+                state.pistasPrivadas = state.pistasPrivadas.filter(pista => pista.slug !== pistaslug);
+            },
             [Constant.INITIALIZE_DEPORTE](state, payload) {
                 if (payload) {
                     state.deportes = payload;
@@ -80,6 +96,41 @@
         },
 
         actions: {
+
+
+            async [Constant.INITIALIZE_PISTA_PRIVADA]({ commit }) {
+                try {
+                    const { data } = await adminDashboardService.GetPistasPrivadas();
+                    commit(Constant.INITIALIZE_PISTA_PRIVADA, data.data);
+                } catch (error) {
+                    console.error("Error al cargar las pistas privadas:", error);
+                }
+            },
+            async [Constant.CREATE_ONE_PISTA_PRIVADA]({ commit }, newPistaPrivada) {
+                try {
+                    const { data } = await adminDashboardService.CreatePistaPrivada(newPistaPrivada);
+                    commit(Constant.CREATE_ONE_PISTA_PRIVADA, data.data);
+                } catch (error) {
+                    console.error("Error al crear la pista privada:", error);
+                }
+            },
+            async [Constant.FETCH_PISTA_PRIVADA_BY_SLUG]({ commit }, slug) {
+                try {
+                    const { data } = await adminDashboardService.GetPistaPrivadaBySlug(slug);
+                    commit(Constant.SET_CURRENT_PISTA_PRIVADA, data.data);
+                    return data.data;
+                } catch (error) {
+                    console.error("Error al cargar la pista privada:", error);
+                }
+            },
+            async [Constant.DELETE_ONE_PISTA_PRIVADA]({ commit }, pistaslug) {
+                try {
+                    await adminDashboardService.DeletePistaPrivada(pistaslug);
+                    commit(Constant.DELETE_ONE_PISTA_PRIVADA, pistaslug);
+                } catch (error) {
+                    console.error("Error al eliminar la pista privada:", error);
+                }
+            },
             async [Constant.INITIALIZE_DEPORTE](store) {
                 try {
                     const { data } = await adminDashboardService.GetDeportes();
@@ -279,6 +330,12 @@
             },
             GetEntrenadores(state) {
                 return state.entrenadores;
+            },
+            GetPistasPrivadas(state) {
+                return state.pistasPrivadas;
+            },
+            GetCurrentPistaPrivada(state) {
+                return state.currentPistaPrivada;
             },
         }
     };

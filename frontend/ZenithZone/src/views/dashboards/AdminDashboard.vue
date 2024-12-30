@@ -23,6 +23,9 @@
         <router-link to="/dashboardAdmin/salas" class="btn btn-secondary">
           Crear Salas
         </router-link>
+        <router-link to="/dashboardAdmin/pistasprivadas" class="btn btn-secondary">
+          Pistas Privadas
+        </router-link>
 
         
       </div>

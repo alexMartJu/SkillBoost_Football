@@ -16,6 +16,7 @@ export default {
     UPDATE_ONE_ENTRENAMIENTO: "UpdateOneEntrenamiento",
     CREATE_ONE_ENTRENAMIENTO: "CreateOneEntrenamiento",
     SET_CURRENT_ENTRENAMIENTO: "SetCurrentEntrenamiento",
+    FETCH_ENTRENAMIENTOS_OCUPADOS: "FetchEntrenamientosOcupados",
 
     // Pistas
     INITIALIZE_PISTA: "InitializePista",
@@ -58,4 +59,16 @@ export default {
     INITIALIZE_ENTRENAMIENTO_PROFILE: "initizalizeEntrenamientoProfile",
     INITIALIZE_RESERVA_PROFILE: "initizalizeReservaProfile",
     INITIALIZE_GRAFICA_PROFILE: "initizalizeGraficaProfile",
+
+    //pistas privadas
+  INITIALIZE_PISTA_PRIVADA: "InitializePistaPrivada",
+  INITIALIZE_ONE_STATE_PISTA_PRIVADA: "InitializeOneStatePistaPrivada",
+  DELETE_ONE_PISTA_PRIVADA: "DeleteOnePistaPrivada",
+  UPDATE_ONE_PISTA_PRIVADA: "UpdateOnePistaPrivada",
+  CREATE_ONE_PISTA_PRIVADA: "CreateOnePistaPrivada",
+  FETCH_PISTA_PRIVADA_BY_SLUG: "FetchPistaPrivadaBySlug",
+  SET_CURRENT_PISTA_PRIVADA: "SetCurrentPistaPrivada",
+
+
+  INITIALIZE_HORARIO: "InitializeHorario"
 }

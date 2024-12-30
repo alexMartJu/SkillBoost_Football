@@ -21,4 +21,20 @@ export default {
     GetProfile(id) {
         return Api(secrets.URL_SPRING, isSpringboot).get(`profile/${id}`);
     },
+    DeleteEntrenamiento(id){
+        return Api(secrets.URL_SPRING,isSpringboot).delete(`entrenamientos/${id}`);
+    },
+    GetEntrenador(){
+        return Api(secrets.URL_SPRING,isSpringboot).get(`currentEntrenador`);
+    },
+    GetPistasPrivadas(){
+        return Api(secrets.URL_SPRING,isSpringboot).get(`pistasprivadas`);
+    },
+    GetEntrenamientosOcupados(pistaId){
+        return Api(secrets.URL_SPRING,isSpringboot).get(`horariosocupados/${pistaId}`);
+    },
+    GetHorarios(pistaId){
+        return Api(secrets.URL_SPRING,isSpringboot).get(`horarios`);
+    }
+
 };
