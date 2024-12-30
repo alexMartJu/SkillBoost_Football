@@ -69,4 +69,9 @@ public class EntrenamientoServiceImpl implements EntrenamientoService {
         .build();
     }
 
+    @Override
+    public void update(Entrenamiento entrenamiento) {
+        repository.save(entrenamiento);
+    }
+
 }
