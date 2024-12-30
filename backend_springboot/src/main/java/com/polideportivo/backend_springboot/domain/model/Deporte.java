@@ -40,6 +40,14 @@ public class Deporte {
     @OneToMany(mappedBy = "deporte", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Entrenador> entrenadores;
 
+    @ManyToMany
+    @JoinTable(
+        name = "deporte_pista_privada",
+        joinColumns = @JoinColumn(name = "deporte_id"),
+        inverseJoinColumns = @JoinColumn(name = "pista_privada_id")
+    )
+    private List<PistaPrivada> pistaPrivadas;
+
     @Transient
     private List<Image> images;
 

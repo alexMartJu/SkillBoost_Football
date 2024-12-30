@@ -59,6 +59,10 @@ public class Entrenamiento {
     @OneToMany(mappedBy = "entrenamiento")
     private List<InscripcionEntrenamiento> inscripciones;
 
+    @ManyToOne
+    @JoinColumn(name = "pista_privada_id")
+    private PistaPrivada pistaPrivada;
+
     @Transient
     private List<Image> images;
 
