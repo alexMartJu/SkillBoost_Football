@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface EntrenamientoRepository extends JpaRepository<Entrenamiento, Long>, JpaSpecificationExecutor<Entrenamiento> {
 
-    Optional<Entrenamiento> findBySlugAndDeletedAtIsNull(String slug);
+    Optional<Entrenamiento> findBySlugAndStatusAndDeletedAtIsNull(String slug, String status);
     
-    List<Entrenamiento> findByDeletedAtIsNull();
+    List<Entrenamiento> findByStatusAndDeletedAtIsNull(String status);
 }
