@@ -21,10 +21,9 @@ export const profile = {
                 console.error("Error al cargar las entrenamientos:", error);
             }
         },
-        [Constant.INITIALIZE_RESERVA_PROFILE]: async (store, numeroSocio) => {
+        [Constant.INITIALIZE_RESERVA_PROFILE]: async (store) => {
             try {
-                const { data } = await profileService.Reservas(numeroSocio);
-                // console.log(data);
+                const { data } = await profileService.Reservas();
 
                 store.commit(Constant.INITIALIZE_RESERVA_PROFILE, data.reservas);
             } catch (error) {

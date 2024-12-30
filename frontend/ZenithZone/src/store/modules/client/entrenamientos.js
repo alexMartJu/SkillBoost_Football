@@ -12,7 +12,6 @@ export const entrenamientos = {
         [Constant.INITIALIZE_ENTRENAMIENTO]: async (store) => {
             try {
                 const { data } = await entrenamientosService.GetEntrenamientos();
-                // console.log(data);
 
                 store.commit(Constant.INITIALIZE_ENTRENAMIENTO, data);
             } catch (error) {
@@ -22,7 +21,6 @@ export const entrenamientos = {
         [Constant.INITIALIZE_ONE_STATE_ENTRENAMIENTO]: async (store, slug) => {
             try {
                 const { data } = await entrenamientosService.GetOneEntrenamiento(slug);
-                // console.log(data);
 
                 store.commit(Constant.INITIALIZE_ONE_STATE_ENTRENAMIENTO, data);
             } catch (error) {
