@@ -71,6 +71,9 @@ public class EntrenamientoSpecification implements Specification<Entrenamiento> 
         // Siempre filtrar donde 'deleted_at' sea NULL
         predicate = criteriaBuilder.and(predicate, criteriaBuilder.isNull(root.get("deletedAt")));
 
+        // Siempre filtrar donde el 'status' sea 'accepted'
+        predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("status"), "accepted"));
+
 
         return predicate;
     }
