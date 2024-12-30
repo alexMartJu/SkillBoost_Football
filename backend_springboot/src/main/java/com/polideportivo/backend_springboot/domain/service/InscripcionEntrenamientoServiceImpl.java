@@ -13,6 +13,7 @@ import com.polideportivo.backend_springboot.domain.exception.InscripcionNotFound
 import com.polideportivo.backend_springboot.domain.exception.NoAvailableSlotsException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -91,5 +92,23 @@ public class InscripcionEntrenamientoServiceImpl implements InscripcionEntrenami
         }
 
         return profile.getNumeroSocio();
+    }
+
+    // Método para obtener los entrenamientos en los que un usuario está inscrito y que tienen estado "accepted" o "completed"
+    @Transactional(readOnly = true)
+    public List<Entrenamiento> obtenerEntrenamientosInscritos() {
+        Profile profile = usuarioService.getCurrentUser().getProfile();
+        
+        // Recuperamos las inscripciones del usuario, solo los entrenamientos con los estados aceptados o completados
+        List<InscripcionEntrenamiento> inscripciones = inscripcionRepository.findByProfileId(profile.getId());
+        
+        // Filtramos los entrenamientos por estado
+        List<Entrenamiento> entrenamientos = inscripciones.stream()
+            .map(InscripcionEntrenamiento::getEntrenamiento)
+            .filter(entrenamiento -> 
+                "accepted".equals(entrenamiento.getStatus()) || "completed".equals(entrenamiento.getStatus()))
+            .toList();
+        
+        return entrenamientos;
     }
 }

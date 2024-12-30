@@ -19,6 +19,7 @@ public class EntrenamientoResponse {
     private Integer duracion;
     private Integer maxPlazas;
     private Integer precio;
+    private String status;
 
     private DeporteResponse deporte;
     private List<Image> images;
