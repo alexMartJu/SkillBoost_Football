@@ -9,6 +9,9 @@ export const entrenadorDashboard = {
         graficas: [],
         profile: {},
         entrenador: null,
+        pistasPrivadas: [], 
+        horarios: [],
+        horariosOcupados: []
     },
 
     mutations: {
@@ -26,6 +29,9 @@ export const entrenadorDashboard = {
         [Constant.DELETE_ONE_ENTRENAMIENTO](state, entrenamientoId) {
             state.entrenamientos = state.entrenamientos.filter(entrenamiento => entrenamiento.id !== entrenamientoId);
         },
+        [Constant.FETCH_ENTRENAMIENTOS_OCUPADOS](state, horariosOcupados) {
+            state.horariosOcupados = horariosOcupados; 
+        },
 
         [Constant.INITIALIZE_GRAFICAS](state, payload) {
             if (payload) {
@@ -42,15 +48,23 @@ export const entrenadorDashboard = {
           [Constant.INITIALIZE_PROFILE](state, payload) {
             state.profile = payload || {};  
         },
+        [Constant.INITIALIZE_PISTA_PRIVADA](state, payload) {
+            if (payload) {
+                state.pistasPrivadas = payload;
+            }
+        },
+        [Constant.INITIALIZE_HORARIO](state, payload) {
+            if (payload) {
+                state.horarios = payload;
+            }
+        },
     },
 
     actions: {
         async [Constant.INITIALIZE_ENTRENADOR]({ commit }) {
             try {
-              // Aquí haces la llamada a tu servicio para obtener los datos del entrenador
               const response = await entrenadorDashboardService.GetEntrenador();
               console.log(response+ "entrenador");
-              // Guardas los datos del entrenador en el estado
               commit(Constant.INITIALIZE_ENTRENADOR, response.data);
             } catch (error) {
               console.error("Error al cargar el entrenador:", error);
@@ -67,8 +81,9 @@ export const entrenadorDashboard = {
 
         [Constant.CREATE_ONE_ENTRENAMIENTO]: async (store, nuevoEntrenamiento) => {
             try {
+                console.log("nuevoEntrenamiento"+JSON.stringify(nuevoEntrenamiento));
                 const { data } = await entrenadorDashboardService.CreateEntrenamiento(nuevoEntrenamiento);
-                store.commit(Constant.CREATE_ONE_ENTRENAMIENTO, data.data);  // Añadir el entrenamiento creado a la lista
+                store.commit(Constant.CREATE_ONE_ENTRENAMIENTO, data.data); 
             } catch (error) {
                 console.error("Error al crear el entrenamiento:", error);
             }
@@ -116,7 +131,36 @@ export const entrenadorDashboard = {
                 console.error("Error al cargar el profile:", error);
             }
         },
+        async [Constant.INITIALIZE_PISTA_PRIVADA]({ commit }) {
+            try {
+                const { data } = await entrenadorDashboardService.GetPistasPrivadas(); 
+                commit(Constant.INITIALIZE_PISTA_PRIVADA, data.data);
+            } catch (error) {
+                console.error("Error al obtener pistas privadas:", error);
+            }
+        },
+
+        async [Constant.FETCH_HORARIOS_PISTA_PRIVADA]({ commit }, pistaId) {
+            try {
+              const { data } = await entrenadorDashboardService.GetHorarios(pistaId);
+              return data.data;
+            } catch (error) {
+              console.error("Error al obtener horarios de pista privada:", error);
+              throw error;
+            }
+          },
+          async [Constant.FETCH_ENTRENAMIENTOS_OCUPADOS]({ commit }, pistaId) {
+            try {
+                const { data } = await entrenadorDashboardService.GetEntrenamientosOcupados(pistaId);
+                console.log("Data de horarios ocupados:", data);
+                commit(Constant.FETCH_ENTRENAMIENTOS_OCUPADOS, data);
+            } catch (error) {
+                console.error("Error al obtener entrenamientos ocupados:", error);
+                throw error;
+            }
+        }
     },
+
 
     getters: {
         GetEntrenamientos(state) {
@@ -130,6 +174,9 @@ export const entrenadorDashboard = {
         },
         GetEntrenador(state){
             return state.entrenador;
+        },
+        GetHorariosOcupados(state) {
+            return state.horariosOcupados;
         }
     }
 };

@@ -1,56 +1,3 @@
-<!-- <template>
-  <div class="card-entrenamiento">
-    <div class="entrenamiento-info">
-      <div class="entrenamiento-detalles">
-        <h3>{{ entrenamiento.nombre }}</h3>
-        <p><strong>Entrenador:</strong> {{ entrenamiento.entrenador.nombre }} {{ entrenamiento.entrenador.apellidos }}</p>
-        <p><strong>Estado:</strong> 
-          <span :class="{
-              'text-success': entrenamiento.status === 'Aceptado',
-              'text-danger': entrenamiento.status === 'Denegado',
-              'text-warning': entrenamiento.status === 'Pendiente'
-          }">
-            {{ entrenamiento.status }}
-          </span>
-        </p>
-
-        <div v-if="mostrarDescripcion" class="descripcion">
-          <p>{{ entrenamiento.descripcion }}</p>
-        </div>
-        <button @click="toggleDescripcion">
-          {{ mostrarDescripcion ? 'Ocultar descripción' : 'Ver descripción' }}
-        </button>
-      </div>
-    </div>
-
-    <div class="botones">
-        <button 
-        @click="cambiarEstado('accepted')" 
-        :disabled="entrenamiento.status !== 'pending'" 
-        :class="{
-          'btn-aceptar': entrenamiento.status === 'pending',
-          'btn-success': entrenamiento.status === 'accepted',
-          'btn-danger': entrenamiento.status === 'denied'
-        }">
-        Aceptar
-      </button>
-      <button 
-        @click="cambiarEstado('denied')" 
-        :disabled="entrenamiento.status !== 'pending'" 
-        :class="{
-          'btn-aceptar': entrenamiento.status === 'pending',
-          'btn-success': entrenamiento.status === 'accepted',
-          'btn-danger': entrenamiento.status === 'denied'
-        }">
-        Denegar
-      </button>
-      <button @click="cambiarEstado('accepted')" :disabled="entrenamiento.status !== 'pending'">Aceptar</button> 
-       <button @click="cambiarEstado('denied')" :disabled="entrenamiento.status !== 'pending'">Denegar</button> 
-
-       <button @click="confirmarEliminar">Borrar</button>
-    </div>
-  </div>
-</template> -->
 <template>
     <div class="card-entrenamiento">
       <div class="entrenamiento-info">
@@ -59,7 +6,7 @@
           <p><strong>Entrenador:</strong> {{ entrenamiento.entrenador.nombre }} {{ entrenamiento.entrenador.apellidos }}</p>
           <p><strong>Estado:</strong>
             <span :class="{
-                'text-success': entrenamiento.status === 'accepted',
+                'text-success': entrenamiento.status === 'accepted' || this.entrenamiento.status === 'completed',
                 'text-danger': entrenamiento.status === 'denied',
                 'text-warning': entrenamiento.status === 'pending'
             }">
@@ -102,57 +49,7 @@
       </div>
     </div>
   </template>
-  
-<!-- <template>
-    <div class="card-entrenamiento">
-      <div class="entrenamiento-info">
-        <div class="entrenamiento-detalles">
-          <h3>{{ entrenamiento.nombre }}</h3>
-          <p><strong>Entrenador:</strong> {{ entrenamiento.entrenador.nombre }} {{ entrenamiento.entrenador.apellidos }}</p>
-          <p><strong>Estado:</strong> 
-            <span :class="{
-                'text-success': entrenamiento.status === 'accepted',
-                'text-danger': entrenamiento.status === 'denied',
-                'text-warning': entrenamiento.status === 'pending'
-            }">
-              {{ entrenamiento.status }}
-            </span>
-          </p>
-         
-          <div v-if="mostrarDescripcion" class="descripcion">
-            <p>{{ entrenamiento.descripcion }}</p>
-          </div>
-          <button @click="toggleDescripcion">
-            {{ mostrarDescripcion ? 'Ocultar descripción' : 'Ver descripción' }}
-          </button>
-        </div>
-      </div>
-  
-      <div class="botones">
-       
-        <button 
-          @click="cambiarEstado('accepted')" 
-          :disabled="entrenamiento.status !== 'pending'"
-          :class="{
-            'btn-aceptar': entrenamiento.status === 'pending',
-            'btn-success': entrenamiento.status === 'accepted'
-          }">
-          Aceptar
-        </button>
-  
  
-        <button 
-          @click="cambiarEstado('denied')" 
-          :disabled="entrenamiento.status !== 'pending'"
-          :class="{
-            'btn-aceptar': entrenamiento.status === 'pending',
-            'btn-danger': entrenamiento.status === 'denied'
-          }">
-          Denegar
-        </button>
-      </div>
-    </div>
-  </template> -->
   
   <script>
   export default {

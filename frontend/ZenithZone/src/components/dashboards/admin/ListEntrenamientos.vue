@@ -48,7 +48,7 @@
     },
         aceptadosOdenegados() {
         return this.entrenamientos.filter(entrenamiento => 
-            entrenamiento.status === 'accepted' || entrenamiento.status === 'denied'||  !entrenamiento.status);
+            entrenamiento.status === 'accepted' || entrenamiento.status === 'completed' || entrenamiento.status === 'denied'||  !entrenamiento.status);
         },
 
     },

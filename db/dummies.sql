@@ -54,10 +54,16 @@ INSERT INTO `pistas` (`id`, `nombre`, `slug`, `created_at`, `updated_at`) VALUES
 (20, 'Zona de Karts', 'zona-karts', '2024-12-02 10:00:00', '2024-12-02 10:00:00');
 
 INSERT INTO `pista_privadas` (`id`, `nombre`, `slug`, `info`, `created_at`, `updated_at`) VALUES
-(1, 'Pista privada 1', 'Pista-privada 1', "", '2024-11-17 15:42:34', '2024-11-17 15:42:34'),
+(1, 'Pista privada 1', 'Pista-privada-1', "", '2024-11-17 15:42:34', '2024-11-17 15:42:34'),
 (2, 'Pista privada 2', 'Pista-privada-2', "", '2024-11-17 15:42:57', '2024-11-17 15:42:57'),
 (3, 'Pista privada 3', 'Pista-privada-3', "", '2024-11-17 15:42:57', '2024-11-17 15:42:57'),
-(4, 'Pista privada 4', 'Pista-privada-4', "", '2024-11-17 15:44:29', '2024-11-17 15:44:29');
+(4, 'Pista privada 4', 'Pista-privada-4', "", '2024-11-17 15:44:29', '2024-11-17 15:44:29'),
+(5, 'Pista privada 5', 'Pista-privada-5', "", '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
+(6, 'Pista privada 6', 'Pista-privada-6', "", '2024-11-17 16:11:00', '2024-11-17 16:11:00'),
+(7, 'Pista privada 7', 'Pista-privada-7', "", '2024-11-17 16:11:00', '2024-11-17 16:11:00'),
+(8, 'Pista privada 8', 'Pista-privada-8', "", '2024-11-17 16:11:00', '2024-11-17 16:11:00'),
+(9, 'Pista privada 9', 'Pista-privada-9', "", '2024-11-17 16:11:00', '2024-11-17 16:11:00'),
+(10, 'Pista privada 10', 'Pista-privada-10', "", '2024-11-17 16:11:00', '2024-11-17 16:11:00');
 
 INSERT INTO `images` (`image_url`, `imageable_type`, `imageable_id`) VALUES
 ('futbol.jpg', 'App\\Models\\Deporte', 1),
@@ -167,3 +173,19 @@ INSERT INTO `entrenamiento_profile` (`entrenamiento_id`, `profile_id`, `created_
 (3, 1, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
 (4, 2, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
 (5, 2, '2024-11-17 15:55:55', '2024-11-17 15:55:55');
+
+
+
+INSERT INTO `deporte_pista_privada` (`deporte_id`, `pista_privada_id`, `created_at`, `updated_at`) VALUES
+(1, 1, '2024-11-17 15:53:53', '2024-11-17 15:53:53'),
+(1, 2, '2024-11-17 15:53:53', '2024-11-17 15:53:53'),
+(2, 3, '2024-11-17 15:54:42', '2024-11-17 15:54:42'),
+(2, 4, '2024-11-17 15:54:42', '2024-11-17 15:54:42'),
+(3, 5, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
+(4, 1, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
+(5, 2, '2024-11-17 15:55:55', '2024-11-17 15:55:55'),
+(2, 6, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Baloncesto - Cancha Baloncesto
+(1, 7, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Futbol - Campo Futbol 11
+(3, 8, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Tenis - Pista Tenis
+(4, 9, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Volleyball - Cancha Volleyball
+(6, 10, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Ciclismo - Velódromo
