@@ -11,15 +11,18 @@
                             <p><strong>Plazas totales:</strong> {{ entrenamiento.maxPlazas }}</p>
                             <p><strong>Precio:</strong> {{ entrenamiento.precio }}€</p>
                         </div>
-                        <button class="btn btn-primary align-self-end" 
-                            @click="details(entrenamiento.slug)">
-                            Más info
-                        </button>
-                        <button v-if="isProfile" class="btn btn-danger align-self-end" 
-                            @click="cancelarEntrenamiento">
-                            Cancelar
-                        </button>
-                    </div>                    
+                        <div class="d-flex flex-column align-items-end justify-content-between">
+                            <button class="btn btn-primary" @click="details(entrenamiento.slug)">
+                                Más info
+                            </button>
+                            <button v-if="!isProfile" class="btn btn-success" @click="unirseEntrenamiento">
+                                Apuntarse
+                            </button>
+                            <button v-if="isProfile" class="btn btn-danger" @click="cancelarEntrenamiento">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -29,6 +32,9 @@
 <script>
 import profileService from '@/services/client/profile.service';
 import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import Swal from 'sweetalert2';
+import Constant from '@/Constant';
 
 export default {
     props: {
@@ -38,28 +44,70 @@ export default {
         },
         isProfile: {
             type: Boolean,
-            required: true
+            required: true,
+            default: false
         }
     },
 
     setup(props) {
+        const store = useStore();
         const router = useRouter();
-        const route = useRoute();
-        const data = {
-            idEntrenamiento: props.entrenamiento.id,
-            numeroSocio: route.params.numeroSocio
-        }
 
         const details = (slug) => {
             router.push({ name: 'detailsEntrenamiento', params: { slug } });
         }
 
         const cancelarEntrenamiento = async () => {
-            // await profileService.CancelarEntrenamiento(data);
-            console.log(data);
+            const result = await Swal.fire({
+                title: '¿Quieres dejar el entrenamiento?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí'
+            });
+
+            if (result.isConfirmed) {
+                await profileService.CancelarEntrenamiento(props.entrenamiento.slug);
+                Swal.fire(
+                    'Cancelado',
+                    'Tu entrenamiento ha sido cancelado.',
+                    'success'
+                );
+                store.dispatch(`profile/${Constant.INITIALIZE_ENTRENAMIENTO_PROFILE}`);
+            }
         }
 
-        return { details, cancelarEntrenamiento }
+        const unirseEntrenamiento = async () => {
+            const result = await Swal.fire({
+                title: '¿Quieres apuntarte a este entrenamiento?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí'
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    await profileService.UnirseEntrenamiento(props.entrenamiento.slug);
+                    Swal.fire(
+                        'Unido',
+                        'Te has apuntado al entrenamiento.',
+                        'success'
+                    );
+                } catch (e) {
+                    Swal.fire(
+                        'Error',
+                        'Ya estás apuntado al entrenamiento.',
+                        'error'
+                    );
+                }
+
+            }
+        }
+
+        return { details, cancelarEntrenamiento, unirseEntrenamiento }
     }
 }
 </script>

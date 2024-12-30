@@ -104,7 +104,12 @@ INSERT INTO `entrenamientos` (`id`, `nombre`, `slug`, `descripcion`, `dia`, `dur
 (2, 'Clase Avanzada B', 'clase-avanzada-b', 'Clase avanzada de deporte B', 'Martes', 90, 15, 30,"pending" ,2, 2, 1, 1,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
 (3, 'Clase Intermedia C', 'clase-intermedia-c', 'Clase intermedia de deporte C', 'Jueves', 75, 25, 20, "accepted",3, 3, 2, 3,'2024-11-17 15:48:19', '2024-11-17 15:48:19'),
 (4, 'Clase Intensiva D', 'clase-intensiva-d', 'Clase intensiva de deporte D', 'Domingo', 120, 10, 40,"denied", 4, 4, 3, 2,'2024-11-17 15:52:06', '2024-11-17 15:52:06'),
-(5, 'Clase Adaptada E', 'clase-adaptada-e', 'Clase adaptada para personas con necesidades especiales', 'Miercoles', 60, 15, 25,"accepted", 4, 2, 4, 3,'2024-11-17 15:52:06', '2024-11-17 15:52:06');
+(5, 'Clase Adaptada E', 'clase-adaptada-e', 'Clase adaptada para personas con necesidades especiales', 'Miercoles', 60, 15, 25,"accepted", 4, 2, 4, 3,'2024-11-17 15:52:06', '2024-11-17 15:52:06'),
+(6, 'Clase Avanzada F', 'clase-avanzada-f', 'Clase avanzada de deporte F', 'Viernes', 90, 20, 35, "pending", 5, 3, 5, 1, '2024-11-17 15:52:06', '2024-11-17 15:52:06'),
+(7, 'Clase Básica G', 'clase-basica-g', 'Clase de iniciación al deporte G', 'Sábado', 60, 25, 20, "accepted", 6, 4, 6, 2, '2024-11-17 15:52:06', '2024-11-17 15:52:06'),
+(8, 'Clase Intermedia H', 'clase-intermedia-h', 'Clase intermedia de deporte H', 'Lunes', 75, 15, 30, "denied", 7, 1, 7, 3, '2024-11-17 15:52:06', '2024-11-17 15:52:06'),
+(9, 'Clase Intensiva I', 'clase-intensiva-i', 'Clase intensiva de deporte I', 'Miércoles', 120, 10, 40, "pending", 8, 2, 8, 1, '2024-11-17 15:52:06', '2024-11-17 15:52:06'),
+(10, 'Clase Adaptada J', 'clase-adaptada-j', 'Clase adaptada para personas con necesidades especiales', 'Jueves', 60, 20, 25, "accepted", 1, 3, 9, 2, '2024-11-17 15:52:06', '2024-11-17 15:52:06');
 
 INSERT INTO `admins` (`id`, `nombre`, `email`, `numeroAdmin`, `password`) VALUES
 (1, 'Admin1', 'admin1@example.com','admin1-2343', 'adminpass1'),
@@ -184,8 +189,8 @@ INSERT INTO `deporte_pista_privada` (`deporte_id`, `pista_privada_id`, `created_
 (3, 5, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
 (4, 1, '2024-11-17 15:55:14', '2024-11-17 15:55:14'),
 (5, 2, '2024-11-17 15:55:55', '2024-11-17 15:55:55'),
-(2, 6, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Baloncesto - Cancha Baloncesto
-(1, 7, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Futbol - Campo Futbol 11
-(3, 8, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Tenis - Pista Tenis
-(4, 9, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Volleyball - Cancha Volleyball
-(6, 10, '2024-11-17 16:11:00', '2024-11-17 16:11:00'), -- Ciclismo - Velódromo
+(2, 6, '2024-11-17 16:11:00', '2024-11-17 16:11:00'),
+(1, 7, '2024-11-17 16:11:00', '2024-11-17 16:11:00'),
+(3, 8, '2024-11-17 16:11:00', '2024-11-17 16:11:00'),
+(4, 9, '2024-11-17 16:11:00', '2024-11-17 16:11:00'),
+(6, 10, '2024-11-17 16:11:00', '2024-11-17 16:11:00');
