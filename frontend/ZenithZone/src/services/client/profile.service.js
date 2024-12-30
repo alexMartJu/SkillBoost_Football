@@ -8,14 +8,11 @@ export default {
     UpdateProfile(data) {
         return Api(secrets.URL_SPRING).put(`user`, data);
     },
-    // Entrenamientos(numeroSocio) {
-    //     return Api(secrets.URL_SPRING).post('profileEntrenamientos', numeroSocio);
-    // },
     Entrenamientos() {
-        return Api(secrets.URL_SPRING).get('entrenamientos');
+        return Api(secrets.URL_SPRING).get('profileEntrenamientos');
     },
-    Reservas(numeroSocio) {
-        return Api(secrets.URL_SPRING).get('profileReservas', numeroSocio);
+    Reservas() {
+        return Api(secrets.URL_SPRING).get('profileReservas');
     },
     Graficas(año = 2024) {
         return Api(secrets.URL_SPRING).get(`profileGraficas?año=${año}`);
@@ -25,7 +22,10 @@ export default {
     CancelarReserva(data) {
         return Api(secrets.URL_SPRING).delete('profileReservas', data);
     },
-    CancelarEntrenamiento(data) {
-        return Api(secrets.URL_SPRING).delete('profileEntrenamiento', data);
+    CancelarEntrenamiento(slug) {
+        return Api(secrets.URL_SPRING).delete(`entrenamientos/${slug}/inscripcion`);
+    },
+    UnirseEntrenamiento(slug) {
+        return Api(secrets.URL_SPRING).post(`entrenamientos/${slug}/inscripcion`);
     }
 }
