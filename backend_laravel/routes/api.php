@@ -17,6 +17,7 @@ use App\Models\Pista;
 use App\Models\Deporte;
 use App\Http\Middleware\AdminAuthenticate;
 use App\Http\Middleware\EntrenadorAuthenticate;
+use App\Http\Controllers\Pista_PrivadasController;
 
 // Define las rutas de recursos para cada controlador
 Route::apiResource('deportes', DeportesController::class)->only(['index', 'show']);
@@ -35,9 +36,12 @@ Route::bind('entrenamientos', function ($value) {
 });
 Route::post('/entrenador/login', [EntrenadorController::class, 'login']);
 Route::post('/admin/login', [AdminsController::class, 'login']);
-
+Route::get('pistasprivadas', [Pista_PrivadasController::class, 'index']);
 Route::middleware([AdminAuthenticate::class])->group(function () {
     // Solo accesibles por Admin
+    Route::post('/pistasprivadas', [Pista_PrivadasController::class, 'store']); 
+    Route::put('/pistasprivadas/{slug}', [Pista_PrivadasController::class, 'update']); 
+    Route::delete('/pistasprivadas/{slug}', [Pista_PrivadasController::class, 'destroy']); 
     Route::put('/entrenamientos/status/{slug}',[EntrenamientoController::class, 'status']);
     Route::post('/entrenador/register', [EntrenadorController::class, 'register']);
     Route::delete('/entrenador/{entrenador}', [EntrenadorController::class, 'destroy']);
@@ -49,6 +53,7 @@ Route::middleware([AdminAuthenticate::class])->group(function () {
 });
 Route::middleware([EntrenadorAuthenticate::class])->group(function () {
     // Solo accesibles por Entrenador
+    Route::get('/horariosocupados/{pistaId}', [EntrenamientoController::class, 'getHorariosOcupados']);
     Route::get('profile/{id}', [ProfilesController::class, 'show']);
     Route::get('/graficas/profile/{profileId}', [GraficasController::class, 'obtenerGraficas']);
     Route::post('/graficas/profile/{profileId}', [GraficasController::class, 'actualizarGrafica']);

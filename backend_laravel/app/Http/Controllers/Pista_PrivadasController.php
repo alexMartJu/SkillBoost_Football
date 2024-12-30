@@ -3,21 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Pista;
+use App\Models\Pista_privada;
+use App\Http\Resources\PistaPrivadasResource;
 use Illuminate\Support\Facades\Log;
-use App\Http\Resources\PistasResource;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Http\Requests\StorePistaRequest;
-use App\Http\Requests\UpdatePistaRequest;
-
-class PistasController extends Controller
+class Pista_PrivadasController extends Controller
 {
     public function index()
     {
-        return PistasResource::collection(Pista::all());
+        return PistaPrivadasResource::collection(Pista_privada::all());
     }
 
-    public function store(StorePistaRequest $request)
+    public function store(Request $request)
     {
         $admin = auth('admin')->user();
 
@@ -25,11 +21,17 @@ class PistasController extends Controller
             return response()->json(['error' => 'Admin no encontrado'], 404);
         }
         
-        $validatedData = $request->validated();
+        $validatedData = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'deportes' => 'required|array',
+            'deportes.*' => 'exists:deportes,id', 
+            'imagenes' => 'nullable|array',
+            'imagenes.*' => 'url', 
+        ]);
     
         try {
            
-            $pistas = Pista::create([
+            $pistas = Pista_privada::create([
                 'nombre' => $validatedData['nombre'],
             ]);
     
@@ -44,7 +46,7 @@ class PistasController extends Controller
                
             $pistas->deportes()->attach($validatedData['deportes']);
            
-            return new PistasResource($pistas);
+            return new PistaPrivadasResource($pistas);
     
         } catch (\Exception $e) {
             
@@ -63,8 +65,8 @@ class PistasController extends Controller
     }
     public function show($slug)
     {
-        $pista = Pista::where('slug', $slug)->firstOrFail();
-        return new PistasResource($pista);
+        $pista = Pista_privada::where('slug', $slug)->firstOrFail();
+        return new PistaPrivadasResource($pista);
     }
 
     public function update(Request $request, $slug)
@@ -74,11 +76,18 @@ class PistasController extends Controller
             return response()->json(['error' => 'Admin no encontrado'], 404);
         }
     // Validar los datos de la solicitud
-    $validatedData = $request->validated();
+    $validatedData = $request->validate([
+        'nombre' => 'required|string|max:255',
+        'deportes' => 'required|array',
+        'deportes.*' => 'exists:deportes,id', 
+        'imagenes' => 'nullable|array',
+        'imagenes.*' => 'url', 
+    ]);
+
 
     try {
         // Buscar la pista por el slug
-        $pista = Pista::where('slug', $slug)->firstOrFail();
+        $pista = Pista_privada::where('slug', $slug)->firstOrFail();
 
         
         if (isset($validatedData['nombre'])) {
@@ -102,7 +111,7 @@ class PistasController extends Controller
         }
 
         // Devolver la pista actualizada
-        return new PistasResource($pista);
+        return new PistaPrivadasResource($pista);
 
     } catch (\Exception $e) {
        
@@ -118,7 +127,7 @@ class PistasController extends Controller
             return response()->json(['error' => 'Admin no encontrado'], 404);
         }
         try {
-            $pista = Pista::where('slug', $slug)->firstOrFail();
+            $pista = Pista_privada::where('slug', $slug)->firstOrFail();
             $pista->images()->delete();
             $pista->deportes()->detach();
             $pista->delete();
@@ -138,7 +147,7 @@ class PistasController extends Controller
 
     try {
         
-        $pista = Pista::where('slug', $slug)->firstOrFail();
+        $pista = Pista_privada::where('slug', $slug)->firstOrFail();
 
        
         $image = $pista->images()->where('image_url', $validatedData['image_url'])->first();
@@ -155,5 +164,4 @@ class PistasController extends Controller
         return response()->json(['error' => 'Error al eliminar la imagen'], 500);
     }
 }
-
 }
