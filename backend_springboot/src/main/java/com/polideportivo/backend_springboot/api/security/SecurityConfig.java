@@ -32,11 +32,10 @@ public class SecurityConfig {
     private final CorsConfigurationSource corsConfigurationSource;
 
     private static final String[] PUBLIC_READ_ENDPOINTS = {
-            "/api/entrenamientos", "/api/entrenamientos/*",
-            "/api/profiles", "/api/profiles/*",
-            "/api/deportes", "/api/deportes/*", "/api/deportes/**",
-            "/api/pistas", "/api/pistas/*",
-            "/api/pistasInfinite",
+            "/api/entrenamientos", "/api/entrenamientos/{slug}", "/api/entrenamientos/data", "/api/entrenamientos/totalNoPaginacion",
+            "/api/profiles/{numeroSocio}",
+            "/api/deportes", "/api/deportes/{slug}", "/api/deportes/{slug}/pistas",
+            "/api/pistas", "/api/pistas/{slug}", "/api/pistasInfinite",
             "/api/entrenadores"
     };
 

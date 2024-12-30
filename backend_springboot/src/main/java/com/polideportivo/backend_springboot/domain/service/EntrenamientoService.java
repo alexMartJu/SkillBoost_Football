@@ -13,4 +13,6 @@ public interface EntrenamientoService {
     Entrenamiento getEntrenamientoBySlug(final String slug);
 
     EntrenamientoDataResponse getEntrenamientoData();
+
+    void update(Entrenamiento entrenamiento);
 }

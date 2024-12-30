@@ -25,10 +25,10 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     // Endpoints públicos: deben coincidir con los configurados en SecurityConfig
     private static final List<String> PUBLIC_ENDPOINTS = List.of(
-            "/api/deportes", "/api/deportes/*", "/api/deportes/**",
-            "/api/entrenamientos", "/api/entrenamientos/*",
-            "/api/profiles", "/api/profiles/*",
-            "/api/pistas", "/api/pistas/*", "/api/pistasInfinite",
+            "/api/deportes", "/api/deportes/{slug}", "/api/deportes/{slug}/pistas",
+            "/api/entrenamientos", "/api/entrenamientos/{slug}", "/api/entrenamientos/data", "/api/entrenamientos/totalNoPaginacion",
+            "/api/profiles/{numeroSocio}",
+            "/api/pistas", "/api/pistas/{slug}", "/api/pistasInfinite",
             "/api/users", "/api/users/login", "/api/refresh", "/api/logout",
             "/api/entrenadores"
     );
@@ -75,6 +75,6 @@ public class SecurityFilter extends OncePerRequestFilter {
     // Verificar si la solicitud es para un endpoint público
     private boolean isPublicEndpoint(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return PUBLIC_ENDPOINTS.stream().anyMatch(path::startsWith);
+        return PUBLIC_ENDPOINTS.stream().anyMatch(publicPath -> publicPath.equalsIgnoreCase(path));
     }
 }
