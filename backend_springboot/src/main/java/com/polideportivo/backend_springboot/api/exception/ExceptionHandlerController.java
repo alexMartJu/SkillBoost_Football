@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -118,6 +120,53 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
         var error = createErrorBuilder(message).build();
 
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
+        var status = HttpStatus.UNPROCESSABLE_ENTITY;
+        var message = ex.getMessage();
+
+        var error = createErrorBuilder(message).build();
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        return handleValidationInternal(ex, ex.getBindingResult(), headers, status, request);
+    }
+
+
+    private ResponseEntity<Object> handleValidationInternal(Exception ex, BindingResult bindingResult, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+        var status = HttpStatus.valueOf(statusCode.value());
+
+        var map = new HashMap<String, Object>();
+        bindingResult.getFieldErrors().forEach(fieldError -> {
+            map.put(fieldError.getField(), toList(fieldError.getDefaultMessage()));
+        });
+
+        var error = createErrorBuilder(map).build();
+        return handleExceptionInternal(ex, error, headers, status, request);
+    }
+
+    @ExceptionHandler(InscripcionAlreadyExistsException.class)
+    public ResponseEntity<?> handleInscripcionAlreadyExists(InscripcionAlreadyExistsException ex, WebRequest request) {
+        var status = HttpStatus.CONFLICT; // 409 Conflict
+        var error = createErrorBuilder(ex.getMessage()).build();
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(Exception.class)  // Captura cualquier excepción no manejada previamente
+    public ResponseEntity<?> handleUnexpectedError(Exception ex, WebRequest request) {
+        // Logueamos el error inesperado para tener un registro
+        log.error("Unexpected error occurred: ", ex);
+
+        // Creamos una respuesta genérica para el cliente
+        var status = HttpStatus.INTERNAL_SERVER_ERROR; // 500 Internal Server Error
+        var error = createErrorBuilder(GENERIC_ERROR_MESSAGE).build();
+
+        // Retornamos la respuesta con el mensaje de error y el código 500
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
