@@ -35,4 +35,8 @@ class Pista_privada extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+    public function entrenamientos(): HasMany
+    {
+        return $this->hasMany(Entrenamiento::class, 'pista_privada_id');
+    }
 }

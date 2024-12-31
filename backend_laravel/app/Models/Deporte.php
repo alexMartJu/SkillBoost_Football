@@ -50,4 +50,8 @@ class Deporte extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+    public function entrenadores(): HasMany
+    {
+        return $this->hasMany(Entrenador::class, 'deporte_id');
+    }
 }

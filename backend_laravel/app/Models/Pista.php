@@ -35,4 +35,8 @@ class Pista extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+    public function reservas(): HasMany
+    {
+        return $this->hasMany(Reserva::class, 'pista_id');
+    }
 }

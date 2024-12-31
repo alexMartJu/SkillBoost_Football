@@ -66,7 +66,11 @@ class Entrenamiento extends Model
         return $this->belongsTo(Entrenador::class, 'entrenador_id');
     }
     public function profiles()
-{
-    return $this->belongsToMany(Profile::class, 'entrenamiento_profile', 'entrenamiento_id', 'profile_id');
-}
+    {
+        return $this->belongsToMany(Profile::class, 'entrenamiento_profile', 'entrenamiento_id', 'profile_id');
+    }
+    public function pistaPrivada(): BelongsTo
+    {
+        return $this->belongsTo(PistaPrivada::class, 'pista_privada_id');
+    }
 }
