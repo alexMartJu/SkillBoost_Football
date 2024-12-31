@@ -60,6 +60,10 @@ public class Entrenamiento {
     private List<InscripcionEntrenamiento> inscripciones;
 
     @ManyToOne
+    @JoinColumn(name = "horario_id", nullable = false)
+    private Horario horario;
+
+    @ManyToOne
     @JoinColumn(name = "pista_privada_id")
     private PistaPrivada pistaPrivada;
 
