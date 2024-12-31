@@ -1,6 +1,7 @@
 package com.polideportivo.backend_springboot.api.model.entrenamiento;
 
 import com.polideportivo.backend_springboot.api.model.deporte.DeporteResponse;
+import com.polideportivo.backend_springboot.api.model.entrenador.EntrenadorInfoResponse;
 import com.polideportivo.backend_springboot.api.model.pistaPrivada.PistaPrivadaResponse;
 import com.polideportivo.backend_springboot.domain.model.Image;
 
@@ -22,6 +23,7 @@ public class EntrenamientoResponse {
     private Integer precio;
     private String status;
     private PistaPrivadaResponse pistaPrivada;
+    private EntrenadorInfoResponse entrenador;
 
     private DeporteResponse deporte;
     private List<Image> images;
