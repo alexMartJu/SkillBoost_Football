@@ -2,16 +2,17 @@
     <div v-if="isEntrenamiento">
         <div class="entrenamiento-info" v-if="state.entrenamiento">
             <h1>{{ state.entrenamiento.nombre }}</h1>
+            <h3>{{ state.entrenamiento.deporte.nombre }}</h3>
             <p>{{ state.entrenamiento.descripcion }}</p>
             <p>{{ state.entrenamiento.dia }}</p>
             <p>{{ state.entrenamiento.duracion }} minutos</p>
             <p>Plazas máximas: {{ state.entrenamiento.maxPlazas }}</p>
             <p>Precio: {{ state.entrenamiento.precio }}€</p>
+            <p>Horario: {{ state.entrenamiento.horario.hora }}</p>
+            <h3>Entrenador:</h3>
+            <p>Nombre: {{ state.entrenamiento.entrenador.nombre }} {{ state.entrenamiento.entrenador.apellidos }}</p>
             <div>
-                <h2>Pistas privadas del entrenamiento</h2>
-                <ul v-for="pista in state.entrenamiento.pistaPrivada" :key="pista.id">
-                    <li>{{ state.entrenamiento.pistaPrivada.nombre }}</li>
-                </ul>
+                <h3>Lugar: {{ state.entrenamiento.pistaPrivada.nombre }}</h3>
             </div>
             <UnirseEntrenamientoButton :slug="state.entrenamiento.slug" />
         </div>
@@ -52,3 +53,11 @@ export default {
 
 }
 </script>
+
+<style>
+body {
+    margin-top: 80px;
+    background-color: rgb(245, 245, 245);
+    font-family: 'Roboto', sans-serif;
+}
+</style>

@@ -3,11 +3,11 @@
         <section class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <DetailsInfo :isEntrenamiento="isEntrenamiento" :state="state"/>
+                    <DetailsInfo :isEntrenamiento="isEntrenamiento" :state="state" />
                 </div>
                 <!-- CARRUSEL -->
                 <div class="col-md-6">
-                    <DetailsCarousel :pistas="isEntrenamiento ? state.entrenamiento.deporte?.pistas : state.pista"/>
+                    <DetailsCarousel :pistas="isEntrenamiento ? state.entrenamiento.deporte?.pistas : state.pista" />
                 </div>
             </div>
         </section>

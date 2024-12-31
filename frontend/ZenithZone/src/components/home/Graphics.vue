@@ -48,8 +48,8 @@ export default {
                     datasets: nivelesPorGrafica.map((set, index) => ({
                         label: meses[index],
                         data: set,
-                        borderColor: `rgba(${index * 50}, 162, 80, 1)`, // Color del borde
-                        backgroundColor: `rgba(${index * 50}, 162, 80, 0.2)`, // Transparencia dinámica
+                        borderColor: `rgba(${index * 23}, 162, 80, 1)`, // Color del borde
+                        backgroundColor: `rgba(${index * 23}, 162, 80, 0.2)`, // Transparencia dinámica
                         borderWidth: 2,
                     })),
                 },
