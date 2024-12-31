@@ -70,7 +70,6 @@ export default {
 }
 
 .card:hover {
-    cursor: pointer;
     background-color: rgb(249, 250, 250);
 }
 </style>
