@@ -71,6 +71,6 @@ class Entrenamiento extends Model
     }
     public function pistaPrivada(): BelongsTo
     {
-        return $this->belongsTo(PistaPrivada::class, 'pista_privada_id');
+        return $this->belongsTo(Pista_privada::class, 'pista_privada_id');
     }
 }
