@@ -35,8 +35,10 @@ class Entrenador extends Model implements AuthenticatableContract, JWTSubject
     {
         return $this->belongsTo(Deporte::class, 'deporte_id');
     }
-
-    
+    public function sala(): HasOne
+    {
+        return $this->hasOne(Sala::class, 'entrenador_id');
+    } 
     public function entrenamientos()
     {
         return $this->hasMany(Entrenamiento::class, 'entrenador_id');
