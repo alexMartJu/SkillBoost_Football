@@ -15,12 +15,8 @@
                             <button class="btn btn-primary" @click="details(entrenamiento.slug)">
                                 Más info
                             </button>
-                            <button v-if="!isProfile" class="btn btn-success" @click="unirseEntrenamiento">
-                                Apuntarse
-                            </button>
-                            <button v-if="isProfile" class="btn btn-danger" @click="cancelarEntrenamiento">
-                                Cancelar
-                            </button>
+                            <UnirseEntrenamientoButton v-if="!isProfile" :slug="entrenamiento.slug" />
+                            <CancelarEntrenamientoButton v-if="isProfile" :slug="entrenamiento.slug" />
                         </div>
                     </div>
                 </div>
@@ -30,11 +26,10 @@
 </template>
 
 <script>
-import profileService from '@/services/client/profile.service';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import Swal from 'sweetalert2';
-import Constant from '@/Constant';
+import UnirseEntrenamientoButton from './buttons/UnirseEntrenamientoButton.vue';
+import CancelarEntrenamientoButton from './buttons/CancelarEntrenamientoButton.vue';
 
 export default {
     props: {
@@ -49,7 +44,12 @@ export default {
         }
     },
 
-    setup(props) {
+    components: {
+        UnirseEntrenamientoButton,
+        CancelarEntrenamientoButton
+    },
+
+    setup() {
         const store = useStore();
         const router = useRouter();
 
@@ -57,57 +57,7 @@ export default {
             router.push({ name: 'detailsEntrenamiento', params: { slug } });
         }
 
-        const cancelarEntrenamiento = async () => {
-            const result = await Swal.fire({
-                title: '¿Quieres dejar el entrenamiento?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí'
-            });
-
-            if (result.isConfirmed) {
-                await profileService.CancelarEntrenamiento(props.entrenamiento.slug);
-                Swal.fire(
-                    'Cancelado',
-                    'Tu entrenamiento ha sido cancelado.',
-                    'success'
-                );
-                store.dispatch(`profile/${Constant.INITIALIZE_ENTRENAMIENTO_PROFILE}`);
-            }
-        }
-
-        const unirseEntrenamiento = async () => {
-            const result = await Swal.fire({
-                title: '¿Quieres apuntarte a este entrenamiento?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí'
-            });
-
-            if (result.isConfirmed) {
-                try {
-                    await profileService.UnirseEntrenamiento(props.entrenamiento.slug);
-                    Swal.fire(
-                        'Unido',
-                        'Te has apuntado al entrenamiento.',
-                        'success'
-                    );
-                } catch (e) {
-                    Swal.fire(
-                        'Error',
-                        'Ya estás apuntado al entrenamiento.',
-                        'error'
-                    );
-                }
-
-            }
-        }
-
-        return { details, cancelarEntrenamiento, unirseEntrenamiento }
+        return { details }
     }
 }
 </script>
