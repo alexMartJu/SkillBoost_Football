@@ -1,6 +1,7 @@
 package com.polideportivo.backend_springboot.api.model.entrenador;
 
 import com.polideportivo.backend_springboot.api.model.deporte.DeporteResponse;
+import com.polideportivo.backend_springboot.api.model.sala.SalaResponse;
 import com.polideportivo.backend_springboot.domain.model.Image;
 
 import lombok.Getter;
@@ -18,4 +19,5 @@ public class EntrenadorResponse {
     private String numeroEntrenador;
     private DeporteResponse deporte;
     private List<Image> images;
+    private SalaResponse sala;
 }

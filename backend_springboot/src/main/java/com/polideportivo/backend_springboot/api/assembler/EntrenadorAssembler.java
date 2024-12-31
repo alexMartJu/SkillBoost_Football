@@ -15,6 +15,7 @@ import java.util.List;
 public class EntrenadorAssembler {
     
     private final ModelMapper modelMapper;
+    private final SalaAssembler salaAssembler;
 
     public EntrenadorResponse toResponse(Entrenador entrenador) {
         var response = modelMapper.map(entrenador, EntrenadorResponse.class);
@@ -22,6 +23,11 @@ public class EntrenadorAssembler {
         // Asegurarse de que el deporte sea mapeado a DeporteResponse
         DeporteResponse deporteResponse = modelMapper.map(entrenador.getDeporte(), DeporteResponse.class);
         response.setDeporte(deporteResponse);  // Setear el deporte como DeporteResponse
+
+        // Si el entrenador tiene una sala, mapeamos la información de la sala
+        if (entrenador.getSala() != null) {
+            response.setSala(salaAssembler.toResponse(entrenador.getSala())); // Setear la sala asociada
+        }
         
         return response;
     }
