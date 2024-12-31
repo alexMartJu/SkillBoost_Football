@@ -48,6 +48,9 @@ public class Entrenador {
 
     @OneToMany(mappedBy = "entrenador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Entrenamiento> entrenamientos;
+
+    @OneToOne(mappedBy = "entrenador", fetch = FetchType.LAZY)
+    private Sala sala;
     
     @Transient
     private List<Image> images;
