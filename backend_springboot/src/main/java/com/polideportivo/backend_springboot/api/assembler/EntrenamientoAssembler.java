@@ -18,6 +18,7 @@ public class EntrenamientoAssembler {
     private final ModelMapper modelMapper;
     private final PistaPrivadaAssembler pistaPrivadaAssembler;
     private final EntrenadorAssembler entrenadorAssembler;
+    private final HorarioAssembler horarioAssembler;
 
     public EntrenamientoResponse toResponse(Entrenamiento entrenamiento) {
         var response = modelMapper.map(entrenamiento, EntrenamientoResponse.class);
@@ -29,6 +30,10 @@ public class EntrenamientoAssembler {
 
         if (entrenamiento.getEntrenador() != null) {
             response.setEntrenador(entrenadorAssembler.toInfoResponse(entrenamiento.getEntrenador()));
+        }
+
+        if (entrenamiento.getHorario() != null) {
+            response.setHorario(horarioAssembler.toResponse(entrenamiento.getHorario()));
         }
 
         return response;
