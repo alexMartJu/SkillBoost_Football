@@ -8,12 +8,12 @@
             <p>Plazas máximas: {{ state.entrenamiento.maxPlazas }}</p>
             <p>Precio: {{ state.entrenamiento.precio }}€</p>
             <div>
-                <h2>Pistas de {{ state.entrenamiento.deporte?.nombre }}</h2>
-                <ul v-for="pista in state.entrenamiento.deporte?.pistas" :key="pista.id">
-                    <li>{{ pista.nombre }}</li>
+                <h2>Pistas privadas del entrenamiento</h2>
+                <ul v-for="pista in state.entrenamiento.pistaPrivada" :key="pista.id">
+                    <li>{{ state.entrenamiento.pistaPrivada.nombre }}</li>
                 </ul>
             </div>
-            <button class="btn btn-primary">Botón para las reservas</button>
+            <UnirseEntrenamientoButton :slug="state.entrenamiento.slug" />
         </div>
         <div v-else>
             <p>Cargando información de entrenamiento...</p>
@@ -32,16 +32,23 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            isEntrenamiento: {
-                type: Boolean,
-                Required: true
-            },
-            state: {
-                type: Object,
-                Required: true
-            }
+import UnirseEntrenamientoButton from './buttons/UnirseEntrenamientoButton.vue';
+
+export default {
+    props: {
+        isEntrenamiento: {
+            type: Boolean,
+            Required: true
+        },
+        state: {
+            type: Object,
+            Required: true
         }
+    },
+
+    components: {
+        UnirseEntrenamientoButton
     }
+
+}
 </script>
