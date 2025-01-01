@@ -3,6 +3,7 @@ package com.polideportivo.backend_springboot.api.controller;
 import com.polideportivo.backend_springboot.domain.model.Entrenamiento;
 import com.polideportivo.backend_springboot.domain.model.InscripcionEntrenamiento;
 import com.polideportivo.backend_springboot.domain.service.InscripcionEntrenamientoService;
+import com.polideportivo.backend_springboot.api.model.entrenamiento.EntrenamientoSubscriptionDTO;
 import com.polideportivo.backend_springboot.api.model.entrenamiento.EntrenamientoWrapper;
 import com.polideportivo.backend_springboot.api.model.inscripcionEntrenamiento.InscripcionEntrenamientoResponse;
 import com.polideportivo.backend_springboot.api.security.authorization.CheckSecurity;
@@ -57,5 +58,16 @@ public class InscripcionEntrenamientoController {
         
         // Convertimos los entrenamientos a DTOs de respuesta
         return entrenamientoAssembler.toCollectionModel(entrenamientos);
+    }
+
+    // Endpoint que devuelve los entrenamientos a los que el usuario está inscrito y cuyo estado es "accepted"
+    @GetMapping("/entrenamientosInscritos")
+    @CheckSecurity.Protected.canManage
+    public List<EntrenamientoSubscriptionDTO> obtenerEntrenamientosInscritosSimple() {
+        // Obtenemos los entrenamientos inscritos
+        List<Entrenamiento> entrenamientos = inscripcionEntrenamientoService.obtenerEntrenamientosInscritosAceptados();
+
+        // Usamos el assembler para transformar los entrenamientos en DTOs
+        return entrenamientoAssembler.toSubscriptionDTOList(entrenamientos);
     }
 }
