@@ -120,9 +120,9 @@ INSERT INTO `salas` (`id`, `nombre`, `tamaño`, `ubicacion`, `entrenador_id`) VA
 (2, 'Sala de Pesas', 70, 'Edificio B', 2),
 (3, 'Sala de Yoga', 30, 'Edificio C', 3);
 
-INSERT INTO `reservas` (`id`, `profile_id`, `pista_id`, `horario_id`, `dia`, `status`) VALUES
-(1, 1, 1, 1, 'Lunes', 'confirmada'),
-(2, 2, 2, 2, 'Jueves', 'pendiente');
+-- INSERT INTO `reservas` (`id`, `profile_id`, `pista_id`, `horario_id`, `dia`) VALUES
+-- (1, 1, 1, 1, 'Lunes'),
+-- (2, 2, 2, 2, 'Jueves');
 
 INSERT INTO `graficas` (`id`, `seccion`, `nivel`, `Mes`, `año`, `profile_id`) VALUES
 (1, 'Motivación', 70, 1, 2024, 1),

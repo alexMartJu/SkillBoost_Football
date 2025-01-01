@@ -16,9 +16,9 @@ return new class extends Migration {
             $table->foreignId('pista_id')->constrained()->onDelete('cascade');
             $table->foreignId('horario_id')->constrained()->onDelete('cascade');
             $table->string('dia');
-            $table->string('status');
+            // $table->string('status');
             $table->timestamps();
-            $table->softDeletes();
+            // $table->softDeletes();
             $table->engine = 'InnoDB';
         });
     }
