@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
             $table->foreignId('pista_id')->constrained()->onDelete('cascade');
             $table->foreignId('horario_id')->constrained()->onDelete('cascade');
-            $table->string('dia');
+            $table->date('fecha');
             // $table->string('status');
             $table->timestamps();
             // $table->softDeletes();
