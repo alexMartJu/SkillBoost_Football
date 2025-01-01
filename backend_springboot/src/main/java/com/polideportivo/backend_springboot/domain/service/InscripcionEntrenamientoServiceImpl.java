@@ -111,4 +111,21 @@ public class InscripcionEntrenamientoServiceImpl implements InscripcionEntrenami
         
         return entrenamientos;
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Entrenamiento> obtenerEntrenamientosInscritosAceptados() {
+        Profile profile = usuarioService.getCurrentUser().getProfile();
+
+        // Recuperamos las inscripciones del usuario, solo los entrenamientos con el estado "accepted"
+        List<InscripcionEntrenamiento> inscripciones = inscripcionRepository.findByProfileId(profile.getId());
+
+        // Filtramos los entrenamientos por estado "accepted"
+        List<Entrenamiento> entrenamientos = inscripciones.stream()
+            .map(InscripcionEntrenamiento::getEntrenamiento)
+            .filter(entrenamiento -> "accepted".equals(entrenamiento.getStatus()))
+            .toList();
+
+        return entrenamientos;
+    }
 }

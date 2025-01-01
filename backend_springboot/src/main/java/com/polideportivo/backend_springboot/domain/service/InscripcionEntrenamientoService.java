@@ -14,4 +14,6 @@ public interface InscripcionEntrenamientoService {
     String desinscribir(String slug);
 
     List<Entrenamiento> obtenerEntrenamientosInscritos();
+
+    List<Entrenamiento> obtenerEntrenamientosInscritosAceptados();
 }
