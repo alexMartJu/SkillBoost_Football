@@ -15,4 +15,6 @@ public interface EntrenamientoRepository extends JpaRepository<Entrenamiento, Lo
     Optional<Entrenamiento> findBySlugAndStatusAndDeletedAtIsNull(String slug, String status);
     
     List<Entrenamiento> findByStatusAndDeletedAtIsNull(String status);
+
+    Optional<Entrenamiento> findBySlugAndStatusInAndDeletedAtIsNull(String slug, List<String> statuses);
 }

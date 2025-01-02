@@ -15,4 +15,6 @@ public interface EntrenamientoService {
     EntrenamientoDataResponse getEntrenamientoData();
 
     void update(Entrenamiento entrenamiento);
+
+    Entrenamiento getEntrenamientoBySlugForInscripcion(String slug);
 }

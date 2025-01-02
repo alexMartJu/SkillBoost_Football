@@ -74,4 +74,14 @@ public class EntrenamientoServiceImpl implements EntrenamientoService {
         repository.save(entrenamiento);
     }
 
+    @Transactional(readOnly = true)
+    public Entrenamiento getEntrenamientoBySlugForInscripcion(String slug) {
+        // Busca el entrenamiento con estado "accepted" o "completed"
+        Entrenamiento entrenamiento = repository.findBySlugAndStatusInAndDeletedAtIsNull(slug, List.of("accepted", "completed"))
+        .orElseThrow(EntrenamientoNotFoundException::new);
+        // Asigna imágenes al entrenamiento
+        entrenamiento.setImages(imageService.getImagesForEntity("App\\Models\\Entrenamiento", entrenamiento.getId()));
+        return entrenamiento;
+    }
+
 }

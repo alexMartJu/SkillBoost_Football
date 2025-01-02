@@ -71,7 +71,7 @@ public class InscripcionEntrenamientoServiceImpl implements InscripcionEntrenami
     public String desinscribir(String slug) {
         // Obtener el perfil del usuario actual y el entrenamiento
         Profile profile = usuarioService.getCurrentUser().getProfile();
-        Entrenamiento entrenamiento = entrenamientoService.getEntrenamientoBySlug(slug);
+        Entrenamiento entrenamiento = entrenamientoService.getEntrenamientoBySlugForInscripcion(slug);
 
         // Crear la clave compuesta
         InscripcionEntrenamientoId id = new InscripcionEntrenamientoId(entrenamiento.getId(), profile.getId());
