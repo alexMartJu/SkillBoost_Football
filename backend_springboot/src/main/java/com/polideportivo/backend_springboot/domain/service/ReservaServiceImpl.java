@@ -5,6 +5,7 @@ import com.polideportivo.backend_springboot.domain.exception.HorarioNotFoundExce
 import com.polideportivo.backend_springboot.domain.exception.PistaNotFoundException;
 import com.polideportivo.backend_springboot.domain.exception.ProfileNotFoundException;
 import com.polideportivo.backend_springboot.domain.exception.ReservaAlreadyExistsException;
+import com.polideportivo.backend_springboot.domain.exception.ReservaNotFoundException;
 import com.polideportivo.backend_springboot.domain.model.Horario;
 import com.polideportivo.backend_springboot.domain.model.Pista;
 import com.polideportivo.backend_springboot.domain.model.Profile;
@@ -61,5 +62,23 @@ public class ReservaServiceImpl implements ReservaService {
 
         // Guardar la reserva en la base de datos
         return reservaRepository.save(reserva);
+    }
+
+    @Override
+    public Reserva findReserva(String slugPista, String hora, String fecha) {
+        // Convertir fecha en formato LocalDate
+        LocalDate fechaLocal = LocalDate.parse(fecha);
+
+        // Obtener la Pista por su slug
+        Pista pista = pistaRepository.findBySlugAndDeletedAtIsNull(slugPista)
+                .orElseThrow(PistaNotFoundException::new);
+
+        // Obtener el Horario por la hora
+        Horario horario = horarioRepository.findByHora(hora)
+                .orElseThrow(HorarioNotFoundException::new);
+
+        // Buscar la reserva utilizando los IDs de la Pista y el Horario
+        return reservaRepository.findByPistaIdAndHorarioIdAndFecha(pista.getId(), horario.getId(), fechaLocal)
+                .orElseThrow(ReservaNotFoundException::new);
     }
 }
