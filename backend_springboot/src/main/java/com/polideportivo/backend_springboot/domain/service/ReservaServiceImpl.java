@@ -81,4 +81,13 @@ public class ReservaServiceImpl implements ReservaService {
         return reservaRepository.findByPistaIdAndHorarioIdAndFecha(pista.getId(), horario.getId(), fechaLocal)
                 .orElseThrow(ReservaNotFoundException::new);
     }
+
+    // Buscar la reserva y cancelarla
+    public void cancelReserva(String slugPista, String hora, String fecha) {
+        // Buscar la reserva por la pista, hora y fecha
+        Reserva reserva = findReserva(slugPista, hora, fecha);
+
+        // Eliminar la reserva
+        reservaRepository.delete(reserva);
+    }
 }

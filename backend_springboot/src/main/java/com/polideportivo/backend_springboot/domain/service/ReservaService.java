@@ -8,4 +8,7 @@ public interface ReservaService {
     Reserva createReserva(ReservaRequest request);
 
     Reserva findReserva(String slugPista, String hora, String fecha);
+
+    void cancelReserva(String slugPista, String hora, String fecha);
+    
 }
