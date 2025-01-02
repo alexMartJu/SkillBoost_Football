@@ -6,8 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,21 +17,27 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "horarios")
-public class Horario {
+@Table(name = "reservas")
+public class Reserva {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "hora", nullable = false)
-    private String hora;
+    @ManyToOne
+    @JoinColumn(name = "profile_id", nullable = false)
+    private Profile profile;
 
-    @OneToMany(mappedBy = "horario")
-    private List<Entrenamiento> entrenamientos;
+    @ManyToOne
+    @JoinColumn(name = "pista_id", nullable = false)
+    private Pista pista;
 
-    @OneToMany(mappedBy = "horario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reserva> reservas;
+    @ManyToOne
+    @JoinColumn(name = "horario_id", nullable = false)
+    private Horario horario;
+
+    @Column(name = "fecha", nullable = false)
+    private LocalDate fecha;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -40,7 +46,4 @@ public class Horario {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
 }

@@ -84,6 +84,16 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return handleResourceNotFound(ex, request, "profile");
     }
 
+    @ExceptionHandler(ReservaNotFoundException.class)
+    public ResponseEntity<?> handleReservaNotFound(ReservaNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "reserva");
+    }
+
+    @ExceptionHandler(HorarioNotFoundException.class)
+    public ResponseEntity<?> handleHorarioNotFound(HorarioNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "horario");
+    }
+
     @ExceptionHandler(EmailTakenException.class)
     public ResponseEntity<?> handleEmailTaken(EmailTakenException ex, WebRequest request) {
         return handleTaken(ex, request, "email");
@@ -167,6 +177,13 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         var error = createErrorBuilder(GENERIC_ERROR_MESSAGE).build();
 
         // Retornamos la respuesta con el mensaje de error y el código 500
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(ReservaAlreadyExistsException.class)
+    public ResponseEntity<?> handleReservaAlreadyExists(ReservaAlreadyExistsException ex, WebRequest request) {
+        var status = HttpStatus.CONFLICT; // 409 Conflict
+        var error = createErrorBuilder(ex.getMessage()).build();
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 

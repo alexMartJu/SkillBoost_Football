@@ -26,4 +26,11 @@ public @interface CheckSecurity {
         @PreAuthorize("@authorizationConfig.isAuthenticated")
         public @interface canManage {}
     }
+
+    public @interface Reservas {
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        @PreAuthorize("@authorizationConfig.isReservaOwner(#slugPista, #hora, #fecha)")
+        public @interface canDelete {}
+    }
 }
