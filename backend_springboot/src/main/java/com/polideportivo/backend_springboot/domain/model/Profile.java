@@ -54,6 +54,9 @@ public class Profile {
     @OneToMany(mappedBy = "profile")
     private List<InscripcionEntrenamiento> inscripciones;
 
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reserva> reservas;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

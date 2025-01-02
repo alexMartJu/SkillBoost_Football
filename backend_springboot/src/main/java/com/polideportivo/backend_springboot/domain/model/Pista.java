@@ -37,7 +37,9 @@ public class Pista {
     )
     @ToString.Exclude
     private List<Deporte> deportes;
-    // private Set<Deporte> deportes = new HashSet<>();
+
+    @OneToMany(mappedBy = "pista", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reserva> reservas;
 
     @Transient
     private List<Image> images;
