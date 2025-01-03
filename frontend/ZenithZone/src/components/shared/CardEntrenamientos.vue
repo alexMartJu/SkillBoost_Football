@@ -15,7 +15,8 @@
                             <button class="btn btn-primary" @click="details(entrenamiento.slug)">
                                 Más info
                             </button>
-                            <UnirseEntrenamientoButton v-if="!isProfile" :slug="entrenamiento.slug" />
+                            <UnirseEntrenamientoButton v-if="!isProfile" :slug="entrenamiento.slug"
+                                :disabled="isSuscribed" />
                             <CancelarEntrenamientoButton v-if="isProfile" :slug="entrenamiento.slug" />
                         </div>
                     </div>
@@ -40,6 +41,11 @@ export default {
         isProfile: {
             type: Boolean,
             required: true,
+            default: false
+        },
+        isSuscribed: {
+            type: Boolean,
+            required: false,
             default: false
         }
     },
