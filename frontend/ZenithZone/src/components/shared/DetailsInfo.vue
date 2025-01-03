@@ -14,7 +14,7 @@
             <div>
                 <h3>Lugar: {{ state.entrenamiento.pistaPrivada.nombre }}</h3>
             </div>
-            <UnirseEntrenamientoButton :slug="state.entrenamiento.slug" />
+            <UnirseEntrenamientoButton :slug="state.entrenamiento.slug" :disabled="isSubscribed" />
         </div>
         <div v-else>
             <p>Cargando información de entrenamiento...</p>
@@ -33,7 +33,11 @@
 </template>
 
 <script>
+import { reactive } from 'vue';
 import UnirseEntrenamientoButton from './buttons/UnirseEntrenamientoButton.vue';
+import { computed } from 'vue';
+import entrenamientosService from '@/services/client/entrenamientos.service';
+import { useStore } from 'vuex';
 
 export default {
     props: {
@@ -49,7 +53,34 @@ export default {
 
     components: {
         UnirseEntrenamientoButton
+    },
+
+    setup(props) {
+        const store = useStore();
+
+        const currentUser = reactive({
+            isUser: computed(() => store.getters['user/GetIsAuth']),
+        });
+
+        const suscribedEntrenamientos = reactive(new Set());
+
+        const checkAlreadySuscribed = async () => {
+            const { data } = await entrenamientosService.GetSuscribedEntrenamientos();
+            suscribedEntrenamientos.clear();
+            data.forEach(entrenamiento => suscribedEntrenamientos.add(entrenamiento.slug));
+        };
+
+        if (currentUser.isUser) {
+            checkAlreadySuscribed();
+        }
+
+        const isSubscribed = computed(() => {
+            return props.state.entrenamiento.slug && suscribedEntrenamientos.has(props.state.entrenamiento.slug);
+        });
+
+        return { suscribedEntrenamientos, isSubscribed, checkAlreadySuscribed };
     }
+
 
 }
 </script>
