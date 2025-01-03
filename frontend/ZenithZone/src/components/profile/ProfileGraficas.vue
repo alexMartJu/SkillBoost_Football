@@ -4,7 +4,7 @@
             <div class="landing-section d-flex">
                 <div class="carousel-section">
                     <div class="">
-                        <Graphics class="me-5" :graficas="state.graficaValues"/>
+                        <Graphics class="me-5" :graficas="state.graficaValues" />
                     </div>
                     <div></div>
                 </div>
@@ -12,13 +12,14 @@
 
             <div class="text-section d-flex flex-column justify-content-center">
                 <div class="text-container-graph">
-                    <p class="fst-italic ms-5">Evolución mensual</p>
+                    <p class="fst-italic ms-5">Evolución mensual {{ currentYear }}</p>
                 </div>
-                <p class="text-end fs-3 fst-italic me-5 pe-4">Para un mayor nivel de detalle, ponte en contacto con tus entrenadores</p>
+                <p class="text-end fs-3 fst-italic me-5 pe-4">Para un mayor nivel de detalle, ponte en contacto con tus
+                    entrenadores</p>
             </div>
         </div>
     </div>
-    
+
 </template>
 
 <script>
@@ -36,13 +37,14 @@ export default {
 
     setup() {
         const store = useStore();
+        const currentYear = new Date().getFullYear();
 
         const state = reactive({
             graficas: store.getters['profile/GetGraficasProfile'],
             graficaValues: []
         });
 
-        const valuesGrafica = () => { 
+        const valuesGrafica = () => {
             let data = [];
 
             state.graficas.forEach(values => {
@@ -56,7 +58,7 @@ export default {
             state.graficaValues = valuesGrafica();
         });
 
-        return { state }
+        return { state, currentYear };
     }
 };
 </script>
