@@ -12,7 +12,7 @@ export default {
         return Api(secrets.URL_SPRING).get('profileEntrenamientos');
     },
     Reservas() {
-        return Api(secrets.URL_SPRING).get('profileReservas');
+        return Api(secrets.URL_SPRING).get('profilePistas');
     },
     Graficas(año = 2024) {
         return Api(secrets.URL_SPRING).get(`profileGraficas?año=${año}`);
@@ -20,7 +20,7 @@ export default {
 
     // Botones de cancelar
     CancelarReserva(data) {
-        return Api(secrets.URL_SPRING).delete('profileReservas', data);
+        return Api(secrets.URL_SPRING).delete(`reservaPista?slugPista=${data.slugPista}&hora=${data.hora}&fecha=${data.fecha}`);
     },
     CancelarEntrenamiento(slug) {
         return Api(secrets.URL_SPRING).delete(`entrenamientos/${slug}/inscripcion`);

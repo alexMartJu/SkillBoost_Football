@@ -24,8 +24,9 @@ export const profile = {
         [Constant.INITIALIZE_RESERVA_PROFILE]: async (store) => {
             try {
                 const { data } = await profileService.Reservas();
+                console.log(data);
 
-                store.commit(Constant.INITIALIZE_RESERVA_PROFILE, data.reservas);
+                store.commit(Constant.INITIALIZE_RESERVA_PROFILE, data);
             } catch (error) {
                 console.error("Error al cargar las reservas:", error);
             }
