@@ -3,6 +3,6 @@ package com.polideportivo.backend_springboot.domain.exception;
 public class ProfileNotFoundException extends ResourceNotFoundException {
     
     public ProfileNotFoundException() {
-        super("Profile Not Found");
+        super("Profile No Encontrado");
     }
 }

@@ -22,6 +22,12 @@ public class DeporteServiceImpl implements DeporteService {
     public List<Deporte> getAllDeportes() {
         // Obtiene todos los deportes
         List<Deporte> deportes = repository.findByDeletedAtIsNull();
+
+        // Validar si la lista está vacía
+        if (deportes.isEmpty()) {
+            throw new DeporteNotFoundException(); // Se lanza la excepción con el mensaje predeterminado
+        }
+        
         // Asigna imágenes a cada deporte y a las pistas asociadas
         deportes.forEach(deporte -> {
             // Cargar imágenes del deporte
