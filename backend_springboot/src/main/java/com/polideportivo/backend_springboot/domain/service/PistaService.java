@@ -14,4 +14,6 @@ public interface PistaService {
     Pista getBySlug(final String slug);
 
     Page<Pista> getAllScrollPistas(final Pageable pageable);
+
+    List<Pista> getPistasReservadasCurrentUser();
 }
