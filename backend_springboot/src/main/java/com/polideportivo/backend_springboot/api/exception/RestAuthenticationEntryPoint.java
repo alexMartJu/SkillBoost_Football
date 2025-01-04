@@ -19,7 +19,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
             AuthenticationException authException) throws IOException, ServletException {
         var status = HttpStatus.UNAUTHORIZED;
         var error = Error.builder()
-                .message("Missing credentials or token invalid")
+                .message("Faltan credenciales o el token no es válido")
                 .status("error")
                 .build();
 

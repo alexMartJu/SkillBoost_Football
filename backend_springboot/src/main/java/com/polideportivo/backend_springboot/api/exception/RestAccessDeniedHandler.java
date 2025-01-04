@@ -18,7 +18,7 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse httpResponse, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         var status = HttpStatus.FORBIDDEN.value();
         var error = Error.builder()
-                .message("Access denied")
+                .message("Accesso denegado")
                 .status("error")
                 .build();
 

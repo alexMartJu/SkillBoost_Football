@@ -1,5 +1,6 @@
 package com.polideportivo.backend_springboot.domain.service;
 
+import com.polideportivo.backend_springboot.domain.exception.ResourceNotFoundException;
 import com.polideportivo.backend_springboot.domain.model.Entrenador;
 import com.polideportivo.backend_springboot.domain.repository.EntrenadorRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,11 @@ public class EntrenadorServiceImpl implements EntrenadorService {
 
         // Obtiene todos los entrenadores no eliminados
         List<Entrenador> entrenadores = repository.findByDeletedAtIsNull();
+
+        // Validar si la lista está vacía
+        if (entrenadores.isEmpty()) {
+            throw new ResourceNotFoundException("No se encontraron entrenadores.");
+        }
         
         // Asigna imágenes a cada entrenador
         entrenadores.forEach(entrenador -> entrenador.setImages(

@@ -20,7 +20,7 @@ import java.util.*;
 @RestControllerAdvice
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
-    private static final String GENERIC_ERROR_MESSAGE = "Oops! Something went wrong.";
+    private static final String GENERIC_ERROR_MESSAGE = "Oops! Algo ha salido mal.";
 
     private Error.ErrorBuilder createErrorBuilder(Map<String, Object> errors) {
         return Error.builder()
@@ -126,7 +126,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> handleAccessDenied(AccessDeniedException ex, WebRequest request) {
         var status = HttpStatus.FORBIDDEN;
-        var message = "You don't have access to this resource";
+        var message = "No tiene acceso a este recurso";
 
         var error = createErrorBuilder(message).build();
 
