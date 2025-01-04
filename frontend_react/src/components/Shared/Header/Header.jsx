@@ -14,50 +14,27 @@ const Header = () => {
                     <nav>
                         <ul className="nav me-5">
                             <li className="nav-item me-3">
-                                <NavLink
-                                    to="/"
-                                    className="nav-link text-color fw-bold fs-5"
-                                >
+                                <NavLink to="/" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
                                     Home
                                 </NavLink>
                             </li>
                             <li className="nav-item me-3">
-                                <NavLink
-                                    to="/instalaciones"
-                                    className={({ isActive }) =>
-                                        isActive ? "nav-link text-color fw-bold fs-5 isActive" : "nav-link text-color fw-bold fs-5"
-                                    }
-                                >
+                                <NavLink to="/instalaciones" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
                                     Instalaciones
                                 </NavLink>
                             </li>
                             <li className="nav-item me-3">
-                                <NavLink
-                                    to="/servicios"
-                                    className={({ isActive }) =>
-                                        isActive ? "nav-link text-color fw-bold fs-5 isActive" : "nav-link text-color fw-bold fs-5"
-                                    }
-                                >
+                                <NavLink to="/servicios" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
                                     Servicios
                                 </NavLink>
                             </li>
                             <li className="nav-item me-4">
-                                <NavLink
-                                    to="/entrenadores"
-                                    className={({ isActive }) =>
-                                        isActive ? "nav-link text-color fw-bold fs-5 isActive" : "nav-link text-color fw-bold fs-5"
-                                    }
-                                >
+                                <NavLink to="/entrenadores" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
                                     Entrenadores
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink
-                                    to="/auth"
-                                    className={({ isActive }) =>
-                                        isActive ? "nav-link auth fw-bold fs-5 isActive" : "nav-link auth fw-bold fs-5"
-                                    }
-                                >
+                                <NavLink to="/auth" className={({ isActive }) => isActive ? activeStyleAuth : inactiveStyleAuth}>
                                     Unirse al club
                                 </NavLink>
                             </li>
@@ -68,5 +45,11 @@ const Header = () => {
         </header>
     );
 };
+
+const activeStyle = "nav-link text-black fw-bold fs-5 isActive";
+const inactiveStyle = "nav-link text-color fw-bold fs-5";
+
+const activeStyleAuth = "nav-link auth fw-bold fs-5 isActive";
+const inactiveStyleAuth = "nav-link auth fw-bold fs-5";
 
 export default Header;
