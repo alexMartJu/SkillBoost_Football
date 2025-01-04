@@ -31,13 +31,22 @@
                 <div v-if="selectedDate" class="form-group mt-3">
                     <label for="horarios">Selecciona un horario:</label>
                     <select name="horarios" id="horarios" class="form-control" v-model="selectedHorario">
-                        <option value="mañana" selected>Mañana</option>
-                        <option value="mediodia">Mediodia</option>
-                        <option value="tarde">Tarde</option>
-                        <option value="noche">Noche</option>
+                        <option v-for="horario in horarios" :key="horario" :value="horario"
+                            :disabled="isHorarioReserved(horario)">
+                            {{ horario.charAt(0).toUpperCase() + horario.slice(1) }}
+                        </option>
                     </select>
                 </div>
-                <button @click="logDate" class="btn btn-primary mt-2">Reservas pista</button>
+                
+                <button @click="logDate" :disabled="isReserved" class="btn btn-primary mt-2">
+                    {{ isReserved ? 'Horario reservado' : 'Reservar pista' }}
+                </button>
+                <div v-if="reservaSuccess" class="alert alert-success mt-3" role="alert">
+                    Reserva realizada con éxito.
+                </div>
+                <div v-if="reservaError" class="alert alert-danger mt-3" role="alert">
+                    Error al realizar la reserva. Inténtalo de nuevo.
+                </div>
             </div>
         </div>
         <div v-else>
@@ -47,13 +56,14 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { reactive, watchEffect } from 'vue';
 import UnirseEntrenamientoButton from './buttons/UnirseEntrenamientoButton.vue';
 import { computed } from 'vue';
 import entrenamientosService from '@/services/client/entrenamientos.service';
 import { useStore } from 'vuex';
 import { ref } from 'vue';
 import reservasService from '@/services/client/reservas.service';
+import { useRouter } from 'vue-router';
 
 export default {
     props: {
@@ -73,12 +83,13 @@ export default {
 
     setup(props) {
         const store = useStore();
-
-        // APUNTARSE ENTRENAMIENTOS
+        // const router = useRouter();
         const currentUser = reactive({
             isUser: computed(() => store.getters['user/GetIsAuth']),
         });
+        const horarios = ['mañana', 'mediodia', 'tarde', 'noche'];
 
+        // APUNTARSE ENTRENAMIENTOS
         const suscribedEntrenamientos = reactive(new Set());
 
         const checkAlreadySuscribed = async () => {
@@ -99,8 +110,12 @@ export default {
         // RESERVA PISTAS
         const selectedDate = ref('');
         const selectedHorario = ref('');
+        const reservaSuccess = ref(false);
+        const reservaError = ref(false);
 
         const logDate = async () => {
+            reservaSuccess.value = false;
+            reservaError.value = false;
             if (selectedDate.value) {
                 const data = {
                     slugPista: props.state.pista.slug,
@@ -108,14 +123,47 @@ export default {
                     fecha: selectedDate.value
                 };
 
-                console.log(data);
-                await reservasService.CreateReserva(data);
+                try {
+                    await reservasService.CreateReserva(data);
+                    reservaSuccess.value = true;
+                } catch (error) {
+                    reservaError.value = true;
+                }
             } else {
                 console.warn('No se ha seleccionado ninguna fecha');
             }
         };
 
-        return { suscribedEntrenamientos, isSubscribed, checkAlreadySuscribed, logDate, selectedDate, selectedHorario };
+        const suscribedReservas = reactive(new Set());
+
+        const checkAlreadyReserved = async () => {
+            const { data } = await reservasService.GetReservas();
+            console.log(data);
+            suscribedReservas.clear();
+            data.forEach(reserva => suscribedReservas.add(`${reserva.slug}-${reserva.fecha}-${reserva.hora}`));
+            console.log(suscribedReservas);
+        };
+
+        if (currentUser.isUser) {
+            checkAlreadyReserved();
+        }
+
+        const isReserved = computed(() => {
+            if (currentUser.isUser) return false;
+            return props.state.pista.slug && suscribedReservas.has(`${props.state.pista.slug}-${selectedDate.value}-${selectedHorario.value}`);
+        });
+
+        const isHorarioReserved = (horario) => {
+            if (!props.state.pista.slug || !selectedDate.value) return false;
+            return suscribedReservas.has(`${props.state.pista.slug}-${selectedDate.value}-${horario}`);
+        };
+
+        watchEffect(() => { });
+
+        return {
+            horarios, suscribedEntrenamientos, isSubscribed, isReserved, isHorarioReserved, checkAlreadySuscribed,
+            checkAlreadyReserved, logDate, selectedDate, selectedHorario, reservaSuccess, reservaError, currentUser
+        };
     }
 
 

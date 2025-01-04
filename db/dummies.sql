@@ -16,7 +16,7 @@ DELETE FROM `deporte_pista`;
 DELETE FROM `entrenamiento_profile`;
 
 INSERT INTO `horarios` (`id`, `hora`) VALUES
-(1, 'manaña'),
+(1, 'mañana'),
 (2, 'mediodia'),
 (3, 'tarde'),
 (4, 'noche');
