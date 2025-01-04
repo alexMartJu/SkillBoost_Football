@@ -1,5 +1,7 @@
 package com.polideportivo.backend_springboot.domain.service;
 
+import com.polideportivo.backend_springboot.api.assembler.PistaAssembler;
+import com.polideportivo.backend_springboot.api.model.pista.PistaReservaStatusResponse;
 import com.polideportivo.backend_springboot.domain.exception.PistaNotFoundException;
 import com.polideportivo.backend_springboot.domain.exception.ProfileNotFoundException;
 import com.polideportivo.backend_springboot.domain.model.Pista;
@@ -23,6 +25,7 @@ public class PistaServiceImpl implements PistaService {
     private final ImageService imageService;
     private final UsuarioService usuarioService;
     private final ReservaRepository reservaRepository;
+    private final PistaAssembler pistaAssembler;
 
     @Transactional(readOnly = true)
     public List<Pista> getAllPistas() {
@@ -86,5 +89,22 @@ public class PistaServiceImpl implements PistaService {
         });
 
         return pistas;
+    }
+
+    public List<PistaReservaStatusResponse> getProfilePistasStatus() {
+
+        // Obtener el perfil del usuario logueado
+        var currentUserProfile = usuarioService.getCurrentUser().getProfile();
+        if (currentUserProfile == null) {
+            throw new ProfileNotFoundException();
+        }
+
+        // Obtener todas las reservas del usuario
+        List<Reserva> reservas = reservaRepository.findByProfileId(currentUserProfile.getId());
+
+        // Usar el assembler para convertir las reservas a la respuesta
+        return reservas.stream()
+                .map(pistaAssembler::toPistaReservaStatusResponse) // Usamos el assembler aquí
+                .collect(Collectors.toList());
     }
 }
