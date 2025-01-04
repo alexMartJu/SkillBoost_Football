@@ -6,14 +6,12 @@
                     <div class="card-body d-flex justify-content-between">
                         <div>
                             <h3 class="mb-3">Información de la reserva:</h3>
-                            <!-- <p><strong>Pista:</strong> {{ reservas.pista }}</p>
-                            <p><strong>Día:</strong> {{ reservas.dia }}</p>
-                            <p><strong>Horario:</strong> {{ reservas.horario }}</p> -->
-                            <p><strong>Pista:</strong></p>
-                            <p><strong>Día:</strong></p>
-                            <p><strong>Horario:</strong></p>
+                            <p><strong>Pista: </strong>{{ reserva.pistaNombre }}</p>
+                            <p><strong>Día: </strong>{{ reserva.fecha }}</p>
+                            <p><strong>Horario: </strong>{{ reserva.hora }}</p>
                         </div>
-                        <button class="btn btn-danger align-self-end" @click="cancelarReserva">Cancelar Reserva</button>
+                        <!-- <button class="btn btn-danger align-self-end" @click="cancelarReserva">Cancelar Reserva</button> -->
+                        <CancelarReservaButton :reserva="data" />
                     </div>
                 </div>
             </section>
@@ -22,30 +20,34 @@
 </template>
 
 <script>
-import profileService from '@/services/client/profile.service';
-import { useRoute, useRouter } from 'vue-router';
+import CancelarReservaButton from './buttons/CancelarReservaButton.vue';
 
 export default {
     props: {
         reserva: {
             type: Object,
             required: true
+        },
+        slug: {
+            type: String,
+            required: false
         }
     },
 
+    components: {
+        CancelarReservaButton
+    },
+
     setup(props) {
-        const route = useRoute();
         const data = {
-            idReserva: props.reserva.id,
-            numeroSocio: route.params.numeroSocio
+            slugPista: props.slug,
+            hora: props.reserva.hora,
+            fecha: props.reserva.fecha
         }
 
-        const cancelarReserva = async () => {
-            // await profileService.CancelarReserva(data);
-            console.log(data);
-        }
+        console.log(data);
 
-        return { cancelarReserva }
+        return { data }
     }
 }
 </script>
