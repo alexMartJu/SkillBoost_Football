@@ -1,6 +1,7 @@
 package com.polideportivo.backend_springboot.api.controller;
 
 import com.polideportivo.backend_springboot.api.assembler.PistaAssembler;
+import com.polideportivo.backend_springboot.api.model.pista.PistaReservaStatusResponse;
 import com.polideportivo.backend_springboot.api.model.pista.PistaReservadaResponse;
 import com.polideportivo.backend_springboot.api.model.pista.PistaResponse;
 import com.polideportivo.backend_springboot.api.model.pista.PistaWrapper;
@@ -62,5 +63,13 @@ public class PistaController {
         List<Pista> pistasReservadas = pistaService.getPistasReservadasCurrentUser();
         // Convierte las entidades de dominio en DTOs utilizando el assembler
         return pistaAssembler.toPistaReservadaResponseList(pistasReservadas);
+    }
+
+    // Endpoint para obtener el estado de reserva de las pistas del usuario
+    @GetMapping("/pistasReservadas")
+    @CheckSecurity.Protected.canManage
+    public List<PistaReservaStatusResponse> getProfilePistasStatus() {
+        // Llamar al servicio para obtener las pistas reservadas por el usuario
+        return pistaService.getProfilePistasStatus();
     }
 }
