@@ -39,6 +39,7 @@ public class Pista {
     private List<Deporte> deportes;
 
     @OneToMany(mappedBy = "pista", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Reserva> reservas;
 
     @Transient
