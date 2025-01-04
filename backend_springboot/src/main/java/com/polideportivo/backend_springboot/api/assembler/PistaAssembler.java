@@ -76,6 +76,8 @@ public class PistaAssembler {
         PistaReservaStatusResponse response = new PistaReservaStatusResponse();
         response.setSlug(reserva.getPista().getSlug());  // Obtener el slug de la pista
         response.setReservedPista(true); // Siempre será true ya que está reservado
+        response.setFecha(reserva.getFecha().toString()); // Fecha de la reserva
+        response.setHora(reserva.getHorario().getHora()); // Hora del horario
         return response;
     }
 }

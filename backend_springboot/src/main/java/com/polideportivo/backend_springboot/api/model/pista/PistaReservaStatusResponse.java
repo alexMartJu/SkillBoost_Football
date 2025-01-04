@@ -13,4 +13,7 @@ public class PistaReservaStatusResponse {
 
     @JsonProperty("isReservedPista")
     private boolean isReservedPista;
+
+    private String fecha;
+    private String hora;
 }
