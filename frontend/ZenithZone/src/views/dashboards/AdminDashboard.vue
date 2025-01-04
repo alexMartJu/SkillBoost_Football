@@ -26,6 +26,9 @@
         <router-link to="/dashboardAdmin/pistasprivadas" class="btn btn-secondary">
           Pistas Privadas
         </router-link>
+        <router-link to="/dashboardAdmin/Reservas" class="btn btn-secondary">
+          reservas
+        </router-link>
 
         
       </div>

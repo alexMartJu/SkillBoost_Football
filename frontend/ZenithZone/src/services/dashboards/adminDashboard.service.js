@@ -69,5 +69,11 @@ export default {
     DeletePistaPrivada(pistaslug) {
         return Api(secrets.URL_SPRING, isSpringboot).delete(`pistasprivadas/${pistaslug}`);
     },
+    GetReservas() {
+        return Api(secrets.URL_SPRING, isSpringboot).get('reservas');
+    },
+    DeleteReserva(reservaId) {
+        return Api(secrets.URL_SPRING, isSpringboot).delete(`reservas/${reservaId}`);
+    },
 
 };

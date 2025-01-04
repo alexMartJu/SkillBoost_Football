@@ -12,6 +12,7 @@
             salas:[],
             pistasPrivadas: [],
             currentPistaPrivada: null,
+            reservas: [],
         },
 
         mutations: {
@@ -90,7 +91,15 @@
             },
             [Constant.DELETE_ONE_SALA](state, salaId) {
                 state.salas = state.salas.filter(sala => sala.id !== salaId);
-              },
+            },
+            [Constant.INITIALIZE_RESERVA](state, payload) {
+                if (payload) {
+                    state.reservas = payload;
+                }
+            },
+            [Constant.DELETE_ONE_RESERVA](state, reservaId) {
+                state.reservas = state.reservas.filter(reserva => reserva.id !== reservaId);
+            },
             
 
         },
@@ -302,6 +311,24 @@
                       console.error("Error al crear sala:", error);
                     }
                   },
+
+                async [Constant.INITIALIZE_RESERVA]({ commit }) {
+                    try {
+                        const { data } = await adminDashboardService.GetReservas();
+                        console.log("reservas"+JSON.stringify(data.data));
+                        commit(Constant.INITIALIZE_RESERVA, data.data);
+                    } catch (error) {
+                        console.error("Error al cargar las reservas:", error);
+                    }
+                },
+                async [Constant.DELETE_ONE_RESERVA]({ commit }, reservaId) {
+                    try {
+                        await adminDashboardService.DeleteReserva(reservaId);
+                        commit(Constant.DELETE_ONE_RESERVA, reservaId);
+                    } catch (error) {
+                        console.error("Error al eliminar la reserva:", error);
+                    }
+                },
                   
             
         },
@@ -336,6 +363,9 @@
             },
             GetCurrentPistaPrivada(state) {
                 return state.currentPistaPrivada;
+            },
+            GetReservas(state) {
+                return state.reservas;
             },
         }
     };
