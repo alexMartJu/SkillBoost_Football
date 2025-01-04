@@ -69,6 +69,9 @@ export default {
   FETCH_PISTA_PRIVADA_BY_SLUG: "FetchPistaPrivadaBySlug",
   SET_CURRENT_PISTA_PRIVADA: "SetCurrentPistaPrivada",
 
+  INITIALIZE_RESERVA: "InitializeReservas",
+  DELETE_ONE_RESERVA: "DeleteOneReserva",
+
 
   INITIALIZE_HORARIO: "InitializeHorario"
 }

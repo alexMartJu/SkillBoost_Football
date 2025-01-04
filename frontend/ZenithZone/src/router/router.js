@@ -232,6 +232,12 @@ const router = createRouter({
           component: () => import('../components/dashboards/admin/pistasprivadas.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
+        {
+          path: 'Reservas',
+          name: 'Reservas',
+          component: () => import('../components/dashboards/admin/Reservas.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
 
       ]
     },
