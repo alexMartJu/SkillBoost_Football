@@ -2,6 +2,7 @@ package com.polideportivo.backend_springboot.api.assembler;
 
 import com.polideportivo.backend_springboot.api.model.pista.PistaWrapper;
 import com.polideportivo.backend_springboot.api.model.reserva.ReservaResponse;
+import com.polideportivo.backend_springboot.api.model.pista.PistaReservaStatusResponse;
 import com.polideportivo.backend_springboot.api.model.pista.PistaReservadaResponse;
 import com.polideportivo.backend_springboot.api.model.pista.PistaResponse;
 import com.polideportivo.backend_springboot.domain.model.Pista;
@@ -68,6 +69,13 @@ public class PistaAssembler {
         response.setPistaNombre(reserva.getPista().getNombre());
         response.setHora(reserva.getHorario().getHora());
         response.setFecha(reserva.getFecha().toString());
+        return response;
+    }
+
+    public PistaReservaStatusResponse toPistaReservaStatusResponse(Reserva reserva) {
+        PistaReservaStatusResponse response = new PistaReservaStatusResponse();
+        response.setSlug(reserva.getPista().getSlug());  // Obtener el slug de la pista
+        response.setReservedPista(true); // Siempre será true ya que está reservado
         return response;
     }
 }
