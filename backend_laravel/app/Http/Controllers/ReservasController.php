@@ -20,10 +20,10 @@ class ReservasController extends Controller
     }
 
 
-    public function show($slug)
+    public function show($id)
     {
 
-        $reserva = Entrenador::where('slug', $slug)->firstOrFail();
+        $reserva = Reserva::where('id', $id)->firstOrFail();
         if (!$reserva) {
             return response()->json(['error' => 'reserva no encontrada'], 404);
         }
@@ -31,32 +31,32 @@ class ReservasController extends Controller
         return new ReservasResource($reserva);
     }
 
-    public function update(Request $request, $slug)
+    public function update(Request $request, $id)
     {
        
         
         return "update";
     }
-    public function destroy($slug)
+    public function destroy($id)
     {
-        $reserva = Reservas::where('slug', $slug)->firstOrFail();
+        $reserva = Reserva::where('id', $id)->firstOrFail();
        
         $reserva->delete();
         return response()->json(['message' => 'reserva eliminada correctamente.']);
     }
 
    
-    public function restore($slug)
-{
-    $reserva = Reserva::onlyTrashed()->where('slug', $slug)->first();
+//     public function restore($id)
+// {
+//     $reserva = Reserva::onlyTrashed()->where('id', $id)->first();
 
-    if (!$reserva) {
-        return response()->json(['error' => 'Reserva no encontrada'], 404);
-    }
+//     if (!$reserva) {
+//         return response()->json(['error' => 'Reserva no encontrada'], 404);
+//     }
 
    
-    $reserva->restore();
+//     $reserva->restore();
 
-   return response()->json(['message' => 'Reserva restaurada correctamente.']);
-}
+//    return response()->json(['message' => 'Reserva restaurada correctamente.']);
+// }
 }

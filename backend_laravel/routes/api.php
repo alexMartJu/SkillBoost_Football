@@ -50,6 +50,7 @@ Route::middleware([AdminAuthenticate::class])->group(function () {
     Route::get('/currentAdmin', [AdminsController::class, 'me']);
     Route::post('/admin/logout', [AdminsController::class, 'logout']);
     Route::apiResource('salas', SalasController::class)->except(['index', 'show']);
+    Route::apiResource('reservas', ReservasController::class);
 });
 Route::middleware([EntrenadorAuthenticate::class])->group(function () {
     // Solo accesibles por Entrenador
