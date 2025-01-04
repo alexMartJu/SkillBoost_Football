@@ -1,15 +1,15 @@
 <template>
-<div class="container-fluid ">
-    <FiltersComponent :filters_url="state.filters" :meta="state.meta" @apply-filters="ApplyFilters" @reset-filters="resetFilters" />
-    <div class="row justify-content-center">
-        <CardClases 
-            v-for="entrenamiento in state.entrenamientos" 
-            :key="entrenamiento.id" 
-            :entrenamiento="entrenamiento" 
-            class="col-md-6" />
+    <div class="container-fluid ">
+        <FiltersComponent :filters_url="state.filters" :meta="state.meta" @apply-filters="ApplyFilters"
+            @reset-filters="resetFilters" />
+        <div class="row justify-content-center">
+            <CardClases v-for="entrenamiento in state.entrenamientos" :key="entrenamiento.id"
+                :entrenamiento="entrenamiento" :isSuscribed="suscribedEntrenamientos.has(entrenamiento.slug)"
+                class="col-md-6" />
+        </div>
+        <PaginateComponent :page="state.offset" :totalPages="state.totalPages" @update:page="updatePage"
+            @page-click="clickCallback" />
     </div>
-    <PaginateComponent :page="state.offset" :totalPages="state.totalPages" @update:page="updatePage" @page-click="clickCallback" />
-</div>
 </template>
 
 
@@ -20,6 +20,10 @@ import PaginateComponent from '../filters/Paginate.vue';
 import {
     useEntrenamientos
 } from '../../composables/client/useEntrenamientos';
+import { reactive, watchEffect } from 'vue';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import entrenamientosService from '@/services/client/entrenamientos.service';
 
 export default {
     components: {
@@ -28,12 +32,30 @@ export default {
         PaginateComponent
     },
     setup() {
+        const store = useStore();
+
         const {
             state,
             ApplyFilters,
             resetFilters,
             clickCallback
         } = useEntrenamientos();
+
+        const currentUser = reactive({
+            isUser: computed(() => store.getters['user/GetIsAuth']),
+        });
+
+        const suscribedEntrenamientos = reactive(new Set());
+
+        const checkAlreadySuscribed = async () => {
+            const { data } = await entrenamientosService.GetSuscribedEntrenamientos();
+            suscribedEntrenamientos.clear();
+            data.forEach(entrenamiento => suscribedEntrenamientos.add(entrenamiento.slug));
+        };
+
+        if (currentUser.isUser) {
+            checkAlreadySuscribed();
+        }
 
         const updatePage = (pageNum) => {
             state.offset = pageNum;
@@ -44,7 +66,8 @@ export default {
             ApplyFilters,
             resetFilters,
             clickCallback,
-            updatePage
+            updatePage,
+            suscribedEntrenamientos
         };
     }
 };

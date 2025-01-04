@@ -43,5 +43,9 @@ export default {
 
     GetOneEntrenamiento(slug) {
         return Api(secrets.URL_SPRING).get(`entrenamientos/${slug}`);
+    },
+
+    GetSuscribedEntrenamientos() {
+        return Api(secrets.URL_SPRING).get(`entrenamientosInscritos`);
     }
 }

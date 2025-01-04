@@ -17,8 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "pistas")
 public class Pista {
-    
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,11 +29,7 @@ public class Pista {
     private String slug;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(
-        name = "deporte_pista",
-        joinColumns = @JoinColumn(name = "pista_id"),
-        inverseJoinColumns = @JoinColumn(name = "deporte_id")
-    )
+    @JoinTable(name = "deporte_pista", joinColumns = @JoinColumn(name = "pista_id"), inverseJoinColumns = @JoinColumn(name = "deporte_id"))
     @ToString.Exclude
     private List<Deporte> deportes;
 

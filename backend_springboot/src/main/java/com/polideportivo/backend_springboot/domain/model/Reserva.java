@@ -20,7 +20,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @AllArgsConstructor
 @Table(name = "reservas")
 public class Reserva {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +31,7 @@ public class Reserva {
 
     @ManyToOne
     @JoinColumn(name = "pista_id", nullable = false)
-     @ToString.Exclude
+    @ToString.Exclude
     private Pista pista;
 
     @ManyToOne

@@ -148,11 +148,21 @@ INSERT INTO `graficas` (`id`, `seccion`, `nivel`, `Mes`, `año`, `profile_id`) V
 (3, 'Velocidad', 50, 1, 2024, 1),
 (4, 'Aguante', 90, 1, 2024, 1),
 (5, 'Fuerza', 80, 1, 2024, 1),
-(6, 'Motivación', 70, 2, 2024, 1),
-(7, 'Agilidad', 60, 2, 2024, 1),
-(8, 'Velocidad', 50, 2, 2024, 1),
-(9, 'Aguante', 90, 2, 2024, 1),
-(10, 'Fuerza', 80, 2, 2024, 1);
+(6, 'Motivación', 80, 2, 2024, 1),
+(7, 'Agilidad', 70, 2, 2024, 1),
+(8, 'Velocidad', 60, 2, 2024, 1),
+(9, 'Aguante', 95, 2, 2024, 1),
+(10, 'Fuerza', 85, 2, 2024, 1),
+(11, 'Motivación', 50, 1, 2025, 1),
+(12, 'Agilidad', 60, 1, 2025, 1),
+(13, 'Velocidad', 50, 1, 2025, 1),
+(14, 'Aguante', 70, 1, 2025, 1),
+(15, 'Fuerza', 60, 1, 2025, 1),
+(16, 'Motivación', 70, 2, 2025, 1),
+(17, 'Agilidad', 70, 2, 2025, 1),
+(18, 'Velocidad', 55, 2, 2025, 1),
+(19, 'Aguante', 90, 2, 2025, 1),
+(20, 'Fuerza', 80, 2, 2025, 1);
 
 INSERT INTO `favorites` (`profile_id`, `entrenamiento_id`) VALUES
 (1, 2),
