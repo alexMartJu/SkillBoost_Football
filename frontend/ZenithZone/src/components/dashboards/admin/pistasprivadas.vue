@@ -5,7 +5,7 @@
         <h3>Listado de Pistas Privadas</h3>
         <ListPistas
           :pistas="pistasPrivadas"
-          @editarPista="editarPista"
+          :isPrivate="true"
           @eliminarPista="eliminarPista"
         />
       </div>

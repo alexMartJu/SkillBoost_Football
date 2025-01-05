@@ -9,7 +9,7 @@
           </ul>
         </div>
       </div>
-      <button @click="editarPista(pista)">Editar</button>
+      <button v-if="!isPrivate" @click="editarPista(pista)">Editar</button>
       <button @click="confirmarEliminar(pista.slug)">Eliminar</button>
     </div>
   </template>
@@ -18,7 +18,8 @@
   export default {
     name: 'CardPistas',
     props: {
-      pista: Object
+      pista: Object,
+      isPrivate: Boolean,
     },
     methods: {
       editarPista(pista) {
@@ -31,10 +32,16 @@
         }
         },
         eliminarPista(pistaSlug) {
-            this.$store.dispatch('adminDashboard/DeteleOnePista', pistaSlug   )
-            .then(() => console.log("Pista eliminado correctamente"))
-            .catch(error => console.error("Error al eliminar la Pista:", error));
+          const action = this.isPrivate  
+          ? 'adminDashboard/DeleteOnePistaPrivada'  
+          : 'adminDashboard/DeteleOnePista';      
+
+  
+          this.$store.dispatch(action, pistaSlug)
+              .then(() => console.log("Pista eliminada correctamente"))
+              .catch(error => console.error("Error al eliminar la Pista:", error));
         }
+        
     }
   };
   </script>
