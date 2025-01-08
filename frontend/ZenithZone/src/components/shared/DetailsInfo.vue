@@ -27,7 +27,7 @@
             <!-- <h2>{{ state.pista.slug }}</h2> -->
             <div class="form-group col-md-6 mt-3">
                 <label for="datepicker">Selecciona una fecha:</label>
-                <input type="date" id="datepicker" v-model="selectedDate" class="form-control" />
+                <input type="date" id="datepicker" v-model="selectedDate" class="form-control" :min="minDate" />
                 <div v-if="selectedDate" class="form-group mt-3">
                     <label for="horarios">Selecciona un horario:</label>
                     <select name="horarios" id="horarios" class="form-control" v-model="selectedHorario">
@@ -37,7 +37,7 @@
                         </option>
                     </select>
                 </div>
-                
+
                 <button @click="logDate" :disabled="isReserved" class="btn btn-primary mt-2">
                     {{ isReserved ? 'Horario reservado' : 'Reservar pista' }}
                 </button>
@@ -160,9 +160,18 @@ export default {
 
         watchEffect(() => { });
 
+        const minDate = computed(() => {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Mes en formato MM
+            const day = String(today.getDate()).padStart(2, '0'); // Día en formato DD
+            return `${year}-${month}-${day}`;
+        });
+
         return {
             horarios, suscribedEntrenamientos, isSubscribed, isReserved, isHorarioReserved, checkAlreadySuscribed,
-            checkAlreadyReserved, logDate, selectedDate, selectedHorario, reservaSuccess, reservaError, currentUser
+            checkAlreadyReserved, logDate, selectedDate, selectedHorario, reservaSuccess, reservaError, currentUser,
+            minDate
         };
     }
 
