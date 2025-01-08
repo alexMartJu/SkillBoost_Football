@@ -97,11 +97,11 @@ export const entrenadorDashboard = {
                 throw error;
             }
         },
-        async [Constant.INITIALIZE_GRAFICAS]({ store }, profileId) {
+        async [Constant.INITIALIZE_GRAFICAS]({ commit }, profileId) {
             try {
               const response = await entrenadorDashboardService.GetGraficas(profileId);
               console.log('Respuesta de la API:', response.data);
-             store.commit(Constant.INITIALIZE_GRAFICAS, response.data);
+             commit(Constant.INITIALIZE_GRAFICAS, response.data);
             } catch (error) {
               console.error('Error al obtener gráficas:', error);
             }
