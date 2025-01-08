@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 use App\Http\Requests\LoginEntrenadorRequest;
 use App\Http\Requests\RegisterEntrenadorRequest;
 use App\Http\Requests\UpdateEntrenadorRequest;
+use Illuminate\Support\Facades\Log;
 
 class EntrenadorController extends Controller
 
@@ -57,38 +58,72 @@ class EntrenadorController extends Controller
         return response()->json(['message' => 'Cierre de sesión exitoso']);
     }
 
-
+    public function test(Request $request)
+    {
+        Log::info('Método test ejecutado');
+        return response()->json(['message' => 'Test exitoso']);
+    }
 
     public function register(RegisterEntrenadorRequest $request)
     {
+     
+        Log::debug('Iniciando registro de entrenador');
+    
+        // Verificar si el admin está autenticado
         $admin = auth('admin')->user();
         if (!$admin) {
+            Log::error('Admin no encontrado o no autenticado');
             return response()->json(['error' => 'Admin no encontrado'], 404);
         }
-        $validatedData = $request->validated();
-        do {
-            $numero = str_pad(random_int(1000, 9999), 4, '0', STR_PAD_LEFT);
-            $nombre = $request->nombre;
-            $numeroEntrenador=$nombre . '-' . $numero;
-        } while (Entrenador::where('numeroEntrenador', $numeroEntrenador)->exists());
+        Log::debug('Admin autenticado:', ['admin_id' => $admin->id]);
+    
+        // Validar los datos del request
+        try {
+            $validatedData = $request->validated();
+            Log::debug('Datos validados correctamente', $validatedData);
+        } catch (\Exception $e) {
+            Log::debug('Error al validar los datos del request', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Datos inválidos'], 422);
+        }
+    
+        // Generar número único para el entrenador
+        try {
+            do {
+                $numero = str_pad(random_int(1000, 9999), 4, '0', STR_PAD_LEFT);
+                $nombre = $request->nombre;
+                $numeroentrenador = $nombre . '-' . $numero;
+    
+                Log::debug('Intentando generar numeroentrenador', ['numeroentrenador' => $numeroentrenador]);
+            } while (Entrenador::where('numeroentrenador', $numeroentrenador)->exists());
+    
+        } catch (\Exception $e) {
+            Log::error('Error al generar numeroentrenador', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Error al generar número de entrenador'], 500);
+        }
     
         // Crear el entrenador
-        $entrenador = Entrenador::create([
-            'nombre' => $request->nombre,
-            'apellidos' => $request->apellidos,
-            'numeroEntrenador' => $numeroEntrenador,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'deporte_id' => $request->deporte_id,
-            'edad' => $request->edad,
-        ]);
+        try {
+            $entrenador = Entrenador::create([
+                'nombre' => $request->nombre,
+                'apellidos' => $request->apellidos,
+                'numeroentrenador' => $numeroentrenador,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'deporte_id' => $request->deporte_id,
+                'edad' => $request->edad,
+            ]);
     
-        return response()->json([
-            'message' => 'Registro exitoso',
-            'entrenador' => $entrenador,
-        ], 201);
+            Log::debug('Entrenador registrado correctamente', ['entrenador_id' => $entrenador->id]);
+    
+            return response()->json([
+                'message' => 'Registro exitoso',
+                'entrenador' => $entrenador,
+            ], 201);
+        } catch (\Exception $e) {
+            Log::debug('Error al crear el entrenador', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Error al registrar entrenador'], 500);
+        }
     }
-
 
 
 
@@ -105,9 +140,9 @@ class EntrenadorController extends Controller
     
 
 
-    public function show($numeroEntrenador)
+    public function show($numeroentrenador)
     {
-        $entrenador = Entrenador::where('numeroEntrenador', $numeroEntrenador)->firstOrFail();
+        $entrenador = Entrenador::where('numeroentrenador', $numeroentrenador)->firstOrFail();
         if (!$entrenador) {
             return response()->json(['error' => 'entrenador no encontrado'], 404);
         }
@@ -150,9 +185,9 @@ class EntrenadorController extends Controller
     
         return new EntrenadoresResource($entrenador);
     }
-    public function destroy($numeroEntrenador)
+    public function destroy($numeroentrenador)
     {
-        $entrenador = Entrenador::where('numeroEntrenador', $numeroEntrenador)->firstOrFail();
+        $entrenador = Entrenador::where('numeroentrenador', $numeroentrenador)->firstOrFail();
         if (!$entrenador) {
             return response()->json(['error' => 'Entrenador no encontrado'], 404);
         }
@@ -162,10 +197,10 @@ class EntrenadorController extends Controller
     }
 
    
-    public function restore($numeroEntrenador)
+    public function restore($numeroentrenador)
     {
             
-        $entrenador = Entrenador::onlyTrashed()->where('numeroEntrenador', $numeroEntrenador)->first();
+        $entrenador = Entrenador::onlyTrashed()->where('numeroentrenador', $numeroentrenador)->first();
 
         if (!$entrenador) {
             return response()->json(['error' => 'Entrenador no encontrado'], 404);

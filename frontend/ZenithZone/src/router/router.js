@@ -49,7 +49,7 @@ const router = createRouter({
               path: ":filters",
               name: "serviciosEntrenamientosFilter",
               component: () => import('../components/servicios/serviciosEntrenamientos.vue'),
-            }
+            },
           ]
         },
         {
@@ -58,6 +58,18 @@ const router = createRouter({
           component: () => import('../components/servicios/serviciosGraficas.vue')
         },
       ]
+    },
+
+    // DETAILS
+    {
+      path: "/entrenamiento/:slug",
+      name: "detailsEntrenamiento",
+      component: () => import('../views/client/Details.vue')
+    },
+    {
+      path: "/pista/:slug",
+      name: "detailsPista",
+      component: () => import('../views/client/Details.vue')
     },
 
     // ENTRENADORES
@@ -81,6 +93,61 @@ const router = createRouter({
       beforeEnter: AuthGuards.noAuthGuard, meta: { requiresAuth: true }
     },
 
+    // PROFILE
+    {
+      path: "/profile/:numeroSocio",
+      name: "profile",
+      component: () => import('../views/client/Profile.vue'),
+      children: [
+        {
+          path: "info",
+          name: "profileInfo",
+          component: () => import('../views/client/Profile.vue'),
+        },
+        {
+          path: "graficas",
+          name: "profileGraficas",
+          component: () => import('../components/profile/ProfileGraficas.vue'),
+        },
+        {
+          path: "reservas",
+          name: "profileReservas",
+          component: () => import('../components/profile/ProfileReservas.vue'),
+        },
+        {
+          path: "entrenamientos",
+          name: "profileEntrenamientos",
+          component: () => import('../components/profile/ProfileEntrenamientos.vue'),
+        },
+      ]
+    },
+    // Editar perfil. Se pone aparte para que no salga como una pestaña en el perfil
+    {
+      path: "/profile/:numeroSocio/editar",
+      name: "profileEdit",
+      component: () => import('../components/profile/ProfileEdit.vue'),
+    },
+
+    // Profile Entrenador
+    {
+      path: "/entrenador/:numeroentrenador",
+      name: "profileEntrenador",
+      component: () => import('../views/client/Profile.vue'),
+      children: [
+        {
+          path: "info",
+          name: "profileEntrenadorInfo",
+          component: () => import('../components/entrenador/Profile.vue'),
+        },
+      ]
+    },
+    // Editar perfil. Se pone aparte para que no salga como una pestaña en el perfil
+    {
+      path: "/entrenador/:numeroentrenador/editar",
+      name: "profileEntrenadorEdit",
+      component: () => import('../components/profile/ProfileEdit.vue'),
+    },
+
     // DASHBOARD ENTRENADOR
     {
       path: "/dashboardEntrenador",
@@ -99,7 +166,14 @@ const router = createRouter({
           name: "entrenadorCrearEntrenamiento",
           component: () => import('../components/dashboards/entrenador/CreateEntrenamientoDashboard.vue'),  // Vista para crear un nuevo entrenamiento
           beforeEnter: AuthGuards.authGuardEntrenador
-        }
+        },
+        {
+          path: '/alumno/:profileId',
+          name: "AlumnoDetail",
+          component: () => import('../components/dashboards/entrenador/AlumnoDetail.vue'),  // Vista para crear un nuevo entrenamiento
+          beforeEnter: AuthGuards.authGuardEntrenador
+        },
+
       ]
     },
 
@@ -123,9 +197,15 @@ const router = createRouter({
           beforeEnter: AuthGuards.authGuardAdmin
         },
         {
-          path: "entrenador",
+          path: "entrenador/register",
           name: "RegisterTrainer",
           component: () => import('../components/dashboards/admin/RegisterTrainer.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "entrenador",
+          name: "ListEntrenadores",
+          component: () => import('../components/dashboards/admin/ListEntrenadores.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
         {
@@ -134,6 +214,31 @@ const router = createRouter({
           component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
+        {
+          path: 'entrenamientos',
+          name: 'ListEntrenamientos',
+          component: () => import('../components/dashboards/admin/ListEntrenamientos.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: 'salas',
+          name: 'ListCreateSalas',
+          component: () => import('../components/dashboards/admin/salas.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: 'pistasprivadas',
+          name: 'ListCreatepistasprivadas',
+          component: () => import('../components/dashboards/admin/pistasprivadas.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: 'Reservas',
+          name: 'Reservas',
+          component: () => import('../components/dashboards/admin/Reservas.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+
       ]
     },
   ]

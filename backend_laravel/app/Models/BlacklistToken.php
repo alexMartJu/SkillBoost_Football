@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Blacklist extends Model
+class BlacklistToken extends Model
 {
+    protected $table = 'blacklist_token';
+    
     protected $fillable = [
         'usuario_id', 
-        'token',
+        'refresh_token',
+        'revoke_time'
     ];
 
     public function usuario()

@@ -32,15 +32,15 @@ public class SecurityConfig {
     private final CorsConfigurationSource corsConfigurationSource;
 
     private static final String[] PUBLIC_READ_ENDPOINTS = {
-            "/api/entrenamientos", "/api/entrenamientos/*",
-            "/api/profiles", "/api/profiles/*",
-            "/api/deportes", "/api/deportes/*", "/api/deportes/**",
-            "/api/pistas", "/api/pistas/*",
-            "/api/pistasInfinite"
+            "/api/entrenamientos", "/api/entrenamientos/{slug}", "/api/entrenamientos/data", "/api/entrenamientos/totalNoPaginacion",
+            "/api/profiles/{numeroSocio}",
+            "/api/deportes", "/api/deportes/{slug}", "/api/deportes/{slug}/pistas",
+            "/api/pistas", "/api/pistas/{slug}", "/api/pistasInfinite",
+            "/api/entrenadores"
     };
 
     private static final String[] PUBLIC_WRITE_ENDPOINTS = {
-            "/api/users", "/api/users/login"
+            "/api/users", "/api/users/login", "/api/refresh", "/api/logout"
     };
 
     @Bean
@@ -58,7 +58,7 @@ public class SecurityConfig {
                 .exceptionHandling(handler -> handler
                         .accessDeniedHandler(restAccessDeniedHandler)
                         .authenticationEntryPoint(restAuthenticationEntryPoint))
-                // .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+                        // .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
                 .addFilterBefore(dynamicProxyFilter, UsernamePasswordAuthenticationFilter.class) // Agregar el filtro dinámico antes de UsernamePasswordAuthenticationFilter
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class); // Agregar el securityFilter antes de UsernamePasswordAuthenticationFilter
 

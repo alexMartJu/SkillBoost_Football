@@ -14,7 +14,9 @@ return new class extends Migration {
             $table->id();
             $table->string('seccion');
             $table->integer('nivel');
-            $table->foreignId('usuario_id')->constrained()->onDelete('cascade');
+            $table->foreignId('profile_id')->constrained()->onDelete('cascade');
+            $table->integer('Año');
+            $table->integer('Mes');
             $table->timestamps();
             $table->softDeletes();
             $table->engine = 'InnoDB';

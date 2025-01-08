@@ -1,7 +1,9 @@
 package com.polideportivo.backend_springboot.api.security;
 
 import com.polideportivo.backend_springboot.api.assembler.UsuarioAssembler;
+import com.polideportivo.backend_springboot.api.model.usuario.RefreshTokenRequest;
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioAuthenticate;
+import com.polideportivo.backend_springboot.api.model.usuario.UsuarioNewAccessTokenResponse;
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioRegister;
 import com.polideportivo.backend_springboot.api.model.usuario.UsuarioResponse;
 import com.polideportivo.backend_springboot.domain.service.ProfileService;
@@ -37,5 +39,21 @@ public class AuthController {
     @PostMapping("/users/login")
     public ResponseEntity<Object> authenticate(@Valid @RequestBody UsuarioAuthenticate authenticate) {
         return ResponseEntity.ok(authService.authenticate(authenticate));
+    }
+
+    // Endpoint para refrescar el Access Token
+    @PostMapping("/refresh")
+    public ResponseEntity<UsuarioNewAccessTokenResponse> refreshAccessToken(@RequestBody RefreshTokenRequest request) {
+        String refreshToken = request.getRefreshToken();
+        UsuarioNewAccessTokenResponse newAccessTokenResponse = authService.refreshAccessToken(refreshToken);
+        return ResponseEntity.ok(newAccessTokenResponse);
+    }
+
+    // Endpoint para logout
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestBody RefreshTokenRequest request) {
+        String refreshToken = request.getRefreshToken();
+        authService.logout(refreshToken);
+        return ResponseEntity.ok("Logged out successfully");
     }
 }

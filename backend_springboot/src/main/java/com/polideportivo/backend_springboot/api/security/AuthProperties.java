@@ -18,10 +18,24 @@ public class AuthProperties {
     @NotNull
     private Token token;
 
+    @NotNull
+    private RefreshToken refreshToken;
+
     @Getter
     @Setter
     @Validated
     public static class Token {
+        @NotBlank
+        private String secret;
+
+        @NotNull
+        private long expiration;
+    }
+
+    @Getter
+    @Setter
+    @Validated
+    public static class RefreshToken {
         @NotBlank
         private String secret;
 

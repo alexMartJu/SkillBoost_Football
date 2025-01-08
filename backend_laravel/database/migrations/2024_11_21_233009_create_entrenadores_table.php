@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('nombre');
             $table->string('apellidos');
-            $table->string('numeroEntrenador')->unique();
+            $table->string('numeroentrenador')->unique();
             $table->string('email')->unique();
             $table->string('password');
             $table->foreignId('deporte_id')->constrained()->onDelete('cascade');

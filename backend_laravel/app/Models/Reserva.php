@@ -4,35 +4,38 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
 
 class Reserva extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+
+    
     protected $hidden = ['created_at', 'updated_at'];
-    public $timestamps = true;
+
+   
+   // public $timestamps = true;
+
+    
     protected $fillable = [
         'profile_id',
-        'entrenamiento_id',
-        'fecha_reserva',
-        'plazas_reservadas',
-        'estado'
+        'pista_id',
+        'horario_id',
+        'fecha',
     ];
-    public function profile()
+
+    public function profile(): BelongsTo
     {
         return $this->belongsTo(Profile::class, 'profile_id');
     }
 
-  
-    public function entrenamiento()
+    public function pista(): BelongsTo
     {
-        return $this->belongsTo(Entrenamiento::class, 'entrenamiento_id');
+        return $this->belongsTo(Pista::class, 'pista_id');
     }
-
+    public function horario(): BelongsTo
+    {
+        return $this->belongsTo(Horario::class, 'horario_id');
+    }
 }

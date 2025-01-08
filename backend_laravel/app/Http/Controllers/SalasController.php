@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Sala;
 use App\Http\Resources\SalasResource;
+use Illuminate\Support\Facades\Log;
 
 class SalasController extends Controller
 {
@@ -15,12 +16,14 @@ class SalasController extends Controller
     }
     public function store(Request $request)
     {
-        $entrenador = auth('entrenador')->user();
         
+        Log::debug('Iniciando creacion de sala');
+        Log::debug($request);
         $request->validate([
             'nombre' => 'required|string|max:255',
             'tamaño' => 'required|string|max:255',
             'ubicacion' => 'required|string|max:255',
+            'entrenador_id' => 'required|exists:entrenadores,id',
             'imagenes' => 'nullable|array',
             'imagenes.*' => 'string|max:255',
         ]);
@@ -30,7 +33,7 @@ class SalasController extends Controller
             'nombre' => $request->nombre,
             'tamaño' => $request->tamaño,
             'ubicacion' => $request->ubicacion,
-            'entrenador_id' =>$entrenador->id,
+            'entrenador_id' =>$request->entrenador_id,
         ]);
         if ($request->has('imagenes')) {
             foreach ($request->input('imagenes') as $imageUrl) {
@@ -41,16 +44,16 @@ class SalasController extends Controller
             }
         }
     
-        
-        return new SalasResource($sala);
+       
+        return response()->json(new SalasResource($sala), 201);
 
     }
 
 
-    public function show($slug)
+    public function show($id)
     {
 
-        $sala = Sala::where('slug', $slug)->firstOrFail();
+        $sala = Sala::where('id', $id)->firstOrFail();
         if (!$sala) {
             return response()->json(['error' => 'sala no encontrada'], 404);
         }
@@ -58,7 +61,7 @@ class SalasController extends Controller
         return new SalasResource($sala);
     }
 
-    public function update(Request $request, $slug)
+    public function update(Request $request, $id)
     {
     $entrenador = auth('entrenador')->user();
 
@@ -100,12 +103,12 @@ class SalasController extends Controller
         
         
     }
-    public function destroy($slug)
+    public function destroy($id)
     {
-        $sala = Sala::where('slug', $slug)->firstOrFail();
+        $sala = Sala::where('id', $id)->firstOrFail();
        
         $sala->delete();
-        return response()->json(['message' => 'sala eliminado correctamente.']);
+        return response()->json(['message' => 'sala eliminada correctamente.']);
     }
 
    

@@ -11,25 +11,25 @@
                 <nav>
                     <ul class="nav me-5">
                         <li class="nav-item me-2">
-                            <a @click="redirects.home" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.home" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isHome }">
                                 Home
                             </a>
                         </li>
                         <li class="nav-item me-2">
-                            <a @click="redirects.instalaciones" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.instalaciones" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isInstalaciones }">
                                 Instalaciones
                             </a>
                         </li>
                         <li class="nav-item me-2">
-                            <a @click="redirects.servicios" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.servicios" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isServicios }">
                                 Servicios
                             </a>
                         </li>
                         <li class="nav-item me-2">
-                            <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isEntrenadores }">
                                 Entrenadores
                             </a>
@@ -37,33 +37,34 @@
 
                         <!-- DASHBOARDS -->
                         <li v-if="state.isAdmin" class="nav-item">
-                            <a @click="redirects.dashboardAdmin" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.dashboardAdmin" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isDashboard }">
                                 Dashboard Admin
                             </a>
                         </li>
                         <li v-if="state.isEntrenador" class="nav-item">
-                            <a @click="redirects.dashboardEntrenador" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.dashboardEntrenador" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isDashboard }">
                                 Dashboard Entrenador
                             </a>
                         </li>
                         <!-- ================= -->
-                        
-                        <li v-if="state.user.nombre" class="nav-item d-flex align-items-center ms-5">
-                            <img :src="state.user.image" alt="" class="profile-image">
-                            <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5" 
+
+                        <li v-if="state.user.numeroSocio" class="nav-item d-flex align-items-center ms-5">
+                            <img :src="state.user.image" alt="" class="profile-image me-2">
+                            <a @click="redirects.profile" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isProfile }">
                                 {{ state.user.nombre }}
                             </a>
                         </li>
-                        <li v-if="!isLogged" class="nav-item ms-4">
-                            <a @click="redirects.login" class="nav-link auth fw-bold fs-5" 
+
+                        <li v-if="!state.isLogged" class="nav-item ms-4">
+                            <a @click="redirects.login" class="nav-link auth fw-bold fs-5"
                                 :class="{ isActive: isLogin }">
                                 Unirse al club
                             </a>
                         </li>
-                        <li v-if="isLogged" class="nav-item ms-4">
+                        <li v-if="state.isLogged" class="nav-item ms-4">
                             <a @click="logout" class="nav-link auth fw-bold fs-5">
                                 Cerrar sesión
                             </a>
@@ -78,7 +79,7 @@
 
 <script>
 import Constant from '@/Constant';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -114,42 +115,54 @@ export default {
         const router = useRouter();
         const store = useStore();
 
+        const state = reactive({
+            user: computed(() => store.getters['user/GetCurrentUser']),
+            isAdmin: computed(() => store.getters['user/GetIsAdmin']),
+            isEntrenador: computed(() => store.getters['user/GetIsEntrenador']),
+            isUser: computed(() => store.getters['user/GetIsAuth']),
+            isLogged: false
+        });
+
         const redirects = {
             home: () => router.push({ name: 'home' }),
             instalaciones: () => router.push({ name: 'instalaciones' }),
             servicios: () => router.push({ name: 'serviciosEntrenamientos' }),
             entrenadores: () => router.push({ name: 'entrenadores' }),
+            profile: () => router.push({ name: 'profile', params: { numeroSocio: state.user.numeroSocio } }),
+            profileEntrenador: () => router.push({ name: 'profileEntrenador', params: { numeroentrenador: state.user.numeroentrenador } }),
             login: () => router.push({ name: 'login' }),
             dashboardAdmin: () => router.push({ name: 'DashboardAdmin' }),
             dashboardEntrenador: () => router.push({ name: 'DashboardEntrenador' }),
         };
 
-        const state = reactive({
-            user: computed(() => store.getters['user/GetProfile']),
-            isAdmin: computed(() => store.getters['user/GetIsAdmin']),
-            isEntrenador: computed(() => store.getters['user/GetIsEntrenador']),
-            isUser: computed(() => store.getters['user/GetIsAuth']),
-        });
-
-        const isLogged = computed(() => state.isUser || state.isAdmin || state.isEntrenador);
+        watch(
+            () => state.user.nombre,
+            (newValue) => {
+                state.isLogged = !!newValue;
+            },
+            { immediate: true }
+        );
 
         const logout = () => {
-            store.dispatch(`user/${Constant.LOGOUT}`);
+            const refreshToken = { refreshToken: localStorage.getItem('refreshToken') };
+            store.dispatch(`user/${Constant.LOGOUT}`, refreshToken);
             router.push({ name: 'home' });
         };
 
         const token = localStorage.getItem('token');
         const tokenAdmin = localStorage.getItem('tokenAdmin');
-        const tokenEntrenador = localStorage.getItem('tokenEntrenador');
+        const entrenadorToken = localStorage.getItem('entrenadorToken');
         if (token) {
-            store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"token": token});
+            store.dispatch(`user/${Constant.INITIALIZE_USER}`, { "token": token });
         } else if (tokenAdmin) {
-            store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"tokenAdmin": tokenAdmin});
-        } else if (tokenEntrenador) {
-            store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"tokenEntrenador": tokenEntrenador});
+            console.log(`checkea admin`);
+            store.dispatch(`user/${Constant.INITIALIZE_USER}`, { "tokenAdmin": tokenAdmin });
+        } else if (entrenadorToken) {
+            // console.log(`checkea entrenador`, entrenadorToken);
+            store.dispatch(`user/${Constant.INITIALIZE_USER}`, { "entrenadorToken": entrenadorToken });
         }
 
-        return { redirects, state, logout, isLogged };
+        return { redirects, state, logout };
     }
 };
 </script>

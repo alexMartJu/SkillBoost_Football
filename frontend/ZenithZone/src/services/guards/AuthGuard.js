@@ -1,6 +1,7 @@
 import store from '../../store';
 import Constant from '../../Constant';
 import UserService from '../client/user.service';
+import entrenadorService from '../client/entrenador.service';
 
 export default {
 
@@ -12,7 +13,7 @@ export default {
                     next();
                 }
             } else {
-                next('/login');
+                next('/home');
             }
         } catch (error) {
             store.dispatch(`user/${Constant.LOGOUT}`);
@@ -23,12 +24,12 @@ export default {
     async authGuardEntrenador(to, from, next) {
         try {
             if (localStorage.getItem('isEntrenador')) {
-                const response = await UserService.GetCurrentEntrenador();
+                const response = await entrenadorService.GetCurrentEntrenador();
                 if (response.status === 200) {
                     next();
                 }
             } else {
-                next('/login');
+                next('/home');
             }
         } catch (error) {
             store.dispatch(`user/${Constant.LOGOUT}`);

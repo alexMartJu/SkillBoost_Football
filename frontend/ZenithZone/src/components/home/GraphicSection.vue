@@ -4,7 +4,7 @@
             <div class="landing-section d-flex">
                 <div class="carousel-section col-md-6 p-0">
                     <div class="">
-                        <Graphics class="m-5" />
+                        <Graphics class="m-5" :sets="sets"/>
                     </div>
                 </div>
             </div>
@@ -26,6 +26,15 @@ import Graphics from '@/components/home/Graphics.vue';
 export default {
     components: {
         Graphics
+    },
+
+    setup() {
+        const sets = [
+            [90, 70, 90, 43, 56],
+            [40, 40, 50, 73, 96]
+        ];
+
+        return {sets};
     }
 };
 </script>

@@ -35,3 +35,11 @@ export default {
     }
 }
 </script>
+
+<style>
+    body {
+        margin-top: 80px;
+        background-color: rgb(245, 245, 245);
+        font-family: 'Roboto', sans-serif;
+    }
+</style>

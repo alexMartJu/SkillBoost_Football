@@ -23,10 +23,22 @@ class Entrenamiento extends Model
         'duracion',
         'max_plazas',
         'precio',
+        'status',
         'deporte_id',
         'horario_id',
-        'entrenador_id'
+        'entrenador_id',
+        'pista_privada_id'
     ];
+    protected static function boot()
+{
+    parent::boot();
+
+    static::creating(function ($entrenamiento) {
+        if (is_null($entrenamiento->status)) {
+            $entrenamiento->status = 'pending';
+        }
+    });
+}
 
     public function getRouteKeyName(): string
     {
@@ -54,7 +66,11 @@ class Entrenamiento extends Model
         return $this->belongsTo(Entrenador::class, 'entrenador_id');
     }
     public function profiles()
-{
-    return $this->belongsToMany(Profile::class, 'entrenamiento_profile', 'entrenamiento_id', 'profile_id');
-}
+    {
+        return $this->belongsToMany(Profile::class, 'entrenamiento_profile', 'entrenamiento_id', 'profile_id');
+    }
+    public function pistaPrivada(): BelongsTo
+    {
+        return $this->belongsTo(Pista_privada::class, 'pista_privada_id');
+    }
 }

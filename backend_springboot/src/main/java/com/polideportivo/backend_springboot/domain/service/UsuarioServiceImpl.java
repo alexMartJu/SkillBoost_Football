@@ -3,6 +3,8 @@ package com.polideportivo.backend_springboot.domain.service;
 import com.polideportivo.backend_springboot.api.security.AuthUtils;
 import com.polideportivo.backend_springboot.domain.model.Usuario;
 import com.polideportivo.backend_springboot.domain.model.Profile;
+import com.polideportivo.backend_springboot.domain.repository.EntrenadorRepository;
+import com.polideportivo.backend_springboot.domain.repository.AdminRepository;
 import com.polideportivo.backend_springboot.domain.repository.ProfileRepository;
 import com.polideportivo.backend_springboot.domain.repository.UsuarioRepository;
 
@@ -28,6 +30,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final ProfileService profileService;
     private final PasswordEncoder passwordEncoder;
     private final ProfileRepository profileRepository;
+    private final EntrenadorRepository entrenadorRepository;
+    private final AdminRepository adminRepository;
     
     public Usuario getCurrentUser() {
         return getByEmail(authUtils.getCurrentUserEmail());
@@ -78,6 +82,14 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (emailTaken(user)) {
             throw new EmailTakenException();
         }
+
+        if (emailTakenInEntrenador(user)) {
+            throw new EmailTakenException();
+        }
+
+        if (emailTakenInAdmin(user)) {
+            throw new EmailTakenException();
+        }
     }
 
     private boolean numeroSocioTaken(Profile profile) {
@@ -88,5 +100,21 @@ public class UsuarioServiceImpl implements UsuarioService {
     private boolean emailTaken(Usuario user) {
         var existingUser = userRepository.findByEmail(user.getEmail());
         return existingUser.isPresent() && !existingUser.get().equals(user);
+    }
+
+    // Nuevo método para verificar si el email ya está registrado en la tabla de entrenadores
+    private boolean emailTakenInEntrenador(Usuario user) {
+        return entrenadorRepository.existsByEmail(user.getEmail());
+    }
+
+    // Nuevo método para verificar si el email ya está registrado en la tabla de administradores
+    private boolean emailTakenInAdmin(Usuario user) {
+        return adminRepository.existsByEmail(user.getEmail());
+    }
+
+    @Transactional
+    public void setRefreshToken(Usuario user, String refreshToken) {
+        user.setRefreshToken(refreshToken);
+        userRepository.save(user);
     }
 }

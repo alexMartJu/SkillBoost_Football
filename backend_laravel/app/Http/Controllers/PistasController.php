@@ -17,7 +17,7 @@ class PistasController extends Controller
         return PistasResource::collection(Pista::all());
     }
 
-    public function store(Request $request)
+    public function store(StorePistaRequest $request)
     {
         $admin = auth('admin')->user();
 

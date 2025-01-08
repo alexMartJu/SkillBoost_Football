@@ -11,10 +11,6 @@ export default {
         return Api(secrets.URL_SPRING).post('users/login', data);
     },
 
-    Logout() {
-        return Api(secrets.URL_SPRING).post('logout');
-    },
-
     UpdateUser() {
         return Api(secrets.URL_SPRING).put('user');
     },
@@ -27,23 +23,17 @@ export default {
         return Api(secrets.URL_SPRING).get('user');
     },
 
-    Profile(numSocio) {
-        console.log(`numSocio: ${numSocio}`);
-        return Api(secrets.URL_SPRING).get(`profiles/${numSocio}`);
+    Refresh(refreshToken) {
+        return Api(secrets.URL_SPRING).post(`refresh`, refreshToken);
+    },
+
+    BlacklistToken(refreshToken) {
+        return Api(secrets.URL_SPRING).post(`logout`, refreshToken);
     },
 
     // ADMIN
     GetCurrentAdmin() {
-        return Api(secrets.URL_SPRING).get('currentAdmin');
-    },
-
-    // ENTRENADOR
-    GetCurrentEntrenador() {
-        return Api(secrets.URL_SPRING).get('currentEntrenador');
-    },
-
-    UpdateEntrenador() {
-        return Api(secrets.URL_SPRING).update('currentEntrenador');
+        return Api(secrets.URL_SPRING, 'false').get('currentAdmin',);
     },
 
 }//export

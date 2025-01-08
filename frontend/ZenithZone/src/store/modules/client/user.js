@@ -1,14 +1,18 @@
 import Constant from '../../../Constant';
 import UserService from '../../../services/client/user.service';
 import router from '../../../router/router'
+import profileService from '@/services/client/profile.service';
+import entrenadorService from '@/services/client/entrenador.service';
 
 export const user = {
     namespaced: true,
     state: {
         user: {},
+        profile: {},
         token: "",
+        refreshToken: "",
         tokenAdmin: "",
-        tokenEntrenador: "",
+        entrenadorToken: "",
         isAuth: false,
         isAdmin: false,
         isEntrenador: false,
@@ -25,16 +29,24 @@ export const user = {
             }
         },//LOGIN
 
-        [Constant.LOGOUT]: async (store) => {
-            try {
-                const response = await UserService.Logout();
-                let data = { status: response.status };
+        [Constant.LOGOUT]: async (store, payload) => {
+            if (localStorage.getItem('token')) {
+                try {
+                    const response = await UserService.BlacklistToken(payload);
+                    let data = { status: response.status };
 
-                store.commit(Constant.LOGOUT, data);
-            } catch (error) {
-                console.log(`error: `, error);
-                store.commit(Constant.LOGOUT, { status: null, status_admin: null });
+                    store.commit(Constant.LOGOUT, data);
+                } catch (error) {
+                    store.commit(Constant.LOGOUT, { status: null, status_admin: null });
+                }
+            } else {
+                try {
+                    store.commit(Constant.LOGOUT, { status: 200 });
+                } catch {
+                    store.commit(Constant.LOGOUT, { status: null, status_admin: null });
+                }
             }
+
         },//LOGOUT
 
         [Constant.ADD_USER]: async (store, payload) => {
@@ -51,10 +63,19 @@ export const user = {
 
         [Constant.INITIALIZE_PROFILE]: async (store, payload) => {
             try {
-                console.log();
-                const response = await UserService.Profile(payload.numSocio);
+                let response = null;
+                let res = null;
+
+                if (payload.numeroSocio) {
+                    response = await profileService.Profile(payload.numeroSocio);
+                    res = response.data.profile;
+                } else if (payload.numeroentrenador) {
+                    response = await entrenadorService.Profile(payload.numeroentrenador);
+                    res = response.data.data;
+                }
+
                 if (response.status === 200) {
-                    store.commit(Constant.INITIALIZE_PROFILE, response.data);
+                    store.commit(Constant.INITIALIZE_PROFILE, res);
                 }
             } catch (error) {
                 console.error(error);
@@ -66,11 +87,14 @@ export const user = {
                 let response = null;
 
                 if (payload?.token) {
+                    Headers.Authorization = `Bearer ${payload.token}`;
                     response = await UserService.GetCurrentUser();
                 } else if (payload?.tokenAdmin) {
+                    Headers.Authorization = `Bearer ${payload.tokenAdmin}`;
                     response = await UserService.GetCurrentAdmin();
-                } else if (payload?.tokenEntrenador) {
-                    response = await UserService.GetCurrentEntrenador();
+                } else if (payload?.entrenadorToken) {
+                    Headers.Authorization = `Bearer ${payload.entrenadorToken}`;
+                    response = await entrenadorService.GetCurrentEntrenador();
                 }
 
                 if (response && response.status === 200) {
@@ -87,27 +111,29 @@ export const user = {
     mutations: {
         [Constant.LOGIN]: (state, payload) => {
             if (payload) {
-                console.log(payload);
+                // console.log(payload);
                 state.user = payload;
 
                 if (payload.tokenAdmin) {
-                    console.log(`tokenAdmin: `, payload.tokenAdmin);
+                    // console.log(`tokenAdmin: `, payload.tokenAdmin);
                     state.isAdmin = true;
                     state.tokenAdmin = payload.tokenAdmin;
                     localStorage.setItem('isAdmin', true);
                     localStorage.setItem('tokenAdmin', payload.tokenAdmin);
-                } else if (payload.tokenEntrenador) {
-                    console.log(`tokenEntrenador: `, payload.tokenEntrenador);
+                } else if (payload.entrenadorToken) {
+                    // console.log(`entrenadorToken: `, payload.entrenadorToken);
                     state.isEntrenador = true;
-                    state.tokenEntrenador = payload.tokenEntrenador;
+                    state.entrenadorToken = payload.entrenadorToken;
                     localStorage.setItem('isEntrenador', true);
-                    localStorage.setItem('tokenEntrenador', payload.tokenEntrenador);
+                    localStorage.setItem('entrenadorToken', payload.entrenadorToken);
                 } else if (payload.token) {
-                    console.log(`token: `, payload.token);
+                    // console.log(`token: `, payload.token);
                     state.isAuth = true;
                     state.token = payload.token;
+                    state.refreshToken = payload.refreshToken;
                     localStorage.setItem('isAuth', true);
                     localStorage.setItem('token', payload.token);
+                    localStorage.setItem('refreshToken', payload.refreshToken);
                 }
 
                 router.push({ name: 'home' });
@@ -122,10 +148,10 @@ export const user = {
 
         [Constant.INITIALIZE_PROFILE]: (state, payload) => {
             if (payload) {
-                state.user = payload;
-                state.isAuth = !!payload.token;
-                state.isAdmin = !!payload.tokenAdmin;
-                state.isEntrenador = !!payload.tokenEntrenador;
+                state.profile = payload;
+                state.isAuth = !!payload.numeroSocio;
+                state.isAdmin = !!payload.numeroAdmin;
+                state.isEntrenador = !!payload.numeroentrenador;
             }
         },//INITIALIZE_PROFILE
 
@@ -133,8 +159,8 @@ export const user = {
             if (payload) {
                 state.user = payload;
                 state.isAuth = !!payload.numeroSocio;
-                state.isAdmin = !!payload.numeroEntrenador;
-                state.isEntrenador = !!payload.numeroAdmin;
+                state.isAdmin = !!payload.numeroAdmin;
+                state.isEntrenador = !!payload.numeroentrenador;
             }
         },//INITIALIZE_USER
 
@@ -145,13 +171,14 @@ export const user = {
             state.isEntrenador = false;
             state.token = "";
             state.tokenAdmin = "";
-            state.tokenEntrenador = "";
+            state.entrenadorToken = "";
             localStorage.removeItem('isAuth');
             localStorage.removeItem('isAdmin');
             localStorage.removeItem('isEntrenador');
             localStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
             localStorage.removeItem('tokenAdmin');
-            localStorage.removeItem('tokenEntrenador');
+            localStorage.removeItem('entrenadorToken');
 
             router.push({ name: 'home' });
 
@@ -164,8 +191,11 @@ export const user = {
 
     getters: {
         GetProfile: (state) => {
-            return state.user;
+            return state.profile;
         },//GetProfile
+        GetCurrentUser: (state) => {
+            return state.user;
+        },//GetCurrentUser
         GetIsAuth: (state) => {
             return state.isAuth;
         },//GetIsAuth

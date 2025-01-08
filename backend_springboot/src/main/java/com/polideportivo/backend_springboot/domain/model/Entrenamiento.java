@@ -45,9 +45,27 @@ public class Entrenamiento {
     @Column(name = "precio", nullable = false)
     private Integer precio;
 
+    @Column(name = "status", nullable = false)
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "deporte_id", nullable = false)
     private Deporte deporte;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "entrenador_id", nullable = false)
+    private Entrenador entrenador;
+
+    @OneToMany(mappedBy = "entrenamiento")
+    private List<InscripcionEntrenamiento> inscripciones;
+
+    @ManyToOne
+    @JoinColumn(name = "horario_id", nullable = false)
+    private Horario horario;
+
+    @ManyToOne
+    @JoinColumn(name = "pista_privada_id")
+    private PistaPrivada pistaPrivada;
 
     @Transient
     private List<Image> images;

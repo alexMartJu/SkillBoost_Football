@@ -1,5 +1,6 @@
 package com.polideportivo.backend_springboot.domain.service;
 
+import com.polideportivo.backend_springboot.api.model.pista.PistaReservaStatusResponse;
 import com.polideportivo.backend_springboot.domain.model.Pista;
 
 import java.util.List;
@@ -14,4 +15,8 @@ public interface PistaService {
     Pista getBySlug(final String slug);
 
     Page<Pista> getAllScrollPistas(final Pageable pageable);
+
+    List<Pista> getPistasReservadasCurrentUser();
+
+    List<PistaReservaStatusResponse> getProfilePistasStatus();
 }

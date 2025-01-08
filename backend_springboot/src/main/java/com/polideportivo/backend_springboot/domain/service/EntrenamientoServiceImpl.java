@@ -36,7 +36,7 @@ public class EntrenamientoServiceImpl implements EntrenamientoService {
     @Transactional(readOnly = true)
     public Entrenamiento getEntrenamientoBySlug(String slug) {
         // Busca el entrenamiento por slug
-        Entrenamiento entrenamiento = repository.findBySlugAndDeletedAtIsNull(slug).orElseThrow(EntrenamientoNotFoundException::new);
+        Entrenamiento entrenamiento = repository.findBySlugAndStatusAndDeletedAtIsNull(slug, "accepted").orElseThrow(EntrenamientoNotFoundException::new);
         // Asigna imágenes al entrenamiento
         entrenamiento.setImages(imageService.getImagesForEntity("App\\Models\\Entrenamiento", entrenamiento.getId()));
         return entrenamiento;
@@ -46,7 +46,7 @@ public class EntrenamientoServiceImpl implements EntrenamientoService {
     @Transactional(readOnly = true)
     public EntrenamientoDataResponse getEntrenamientoData() {
         // Obtener todos los entrenamientos no eliminados
-        List<Entrenamiento> entrenamientos = repository.findByDeletedAtIsNull();
+        List<Entrenamiento> entrenamientos = repository.findByStatusAndDeletedAtIsNull("accepted");
 
         // Calcular los datos usando Stream API
         Long totalEntrenamientos = (long) entrenamientos.size();
@@ -67,6 +67,21 @@ public class EntrenamientoServiceImpl implements EntrenamientoService {
         .plazasMinimas(plazasMinimas)
         .plazasMaximas(plazasMaximas)
         .build();
+    }
+
+    @Override
+    public void update(Entrenamiento entrenamiento) {
+        repository.save(entrenamiento);
+    }
+
+    @Transactional(readOnly = true)
+    public Entrenamiento getEntrenamientoBySlugForInscripcion(String slug) {
+        // Busca el entrenamiento con estado "accepted" o "completed"
+        Entrenamiento entrenamiento = repository.findBySlugAndStatusInAndDeletedAtIsNull(slug, List.of("accepted", "completed"))
+        .orElseThrow(EntrenamientoNotFoundException::new);
+        // Asigna imágenes al entrenamiento
+        entrenamiento.setImages(imageService.getImagesForEntity("App\\Models\\Entrenamiento", entrenamiento.getId()));
+        return entrenamiento;
     }
 
 }

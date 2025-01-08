@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 
 class Entrenador extends Model implements AuthenticatableContract, JWTSubject
@@ -23,7 +24,7 @@ class Entrenador extends Model implements AuthenticatableContract, JWTSubject
     protected $fillable = [
         'nombre', 
         'apellidos', 
-        'numeroEntrenador',
+        'numeroentrenador',
         'email',
         'password',
         'deporte_id',
@@ -35,8 +36,10 @@ class Entrenador extends Model implements AuthenticatableContract, JWTSubject
     {
         return $this->belongsTo(Deporte::class, 'deporte_id');
     }
-
-    
+    public function sala(): HasOne
+    {
+        return $this->hasOne(Sala::class, 'entrenador_id');
+    } 
     public function entrenamientos()
     {
         return $this->hasMany(Entrenamiento::class, 'entrenador_id');

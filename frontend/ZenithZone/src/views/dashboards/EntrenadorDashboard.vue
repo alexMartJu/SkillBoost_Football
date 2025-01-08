@@ -22,9 +22,26 @@
 </template>
 
 <script>
+import { onMounted} from 'vue';
+import { useStore } from 'vuex';
+import Constant from '../../Constant';
 export default {
-    name: "entrenadorDashboard"
-};
+    components: {
+        name: "entrenadorDashboard"
+    },
+    setup(){
+        const store = useStore();
+        onMounted(() => {
+            console.log("Despachando la acción para cargar el entrenador...");
+            store.dispatch(`entrenadorDashboard/${Constant.INITIALIZE_ENTRENADOR}`).then(() => {
+                console.log("Entrenador cargado con éxito");
+            }).catch(error => {
+                console.error("Error al cargar el entrenador:", error);
+            });
+        });
+    },
+}
+
 </script>
 
 <style scoped>

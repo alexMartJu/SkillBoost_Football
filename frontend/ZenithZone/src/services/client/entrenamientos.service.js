@@ -39,5 +39,13 @@ export default {
 
     GetEntrenamientosTotalFiltered(params) {
         return Api(secrets.URL_SPRING).get(`entrenamientos/totalNoPaginacion?${this.FormatFilters(params)}`);
+    },
+
+    GetOneEntrenamiento(slug) {
+        return Api(secrets.URL_SPRING).get(`entrenamientos/${slug}`);
+    },
+
+    GetSuscribedEntrenamientos() {
+        return Api(secrets.URL_SPRING).get(`entrenamientosInscritos`);
     }
 }

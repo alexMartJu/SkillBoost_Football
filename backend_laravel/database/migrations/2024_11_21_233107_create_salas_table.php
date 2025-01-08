@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->foreign('entrenador_id')->references('id')->on('entrenadores')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
+            $table->unique(['entrenador_id', 'deleted_at'], 'unique_entrenador_activo');
             $table->engine = 'InnoDB';
         });
     }

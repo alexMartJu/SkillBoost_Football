@@ -18,4 +18,13 @@ class Horario extends Model
     public $timestamps = true;
     protected $fillable = ['hora'];
     
+
+    public function reservas(): HasMany
+    {
+        return $this->hasMany(Reserva::class, 'horario_id');
+    }
+    public function entrenamientos(): HasMany
+    {
+        return $this->hasMany(Entrenamiento::class, 'horario_id');
+    }
 }

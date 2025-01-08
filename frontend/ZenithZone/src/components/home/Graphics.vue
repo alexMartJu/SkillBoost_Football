@@ -1,25 +1,38 @@
 <template>
-<div class="mt-5">
-    <canvas ref="radarChart"></canvas>
-</div>
+    <div class="mt-5">
+        <canvas ref="radarChart"></canvas>
+    </div>
 </template>
 
-
 <script>
-import {
-    Chart,
-    registerables
-} from 'chart.js';
-import {
-    onMounted,
-    ref
-} from 'vue';
+import { Chart, registerables } from 'chart.js';
+import { onMounted, ref } from 'vue';
 
 Chart.register(...registerables);
 
 export default {
     name: 'RadarChart',
-    setup() {
+
+    props: {
+        graficas: {
+            type: Array,
+            required: true,
+        },
+    },
+
+    setup(props) {
+        const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        let nivelesPorGrafica = [
+            [60, 70, 90, 43, 56],
+            [69, 79, 93, 50, 45]
+        ]; // estos son los datos default que pinta en el home
+
+        if (props.graficas != undefined) {
+            nivelesPorGrafica = props.graficas.map((grafica) => {
+                return grafica.secciones.map(seccion => seccion.nivel);
+            });
+        } // aquí es cuando se le asignan los datos de las gráficas del perfil
+
         const radarChart = ref(null);
 
         onMounted(() => {
@@ -32,19 +45,13 @@ export default {
                 type: 'radar',
                 data: {
                     labels: ['Motivación', 'Agilidad', 'Velocidad', 'Aguante', 'Fuerza',],
-                    datasets: [{
-                            data: [90, 70, 90, 43, 56],
-                            borderColor: 'rgba(255, 162, 80, 1)', // Azul
-                            backgroundColor: 'rgba(255, 162, 80, 0.2)', // Transparencia
-                            borderWidth: 2,
-                        },
-                        {
-                            data: [40, 40, 50, 73, 96],
-                            borderColor: 'rgba(55, 162, 80, 1)', // Azul
-                            backgroundColor: 'rgba(55, 162, 80, 0.2)', // Transparencia
-                            borderWidth: 2,
-                        },
-                    ],
+                    datasets: nivelesPorGrafica.map((set, index) => ({
+                        label: meses[index],
+                        data: set,
+                        borderColor: `rgba(${index * 23}, 162, 80, 1)`, // Color del borde
+                        backgroundColor: `rgba(${index * 23}, 162, 80, 0.2)`, // Transparencia dinámica
+                        borderWidth: 2,
+                    })),
                 },
                 options: {
                     responsive: true,
@@ -89,7 +96,7 @@ export default {
 };
 </script>
 
-  
+
 <style>
 canvas {
     max-width: 700px;

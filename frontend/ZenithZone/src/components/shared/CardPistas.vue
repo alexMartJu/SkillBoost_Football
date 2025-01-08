@@ -1,6 +1,6 @@
 <template>
     <main>
-        <div class="card mb-4">
+        <div class="card mb-4" @click="details(pista.slug)">
             <img src="/assets/placeholder.png" alt="" class="card-img-top">
             <div class="card-img-overlay d-flex align-items-end justify-content-center text-white">
                 <div class="pista-name">
@@ -12,12 +12,26 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+
 export default {
     props: {
         pista: {
             type: Object,
             required: true
         }
+    },
+
+    setup() {
+        const router = useRouter();
+
+        const details = (slug) => {
+            // console.log(`${slug}`);
+            router.push({ name: 'detailsPista', params: { slug } });
+        }
+
+        return { details }
+
     }
 };
 </script>

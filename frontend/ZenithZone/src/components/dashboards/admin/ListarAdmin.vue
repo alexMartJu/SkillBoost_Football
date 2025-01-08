@@ -11,7 +11,10 @@
       </div>
       <div v-if="pistas && pistas.length">
         <h3>Pistas</h3>
-        <ListPistas :pistas="pistas" />
+        <ListPistas 
+        :pistas="pistas" 
+        :isPrivate="false"
+      />
       </div>
       <div v-else>
         <p>No hay pistas disponibles.</p>
