@@ -11,25 +11,25 @@
                 <nav>
                     <ul class="nav me-5">
                         <li class="nav-item me-2">
-                            <a @click="redirects.home" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.home" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isHome }">
                                 Home
                             </a>
                         </li>
                         <li class="nav-item me-2">
-                            <a @click="redirects.instalaciones" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.instalaciones" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isInstalaciones }">
                                 Instalaciones
                             </a>
                         </li>
                         <li class="nav-item me-2">
-                            <a @click="redirects.servicios" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.servicios" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isServicios }">
                                 Servicios
                             </a>
                         </li>
                         <li class="nav-item me-2">
-                            <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isEntrenadores }">
                                 Entrenadores
                             </a>
@@ -37,33 +37,36 @@
 
                         <!-- DASHBOARDS -->
                         <li v-if="state.isAdmin" class="nav-item">
-                            <a @click="redirects.dashboardAdmin" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.dashboardAdmin" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isDashboard }">
                                 Dashboard Admin
                             </a>
                         </li>
                         <li v-if="state.isEntrenador" class="nav-item">
-                            <a @click="redirects.dashboardEntrenador" class="nav-link text-color fw-bold fs-5" 
+                            <a @click="redirects.dashboardEntrenador" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isDashboard }">
                                 Dashboard Entrenador
                             </a>
                         </li>
                         <!-- ================= -->
-                        
+
                         <li v-if="state.user.nombre" class="nav-item d-flex align-items-center ms-5">
-                            <img :src="state.user.image" alt="" class="profile-image me-2">
-                            <a v-if="state.user.numeroSocio" @click="redirects.profile" class="nav-link text-color fw-bold fs-5" 
-                                :class="{ isActive: isProfile }">
-                                {{ state.user.nombre }}
-                            </a>
-                            <a v-else @click="redirects.profileEntrenador" class="nav-link text-color fw-bold fs-5" 
+                            <div v-if="state.user.numeroSocio">
+                                <img :src="state.user.image" alt="" class="profile-image me-2">
+                                <a @click="redirects.profile" class="nav-link text-color fw-bold fs-5"
+                                    :class="{ isActive: isProfile }">
+                                    {{ state.user.nombre }}
+                                </a>
+                            </div>
+
+                            <!-- <a v-else @click="redirects.profileEntrenador" class="nav-link text-color fw-bold fs-5" 
                                 :class="{ isActive: isProfile }">
                                 {{ state.user.numeroentrenador }}
-                            </a>
+                            </a> -->
                         </li>
-                        
+
                         <li v-if="!state.isLogged" class="nav-item ms-4">
-                            <a @click="redirects.login" class="nav-link auth fw-bold fs-5" 
+                            <a @click="redirects.login" class="nav-link auth fw-bold fs-5"
                                 :class="{ isActive: isLogin }">
                                 Unirse al club
                             </a>
@@ -132,8 +135,8 @@ export default {
             instalaciones: () => router.push({ name: 'instalaciones' }),
             servicios: () => router.push({ name: 'serviciosEntrenamientos' }),
             entrenadores: () => router.push({ name: 'entrenadores' }),
-            profile: () => router.push({name: 'profile', params: {numeroSocio: state.user.numeroSocio}}),
-            profileEntrenador: () => router.push({name: 'profileEntrenador', params: {numeroentrenador: state.user.numeroentrenador}}),
+            profile: () => router.push({ name: 'profile', params: { numeroSocio: state.user.numeroSocio } }),
+            profileEntrenador: () => router.push({ name: 'profileEntrenador', params: { numeroentrenador: state.user.numeroentrenador } }),
             login: () => router.push({ name: 'login' }),
             dashboardAdmin: () => router.push({ name: 'DashboardAdmin' }),
             dashboardEntrenador: () => router.push({ name: 'DashboardEntrenador' }),
@@ -157,13 +160,13 @@ export default {
         const tokenAdmin = localStorage.getItem('tokenAdmin');
         const entrenadorToken = localStorage.getItem('entrenadorToken');
         if (token) {
-            store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"token": token});
+            store.dispatch(`user/${Constant.INITIALIZE_USER}`, { "token": token });
         } else if (tokenAdmin) {
             console.log(`checkea admin`);
-            store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"tokenAdmin": tokenAdmin});
+            store.dispatch(`user/${Constant.INITIALIZE_USER}`, { "tokenAdmin": tokenAdmin });
         } else if (entrenadorToken) {
             // console.log(`checkea entrenador`, entrenadorToken);
-            store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"entrenadorToken": entrenadorToken});
+            store.dispatch(`user/${Constant.INITIALIZE_USER}`, { "entrenadorToken": entrenadorToken });
         }
 
         return { redirects, state, logout };
