@@ -10,8 +10,8 @@
                             <p><strong>Día: </strong>{{ reserva.fecha }}</p>
                             <p><strong>Horario: </strong>{{ reserva.hora }}</p>
                         </div>
-                        <!-- <button class="btn btn-danger align-self-end" @click="cancelarReserva">Cancelar Reserva</button> -->
-                        <CancelarReservaButton :reserva="data" />
+
+                        <CancelarReservaButton v-if="new Date(reserva.fecha) > new Date()" :reserva="data" />
                     </div>
                 </div>
             </section>
@@ -44,8 +44,6 @@ export default {
             hora: props.reserva.hora,
             fecha: props.reserva.fecha
         }
-
-        console.log(data);
 
         return { data }
     }

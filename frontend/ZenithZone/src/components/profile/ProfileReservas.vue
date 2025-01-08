@@ -2,6 +2,7 @@
     <p>{{ }}</p>
     <div class="row g-4 justify-content-center">
         <div v-for="reservas in state.reservas" :reservas="reservas" class="col-md-6">
+            <h2 class="text-center">Reservas {{ reservas.nombre }}</h2>
             <CardReservas v-for="reserva in reservas.reservas" :key="reserva.id" :reserva="reserva"
                 :slug="reservas.slug" />
         </div>
