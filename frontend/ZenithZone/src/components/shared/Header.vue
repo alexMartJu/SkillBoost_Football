@@ -50,19 +50,12 @@
                         </li>
                         <!-- ================= -->
 
-                        <li v-if="state.user.nombre" class="nav-item d-flex align-items-center ms-5">
-                            <div v-if="state.user.numeroSocio">
-                                <img :src="state.user.image" alt="" class="profile-image me-2">
-                                <a @click="redirects.profile" class="nav-link text-color fw-bold fs-5"
-                                    :class="{ isActive: isProfile }">
-                                    {{ state.user.nombre }}
-                                </a>
-                            </div>
-
-                            <!-- <a v-else @click="redirects.profileEntrenador" class="nav-link text-color fw-bold fs-5" 
+                        <li v-if="state.user.numeroSocio" class="nav-item d-flex align-items-center ms-5">
+                            <img :src="state.user.image" alt="" class="profile-image me-2">
+                            <a @click="redirects.profile" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isProfile }">
-                                {{ state.user.numeroentrenador }}
-                            </a> -->
+                                {{ state.user.nombre }}
+                            </a>
                         </li>
 
                         <li v-if="!state.isLogged" class="nav-item ms-4">
