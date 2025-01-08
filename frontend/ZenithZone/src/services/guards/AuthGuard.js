@@ -13,7 +13,7 @@ export default {
                     next();
                 }
             } else {
-                next('/login');
+                next('/home');
             }
         } catch (error) {
             store.dispatch(`user/${Constant.LOGOUT}`);
@@ -29,7 +29,7 @@ export default {
                     next();
                 }
             } else {
-                next('/login');
+                next('/home');
             }
         } catch (error) {
             store.dispatch(`user/${Constant.LOGOUT}`);
