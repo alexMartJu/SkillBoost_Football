@@ -19,11 +19,6 @@ export default {
 
     setup() {
         const store = useStore();
-
-        const state = reactive({
-            isLogged: computed(() => store.getters['user/GetIsAuth']),
-        });
-
         const unirseEntrenamiento = async (slug) => {
             const result = await Swal.fire({
                 title: '¿Quieres apuntarte a este entrenamiento?',
@@ -52,7 +47,7 @@ export default {
             }
         }
 
-        return { state, unirseEntrenamiento }
+        return { unirseEntrenamiento }
     }
 }
 </script>
