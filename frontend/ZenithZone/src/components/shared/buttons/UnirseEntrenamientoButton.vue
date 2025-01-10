@@ -1,5 +1,5 @@
 <template>
-    <button class="btn btn-success" @click="unirseEntrenamiento(slug)" :disabled="!state.isLogged">Apuntarse</button>
+    <button class="btn btn-success" @click="unirseEntrenamiento(slug)">Apuntarse</button>
 </template>
 
 <script>
