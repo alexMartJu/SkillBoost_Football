@@ -75,7 +75,7 @@
             await this.$store.dispatch('adminDashboard/UpdateOnePista', { slug: this.currentPistaSlug, data: this.currentPista });
             this.currentPista.nombre = '';  // Reset form after submission
             this.currentPista.deportes = []; // Clear selected sports
-            this.$router.push('/admin');
+            this.$router.push('/dashboardAdmin/listar');
           } catch (error) {
             console.error('Error actualizando pista:', error);
           }

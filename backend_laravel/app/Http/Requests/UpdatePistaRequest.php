@@ -23,11 +23,11 @@ class UpdatePistaRequest extends FormRequest
     {
         $slug = $this->route('slug');
         return [
-           'nombre' => 'nullable|string|max:191|unique:pistas,nombre,' . $slug . ',slug',
-            'deportes' => 'nullable|array',
-            'deportes.*' => 'exists:deportes,id',
-            'imagenes' => 'nullable|array',
-            'imagenes.*' => 'string|max:255',
+            'nombre' => 'string|max:255|nullable',
+            'deportes' => 'array|nullable',
+            'deportes.*' => 'integer|exists:deportes,id',
+            'imagenes' => 'array|nullable',
+            'imagenes.*' => 'string|url',
         ];
     }
 }
