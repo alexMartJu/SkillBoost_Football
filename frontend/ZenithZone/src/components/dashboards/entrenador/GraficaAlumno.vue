@@ -54,6 +54,7 @@ export default {
         // Llamada para cargar las gráficas al montarse el componente
         onMounted(() => {
             store.dispatch(`entrenadorDashboard/${Constant.INITIALIZE_GRAFICAS}`, props.profileId);
+            setGraficaInputs();
         });
 
         // Observa los cambios en las gráficas desde Vuex
@@ -61,7 +62,34 @@ export default {
             graficas.value = newGraficas;
             console.log("Datos actualizados en graficas.value:", graficas.value);
             renderGrafica();
+            setGraficaInputs();
         });
+        const setGraficaInputs = () => {
+            const currentMonth = new Date().getMonth() + 1;
+            const currentYear = new Date().getFullYear();
+
+            // Filtrar las gráficas para el mes actual y el profileId correspondiente
+            const currentGraficas = graficas.value.filter(
+                grafica =>
+                    grafica.Mes === currentMonth &&
+                    grafica.Año === currentYear &&
+                    BigInt(grafica.profile_id) === BigInt(props.profileId)
+            );
+
+            // Si se encuentran gráficas para el mes actual, actualizar los inputs
+            if (currentGraficas.length > 0) {
+                labels.forEach(label => {
+                    // Buscar la gráfica que corresponde a cada sección
+                    const grafica = currentGraficas.find(grafica => grafica.seccion === label);
+                    graficaInputs.value[label] = grafica ? grafica.nivel : 0;
+                });
+            } else {
+                // Si no se encuentran gráficas, asegurarse de que los inputs estén vacíos o en 0
+                labels.forEach(label => {
+                    graficaInputs.value[label] = 0;
+                });
+            }
+        };
 
         // Función para generar un color aleatorio en formato rgba
         const getRandomColor = () => {
@@ -109,8 +137,8 @@ console.log("Filtered Graficas:", filteredGraficas);
             data,
             borderWidth: 2,
             tension: 0.4,
-            backgroundColor: getRandomColor(), // Fondo con alfa 0.6 (semi-transparente)
-            borderColor: getRandomBorderColor(), // Borde con alfa 1 (opaco)
+            backgroundColor: getRandomColor(), 
+            borderColor: getRandomBorderColor(), 
         };
     });
 
