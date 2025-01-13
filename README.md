@@ -188,23 +188,23 @@ Ver los entrenadores y borrarlos
 
 ![](./Readmeimg/adminentrenadores.png)
 
-crear entrenadores
+Crear entrenadores
 
 ![](./Readmeimg/adminentrenadores2.png)
 
-ver los entrenamientos y denegarlos o aceptarlos
+Ver los entrenamientos y denegarlos o aceptarlos
 
 ![](./Readmeimg/adminentrenamientos1.png)
 
 ![](./Readmeimg/adminentrenamientos2.png)
 
-crear las salas privadas
+Crear las salas privadas
 
 ![](./Readmeimg/adminsala.png)
 
-crear y eliminar las pistas privadas
+Crear y eliminar las pistas privadas
 
-![](./Readmeimg/adminspistasprivada.png)
+![](./Readmeimg/adminpistasprivada.png)
 
 Eliminar Reservas y ver un historial de estas
 
