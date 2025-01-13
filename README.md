@@ -162,6 +162,12 @@ El profile de usuario muestra, los entrenamientos a los que esta apuntado, las p
 
 El dashboard de Entrenadores es una sección exclusiva de los entrenadores que les permitan ver sus entrenamientos, crear entrenamientos nuevos, o dentro de los entrenamientos verlos usuarios apuntados, y modificar las graficas de dichos usuarios
 
+![](./Readmeimg/entrenadorentrenamientoregister.png)
+![](./Readmeimg/entrenadorentrenamiento.png)
+![](./Readmeimg/entrenadorusuario.png)
+![](./Readmeimg/entrenadorgrafica.png)
+
+
 
 ### Dashboard de Administrador
 ---
@@ -170,20 +176,39 @@ El deashboard Admin es una sección exclusiva del Administrador con numerosas fu
 
 Ver deportes y pistas
 
+![](./Readmeimg/adminlistar1.png)
+
+![](./Readmeimg/adminlistar2.png)
+
 Crearlos y editarlos
+
+![](./Readmeimg/admincrear.png)
 
 Ver los entrenadores y borrarlos
 
+![](./Readmeimg/adminentrenadores.png)
+
 crear entrenadores
+
+![](./Readmeimg/adminentrenadores2.png)
 
 ver los entrenamientos y denegarlos o aceptarlos
 
+![](./Readmeimg/adminentrenamientos1.png)
+
+![](./Readmeimg/adminentrenamientos2.png)
+
 crear las salas privadas
+
+![](./Readmeimg/adminsala.png)
 
 crear y eliminar las pistas privadas
 
+![](./Readmeimg/adminspistasprivada.png)
+
 Eliminar Reservas y ver un historial de estas
 
+![](./Readmeimg/adminreservas.png)
 
 ## Como Ejecutar el Proyecto
 
