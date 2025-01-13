@@ -126,8 +126,10 @@ Aqui podemos ver una lista de los deportes, una muestra de como funcionan las gr
 
 ### Details
 ---
+Aqui mostramos los detalles del Entrenamiento al completo.
 
 
+![](./Readmeimg/details.png)
 
 
 ### Entrenadores
@@ -158,11 +160,29 @@ El profile de usuario muestra, los entrenamientos a los que esta apuntado, las p
 ### Dashboard de Entrenador
 ---
 
+El dashboard de Entrenadores es una sección exclusiva de los entrenadores que les permitan ver sus entrenamientos, crear entrenamientos nuevos, o dentro de los entrenamientos verlos usuarios apuntados, y modificar las graficas de dichos usuarios
 
 
 ### Dashboard de Administrador
 ---
 
+El deashboard Admin es una sección exclusiva del Administrador con numerosas funciones, entre ellas
+
+Ver deportes y pistas
+
+Crearlos y editarlos
+
+Ver los entrenadores y borrarlos
+
+crear entrenadores
+
+ver los entrenamientos y denegarlos o aceptarlos
+
+crear las salas privadas
+
+crear y eliminar las pistas privadas
+
+Eliminar Reservas y ver un historial de estas
 
 
 ## Como Ejecutar el Proyecto
