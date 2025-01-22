@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <div class="row g-4 justify-content-center">
-            <CardPistas v-for="pista in state.pistas" :key="pista.id" :pista="pista" class="col-md-4" />
+            <CardPistas v-for="pista in state.pistas" :key="pista.id" :pista="pista" class="col-md-6" />
         </div>
-        <InfiniteLoading v-if="!slug" @infinite="onInfinite"/>
+        <InfiniteLoading v-if="!slug" @infinite="onInfinite" />
     </div>
 </template>
 
@@ -17,7 +17,7 @@ import CardPistas from './CardPistas.vue';
 import InfiniteLoading from "v3-infinite-loading";
 
 export default {
-    components: {CardPistas, InfiniteLoading},
+    components: { CardPistas, InfiniteLoading },
     setup() {
         const store = useStore();
         const route = useRoute();

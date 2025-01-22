@@ -1,7 +1,8 @@
 <template>
-    <div class="container">
+    <div class="container mb-5">
         <div class="row g-4 justify-content-center">
-            <CardDeportes v-for="deporte in state.deportes" :key="deporte.id" :deporte="deporte" class="col-md-3" />
+            <!-- <CardDeportes v-for="deporte in state.deportes" :key="deporte.id" :deporte="deporte" class="col-md-3" /> -->
+            <CardDeportesHome v-for="deporte in state.deportes" :key="deporte.id" :deporte="deporte" class="col-md-3" />
         </div>
     </div>
 </template>
@@ -11,10 +12,11 @@ import { useStore } from 'vuex';
 import CardDeportes from '../shared/CardDeportes.vue';
 import { computed, reactive } from 'vue';
 import Constant from '@/Constant';
+import CardDeportesHome from '../home/CardDeportesHome.vue';
 
 export default {
     components: {
-        CardDeportes
+        CardDeportesHome
     },
     setup() {
         const store = useStore();

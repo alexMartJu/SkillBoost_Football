@@ -1,13 +1,24 @@
 <template>
     <main>
-        <div class="card mb-4" @click="details(pista.slug)">
+        <!-- <div class="card mb-4" @click="details(pista.slug)">
             <img src="/assets/placeholder.png" alt="" class="card-img-top">
             <div class="card-img-overlay d-flex align-items-end justify-content-center text-white">
                 <div class="pista-name">
                     <h3>{{ pista.nombre }}</h3>
                 </div>
             </div>
+        </div> -->
+        <div class="card row d-flex flex-row align-items-center m-1 shadow-sm" @click="details(pista.slug)">
+            <div class="col-md-6 d-flex align-items-center">
+                <div class="container">
+                    <h3>{{ pista.nombre }}</h3>
+                </div>
+            </div>
+            <div class="col-md-6 px-0">
+                <img src="/assets/placeholder.png" alt="" class="img-fluid w-100 card-img-top">
+            </div>
         </div>
+
     </main>
 </template>
 
