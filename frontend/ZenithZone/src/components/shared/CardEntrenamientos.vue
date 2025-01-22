@@ -16,7 +16,7 @@
                                 Más info
                             </button>
                             <UnirseEntrenamientoButton v-if="!isProfile" :slug="entrenamiento.slug"
-                                :disabled="isSuscribed" />
+                                :disabled="isSuscribed || !state.isLogged" />
                             <CancelarEntrenamientoButton v-if="isProfile" :slug="entrenamiento.slug" />
                         </div>
                     </div>
@@ -31,6 +31,8 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import UnirseEntrenamientoButton from './buttons/UnirseEntrenamientoButton.vue';
 import CancelarEntrenamientoButton from './buttons/CancelarEntrenamientoButton.vue';
+import { reactive } from 'vue';
+import { computed } from 'vue';
 
 export default {
     props: {
@@ -59,11 +61,15 @@ export default {
         const store = useStore();
         const router = useRouter();
 
+        const state = reactive({
+            isLogged: computed(() => store.getters['user/GetIsAuth']),
+        });
+
         const details = (slug) => {
             router.push({ name: 'detailsEntrenamiento', params: { slug } });
         }
 
-        return { details }
+        return { details, state}
     }
 }
 </script>

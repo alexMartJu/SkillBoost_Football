@@ -67,7 +67,7 @@ class PistasController extends Controller
         return new PistasResource($pista);
     }
 
-    public function update(Request $request, $slug)
+    public function update(UpdatePistaRequest $request, $slug)
 {
     $admin = auth('admin')->user();
         if (!$admin) {

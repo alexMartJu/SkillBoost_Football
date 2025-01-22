@@ -38,7 +38,7 @@
                     </select>
                 </div>
 
-                <button @click="logDate" :disabled="isReserved" class="btn btn-primary mt-2">
+                <button @click="logDate" :disabled="!currentUser.isUser" class="btn btn-primary mt-2">
                     {{ isReserved ? 'Horario reservado' : 'Reservar pista' }}
                 </button>
                 <div v-if="reservaSuccess" class="alert alert-success mt-3" role="alert">

@@ -93,48 +93,122 @@ Aquí se muestran las principales vistas de la aplicación junto con una descrip
 
 ### Home
 ---
+El home como primera pagina, muestra el Logo de la empresa/polideportivo, y al final una lista de algunos de los deportes.
 
+![](./Readmeimg/home1.png)
 
+Al final se muestra un ejemplo de la grafica, y una lista de 8 de los principales deportes, haciendo el salto en los deportes a las pistas.
+
+![](./Readmeimg/home4.png)
+
+![](./Readmeimg/home5.png)
 
 ### Instalaciones
 ---
+
+Aqui se muestras todas las pistas que tiene el polidportivo, y al hacer click en una de ellas, nos lleva a una segunda pagina, que nos permite reservar estas, par aun dia y un horario (mañana, mediodia, tarde o noche).
+
+![](./Readmeimg/instalaciones1.png)
+
+![](./Readmeimg/reservapista.png)
 
 
 
 ### Servicios
 ---
 
+Aqui podemos ver una lista de los deportes, una muestra de como funcionan las gráficas, y principalmente, la opcion de buscar y apuntarse a Entrenamientos, filtrados, segun dia, precio, deporte o duracion
+
+![](./Readmeimg/servicios1.png)
+
+![](./Readmeimg/servicios2.png)
 
 
 ### Details
 ---
+Aqui mostramos los detalles del Entrenamiento al completo.
 
+
+![](./Readmeimg/details.png)
 
 
 ### Entrenadores
 ---
+Esta sección muestra el personal,  los entrenadores a cargo de los entrenamientos y su email de contacto.
 
+![](./Readmeimg/entrenadores.png)
 
 
 ### Register y Login
 ---
+Esta sección nos permite hacer un login de usuario o registrarnos,  tanto Entrenadores como Aministradores usan el mismo login, aunque estos dos no se registran, y el register es solo para los usuarios comunes.
 
+![](./Readmeimg/login.png)
+
+![](./Readmeimg/register.png)
 
 
 ### Profile del Usuario
 ---
+El profile de usuario muestra, los entrenamientos a los que esta apuntado, las pistas que tiene reservadas de forma historica,  ordenadas por pistas, uniucamente pudiendo cancelar reservas de pistas de dias posteriores a la fecha actual, tambien es el lugar donde el usuario puede ver sus graficas.
 
+![](./Readmeimg/perfilentrenamientos.png)
+![](./Readmeimg/perfilreservas.png)
+![](./Readmeimg/perfilgraficas.png)
 
 
 ### Dashboard de Entrenador
 ---
+
+El dashboard de Entrenadores es una sección exclusiva de los entrenadores que les permitan ver sus entrenamientos, crear entrenamientos nuevos, o dentro de los entrenamientos verlos usuarios apuntados, y modificar las graficas de dichos usuarios
+
+![](./Readmeimg/entrenadorentrenamientoregister.png)
+![](./Readmeimg/entrenadorentrenamiento.png)
+![](./Readmeimg/entrenadorusuario.png)
+![](./Readmeimg/entrenadorgrafica.png)
 
 
 
 ### Dashboard de Administrador
 ---
 
+El deashboard Admin es una sección exclusiva del Administrador con numerosas funciones, entre ellas
 
+Ver deportes y pistas
+
+![](./Readmeimg/adminlistar1.png)
+
+![](./Readmeimg/adminlistar2.png)
+
+Crearlos y editarlos
+
+![](./Readmeimg/admincrear.png)
+
+Ver los entrenadores y borrarlos
+
+![](./Readmeimg/adminentrenadores.png)
+
+Crear entrenadores
+
+![](./Readmeimg/adminentrenadores2.png)
+
+Ver los entrenamientos y denegarlos o aceptarlos
+
+![](./Readmeimg/adminentrenamientos1.png)
+
+![](./Readmeimg/adminentrenamientos2.png)
+
+Crear las salas privadas
+
+![](./Readmeimg/adminsala.png)
+
+Crear y eliminar las pistas privadas
+
+![](./Readmeimg/adminpistasprivada.png)
+
+Eliminar Reservas y ver un historial de estas
+
+![](./Readmeimg/adminreservas.png)
 
 ## Como Ejecutar el Proyecto
 
