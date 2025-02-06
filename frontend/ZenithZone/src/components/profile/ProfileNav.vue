@@ -14,7 +14,7 @@
         </router-link>
     </nav> 
 
-    <section class="container">
+    <section>
         <router-view />
     </section>
 </template>
