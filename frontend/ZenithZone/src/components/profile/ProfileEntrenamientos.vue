@@ -1,7 +1,7 @@
 <template>
     <div class="row justify-content-center">
         <CardEntrenamientos v-for="entrenamiento in state.entrenamientos" :key="entrenamiento.id"
-            :entrenamiento="entrenamiento" :isProfile="true" class="col-md-6" />
+            :entrenamiento="entrenamiento" :isProfile="true" class="col-md-4" />
     </div>
 </template>
 

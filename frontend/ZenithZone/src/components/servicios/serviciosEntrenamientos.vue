@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <CardClases v-for="entrenamiento in state.entrenamientos" :key="entrenamiento.id"
                 :entrenamiento="entrenamiento" :isSuscribed="suscribedEntrenamientos.has(entrenamiento.slug)"
-                class="col-md-6" />
+                class="col-md-4" />
         </div>
         <PaginateComponent :page="state.offset" :totalPages="state.totalPages" @update:page="updatePage"
             @page-click="clickCallback" />
