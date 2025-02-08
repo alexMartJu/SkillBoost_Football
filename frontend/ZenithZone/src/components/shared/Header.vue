@@ -51,7 +51,7 @@
                         <!-- ================= -->
 
                         <li v-if="state.user.numeroSocio" class="nav-item d-flex align-items-center ms-5">
-                            <img :src="state.user.image" alt="" class="profile-image me-2">
+                            <img :src="state.user.image" alt="" class="profile-image-header me-2">
                             <a @click="redirects.profile" class="nav-link text-color fw-bold fs-5"
                                 :class="{ isActive: isProfile }">
                                 {{ state.user.nombre }}
@@ -219,7 +219,7 @@ export default {
     color: #000;
 }
 
-.profile-image {
+.profile-image-header {
     border-radius: 50%;
     width: 45px;
     height: 45px;
