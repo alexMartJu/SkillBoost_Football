@@ -4,6 +4,7 @@ import router from './router/router';
 import store from './store';
 import VueLazyLoad from 'vue3-lazyload';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styles/custom.scss';
 
 
 const app = createApp(App);
