@@ -14,5 +14,6 @@ public class PistaResponse {
     private Long id;
     private String nombre;
     private String slug;
+    private String info;
     private List<Image> images;
 }

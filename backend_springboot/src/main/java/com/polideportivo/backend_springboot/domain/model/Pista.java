@@ -28,6 +28,9 @@ public class Pista {
     @Column(name = "slug", length = 191, unique = true, nullable = false)
     private String slug;
 
+    @Column(name = "info")
+    private String info;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "deporte_pista", joinColumns = @JoinColumn(name = "pista_id"), inverseJoinColumns = @JoinColumn(name = "deporte_id"))
     @ToString.Exclude
