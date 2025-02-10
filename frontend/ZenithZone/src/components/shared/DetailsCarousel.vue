@@ -1,13 +1,13 @@
 <template>
     <Splide :options="splideOptions">
         <SplideSlide>
-            <img src="https://via.placeholder.com/500" class="d-block w-100 h-100 object-fit-cover" alt="" />
+            <img src="https://placehold.co/600x400" class="d-block w-100 h-100 object-fit-cover" alt="" />
         </SplideSlide>
         <SplideSlide>
-            <img src="https://via.placeholder.com/500" class="d-block w-100 h-100 object-fit-cover" alt="" />
+            <img src="https://placehold.co/600x400/png" class="d-block w-100 h-100 object-fit-cover" alt="" />
         </SplideSlide>
         <SplideSlide>
-            <img src="https://via.placeholder.com/500" class="d-block w-100 h-100 object-fit-cover" alt="" />
+            <img src="https://placehold.co/600x400/jpeg" class="d-block w-100 h-100 object-fit-cover" alt="" />
         </SplideSlide>
     </Splide>
 

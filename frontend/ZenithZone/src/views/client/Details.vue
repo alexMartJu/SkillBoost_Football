@@ -1,13 +1,14 @@
 <template>
     <main class="main-details">
         <section class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <DetailsInfo :isEntrenamiento="isEntrenamiento" :state="state" />
-                </div>
-                <!-- CARRUSEL -->
-                <div class="col-md-6">
-                    <DetailsCarousel :pistas="isEntrenamiento ? state.entrenamiento.deporte?.pistas : state.pista" />
+            <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+                <div class="row g-0">
+                    <div class="col-md-6">
+                        <DetailsInfo :isEntrenamiento="isEntrenamiento" :state="state" />
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center justify-content-center">
+                        <DetailsCarousel :pistas="isEntrenamiento ? state.entrenamiento.deporte?.pistas : state.pista" />
+                    </div>
                 </div>
             </div>
         </section>

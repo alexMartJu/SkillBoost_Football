@@ -75,7 +75,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .profile-image-container {
     position: relative;
     display: inline-block;
