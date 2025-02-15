@@ -25,9 +25,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
     body {
-        margin-top: 80px;
+        margin-top: 87px;
         background-color: rgb(245, 245, 245);
         font-family: 'Roboto', sans-serif;
     }

@@ -37,7 +37,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 nav .btn {
     border: none;
     transition: all 0.3s ease;
@@ -52,11 +52,5 @@ nav .btn:hover {
 nav .btn.active {
     background-color: #ff6600;
     color: #fff;
-}
-
-body {
-    margin-top: 80px;
-    background-color: rgb(245, 245, 245);
-    font-family: 'Roboto', sans-serif;
 }
 </style>

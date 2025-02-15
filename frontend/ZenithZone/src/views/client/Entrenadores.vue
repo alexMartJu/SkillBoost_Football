@@ -35,7 +35,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 body {
     margin-top: 80px;
     background-color: rgb(245, 245, 245);
