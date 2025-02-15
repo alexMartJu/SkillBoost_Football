@@ -1,15 +1,20 @@
 <template>
     <main class="main-profile">
-        <div class="container">
-            <ProfileInfo :profile="state.Profile" :isCurrentUser="isCurrentUser"/>
+        <div class="container" v-if="dataLoaded">
+            <ProfileInfo 
+                :profile="state.Profile" 
+                :isCurrentUser="isCurrentUser"
+            />
+            
         </div>
         <ProfileNav v-if="isCurrentUser && state.Profile?.numeroSocio" :profile="state.Profile" />
-        <div class="d-flex justify-content-center mt-4">
-            <button v-if="isCurrentUser && state.Profile?.numeroentrenador" @click="redirects.dashboardEntrenador"
-            class="btn btn-lg btn-primary">
-            Accede a tu Dashboard
-            </button>
-        </div>
+            <div class="d-flex justify-content-center mt-4">
+                <button v-if="isCurrentUser && state.Profile?.numeroentrenador" 
+                    @click="redirects.dashboardEntrenador"
+                    class="btn btn-lg btn-primary">
+                    Accede a tu Dashboard
+                </button>
+            </div>
     </main>
 </template>
 
@@ -17,13 +22,12 @@
 import ProfileInfo from '@/components/profile/ProfileInfo.vue';
 import ProfileNav from '@/components/profile/ProfileNav.vue';
 import Constant from '@/Constant';
-import { reactive, computed, watch, watchEffect } from 'vue';
+import { reactive, computed, watch, watchEffect, ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default {
     name: 'Profile',
-
     components: {
         ProfileInfo,
         ProfileNav
@@ -33,6 +37,8 @@ export default {
         const route = useRoute();
         const store = useStore();
         const router = useRouter();
+        const dataLoaded = ref(false);
+
         const data = {
             numeroentrenador: route.params.numeroentrenador,
             numeroSocio: route.params.numeroSocio
@@ -43,16 +49,24 @@ export default {
             dashboardEntrenador: () => router.push({ name: 'DashboardEntrenador' }),
         };      
 
-        const fetchData = () => {
-            store.dispatch(`user/${Constant.INITIALIZE_PROFILE}`, data);
-            if (localStorage.getItem('token')) {
-                store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"token": localStorage.getItem('token')});
-            } else if (localStorage.getItem('entrenadorToken')) {
-                store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"entrenadorToken": localStorage.getItem('entrenadorToken')});
+        const fetchData = async () => {
+            try {
+                await Promise.all([
+                    store.dispatch(`user/${Constant.INITIALIZE_PROFILE}`, data),
+                    store.dispatch(`profile/${Constant.INITIALIZE_GRAFICA_PROFILE}`, año),
+                    localStorage.getItem('token') 
+                        ? store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"token": localStorage.getItem('token')})
+                        : store.dispatch(`user/${Constant.INITIALIZE_USER}`, {"entrenadorToken": localStorage.getItem('entrenadorToken')})
+                ]);
+                dataLoaded.value = true;
+            } catch (error) {
+                console.error('Error cargando datos:', error);
             }
         };
 
-        store.dispatch(`profile/${Constant.INITIALIZE_GRAFICA_PROFILE}`, año);
+        onMounted(() => {
+            fetchData();
+        });
 
         const state = reactive({
             Profile: computed(() => store.getters['user/GetProfile']),
@@ -60,14 +74,23 @@ export default {
         });
 
         const isCurrentUser = computed(() => {
-            return state.Profile.numeroSocio === state.CurrentUser.numeroSocio;
+            return state.Profile?.numeroSocio === state.CurrentUser?.numeroSocio;
         });
 
-        watchEffect(() => {
-            fetchData()
-        });
+        watch(
+            () => route.params,
+            () => {
+                dataLoaded.value = false;
+                fetchData();
+            }
+        );
 
-        return { isCurrentUser, state, redirects };
+        return { 
+            isCurrentUser, 
+            state, 
+            redirects,
+            dataLoaded 
+        };
     },
 };
 </script>
