@@ -175,7 +175,8 @@ class EntrenamientoController extends Controller
     }
     public function getHorariosOcupados($pistaId){
         $ocupados = Entrenamiento::where('pista_privada_id', $pistaId)
-        ->select('dia', 'horario_id') 
+        ->where('status', 'accepted')  // Solo entrenamientos aprobados
+        ->select('dia', 'horario_id', 'status')
         ->get();
 
     return response()->json($ocupados);
