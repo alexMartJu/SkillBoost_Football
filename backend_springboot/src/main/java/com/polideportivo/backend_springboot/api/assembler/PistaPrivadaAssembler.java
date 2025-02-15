@@ -18,7 +18,7 @@ public class PistaPrivadaAssembler {
 
     public PistaPrivadaResponse toResponse(PistaPrivada pistaPrivada) {
         // Obtener las imágenes asociadas a la pista privada
-        List<Image> pistaPrivadaImages = imageService.getImagesForEntity("App\\Models\\PistaPrivada", pistaPrivada.getId());
+        List<Image> pistaPrivadaImages = imageService.getImagesForEntity("App\\Models\\Pista_privada", pistaPrivada.getId());
 
         // Crear y devolver el DTO con la información de la pista privada y sus imágenes
         return PistaPrivadaResponse.builder()

@@ -28,7 +28,7 @@ public class EntrenamientoController {
     public EntrenamientoWrapper getAllEntrenamientos(
             EntrenamientoSpecification filter, // Especificación generada automáticamente
             @RequestParam(defaultValue = "0") int offset,
-            @RequestParam(defaultValue = "4") int limit) {
+            @RequestParam(defaultValue = "3") int limit) {
 
         System.out.println("Filtros recibidos: " + filter);
         Pageable pageable = PageRequest.of(offset, limit);
