@@ -1,77 +1,82 @@
 <template>
-    <header class="header fixed-top shadow-sm">
+    <header class="header fixed-top shadow">
         <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center p-3">
-                <!-- Logo or App Name -->
-                <div class="text-color fw-bold h2 mb-0 ms-3" @click="redirects.home">
-                    <img src="/assets/logo_2.png" alt="Logo" class="logo">
+            <nav class="navbar navbar-expand-lg py-3">
+                <!-- Logo -->
+                <div class="navbar-brand" @click="redirects.home">
+                    <img src="/assets/logo_2.png" alt="Logo" class="logo-modern">
                 </div>
 
+                <!-- Hamburger Menu for Mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
                 <!-- Navigation Links -->
-                <nav>
-                    <ul class="nav me-5">
-                        <li class="nav-item me-2">
-                            <a @click="redirects.home" class="nav-link text-color fw-bold fs-5"
-                                :class="{ isActive: isHome }">
-                                Home
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item">
+                            <a @click="redirects.home" class="nav-link modern-link" :class="{ 'active-link': isHome }">
+                                <i class="bi bi-house-door me-1"></i>Home
                             </a>
                         </li>
-                        <li class="nav-item me-2">
-                            <a @click="redirects.instalaciones" class="nav-link text-color fw-bold fs-5"
-                                :class="{ isActive: isInstalaciones }">
-                                Instalaciones
+                        <li class="nav-item">
+                            <a @click="redirects.instalaciones" class="nav-link modern-link" :class="{ 'active-link': isInstalaciones }">
+                                <i class="bi bi-building me-1"></i>Instalaciones
                             </a>
                         </li>
-                        <li class="nav-item me-2">
-                            <a @click="redirects.servicios" class="nav-link text-color fw-bold fs-5"
-                                :class="{ isActive: isServicios }">
-                                Servicios
+                        <li class="nav-item">
+                            <a @click="redirects.servicios" class="nav-link modern-link" :class="{ 'active-link': isServicios }">
+                                <i class="bi bi-gear me-1"></i>Servicios
                             </a>
                         </li>
-                        <li class="nav-item me-2">
-                            <a @click="redirects.entrenadores" class="nav-link text-color fw-bold fs-5"
-                                :class="{ isActive: isEntrenadores }">
-                                Entrenadores
+                        <li class="nav-item">
+                            <a @click="redirects.entrenadores" class="nav-link modern-link" :class="{ 'active-link': isEntrenadores }">
+                                <i class="bi bi-people me-1"></i>Entrenadores
                             </a>
                         </li>
 
-                        <!-- DASHBOARDS -->
+                        <!-- Dashboards -->
                         <li v-if="state.isAdmin" class="nav-item">
-                            <a @click="redirects.dashboardAdmin" class="nav-link text-color fw-bold fs-5"
-                                :class="{ isActive: isDashboard }">
-                                Dashboard Admin
+                            <a @click="redirects.dashboardAdmin" class="nav-link modern-link" :class="{ 'active-link': isDashboard }">
+                                <i class="bi bi-speedometer2 me-1"></i>Dashboard Admin
                             </a>
                         </li>
                         <li v-if="state.isEntrenador" class="nav-item">
-                            <a @click="redirects.dashboardEntrenador" class="nav-link text-color fw-bold fs-5"
-                                :class="{ isActive: isDashboard }">
-                                Dashboard Entrenador
-                            </a>
-                        </li>
-                        <!-- ================= -->
-
-                        <li v-if="state.user.numeroSocio" class="nav-item d-flex align-items-center ms-5">
-                            <img :src="state.user.image" alt="" class="profile-image-header me-2">
-                            <a @click="redirects.profile" class="nav-link text-color fw-bold fs-5"
-                                :class="{ isActive: isProfile }">
-                                {{ state.user.nombre }}
+                            <a @click="redirects.dashboardEntrenador" class="nav-link modern-link" :class="{ 'active-link': isDashboard }">
+                                <i class="bi bi-speedometer2 me-1"></i>Dashboard Entrenador
                             </a>
                         </li>
 
-                        <li v-if="!state.isLogged" class="nav-item ms-4">
-                            <a @click="redirects.login" class="nav-link auth fw-bold fs-5"
-                                :class="{ isActive: isLogin }">
+                        <!-- User Profile -->
+                        <li v-if="state.user.numeroSocio" class="nav-item ms-lg-3">
+                            <div class="d-flex align-items-center">
+                                <div class="position-relative">
+                                    <img :src="state.user.image" alt="" class="profile-pic">
+                                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                        <span class="visually-hidden">Online</span>
+                                    </span>
+                                </div>
+                                <a @click="redirects.profile" class="nav-link modern-link ms-2" :class="{ 'active-link': isProfile }">
+                                    {{ state.user.nombre }}
+                                </a>
+                            </div>
+                        </li>
+
+                        <!-- Auth Buttons -->
+                        <li v-if="!state.isLogged" class="nav-item ms-lg-3">
+                            <a @click="redirects.login" class="btn btn-modern-primary" :class="{ 'active-link': isLogin }">
                                 Unirse al club
                             </a>
                         </li>
-                        <li v-if="state.isLogged" class="nav-item ms-4">
-                            <a @click="logout" class="nav-link auth fw-bold fs-5">
+                        <li v-if="state.isLogged" class="nav-item ms-lg-3">
+                            <a @click="logout" class="btn btn-modern-secondary">
                                 Cerrar sesión
                             </a>
                         </li>
                     </ul>
-                </nav>
-            </div>
+                </div>
+            </nav>
         </div>
     </header>
 </template>
@@ -169,61 +174,91 @@ export default {
 
 
 <style scoped>
-.isActive {
-    background-color: #ff6600;
-    color: black;
-    border-radius: 5px;
-}
-
-.text-color {
-    color: #ff6600;
-    transition: all 0.3s;
-
-    &:hover {
-        color: white;
-    }
-}
-
-.auth {
-    background-color: white;
-    border-radius: 10px;
-    color: #ff6600;
-    transition: all 0.3s;
-
-    &:hover {
-        color: black;
-        background-color: #ff6600;
-    }
-}
-
 .header {
-    background-color: rgb(20, 20, 20);
+    background-color: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(10px);
 }
 
-.logo {
-    max-height: 50px;
-    width: auto;
-    transition: transform 0.3s;
-    cursor: pointer;
-
-    &:hover {
-        transform: scale(1.1);
-    }
-}
-
-.nav-link {
-    cursor: pointer;
-}
-
-.nav-link.isActive {
-    color: #000;
-}
-
-.profile-image-header {
-    border-radius: 50%;
-    width: 45px;
+.logo-modern {
     height: 45px;
-    border: 3px solid white;
+    width: auto;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.logo-modern:hover {
+    transform: scale(1.05);
+}
+
+.modern-link {
+    color: #ff6600;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    margin: 0 0.2rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.modern-link:hover {
+    color: white;
+    background-color: rgba(255, 102, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.active-link {
+    background-color: #ff6600;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.2);
+}
+
+.btn-modern-primary {
+    background-color: #ff6600;
+    color: white;
+    border-radius: 10px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid #ff6600;
+}
+
+.btn-modern-primary:hover {
+    background-color: transparent;
+    color: #ff6600;
+    transform: translateY(-2px);
+}
+
+.btn-modern-secondary {
+    background-color: transparent;
+    color: #ff6600;
+    border: 2px solid #ff6600;
+    border-radius: 10px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-modern-secondary:hover {
+    background-color: #ff6600;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ff6600;
     object-fit: cover;
+    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.2);
+}
+
+@media (max-width: 991.98px) {
+    .navbar-nav {
+        padding: 1rem 0;
+    }
+    
+    .nav-item {
+        margin: 0.5rem 0;
+    }
 }
 </style>
