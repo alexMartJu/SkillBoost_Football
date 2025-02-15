@@ -88,10 +88,10 @@ export const entrenadorDashboard = {
                 console.error("Error al crear el entrenamiento:", error);
             }
         },  
-        async [Constant.DELETE_ONE_ENTRENAMIENTO]({ store}, entrenamientoId) {
+        async [Constant.DELETE_ONE_ENTRENAMIENTO]({ commit }, entrenamientoId) {
             try {
-                const { data } = await entrenadorDashboardService.DeleteEntrenamiento(entrenamientoId);
-                store.commit(Constant.INITIALIZE_ENTRENAMIENTO, data.data);
+                await entrenadorDashboardService.DeleteEntrenamiento(entrenamientoId);
+                commit(Constant.DELETE_ONE_ENTRENAMIENTO, entrenamientoId);
             } catch (error) {
                 console.error("Error al eliminar el entrenamiento:", error);
                 throw error;
