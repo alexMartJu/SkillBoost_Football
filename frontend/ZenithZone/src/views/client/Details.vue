@@ -7,7 +7,7 @@
                         <DetailsInfo :isEntrenamiento="isEntrenamiento" :state="state" />
                     </div>
                     <div class="col-md-6 d-flex align-items-center justify-content-center">
-                        <DetailsCarousel :pistas="isEntrenamiento ? state.entrenamiento.deporte?.pistas : state.pista" />
+                        <DetailsCarousel :pistas="isEntrenamiento ? state.entrenamiento.pistaPrivada : state.pista" />
                     </div>
                 </div>
             </div>
