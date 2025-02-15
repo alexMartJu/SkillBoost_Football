@@ -17,7 +17,7 @@ export function useEntrenamientos() {
         precioMax: 0,
         deporteId: "",
         offset: 0,
-        limit: 4,
+        limit: 3,
     };
 
     const state = reactive({
@@ -38,7 +38,7 @@ export function useEntrenamientos() {
 
         entrenamientosService.GetEntrenamientosTotalFiltered(filters)
             .then(res => {
-                const limit = filters_limit ?? 4;
+                const limit = filters_limit ?? 3;
                 const { entrenamientosCount } = res.data;
                 const pages = Math.ceil(entrenamientosCount / limit);
                 state.totalPages = pages;
@@ -71,7 +71,7 @@ export function useEntrenamientos() {
             precioMax: 0,
             deporteId: "",
             offset: 0,
-            limit: 4,
+            limit: 3,
         };
         // ApplyFilters(state.filters);
         router.push({ name: 'serviciosEntrenamientos' }); // Actualiza la URL sin parámetros de filtro

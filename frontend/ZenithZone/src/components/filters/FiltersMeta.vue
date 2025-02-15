@@ -27,7 +27,8 @@
                             :min="minPrice" 
                             :max="maxPrice" 
                             step="5"
-                            v-model="state.filters.precioMax" 
+                            v-model.lazy="state.filters.precioMax" 
+                            @input="debouncedFilter" 
                         />
                         <span>{{ state.filters.precioMax }}€</span>
                     </div>
@@ -75,6 +76,7 @@ import Constant from '../../Constant';
 import { useStore } from 'vuex';
 import { reactive, getCurrentInstance, computed, watch } from 'vue';
 import Search from './Search.vue';
+import { debounce } from 'lodash';
 
 export default {
     components: {
@@ -127,6 +129,11 @@ export default {
         const maxPrice = computed(() => state.meta.precioMaximo || 100);
         const minDuracion = computed(() => state.meta.duracionMinima || 0); // Duración mínima
         const maxDuracion = computed(() => state.meta.duracionMaxima || 100); // Duración máxima
+
+        const debouncedFilter = debounce((event) => {
+            state.filters[event.target.name] = event.target.value;
+            sendFilters();
+        }, 300);
 
         watch(
             () => state.filters,
