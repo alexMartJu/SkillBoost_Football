@@ -1,14 +1,23 @@
 <template>
-    <div class="container-fluid ">
-        <FiltersComponent :filters_url="state.filters" :meta="state.meta" @apply-filters="ApplyFilters"
-            @reset-filters="resetFilters" />
-        <div class="row justify-content-center">
-            <CardClases v-for="entrenamiento in state.entrenamientos" :key="entrenamiento.id"
-                :entrenamiento="entrenamiento" :isSuscribed="suscribedEntrenamientos.has(entrenamiento.slug)"
-                class="col-md-4" />
+    <div class="container-fluid">
+        <div class="row pt-4">
+            <!-- Filters Column -->
+            <div class="col-lg-3">
+                <FiltersComponent :filters_url="state.filters" :meta="state.meta" @apply-filters="ApplyFilters"
+                    @reset-filters="resetFilters" />
+            </div>
+            
+            <!-- Cards Column -->
+            <div class="col-lg-9">
+                <div class="row g-3 justify-content-center">
+                    <CardClases v-for="entrenamiento in state.entrenamientos" :key="entrenamiento.id"
+                        :entrenamiento="entrenamiento" :isServiciosView="true" :isSuscribed="suscribedEntrenamientos.has(entrenamiento.slug)"
+                        class="col-md-6 col-lg-4" />
+                </div>
+                <PaginateComponent :page="state.offset" :totalPages="state.totalPages" @update:page="updatePage"
+                    @page-click="clickCallback" />
+            </div>
         </div>
-        <PaginateComponent :page="state.offset" :totalPages="state.totalPages" @update:page="updatePage"
-            @page-click="clickCallback" />
     </div>
 </template>
 
