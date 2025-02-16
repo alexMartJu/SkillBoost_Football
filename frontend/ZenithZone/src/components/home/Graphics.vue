@@ -97,11 +97,24 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 canvas {
-    max-width: 700px;
+    max-width: 100%;
     height: auto;
     margin: auto;
-    /* margin-right: 10; */
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+canvas:hover {
+    filter: brightness(1.05);
+}
+
+.chart-container {
+    position: relative;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
 }
 </style>
