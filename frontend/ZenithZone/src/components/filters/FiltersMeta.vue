@@ -1,72 +1,71 @@
 <template>
-    <div class="container">
-        <div class="row align-items-center">
-            <!-- Select para Deporte -->
-            <div class="col-2">
-                <select class="form-select" v-model="state.filters.deporteId">
-                    <option value="" disabled selected>Deporte</option>
+    <div class="container-fluid p-3">
+        <div class="row g-4">
+            <!-- Search Section -->
+            <div class="col-12">
+                <select v-model="state.filters.deporteId" class="form-select mb-3">
+                    <option value="" disabled selected>✨ Elige tu deporte favorito</option>
                     <option v-for="deporte in state.deportes" :key="deporte.id" :value="deporte.id">
                         {{ deporte.nombre }}
                     </option>
                 </select>
-            </div>
-
-            <!-- Search -->
-            <div class="col-4">
                 <Search :filters="state.filters" @search="sendFilters"/>
             </div>
 
-            <!-- Rango de Precios -->
-            <div class="col-3">
-                <label class="mb-2">Precio máximo</label>
-                <div class="d-flex flex-column">
-                    <div class="d-flex row align-items-center">
-                        <input 
-                            type="range" 
-                            class="form-range me-5" 
-                            :min="minPrice" 
-                            :max="maxPrice" 
-                            step="5"
-                            v-model.lazy="state.filters.precioMax" 
-                            @input="debouncedFilter" 
-                        />
-                        <span>{{ state.filters.precioMax }}€</span>
+            <!-- Sliders Section -->
+            <div class="col-12">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label class="form-label d-flex justify-content-between">
+                                <span>Precio</span>
+                                <span class="text-primary">{{ state.filters.precioMax }}€</span>
+                            </label>
+                            <input type="range" class="form-range" 
+                                :min="minPrice" 
+                                :max="maxPrice" 
+                                v-model.lazy="state.filters.precioMax"
+                                @input="debouncedFilter">
+                        </div>
+
+                        <div>
+                            <label class="form-label d-flex justify-content-between">
+                                <span>Duración</span>
+                                <span class="text-primary">{{ state.filters.duracionMax }} min</span>
+                            </label>
+                            <input type="range" class="form-range"
+                                :min="minDuracion" 
+                                :max="maxDuracion" 
+                                v-model="state.filters.duracionMax">
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Rango de Duración -->
-            <div class="col-3">
-                <label class="mb-2">Duración máxima</label>
-                <div class="d-flex flex-column">
-                    <div class="d-flex row align-items-center">
-                        <input 
-                            type="range" 
-                            class="form-range me-3" 
-                            :min="minDuracion" 
-                            :max="maxDuracion" 
-                            step="5"
-                            v-model="state.filters.duracionMax" 
-                        />
-                        <span>{{ state.filters.duracionMax }} minutos</span>
+            <!-- Days Section -->
+            <div class="col-12">
+                <h5 class="text-center mb-3">¿Qué días te vienen mejor?</h5>
+                <div class="d-flex flex-wrap gap-2">
+                    <div v-for="dia in diasDeLaSemana" :key="dia" class="form-check">
+                        <input type="checkbox" 
+                            :id="dia" 
+                            :value="dia" 
+                            v-model="state.filters.diasSeleccionados"
+                            class="btn-check">
+                        <label :for="dia" class="btn btn-outline-primary">
+                            {{ dia.substring(0,10) }}
+                        </label>
                     </div>
                 </div>
             </div>
 
-            <!-- Select para Día -->
-            <div class="col-12 mt-3">
-                <div class="wrapper-dias" role="group" aria-label="Basic checkbox toggle button group">
-                    <label v-for="(dia, index) in diasDeLaSemana" :key="index" class="btn" :class="{ active: state.filters.diasSeleccionados.includes(dia) }">
-                        <input type="checkbox" class="btn-dia btn-check" :value="dia" v-model="state.filters.diasSeleccionados" autocomplete="off">
-                        {{ dia }}
-                    </label>
-                </div>
+            <!-- Reset Button -->
+            <div class="col-12 text-end">
+                <button class="btn btn-outline-primary" @click="deleteFilters()">
+                    <i class="bi bi-arrow-clockwise me-2"></i>
+                    Reiniciar filtros
+                </button>
             </div>
-        </div>
-
-        <!-- Botones -->
-        <div class="container_filter mt-3 text-center mb-3">
-            <button class="btn-clear" @click="deleteFilters()">Borrar Filtros</button>
         </div>
     </div>
 </template>
@@ -158,7 +157,7 @@ export default {
             state.filters.precioMax = maxPrice.value;
             state.filters.deporteId = "";
             state.filters.offset = 0;
-            state.filters.limit = 4;
+            state.filters.limit = 3;
             state.filters.diasSeleccionados = [];
             emit('deleteFilters', state.filters);
         };
@@ -172,81 +171,6 @@ export default {
 };
 </script>
 
-<style>
-select {
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
+<style scoped>
 
-button {
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
-}
-
-input[type="range"] {
-    width: 100%;
-    margin: 10px 0;
-    height: 5px;
-    background: #ddd;
-    /* border-radius: 5px; */
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-    background: #ddd;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-    background: #ff6600;
-    /* border: 2px solid #000000; */
-}
-
-.btn-filter {
-    padding: 10px 20px;
-    margin: 10px;
-    border-radius: 5px;
-    border: 1px solid #28a745;
-    background-color: #28a745;
-    color: white;
-    cursor: pointer;
-}
-
-.btn-filter:hover {
-    background-color: #218838;
-    border-color: #1e7e34;
-}
-
-.btn-clear {
-    padding: 10px 20px;
-    margin: 10px;
-    border-radius: 5px;
-    border: 1px solid #dc3545;
-    background-color: #dc3545;
-    color: white;
-    cursor: pointer;
-}
-
-.btn-clear:hover {
-    background-color: #c82333;
-    border-color: #bd2130;
-}
-
-.wrapper-dias .btn {
-    margin: 0 2px;
-    background-color: white;
-    border: 1px solid #ff6600;
-    color: #ff6600;
-}
-.wrapper-dias .btn-dia:checked + .btn {
-    background-color: #ff6600; /* Cambia el color del botón cuando está seleccionado */
-    color: #fff;
-}
-.wrapper-dias .btn.active {
-    background-color: #ff6600; /* Cambia el color del botón cuando está seleccionado */
-    color: #fff;
-}
 </style>

@@ -1,13 +1,18 @@
 <template>
-    <div class="text-center">
-        <button @click="toggleCollapse">
-            {{ isCollapsed ? 'Mostrar filtros' : 'Ocultar filtros' }}
+    <div class="card shadow-sm mb-4">
+        <button class="btn btn-primary p-3" @click="toggleCollapse">
+            <div class="d-flex align-items-center justify-content-center gap-3">
+                <span class="spinner-grow spinner-grow-sm"></span>
+                <span>{{ isCollapsed ? 'Descubre Nuevas Experiencias' : 'Ajustar Filtros' }}</span>
+                <i :class="isCollapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up'"></i>
+            </div>
         </button>
-        <transition name="collapse">
-            <div v-show="!isCollapsed">
+        
+        <div class="collapse" :class="{ 'show': !isCollapsed }">
+            <div class="card-body">
                 <filters @filters="ApplyFilters" @deleteFilters="resetFilters" :filters="filters_url" :meta="meta" />
             </div>
-        </transition>
+        </div>
     </div>
 </template>
 
@@ -44,26 +49,27 @@ export default {
 };
 </script>
 
-<style>
-.collapse-enter-active,
-.collapse-leave-active {
-    transition: max-height 0.3s ease, opacity 0.3s ease;
-    overflow: hidden;
+<style scoped>
+/* Custom animations if needed */
+.spinner-grow {
+    animation: pulse 2s infinite;
 }
 
-.collapse-enter, .collapse-leave-to /* .collapse-leave-active en versiones anteriores */ {
-    max-height: 0;
-    opacity: 0;
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
-.collapse-enter-from {
-    max-height: 0;
-    opacity: 0;
+/* Custom brand colors */
+.btn-primary {
+    background: linear-gradient(45deg, #ff6600, #ff8533);
+    border: none;
 }
 
-.collapse-leave-from {
-    max-height: 1200px; /* Ajusta según el contenido */
-    opacity: 1;
+.btn-primary:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(45deg, #ff8533, #ff6600);
 }
+</style> 
 
-</style>
