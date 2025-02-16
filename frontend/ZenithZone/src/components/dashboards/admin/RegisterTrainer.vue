@@ -1,34 +1,48 @@
 <template>
-    <div class="RegisterTrainer">
-        <main class="main py-5">
+    <div class="register-trainer bg-light min-vh-100 d-flex align-items-center">
+        <main class="w-100 py-5">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-6 col-lg-4">
-                        <section class="wrapper">
-                            <div class="text-center mb-4">
-                                <h1 class="h3 mb-3 fw-normal">Register Entrenador</h1>
+                    <div class="col-md-8 col-lg-6">
+                        <div class="card border-0 shadow-sm rounded-4">
+                            <div class="card-body p-5">
+                                <div class="text-center mb-5">
+                                    <h1 class="display-6 fw-bold text-primary mb-2">Registrar Entrenador</h1>
+                                    <div class="border-bottom border-2 border-primary mx-auto" style="width: 50px;"></div>
+                                </div>
+                                
+                                <div v-if="isLoading" class="text-center">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Cargando...</span>
+                                    </div>
+                                </div>
+
+                                <div v-if="registrationSuccess" 
+                                     class="alert alert-success border-0 rounded-3 shadow-sm text-center fade show">
+                                    <i class="bi bi-check-circle me-2"></i>
+                                    Entrenador registrado con éxito.
+                                </div>
+
+                                <div v-if="registrationError" 
+                                     class="alert alert-danger border-0 rounded-3 shadow-sm text-center fade show">
+                                    <i class="bi bi-exclamation-circle me-2"></i>
+                                    Error al registrar entrenador.
+                                </div>
+
+                                <TrainerForm
+                                    v-else
+                                    :deportes="deportes"
+                                    @submit="handleFormSubmit"
+                                />
                             </div>
-                            <div v-if="isLoading" class="text-center">
-                                <p>Cargando deportes...</p>
-                            </div>
-                            <div v-if="registrationSuccess" class="alert alert-success text-center">
-                                Entrenador registrado exitosamente.
-                            </div>
-                            <div v-if="registrationError" class="alert alert-danger text-center">
-                                Ocurrió un error al registrar al entrenador.
-                            </div>
-                            <TrainerForm
-                                v-else
-                                :deportes="deportes"
-                                @submit="handleFormSubmit"
-                            />
-                        </section>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 </template>
+
 
 <script>
 import Constant from '@/Constant';

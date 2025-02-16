@@ -1,72 +1,83 @@
 <template>
-    <form @submit.prevent="submitForm">
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" id="nombre" class="form-control" v-model="state.nombre" required />
-            <div v-if="x$.nombre.$invalid && x$.nombre.$dirty" class="text-danger small">
-                Invalid nombre (must be at least 2 characters).
+    <form @submit.prevent="submitForm" class="needs-validation">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="nombre" v-model="state.nombre" required>
+                    <label for="nombre">Nombre</label>
+                    <div v-if="x$.nombre.$invalid && x$.nombre.$dirty" class="invalid-feedback d-block">
+                        El nombre debe tener al menos 2 caracteres
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="mb-3">
-            <label for="apellidos" class="form-label">Apellidos</label>
-            <input type="text" id="apellidos" class="form-control" v-model="state.apellidos" required />
-            <div v-if="x$.apellidos.$invalid && x$.apellidos.$dirty" class="text-danger small">
-                Invalid apellidos (must be at least 2 characters).
+
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="apellidos" v-model="state.apellidos" required>
+                    <label for="apellidos">Apellidos</label>
+                    <div v-if="x$.apellidos.$invalid && x$.apellidos.$dirty" class="invalid-feedback d-block">
+                        El apellido debe tener al menos 2 caracteres
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email Address</label>
-            <input type="email" id="email" class="form-control" v-model="state.email" required />
-            <div v-if="x$.email.$invalid && x$.email.$dirty" class="text-danger small">
-                Invalid email (must be a valid email).
+
+            <div class="col-12">
+                <div class="form-floating">
+                    <input type="email" class="form-control" id="email" v-model="state.email" required>
+                    <label for="email">Correo electrónico</label>
+                    <div v-if="x$.email.$invalid && x$.email.$dirty" class="invalid-feedback d-block">
+                        Por favor ingrese un correo electrónico válido 
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" id="password" class="form-control" v-model="state.password" required />
-            <div v-if="x$.password.$invalid && x$.password.$dirty" class="text-danger small">
-                Invalid password (must be at least 3 characters).
+
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="password" v-model="state.password" required>
+                    <label for="password">Contraseña</label>
+                    <div v-if="x$.password.$invalid && x$.password.$dirty" class="invalid-feedback d-block">
+                        La contraseña debe tener al menos 3 caracteres
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="mb-3">
-            <label for="password_confirmation" class="form-label">Repeat Password</label>
-            <input type="password" id="password_confirmation" class="form-control" v-model="state.password_confirmation" required />
-            <div v-if="state.password !== state.password_confirmation" class="text-danger small">
-                Passwords do not match.
+
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="password_confirmation" 
+                           v-model="state.password_confirmation" required>
+                    <label for="password_confirmation">Confirmar Contraseña</label>
+                    <div v-if="state.password !== state.password_confirmation" class="invalid-feedback d-block">
+                        Las contraseñas no coinciden 
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="mb-3">
-            <label for="edad" class="form-label">Edad (mínimo 18)</label>
-            <input
-                type="range"
-                id="edad"
-                class="form-control"
-                v-model="state.edad"
-                :min="18"
-                :max="100"
-                step="1"
-                required
-            />
-            <div>
-                <span>Edad seleccionada: {{ state.edad }}</span>
+
+            <div class="col-md-6">
+                <label class="form-label">Edad</label>
+                <div class="d-flex align-items-center gap-3">
+                    <input type="range" class="form-range flex-grow-1" v-model="state.edad" 
+                           min="18" max="100" step="1" required>
+                    <span class="badge bg-primary">{{ state.edad }}</span>
+                </div>
             </div>
-            <div v-if="state.edad < 18" class="text-danger small">
-                La edad debe ser al menos 18 años.
+
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <select class="form-select" id="deporte" v-model="state.deporte_id" required>
+                        <option value="" disabled selected>Selecciona un deporte</option>
+                        <option v-for="deporte in deportes" :key="deporte.id" :value="deporte.id">
+                            {{ deporte.nombre }}
+                        </option>
+                    </select>
+                    <label for="deporte">Deporte</label>
+                </div>
             </div>
-        </div>
-        <div class="mb-3">
-            <label for="deporte" class="form-label">Deporte</label>
-            <select id="deporte" class="form-control" v-model="state.deporte_id" required>
-                <option v-for="deporte in deportes" :key="deporte.id" :value="deporte.id">
-                    {{ deporte.nombre }}
-                </option>
-            </select>
-            <div v-if="x$.deporte_id.$invalid && x$.deporte_id.$dirty" class="text-danger small">
-                Please select a sport.
+
+            <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-primary w-100 py-3 rounded-3">
+                    <i class="bi bi-person-plus me-2"></i>Registrar Entrenador
+                </button>
             </div>
-        </div>
-        <div class="d-grid">
-            <button type="submit" class="btn btn-primary">Register</button>
         </div>
     </form>
 </template>
@@ -132,7 +143,26 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.text-danger {
-    font-size: 0.875rem;
+.form-floating {
+    margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select {
+    border-radius: 0.5rem;
+    border: 1px solid #dee2e6;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.btn-primary {
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
 }
 </style>
