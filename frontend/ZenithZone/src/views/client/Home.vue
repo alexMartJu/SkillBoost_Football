@@ -1,9 +1,9 @@
 <template>
     <HeroSection />
-    
+
     <MiddleSection />
     <Olympics />
-    <GraphicSection style="margin-top: 150px;"/>
+    <GraphicSection />
     <ListDeportesHome />
 </template>
 
@@ -26,9 +26,9 @@ export default {
 </script>
 
 <style scoped>
-    body {
-        margin-top: 87px;
-        background-color: rgb(245, 245, 245);
-        font-family: 'Roboto', sans-serif;
-    }
+body {
+    margin-top: 87px;
+    background-color: rgb(245, 245, 245);
+    font-family: 'Roboto', sans-serif;
+}
 </style>
