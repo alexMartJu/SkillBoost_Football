@@ -1,85 +1,61 @@
 <template>
-    <div class="card-entrenador">
-      <div class="entrenador-info">
-        <img 
-          v-if="entrenador.imagenes.length > 0"
-          :src="`/assets/entrenadores/${entrenador.imagenes[0].image_url}`" 
-          alt="Imagen del entrenador" 
-          class="entrenador-imagen" 
-        />
-        <div class="entrenador-detalles">
-          <h3>{{ entrenador.nombre }} {{ entrenador.apellidos }}</h3>
-          <p>{{ entrenador.email }}</p>
+    <div class="card shadow-lg border-0 mb-3">
+      <div class="card-body d-flex justify-content-between align-items-center p-4">
+        <div class="d-flex align-items-center">
+          <div>
+            <img 
+              v-if="entrenador.imagenes.length > 0"
+              :src="`/assets/entrenadores/${entrenador.imagenes[0].image_url}`" 
+              alt="Imagen del entrenador" 
+              class="rounded-circle me-3 border border-white shadow-sm" 
+              style="width: 80px; height: 80px; object-fit: cover;"
+            />
+          </div>
+          <div>
+            <h6 class="mb-0 fw-bold text-dark fs-5">{{ entrenador.nombre }} {{ entrenador.apellidos }}</h6>
+            <small class="text-muted opacity-75">{{ entrenador.email }}</small>
+          </div>
         </div>
+        <button 
+          @click="confirmarEliminar(entrenador.numeroentrenador)" 
+          class="btn btn-danger btn-sm rounded-3 px-3 py-2"
+        >
+          <i class="bi bi-trash"></i>
+        </button>
       </div>
-      <button @click="confirmarEliminar(entrenador.numeroentrenador)">Eliminar</button>
     </div>
-  </template>
+</template>
   
-  <script>
-  export default {
-    name: 'CardEntrenadores',
-    props: {
-      entrenador: Object,
+<script>
+export default {
+  name: 'CardEntrenadores',
+  props: {
+    entrenador: Object,
+  },
+  methods: {
+    confirmarEliminar(id) {
+      this.$emit('eliminarEntrenador', id);
     },
-    methods: {
-      confirmarEliminar(id) {
-        this.$emit('eliminarEntrenador', id);
-      },
-    },
-  };
-  </script>
-  
-  
+  },
+};
+</script>
+
 <style scoped>
-.card-entrenador {
-  background-color: #f8f8f8;
-  border-radius: 8px;
-  padding: 10px;
-  margin: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.card {
+  border-radius: 15px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-.entrenador-info {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
 }
 
-.entrenador-imagen {
-  width: 40px; /* Imagen muy pequeña */
-  height: 40px; /* Imagen muy pequeña */
-  border-radius: 50%; /* Imagen circular */
-  object-fit: cover; /* Ajuste para que la imagen se vea bien */
-  margin-right: 15px; /* Espacio entre la imagen y el texto */
+.btn-danger {
+  transition: transform 0.3s ease;
 }
 
-.entrenador-detalles h3 {
-  font-size: 1rem;
-  color: #333;
-  margin: 0;
+.btn-danger:hover {
+  transform: scale(1.05);
 }
-
-.entrenador-detalles p {
-  color: #777;
-  font-size: 0.9rem;
-  margin: 5px 0 0 0;
-}
-
-button {
-  background-color: #ff5b5b;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-button:hover {
-  background-color: #ff4040;
-}
-</style>    
+</style>
