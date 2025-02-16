@@ -1,54 +1,61 @@
 <template>
-    <div class="card-entrenamiento">
-      <div class="entrenamiento-info">
-        <div class="entrenamiento-detalles">
-          <h3>{{ entrenamiento.nombre }}</h3>
-          <p><strong>Entrenador:</strong> {{ entrenamiento.entrenador.nombre }} {{ entrenamiento.entrenador.apellidos }}</p>
-          <p><strong>Estado:</strong>
-            <span :class="{
-                'text-success': entrenamiento.status === 'accepted' || this.entrenamiento.status === 'completed',
-                'text-danger': entrenamiento.status === 'denied',
-                'text-warning': entrenamiento.status === 'pending'
-            }">
-              {{ entrenamiento.status }}
-            </span>
-          </p>
-  
-          <!-- Descripción del entrenamiento, que estará oculta inicialmente -->
-          <div v-if="mostrarDescripcion" class="descripcion">
-            <p>{{ entrenamiento.descripcion }}</p>
-          </div>
-          <button @click="toggleDescripcion">
-            {{ mostrarDescripcion ? 'Ocultar descripción' : 'Ver descripción' }}
-          </button>
+  <div class="card h-100 border-0 shadow-sm">
+    <div class="card-body">
+      <h3 class="h5 card-title text-primary mb-3">{{ entrenamiento.nombre }}</h3>
+      
+      <div class="mb-3">
+        <div class="d-flex align-items-center mb-2">
+          <i class="bi bi-person-circle me-2"></i>
+          <span class="text-muted">{{ entrenamiento.entrenador.nombre }} {{ entrenamiento.entrenador.apellidos }}</span>
+        </div>
+        
+        <div class="d-flex align-items-center">
+          <i class="bi bi-circle-fill me-2" :class="{
+            'text-success': entrenamiento.status === 'accepted' || entrenamiento.status === 'completed',
+            'text-danger': entrenamiento.status === 'denied',
+            'text-warning': entrenamiento.status === 'pending'
+          }"></i>
+          <span class="text-capitalize">{{ entrenamiento.status }}</span>
         </div>
       </div>
-  
-      <div class="botones">
-        <!-- Botón de Aceptar -->
+
+      <div class="collapse" :id="'descripcion-' + entrenamiento.slug">
+        <p class="card-text text-muted mb-3">{{ entrenamiento.descripcion }}</p>
+      </div>
+
+      <button class="btn btn-link btn-sm text-decoration-none p-0 mb-3" 
+              @click="toggleDescripcion" 
+              :data-bs-target="'#descripcion-' + entrenamiento.slug"
+              data-bs-toggle="collapse">
+        {{ mostrarDescripcion ? 'Ocultar detalles' : 'Ver detalles' }}
+      </button>
+
+      <div class="d-flex gap-2">
         <button 
           @click="cambiarEstado('accepted')" 
           :disabled="entrenamiento.status !== 'pending'"
-          :class="{
-            'btn-aceptar': entrenamiento.status === 'pending',
-            'btn-success': entrenamiento.status === 'accepted'
-          }">
-          Aceptar
+          class="btn btn-sm"
+          :class="[
+            entrenamiento.status === 'pending' ? 'btn-outline-success' : 'btn-success',
+            {'disabled': entrenamiento.status !== 'pending'}
+          ]">
+          <i class="bi bi-check-lg me-1"></i>Aceptar
         </button>
-  
-        <!-- Botón de Denegar -->
+
         <button 
           @click="cambiarEstado('denied')" 
           :disabled="entrenamiento.status !== 'pending'"
-          :class="{
-            'btn-aceptar': entrenamiento.status === 'pending',
-            'btn-danger': entrenamiento.status === 'denied'
-          }">
-          Denegar
+          class="btn btn-sm"
+          :class="[
+            entrenamiento.status === 'pending' ? 'btn-outline-danger' : 'btn-danger',
+            {'disabled': entrenamiento.status !== 'pending'}
+          ]">
+          <i class="bi bi-x-lg me-1"></i>Denegar
         </button>
       </div>
     </div>
-  </template>
+  </div>
+</template>
  
   
   <script>
@@ -83,81 +90,20 @@
   
  
 <style scoped>
-.card-entrenamiento {
-  background-color: #f8f8f8;
-  border-radius: 8px;
-  padding: 15px;
-  margin: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.card {
+  transition: transform 0.2s ease-in-out;
 }
 
-.entrenamiento-info {
-  display: flex;
-  flex-direction: column;
+.card:hover {
+  transform: translateY(-2px);
 }
 
-.entrenamiento-detalles h3 {
-  font-size: 1.2rem;
-  color: #333;
-  margin: 0;
+.btn-sm {
+  padding: 0.4rem 0.8rem;
 }
 
-.entrenamiento-detalles p {
-  color: #777;
-  font-size: 1rem;
-}
-
-.descripcion {
-  margin-top: 10px;
-  font-size: 0.9rem;
-  color: #333;
-}
-
-.botones {
-  display: flex;
-  gap: 10px;
-}
-
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-button:disabled {
-  background-color: #ccc;
+.disabled {
+  opacity: 0.65;
   cursor: not-allowed;
-}
-
-/* Clases para botones según el estado */
-.btn-aceptar {
-  background-color: #007bff;
-  color: white;
-}
-
-.btn-denegar {
-  background-color: #dc3545;
-  color: white;
-}
-
-.btn-success {
-  background-color: #28a745;
-  color: white;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  color: white;
 }
 </style>

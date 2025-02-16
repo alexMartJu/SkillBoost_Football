@@ -1,34 +1,55 @@
-  <template>
-    <div class="entrenamiento-list">
-      <h1>Lista de Entrenamientos</h1>
-  
-      <!-- Lista de Entrenamientos Pendientes -->
-      <h2>Entrenamientos Pendientes</h2>
-      <div v-if="pendientes.length > 0">
-        <CardEntrenamientos
-          v-for="entrenamiento in pendientes"
-          :key="entrenamiento.slug"
-          :entrenamiento="entrenamiento"
-          @cambiarEstado="cambiarEstado"
-          @eliminarEntrenamiento="eliminarEntrenamiento"
-        />
+<template>
+  <div class="container py-4">
+    <h1 class="display-5 fw-bold text-primary mb-4">Gestión de Entrenamientos</h1>
+    
+    <!-- Sección de Entrenamientos Pendientes -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-white">
+        <h2 class="h4 mb-0 text-primary">Entrenamientos Pendientes</h2>
       </div>
-      <p v-else>No hay entrenamientos pendientes.</p>
-  
-      <!-- Lista de Entrenamientos Aceptados o Denegados -->
-      <h2>Entrenamientos Aceptados / Denegados</h2>
-      <div v-if="aceptadosOdenegados.length > 0">
-        <CardEntrenamientos
-          v-for="entrenamiento in aceptadosOdenegados"
-          :key="entrenamiento.slug"
-          :entrenamiento="entrenamiento"
-          @cambiarEstado="cambiarEstado"
-          @eliminarEntrenamiento="eliminarEntrenamiento"
-        />
+      <div class="card-body">
+        <div class="row g-3">
+          <template v-if="pendientes.length > 0">
+            <div class="col-12 col-md-6 col-lg-4" v-for="entrenamiento in pendientes" :key="entrenamiento.slug">
+              <CardEntrenamientos
+                :entrenamiento="entrenamiento"
+                @cambiarEstado="cambiarEstado"
+                @eliminarEntrenamiento="eliminarEntrenamiento"
+              />
+            </div>
+          </template>
+          <div v-else class="col-12">
+            <p class="text-muted mb-0">No hay entrenamientos pendientes</p>
+          </div>
+        </div>
       </div>
-      <p v-else>No hay entrenamientos aceptados o denegados.</p>
     </div>
-  </template>
+
+    <!-- Sección de Entrenamientos Aceptados/Denegados -->
+    <div class="card shadow-sm">
+      <div class="card-header bg-white">
+        <h2 class="h4 mb-0 text-primary">Historial de Entrenamientos</h2>
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <template v-if="aceptadosOdenegados.length > 0">
+            <div class="col-12 col-md-6 col-lg-4" v-for="entrenamiento in aceptadosOdenegados" :key="entrenamiento.slug">
+              <CardEntrenamientos
+                :entrenamiento="entrenamiento"
+                @cambiarEstado="cambiarEstado"
+                @eliminarEntrenamiento="eliminarEntrenamiento"
+              />
+            </div>
+          </template>
+          <div v-else class="col-12">
+            <p class="text-muted mb-0">No hay entrenamientos procesados</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
   
   <script>
   import { mapGetters } from 'vuex';
@@ -89,11 +110,6 @@
   };
   </script>
   
-  <style scoped>
-  .entrenamiento-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  </style>
+<style scoped>
+</style>
   
