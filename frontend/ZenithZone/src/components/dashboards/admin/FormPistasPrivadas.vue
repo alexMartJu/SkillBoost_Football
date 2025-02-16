@@ -1,19 +1,32 @@
 <template>
-    <div>
-      <h2>{{ formMode === 'create' ? 'Crear Pista' : 'Editar Pista' }}</h2>
-      <form @submit.prevent="formMode === 'create' ? crearPista() : actualizarPista()">
-        <input v-model="currentPista.nombre" placeholder="Nombre de la pista" required />
-        <h3>Seleccione los deportes asociados:</h3>
-        <div class="checkbox-group">
-          <div v-for="deporte in deportes" :key="deporte.id">
-            <input type="checkbox" :value="deporte.id" v-model="currentPista.deportes" />
-            <label>{{ deporte.nombre }}</label>
+  <div class="container mt-5">
+    <h2 class="display-6 text-center mb-4">{{ formMode === 'create' ? 'Crear Pista' : 'Editar Pista' }}</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <form @submit.prevent="formMode === 'create' ? crearPista() : actualizarPista()" class="shadow-sm p-4 bg-white rounded">
+          <div class="mb-4">
+            <input v-model="currentPista.nombre" placeholder="Nombre de la pista" required class="form-control form-control-lg" />
           </div>
-        </div>
-        <button type="submit">{{ formMode === 'create' ? 'Crear Pista' : 'Actualizar Pista' }}</button>
-      </form>
+          
+          <h3 class="h5 mb-3">Seleccione los deportes asociados:</h3>
+          <div class="row g-3 mb-4">
+            <div v-for="deporte in deportes" :key="deporte.id" class="col-md-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" :value="deporte.id" v-model="currentPista.deportes" :id="'deporte-'+deporte.id" />
+                <label class="form-check-label" :for="'deporte-'+deporte.id">{{ deporte.nombre }}</label>
+              </div>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn btn-primary btn-lg w-100">
+            <i :class="formMode === 'create' ? 'bi bi-plus-circle' : 'bi bi-pencil-square'"></i>
+            {{ formMode === 'create' ? 'Crear Pista' : 'Actualizar Pista' }}
+          </button>
+        </form>
+      </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   import Constant from '../../../Constant';
@@ -85,76 +98,24 @@
     }
   };
   </script>
+  
 <style scoped>
-/* General container layout */
-div {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 20px;
+.form-control:focus {
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
 }
 
-/* Header styling */
-h2 {
-  font-size: 1.8em;
-  margin-bottom: 15px;
-  color: #333;
-  text-align: center;
+.btn-primary {
+  transition: all 0.3s ease;
 }
 
-/* Form field styling */
-form {
-  display: flex;
-  flex-direction: column;
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-input[type="text"] {
-  padding: 10px;
-  margin-bottom: 20px;
-  font-size: 1em;
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-/* Section for sports selection */
-h3 {
-  font-size: 1.2em;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  color: #555;
-}
-
-.checkbox-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 55px; 
-} 
-
-.checkbox-group div {
-  display: flex;
-  align-items: center;
-  width: 18%; 
-}
-
-input[type="checkbox"] {
-  margin-right: 8px;
-  transform: scale(1.2); 
-}
-
-
-button[type="submit"] {
-  padding: 12px;
-  font-size: 1em;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-button[type="submit"]:hover {
-  background-color: #0056b3;
+.form-check-input:checked {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
 }
 </style>
