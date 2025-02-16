@@ -1,121 +1,134 @@
 <template>
-<div class="landing-section d-flex">
-    <!-- Sección del texto -->
-    <div class="text-section col-md-6 d-flex flex-column justify-content-center px-4">
-        <div class="text-container">
-            <p class="fw-bold text-center">
-                LAS MEJORES INSTALACIONES
-            </p>
+  <div class="facilities-section py-5">
+    <div class="container-xxl">
+      <div class="row g-5">
+        <!-- Text Section -->
+        <div class="col-lg-4">
+          <div class="d-flex flex-column justify-content-center h-100 p-4">
+            <h2 class="display-4 fw-bold gradient-text mb-3">Instalaciones de Elite</h2>
+            <p class="fs-4 text-secondary mb-4">Donde el rendimiento encuentra la excelencia</p>
+            <div class="d-flex flex-column gap-4">
+              <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-award fs-4 text-primary"></i>
+                <span class="fs-5">Tecnología de Última Generación</span>
+              </div>
+              <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-lightning fs-4 text-primary"></i>
+                <span class="fs-5">Equipamiento Profesional</span>
+              </div>
+              <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-shield-check fs-4 text-primary"></i>
+                <span class="fs-5">Personal Certificado</span>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
 
-    <!-- Sección del carrusel -->
-    <div class="carousel-section col-md-6 p-0">
-        <!-- <Splide ref="splideInstance" :options="splideOptions" class="h-100">
-            <SplideSlide v-for="pista in state.pistas" :key="pista.id" :pista="pista"> 
-                <img :src="`/assets/home/${pista.image}`" class="d-block w-100 h-100 object-fit-cover" alt="" />
-            </SplideSlide>
-        </Splide> -->
-        <Splide :options="splideOptions" class="h-100">
-            <SplideSlide> 
-                <img src="/assets/home/pista_atletismo.jpg" class="d-block w-100 h-100 object-fit-cover" alt="" />
-            </SplideSlide>
-            <SplideSlide> 
-                <img src="/assets/home/piscina.jpg" class="d-block w-100 h-100 object-fit-cover" alt="" />
-            </SplideSlide>
-            <SplideSlide> 
-                <img src="/assets/home/pista_ciclismo.jpg" class="d-block w-100 h-100 object-fit-cover" alt="" />
-            </SplideSlide>
-            <SplideSlide> 
-                <img src="/assets/home/rocodromo.jpg" class="d-block w-100 h-100 object-fit-cover" alt="" />
-            </SplideSlide>
-            <SplideSlide> 
-                <img src="/assets/home/pista_padel.jpg" class="d-block w-100 h-100 object-fit-cover" alt="" />
-            </SplideSlide>
-        </Splide>
+        <!-- Gallery Section -->
+        <div class="col-lg-8">
+          <div class="gallery-wrapper rounded-4 shadow-lg overflow-hidden">
+            <Splide :options="splideOptions" class="gallery-slider">
+              <SplideSlide v-for="(image, index) in images" :key="index">
+                <div class="position-relative" style="height: 600px;">
+                  <img :src="image.src" :alt="image.alt" class="w-100 h-100 object-fit-cover" />
+                  <div class="position-absolute bottom-0 start-0 end-0 p-4 overlay-gradient">
+                    <h3 class="display-6 text-white mb-2">{{ image.title }}</h3>
+                    <p class="fs-5 text-white-75">{{ image.description }}</p>
+                  </div>
+                </div>
+              </SplideSlide>
+            </Splide>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
-
 <script>
-import { reactive, computed } from 'vue';
-import { useStore } from 'vuex';
-import Constant from '../../Constant';
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 
 export default {
-    name: "MiddleSection",
-    setup() {
-        const store = useStore();
-
-        store.dispatch(`pistas/${Constant.INITIALIZE_PISTA}`);
-
-        const state = reactive({
-            pistas: computed(() => store.getters['pistas/GetPistas'])
-        });
-
-        return { state };        
-    },
-
-    components: {
-        Splide,
-        SplideSlide,
-    },
-    data() {
-        return {
-            splideOptions: {
-                type: "loop",
-                autoplay: true,
-                interval: 3000,
-                height: "100%",
-                arrows: false,
-                pagination: true,
-            },
-        };
-    }
+  name: "MiddleSection",
+  components: { Splide, SplideSlide },
+  data() {
+    return {
+      splideOptions: {
+        type: "fade",
+        rewind: true,
+        autoplay: true,
+        interval: 4000,
+        arrows: true,
+        pagination: true,
+        speed: 1500,
+        pauseOnHover: true,
+      },
+      images: [
+        {
+          src: "/assets/home/pista_atletismo.jpg",
+          alt: "Pista de Atletismo",
+          title: "Pista Olímpica",
+          description: "Superficie profesional certificada IAAF"
+        },
+        {
+          src: "/assets/home/piscina.jpg",
+          alt: "Piscina Olímpica",
+          title: "Centro Acuático",
+          description: "Piscina olímpica climatizada"
+        },
+        {
+          src: "/assets/home/pista_ciclismo.jpg",
+          alt: "Velódromo",
+          title: "Velódromo Indoor",
+          description: "Pista de ciclismo de clase mundial"
+        },
+        {
+          src: "/assets/home/rocodromo.jpg",
+          alt: "Rocódromo",
+          title: "Muro de Escalada",
+          description: "15 metros de altura con rutas variables"
+        },
+        {
+          src: "/assets/home/pista_padel.jpg",
+          alt: "Pista de Pádel",
+          title: "Complejo de Pádel",
+          description: "Pistas cubiertas con iluminación LED"
+        }
+      ]
+    };
+  }
 };
 </script>
 
 <style scoped>
-.landing-section {
-    height: 70vh;
-    overflow: hidden;
+.facilities-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
-.text-section {
-    background: linear-gradient(to bottom right, #630ec4, #62ffff);
-    color: white;
-    width: 35%;
-    /* Ancho del texto */
-    display: flex;
+.gradient-text {
+  background: linear-gradient(45deg, var(--bs-primary), #141414f2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.overlay-gradient {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.text-white-75 {
+  opacity: 0.9;
+  color: white;
+}
+
+@media (max-width: 992px) {
+  .facilities-section .col-lg-5 {
+    text-align: center;
+  }
+
+  .facilities-section .d-flex {
     justify-content: center;
-    align-items: center;
-    box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.5);
-    z-index: 5;
-}
-
-.text-container{
-    background: linear-gradient(to bottom right, #83ffff, #7d2dd7);
-    color: white;
-    height: 400px;
-    width: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 44px;
-    font-family: 'Roboto', sans-serif;
-    box-shadow: 20px 20px 0 5px rgba(255, 255, 255, 0.2);
-}
-
-.carousel-section {
-    position: relative;
-    width: 65%;
-    z-index: 1;
-}
-
-.object-fit-cover {
-    object-fit: cover;
+  }
 }
 </style>
