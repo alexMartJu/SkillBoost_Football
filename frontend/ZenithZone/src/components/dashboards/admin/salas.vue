@@ -1,86 +1,97 @@
 <template>
-    <div class="salas-page">
-      <h2>Gestión de Salas</h2>
-  
-      <!-- Formulario para crear una sala -->
-      <form @submit.prevent="crearSala" class="form-crear-sala">
-        <div class="form-group">
-          <label for="nombre">Nombre de la Sala:</label>
-          <input
-            type="text"
-            id="nombre"
-            v-model="nuevaSala.nombre"
-            class="form-control"
-            required
-          />
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <h2 class="display-6 mb-4 text-primary">Gestión de Salas</h2>
+
+        <!-- Create Room Form -->
+        <div class="card shadow-sm mb-5">
+          <div class="card-body p-4">
+            <form @submit.prevent="crearSala">
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="nombre" v-model="nuevaSala.nombre" required>
+                    <label for="nombre">Nombre de la Sala</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="tamaño" v-model="nuevaSala.tamaño" required>
+                    <label for="tamaño">Tamaño</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="ubicacion" v-model="nuevaSala.ubicacion" required>
+                    <label for="ubicacion">Ubicación</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <select class="form-select" id="entrenador" v-model="nuevaSala.entrenador_id" required>
+                      <option value="" disabled>Seleccione un entrenador</option>
+                      <option v-for="entrenador in entrenadoresDisponibles" 
+                              :key="entrenador.id" 
+                              :value="entrenador.id">
+                        {{ entrenador.nombre }}
+                      </option>
+                    </select>
+                    <label for="entrenador">Entrenador</label>
+                  </div>
+                </div>
+
+                <div class="col-12 text-end">
+                  <button type="submit" class="btn btn-primary px-4">
+                    <i class="bi bi-plus-circle me-2"></i>Crear Sala
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-  
-        <div class="form-group">
-          <label for="tamaño">Tamaño:</label>
-          <input
-            type="text"
-            id="tamaño"
-            v-model="nuevaSala.tamaño"
-            class="form-control"
-            required
-          />
+
+        <!-- Rooms List -->
+        <div class="card shadow-sm">
+          <div class="card-header bg-white py-3">
+            <h5 class="card-title mb-0 text-primary">Salas Existentes</h5>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th><i class="bi bi-card-text me-2"></i>Nombre</th>
+                  <th><i class="bi bi-arrows-angle-expand me-2"></i>Tamaño</th>
+                  <th><i class="bi bi-geo-alt me-2"></i>Ubicación</th>
+                  <th><i class="bi bi-person-badge me-2"></i>Entrenador</th>
+                  <th class="text-end"><i class="bi bi-gear me-2"></i>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="sala in GetSalas.data" :key="sala.id">
+                  <td class="fw-medium">{{ sala.nombre }}</td>
+                  <td>{{ sala.tamaño }}</td>
+                  <td>{{ sala.ubicacion }}</td>
+                  <td>{{ obtenerNombreEntrenador(sala.entrenador_id) }}</td>
+                  <td class="text-end">
+                    <button @click="eliminarsala(sala.id)" 
+                            class="btn btn-outline-danger btn-sm">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-  
-        <div class="form-group">
-          <label for="ubicacion">Ubicación:</label>
-          <input
-            type="text"
-            id="ubicacion"
-            v-model="nuevaSala.ubicacion"
-            class="form-control"
-            required
-          />
-        </div>
-  
-        <div class="form-group">
-          <label for="entrenador">Entrenador:</label>
-          <select
-            id="entrenador"
-            v-model="nuevaSala.entrenador_id"
-            class="form-control"
-            required
-          >
-            <option disabled value="">Seleccione un entrenador</option>
-            <option v-for="entrenador in entrenadoresDisponibles" :key="entrenador.id" :value="entrenador.id">
-      {{ entrenador.nombre }}
-    </option>
-          </select>
-        </div>
-  
-        <button type="submit" class="btn btn-success">Crear Sala</button>
-      </form>
-  
-      <!-- Listado de salas -->
-      <div class="listado-salas">
-        <h3>Salas Existentes</h3>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Tamaño</th>
-              <th>Ubicación</th>
-              <th>Entrenador</th>
-              <th>Borrar</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="sala in GetSalas.data" :key="sala.id">
-              <td>{{ sala.nombre }}</td>
-              <td>{{ sala.tamaño }}</td>
-              <td>{{ sala.ubicacion }}</td>
-              <td>{{ obtenerNombreEntrenador(sala.entrenador_id) }}</td>
-              <td><button @click="eliminarsala(sala.id)" class="btn btn-danger">borrar</button></td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
-  </template>
+  </div>
+</template>
+
   <script>
 import { mapActions, mapGetters } from "vuex";
 import Constant from "../../../Constant";
@@ -151,13 +162,5 @@ export default {
 </script>
 
 <style scoped>
-.salas-page {
-  margin-top: 20px;
-}
-.form-crear-sala {
-  margin-bottom: 30px;
-}
-.listado-salas {
-  margin-top: 20px;
-}
+
 </style>
