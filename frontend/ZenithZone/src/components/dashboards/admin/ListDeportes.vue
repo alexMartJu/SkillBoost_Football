@@ -1,12 +1,15 @@
 <template>
-  <div class="deporte-list">
-    <CardDeportes
-      v-for="deporte in deportes"
-      :key="deporte.id"
-      :deporte="deporte"
-      @editarDeporte="editarDeporte"
-      @eliminarDeporte="eliminarDeporte"
-    />
+  <div class="container py-4">
+    <div class="row g-4">
+      <div class="col-12 col-md-6 col-lg-4" v-for="deporte in deportes" :key="deporte.id">
+        <CardDeportes
+          :deporte="deporte"
+          @editarDeporte="editarDeporte"
+          @eliminarDeporte="eliminarDeporte"
+          class="h-100"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -33,46 +36,15 @@ export default {
 </script>
 
 <style scoped>
-/* Estilo para listas de deportes */
-.deporte-list {
-  margin-top: 30px;
-  padding: 0;
-  list-style-type: none;
-  display: flex;
-  flex-wrap: wrap; /* Permite que los elementos se ajusten en varias filas */
-  gap: 20px; /* Espaciado entre los elementos */
+.container {
+  background-color: #f8f9fa;
 }
 
-.deporte-list li {
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: calc(33.33% - 20px); /* 3 elementos por fila en pantallas grandes */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
+.col-12 {
+  transition: transform 0.3s ease;
 }
 
-.deporte-list li:hover {
-  transform: translateY(-5px); /* Efecto de elevación al pasar el mouse */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.deporte-list li p {
-  margin: 0;
-}
-
-/* Responsividad: 2 columnas en pantallas medianas (menos de 768px) */
-@media (max-width: 768px) {
-  .deporte-list li {
-    width: calc(50% - 20px); /* 2 elementos por fila */
-  }
-}
-
-/* Responsividad: 1 columna en pantallas pequeñas (menos de 480px) */
-@media (max-width: 480px) {
-  .deporte-list li {
-    width: 100%; /* 1 elemento por fila */
-  }
+.col-12:hover {
+  transform: translateY(-5px);
 }
 </style>

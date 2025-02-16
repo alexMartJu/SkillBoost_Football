@@ -1,18 +1,30 @@
 <template>
-    <div class="card-pista">
-      <h3>{{ pista.nombre }}</h3>
-      <div v-if="pista.deportes && pista.deportes.length">
-        <div class="deportes-asociados">
-          <p><strong>Deportes Asociados:</strong></p>
-          <ul>
-            <li v-for="deporte in pista.deportes" :key="deporte.id">{{ deporte.nombre }}</li>
-          </ul>
-        </div>
+  <div class="card shadow-sm border-0 h-100">
+      <img v-if="pista.images && pista.images.length > 0" 
+          :src="'/assets/pistas/' + pista.images[0].image_url" 
+          alt="Imagen de Pista" 
+          class="card-img-top img-fluid" />
+      <div class="card-body d-flex flex-column">
+          <h5 class="card-title mb-3">{{ pista.nombre }}</h5>
+          <div v-if="pista.deportes && pista.deportes.length" class="deportes-asociados mb-3">
+              <p><strong>Deportes Asociados:</strong></p>
+              <ul>
+                  <li v-for="deporte in pista.deportes" :key="deporte.id">
+                      <i class="bi bi-trophy me-2"></i>{{ deporte.nombre }}
+                  </li>
+              </ul>
+          </div>
+          <div class="mt-auto">
+              <button v-if="!isPrivate" @click="editarPista(pista)" class="btn btn-outline-primary me-2">
+                  <i class="bi bi-pencil-square"></i> Editar
+              </button>
+              <button @click="confirmarEliminar(pista.slug)" class="btn btn-outline-danger">
+                  <i class="bi bi-trash"></i> Eliminar
+              </button>
+          </div>
       </div>
-      <button v-if="!isPrivate" @click="editarPista(pista)">Editar</button>
-      <button @click="confirmarEliminar(pista.slug)">Eliminar</button>
-    </div>
-  </template>
+  </div>
+</template>
   
   <script>
   export default {
@@ -47,51 +59,38 @@
   </script>
   
   <style scoped>
- /* Estilo para las tarjetas de pista (CardPistas.vue) */
- .card-pista {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 100%; /* Ocupa todo el espacio disponible */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-}
-
-.card-pista:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.card-pista button {
-  margin-top: 10px;
-  padding: 5px 10px;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.card-pista button:hover {
-  background-color: #0056b3;
-}
-
-.deportes-asociados {
-  margin-top: 10px;
-  font-size: 1em;
-  color: #666;
-  padding-left: 20px;
-}
-
-.deportes-asociados ul {
-  padding-left: 20px;
-  list-style-type: none;
-}
-
-.deportes-asociados li {
-  font-size: 0.9em;
-  color: #333;
-}
-  </style>
+  .card {
+      transition: transform 0.2s ease-in-out;
+  }
   
+  .card:hover {
+      transform: translateY(-5px);
+  }
+  
+  .card-img-top {
+      height: 200px;
+      object-fit: cover;
+  }
+  
+  .btn {
+      text-transform: uppercase;
+      font-size: 0.875rem;
+      letter-spacing: 0.5px;
+  }
+  
+  .deportes-asociados ul {
+      padding-left: 20px;
+      list-style-type: none;
+  }
+  
+  .deportes-asociados li {
+      font-size: 0.9em;
+      color: #333;
+      display: flex;
+      align-items: center;
+  }
+
+  .deportes-asociados i {
+      color: var(--bs-primary);
+  }
+  </style>
