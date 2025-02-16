@@ -1,86 +1,151 @@
 <template>
-    <div class="LoginRegisterForm">
-        <main class="main py-5">
-            <div class="container">
-                <!-- Form Wrapper -->
-                <div class="row justify-content-center">
-                    <div class="col-md-6 col-lg-4">
-                        <section class="wrapper">
-                            <div class="text-center mb-4" v-if="isLogin">
-                                <h1 class="h3 mb-3 fw-normal">Login</h1>
-                                <p class="text-muted">New user? <span><a href="javascript:void(0)" class="text-primary"
-                                            @click="redirect.register()">Create an
-                                            account</a></span></p>
-                            </div>
-                            <div class="text-center mb-4" v-else>
-                                <h1 class="h3 mb-3 fw-normal">Register</h1>
-                                <p class="text-muted">Have an account? <span><a href="javascript:void(0)"
-                                            class="text-primary" @click="redirect.login()">Sign in</a></span></p>
-                            </div>
-                            <form name="signin" class="needs-validation" @submit.prevent="handleSubmit" @keyup.enter="handleSubmit">
-                                <div v-if="!isLogin" class="form-floating mb-3">
-                                    <input type="text" name="nombre" id="nombre" class="form-control"
-                                        placeholder="Nombre" v-model="state.nombre" required />
-                                    <label for="nombre">Nombre</label>
-                                    <div v-if="x$.nombre.$dirty && x$.nombre.$invalid && state.nombre.length > 0" class="text-danger small">
-                                        Invalid nombre.
-                                    </div>
-                                </div>
-                                <div v-if="!isLogin" class="form-floating mb-3">
-                                    <input type="text" name="apellidos" id="apellidos" class="form-control"
-                                        placeholder="Apellidos" v-model="state.apellidos" required />
-                                    <label for="apellidos">Apellidos</label>
-                                    <div v-if="x$.apellidos.$invalid && state.apellidos.length > 0" class="text-danger small">
-                                        Invalid apellidos.
-                                    </div>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input type="email" name="email" id="email" class="form-control"
-                                        placeholder="Email Address" v-model="state.email" required />
-                                    <label for="email">Email Address</label>
-                                    <div v-if="x$.email.$invalid && state.email.length > 0" class="text-danger small">
-                                        Invalid EMAIL.
-                                    </div>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input type="password" name="password" id="password" class="form-control"
-                                        placeholder="Password" v-model="state.password" required />
-                                    <label for="password">Password</label>
-                                    <div v-if="x$.password.$dirty && x$.password.$invalid && state.password.length > 0" class="text-danger small">
-                                        Invalid Password.
-                                    </div>
-                                </div>
-                                <div v-if="!isLogin" class="form-floating mb-3">
-                                    <input type="password" name="password2" id="password2" class="form-control"
-                                        placeholder="Repeat Password" v-model="state.password2" required />
-                                    <label for="password2">Repeat Password</label>
-                                    <div v-if="x$.password2.$dirty && x$.password2.$invalid && state.password2.length > 0" class="text-danger small">
-                                        Invalid Password.
-                                    </div>
-                                    <div v-if="!isLogin && state.password !== state.password2 && state.password2.length > 0" class="text-danger small">
-                                        Passwords do not match.
-                                    </div>
-                                </div>
-                                <div class="alert alert-danger" v-if="errorMessage">
-                                    {{ errorMessage }}
-                                </div>
-                                <div v-if="!isLogin">
-                                    <div v-if="registerSuccesful" class="alert alert-success text-center">usuario registrado correctamente</div>
-                                </div>
-                                <div class="d-grid">
-                                    <button v-if="isLogin" type="submit" class="btn btn-primary"
-                                        :disabled="v$.email.$invalid || v$.password.$invalid">Login</button>
-                                    <button v-if="!isLogin" type="submit" class="btn btn-primary"
-                                        :disabled="x$.nombre.$invalid || x$.apellidos.$invalid || x$.email.$invalid || x$.password.$invalid || x$.password2.$invalid || state.password2 !== state.password">Register</button>
-                                </div>
-                            </form>
-                        </section>
-                    </div>
+    <div class="auth-container bg-light">
+      <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+          <div class="col-12 col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+              <div class="card-body">
+                <div class="text-center mb-4">
+                  <img src="/assets/logo_3.png" alt="ZenithZone" class="img-fluid mb-3" style="width: 80px;" />
+                  <h1 class="h3 fw-bold text-dark">{{ isLogin ? 'Bienvenido de nuevo' : 'Únete a ZenithZone' }}</h1>
+                  <p class="text-muted">
+                    {{ isLogin ? 'Inicia sesión para continuar' : 'Crea tu cuenta' }}
+                  </p>
                 </div>
+  
+                <form @submit.prevent="handleSubmit">
+                  <!-- Campos para Register -->
+                  <div v-if="!isLogin" class="row g-3 mb-3">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="nombre" class="form-label fw-medium">Nombre</label>
+                        <input 
+                          type="text" 
+                          id="nombre" 
+                          v-model="state.nombre"
+                          class="form-control form-control-lg"
+                          :class="{'is-invalid': x$.nombre.$invalid && state.nombre.length > 0}"
+                        />
+                        <div class="invalid-feedback" v-if="x$.nombre.$invalid && state.nombre.length > 0">
+                          Nombre inválido (min 2 caracteres)
+                        </div>
+                      </div>
+                    </div>
+  
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="apellidos" class="form-label fw-medium">Apellidos</label>
+                        <input 
+                          type="text" 
+                          id="apellidos" 
+                          v-model="state.apellidos"
+                          class="form-control form-control-lg"
+                          :class="{'is-invalid': x$.apellidos.$invalid && state.apellidos.length > 0}"
+                        />
+                        <div class="invalid-feedback" v-if="x$.apellidos.$invalid && state.apellidos.length > 0">
+                          Apellido inválido (min 2 caracteres)
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <!-- Campos comunes -->
+                  <div class="form-group mb-3">
+                    <label for="email" class="form-label fw-medium">Email</label>
+                    <div class="input-group input-group-lg has-validation">
+                      <span class="input-group-text bg-light">
+                        <i class="bi bi-envelope"></i>
+                      </span>
+                      <input 
+                        type="email" 
+                        id="email" 
+                        v-model="state.email"
+                        class="form-control"
+                        :class="{'is-invalid': x$.email.$invalid && state.email.length > 0}"
+                      />
+                      <div class="invalid-feedback" v-if="x$.email.$invalid && state.email.length > 0">
+                        Email inválido
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="form-group mb-3">
+                    <label for="password" class="form-label fw-medium">Contraseña</label>
+                    <div class="input-group input-group-lg has-validation">
+                      <span class="input-group-text bg-light">
+                        <i class="bi bi-lock"></i>
+                      </span>
+                      <input 
+                        :type="showPassword ? 'text' : 'password'"
+                        id="password" 
+                        v-model="state.password"
+                        class="form-control"
+                        :class="{'is-invalid': x$.password.$invalid && state.password.length > 0}"
+                      />
+                      <div class="invalid-feedback" v-if="x$.password.$invalid && state.password.length > 0">
+                        Contraseña inválida
+                      </div>
+                    </div>
+                  </div>
+  
+                  <!-- Confirmar Contraseña para el Register -->
+                  <div v-if="!isLogin" class="form-group mb-3">
+                    <label for="password2" class="form-label fw-medium">Confirmar Contraseña</label>
+                    <div class="input-group input-group-lg has-validation">
+                      <span class="input-group-text bg-light">
+                        <i class="bi bi-lock"></i>
+                      </span>
+                      <input 
+                        :type="showPassword ? 'text' : 'password'"
+                        id="password2" 
+                        v-model="state.password2"
+                        class="form-control"
+                        :class="{'is-invalid': (x$.password2.$invalid && state.password2.length > 0) || (state.password2 !== state.password && state.password2.length > 0)}"
+                      />
+                      <div class="invalid-feedback" v-if="x$.password2.$invalid && state.password2.length > 0">
+                        Contraseña inválida (min 3 caracteres)
+                      </div>
+                      <div class="invalid-feedback" v-if="state.password2 !== state.password && state.password2.length > 0">
+                        Las contraseñas no coinciden
+                      </div>
+                    </div>
+                  </div>
+  
+                  <!-- Mensajes de error -->
+                  <div class="alert alert-danger" v-if="errorMessage">
+                    {{ errorMessage }}
+                  </div>
+                  <div class="alert alert-success" v-if="!isLogin && registerSuccesful">
+                    ¡Registro exitoso!
+                  </div>
+  
+                  <!-- Submit Button -->
+                  <button 
+                    type="submit" 
+                    class="btn btn-primary btn-lg w-100 mb-3"
+                    :disabled="isLogin ? v$.email.$invalid || v$.password.$invalid : 
+                              x$.nombre.$invalid || x$.apellidos.$invalid || x$.email.$invalid || 
+                              x$.password.$invalid || x$.password2.$invalid || 
+                              state.password2 !== state.password"
+                  >
+                    {{ isLogin ? 'Iniciar Sesión' : 'Crear Cuenta' }}
+                  </button>
+  
+                  <!-- Toggle Login/Register -->
+                  <p class="text-center text-muted mb-0">
+                    {{ isLogin ? "¿No tienes una cuenta?" : '¿Ya tienes una cuenta?' }}
+                    <a href="#" class="text-primary fw-bold ms-1" @click.prevent="isLogin ? redirect.register() : redirect.login()">
+                      {{ isLogin ? 'Registrarse' : 'Iniciar Sesión' }}
+                    </a>
+                  </p>
+                </form>
+              </div>
             </div>
-        </main>
+          </div>
+        </div>
+      </div>
     </div>
-</template>
+  </template>
 
 <script>
 import { useRouter } from 'vue-router';
@@ -200,3 +265,20 @@ export default {
     }
 }
 </script>
+
+
+<style scoped>
+.auth-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.card {
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+}
+</style>
+
