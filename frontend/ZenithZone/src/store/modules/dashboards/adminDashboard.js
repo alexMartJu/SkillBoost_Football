@@ -63,10 +63,10 @@
                 state.entrenadores = entrenadores;  
             },
             [Constant.DELETE_ONE_ENTRENADOR](state, entrenadorId) {
-                state.entrenadores = state.entrenadores.filter(entrenador => entrenador.id !== entrenadorId);
+                state.entrenadores.data = state.entrenadores.data.filter(entrenador => entrenador.numeroentrenador !== entrenadorId)
             },
             [Constant.ADD_NEW_ENTRENADOR](state, newEntrenador) {
-                state.entrenadores.push(newEntrenador);
+                state.entrenadores.data.push(newEntrenador);
             },
             [Constant.INITIALIZE_ENTRENAMIENTO](state, entrenamientos) {
                 state.entrenamientos = entrenamientos;
