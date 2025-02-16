@@ -1,101 +1,72 @@
 <template>
-<div class="landing-section d-flex">
-    <div class="carousel-section col-md-6 p-0">
-        <div class="anillos-div">
-            <img src="/assets/anillos.png" alt="" class="anillos">
-        </div>        
-        <img src="/assets/home/olympics.webp" alt="" class="d-block w-100 h-100 object-fit-cover">
-    </div>
-
-    <div class="text-section col-md-6 d-flex flex-column justify-content-center px-4">
-        <div class="text-container">
-            <p class="fw-bold text-center">CREAMOS LEYENDAS</p>
+  <div class="bg-light py-5">
+    <div class="container-xxl">
+      <div class="row g-5 align-items-center">
+        <!-- Gallery Section -->
+        <div class="col-lg-8">
+          <div class="position-relative rounded-4 overflow-hidden shadow-lg">
+            <div style="height: 600px;">
+              <img src="/assets/home/olympics.webp" alt="Olympics" class="w-100 h-100 object-fit-cover" />
+              <div class="position-absolute bottom-0 start-0 w-100 p-4 overlay-gradient">
+                <h3 class="display-6 text-white mb-2">Formación Olímpica</h3>
+                <p class="text-white-50 fs-5 mb-0">Preparación de atletas de élite</p>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-</div>
-</template>
 
+        <!-- Text Section -->
+        <div class="col-lg-4">
+          <div class="p-4">
+            <h2 class="display-4 fw-bold gradient-text mb-3">Creamos Leyendas</h2>
+            <p class="fs-4 text-secondary mb-4">Donde nacen los campeones olímpicos</p>
+            
+            <div class="d-flex flex-column gap-4">
+              <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-trophy fs-4 text-primary"></i>
+                <span class="fs-5">Entrenamiento de Alto Rendimiento</span>
+              </div>
+              <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-star fs-4 text-primary"></i>
+                <span class="fs-5">Preparación Olímpica</span>
+              </div>
+              <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-award fs-4 text-primary"></i>
+                <span class="fs-5">Excelencia Deportiva</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <script>
 export default {
-    name: "MiddleSection",
+  name: "Olympics"
 };
 </script>
 
-
 <style scoped>
-.landing-section {
-    height: 90vh;
-    overflow: hidden;
-    box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.7);
-    z-index: 5;
+.gradient-text {
+  background: linear-gradient(45deg, var(--bs-primary), #141414f2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.text-section {
-    background: linear-gradient(to bottom right, #fff4aa, #d19421);
-    color: white;
-    width: 35%;
-    /* Ancho del texto */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.5);
-    z-index: 5;
-}
-
-.text-container {
-    background: linear-gradient(to bottom right, #d19421, #ffef85);
-    color: white;
-    height: 400px;
-    width: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 44px;
-    font-family: 'Roboto', sans-serif;
-    box-shadow: -20px 20px 0 5px rgba(255, 255, 255, 0.3);
-}
-
-.carousel-section {
-    position: relative;
-    width: 65%;
-    z-index: 1;
+.overlay-gradient {
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
 }
 
 .object-fit-cover {
-    object-fit: cover;
+  object-fit: cover;
 }
 
-.logo {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40%;
-    padding: 20px;
-    border-radius: 10px;
-    z-index: 1;
-}
-
-.anillos-div {
-    background-color: rgba(255, 255, 255, 0.4);
-    padding: 500px 500px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 101%;
-    border-radius: 10px;
-    z-index: 0;
-}
-
-.anillos {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70%;
-    border-radius: 10px;
-    z-index: 2;
+@media (max-width: 992px) {
+  .row {
+    flex-direction: column-reverse;
+  }
 }
 </style>

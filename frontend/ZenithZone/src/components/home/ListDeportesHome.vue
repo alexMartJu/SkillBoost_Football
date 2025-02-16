@@ -36,7 +36,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .body-deportes-home{
     background-color: rgb(20, 20, 20);
 }
