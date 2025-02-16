@@ -1,49 +1,66 @@
 <template>
-    <div class="reservas-container">
-      <h1>Reservas</h1>
+  <div class="container py-5">
+    <h1 class="display-5 fw-bold text-primary mb-4">Gestión de Reservas</h1>
 
-      <div v-if="mensaje" :class="['mensaje', mensaje.tipo]">
+    <div class="alert alert-dismissible fade show" 
+         :class="mensaje?.tipo === 'exito' ? 'alert-success' : 'alert-danger'" 
+         v-if="mensaje">
       {{ mensaje.texto }}
     </div>
-  
-      <div class="section">
-        <h2>Reservas </h2>
-        <ul class="reservas-list">
-          <li v-for="reserva in reservasFuturas" :key="reserva.id" class="reserva-item">
-            <div class="reserva-info">
-              <div class="reserva-nombre">
-                <span>{{ reserva.profile.nombre }} {{ reserva.profile.apellidos }}</span>
-              </div>
-              <div class="reserva-detalles">
-                <span class="reserva-fecha">{{ formatFecha(reserva.fecha) }}</span>
-                <span class="reserva-pista">{{ reserva.pista.nombre }}</span>
-                <span class="reserva-hora">{{ reserva.horario.hora }}</span>
-              </div>
-            </div>
-            <button @click="borrarReserva(reserva.id)" class="eliminar-btn">Eliminar</button>
-          </li>
-        </ul>
+
+    <!-- Reservas Actuales -->
+    <div class="card shadow-sm mb-5">
+      <div class="card-header bg-white">
+        <h2 class="h4 mb-0 text-primary">Reservas Activas</h2>
       </div>
-  
-      <div class="section">
-        <h2>Historial</h2>
-        <ul class="reservas-list">
-          <li v-for="reserva in reservasPasadas" :key="reserva.id" class="reserva-item">
-            <div class="reserva-info">
-              <div class="reserva-nombre">
-                <span>{{ reserva.profile.nombre }} {{ reserva.profile.apellidos }}</span>
+      <div class="card-body p-0">
+        <div class="list-group list-group-flush">
+          <div v-for="reserva in reservasFuturas" :key="reserva.id" 
+               class="list-group-item list-group-item-action">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="mb-1">{{ reserva.profile.nombre }} {{ reserva.profile.apellidos }}</h6>
+                <div class="small text-muted">
+                  <i class="bi bi-calendar me-2"></i>{{ formatFecha(reserva.fecha) }}
+                  <i class="bi bi-geo-alt ms-3 me-2"></i>{{ reserva.pista.nombre }}
+                  <i class="bi bi-clock ms-3 me-2"></i>{{ reserva.horario.hora }}
+                </div>
               </div>
-              <div class="reserva-detalles">
-                <span class="reserva-fecha">{{ formatFecha(reserva.fecha) }}</span>
-                <span class="reserva-pista">{{ reserva.pista.nombre }}</span>
-                <span class="reserva-hora">{{ reserva.horario.hora }}</span>
-              </div>
+              <button @click="borrarReserva(reserva.id)" 
+                      class="btn btn-outline-danger btn-sm">
+                <i class="bi bi-trash"></i>
+              </button>
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
     </div>
-  </template>
+
+    <!-- Historial -->
+    <div class="card shadow-sm">
+      <div class="card-header bg-white">
+        <h2 class="h4 mb-0 text-primary">Historial</h2>
+      </div>
+      <div class="card-body p-0">
+        <div class="list-group list-group-flush">
+          <div v-for="reserva in reservasPasadas" :key="reserva.id" 
+               class="list-group-item list-group-item-action">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="mb-1">{{ reserva.profile.nombre }} {{ reserva.profile.apellidos }}</h6>
+                <div class="small text-muted">
+                  <i class="bi bi-calendar me-2"></i>{{ formatFecha(reserva.fecha) }}
+                  <i class="bi bi-geo-alt ms-3 me-2"></i>{{ reserva.pista.nombre }}
+                  <i class="bi bi-clock ms-3 me-2"></i>{{ reserva.horario.hora }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
   
   <script>
   import Constant from '@/Constant';
@@ -100,92 +117,26 @@
   };
   </script>
   
-  <style scoped>
-  .reservas-container {
-    font-family: 'Arial', sans-serif;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  h1 {
-    text-align: center;
-    color: #333;
-  }
-  
-  .section {
-    margin-top: 20px;
-  }
-  
-  h2 {
-    color: #2c3e50;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 8px;
-    font-size: 1.5rem;
-  }
-  
-  .reservas-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .reserva-item {
-    background-color: #fff;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background-color 0.3s ease;
-  }
-  
-  .reserva-item:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .reserva-info {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-  }
-  
-  .reserva-nombre {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 5px;
-  }
-  
-  .reserva-detalles {
-    display: flex;
-    justify-content: space-between;
-    font-size: 1rem;
-    color: #7f8c8d;
-  }
-  
-  .reserva-fecha, .reserva-pista, .reserva-hora {
-    margin-right: 10px;
-  }
-  
-  .eliminar-btn {
-    padding: 8px 16px;
-    background-color: #e74c3c;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .eliminar-btn:hover {
-    background-color: #c0392b;
-  }
-  
-  .eliminar-btn:focus {
-    outline: none;
-  }
-  </style>
+<style scoped>
+.card {
+  border: none;
+  border-radius: 1rem;
+}
+
+.card-header {
+  border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.list-group-item {
+  transition: all 0.2s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+.btn-outline-danger {
+  border-radius: 0.5rem;
+}
+</style>
   
