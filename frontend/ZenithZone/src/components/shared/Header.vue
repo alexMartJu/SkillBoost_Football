@@ -8,29 +8,29 @@
                 </div>
 
                 <!-- Hamburger Menu for Mobile -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <!-- Navigation Links -->
                 <div class="collapse navbar-collapse" id="navbarContent">
                     <ul class="navbar-nav ms-auto align-items-center">
-                        <li class="nav-item">
+                        <li v-if="!state.isAdmin && !state.isEntrenador" class="nav-item">
                             <a @click="redirects.home" class="nav-link modern-link" :class="{ 'active-link': isHome }">
                                 <i class="bi bi-house-door me-1"></i>Home
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li v-if="!state.isAdmin && !state.isEntrenador" class="nav-item">
                             <a @click="redirects.instalaciones" class="nav-link modern-link" :class="{ 'active-link': isInstalaciones }">
                                 <i class="bi bi-building me-1"></i>Instalaciones
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li v-if="!state.isAdmin && !state.isEntrenador" class="nav-item">
                             <a @click="redirects.servicios" class="nav-link modern-link" :class="{ 'active-link': isServicios }">
                                 <i class="bi bi-gear me-1"></i>Servicios
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li v-if="!state.isAdmin && !state.isEntrenador" class="nav-item">
                             <a @click="redirects.entrenadores" class="nav-link modern-link" :class="{ 'active-link': isEntrenadores }">
                                 <i class="bi bi-people me-1"></i>Entrenadores
                             </a>
@@ -250,6 +250,10 @@ export default {
     border: 2px solid #ff6600;
     object-fit: cover;
     box-shadow: 0 4px 15px rgba(255, 102, 0, 0.2);
+}
+
+.nav-link{
+    cursor: pointer;
 }
 
 @media (max-width: 991.98px) {

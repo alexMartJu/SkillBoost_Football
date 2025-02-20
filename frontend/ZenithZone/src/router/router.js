@@ -154,6 +154,7 @@ const router = createRouter({
       name: "DashboardEntrenador",
       component: () => import('../views/dashboards/EntrenadorDashboard.vue'),  // Vista principal del entrenador
       beforeEnter: AuthGuards.authGuardEntrenador, meta: { requiresAuth: true },
+      redirect: { name: 'entrenadorListarEntrenamientos' },
       children: [
         {
           path: "listar",  // Si está vacío, se mostrará por defecto la vista de Listar Entrenamientos
@@ -183,6 +184,7 @@ const router = createRouter({
       name: "DashboardAdmin",
       component: () => import('../views/dashboards/AdminDashboard.vue'),
       beforeEnter: AuthGuards.authGuardAdmin, meta: { requiresAuth: true },
+      redirect: { name: 'adminListar' },
       children: [
         {
           path: "listar",
@@ -241,7 +243,13 @@ const router = createRouter({
 
       ]
     },
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) { // Para que al cambiar de vista, la página se desplace a la parte superior
+    return { 
+      top: 0,
+      behavior: 'instant'
+    }
+  }
 })
 
 export default router

@@ -120,12 +120,14 @@ export const user = {
                     state.tokenAdmin = payload.tokenAdmin;
                     localStorage.setItem('isAdmin', true);
                     localStorage.setItem('tokenAdmin', payload.tokenAdmin);
+                    router.push({ name: 'DashboardAdmin' });
                 } else if (payload.entrenadorToken) {
                     // console.log(`entrenadorToken: `, payload.entrenadorToken);
                     state.isEntrenador = true;
                     state.entrenadorToken = payload.entrenadorToken;
                     localStorage.setItem('isEntrenador', true);
                     localStorage.setItem('entrenadorToken', payload.entrenadorToken);
+                    router.push({ name: 'DashboardEntrenador' });
                 } else if (payload.token) {
                     // console.log(`token: `, payload.token);
                     state.isAuth = true;
@@ -134,9 +136,10 @@ export const user = {
                     localStorage.setItem('isAuth', true);
                     localStorage.setItem('token', payload.token);
                     localStorage.setItem('refreshToken', payload.refreshToken);
+                    router.push({ name: 'home' });
                 }
 
-                router.push({ name: 'home' });
+                
             }
         },//LOGIN
 
