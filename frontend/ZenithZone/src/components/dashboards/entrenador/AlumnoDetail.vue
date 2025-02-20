@@ -1,99 +1,106 @@
 <template>
-    <div class="alumno-detail" v-if="profile">
-      <h1>{{ profile.nombre }} {{ profile.apellidos }}</h1>
-  
-      <!-- Perfil del alumno -->
-      <div class="profile-info">
-        <img :src="getProfileImageUrl(profile.image)" alt="Imagen del alumno" class="alumno-image" />
-        <div class="info">
-          <p>Edad: {{ profile.edad }} años</p>
-          <p>Número de Socio: {{ profile.numerosocio }}</p>
+  <div class="container py-5">
+    <h2 class="display-6 mb-4 text-primary">Perfil del Alumno</h2>
+    
+    <div class="card shadow-sm mb-4" v-if="profile">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-4">
+          <img :src="profile.image" 
+               class="rounded-circle" 
+               width="120" 
+               height="120"
+               alt="Perfil">
+          <div>
+            <h3 class="h4 mb-2">{{ profile.nombre }} {{ profile.apellidos }}</h3>
+            <div class="d-flex gap-3">
+              <span class="badge bg-light text-dark">
+                <i class="bi bi-person-vcard me-1"></i>
+                Socio #{{ profile.numerosocio }}
+              </span>
+              <span class="badge bg-light text-dark">
+                <i class="bi bi-calendar-event me-1"></i>
+                {{ profile.edad }} años
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-      <h2>Progreso del Usuario</h2>  
-      <div class="grafica-container">
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="h5 mb-4">Evolución del Rendimiento</h4>
         <GraficaAlumno :profileId="profile.id" />
       </div>
     </div>
-  
-    <div v-else>
-      <p>Cargando perfil...</p>
+
+    <div v-if="!profile" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-3">Cargando perfil...</p>
     </div>
-  </template>
-  
-  <script>
-  import { ref, computed, onMounted } from 'vue';
-  import { useStore } from 'vuex';
-  import GraficaAlumno from './GraficaAlumno.vue';
-  import Constant from '../../../Constant';
-  
-  export default {
+  </div>
+</template>
+
+<script>
+import { defineComponent } from 'vue';
+import GraficaAlumno from './GraficaAlumno.vue';
+import Constant from '../../../Constant';
+
+export default defineComponent({
     name: 'AlumnoDetail',
     components: {
-      GraficaAlumno,
+        GraficaAlumno,
     },
     computed: {
-      // Obtener el perfil del alumno desde Vuex
-      profile() {
-        return this.$store.getters['entrenadorDashboard/GetProfile'];
-      }
+        profile() {
+            return this.$store.getters['entrenadorDashboard/GetProfile'];
+        }
+    },
+    async beforeMount() {
+        await this.fetchProfile();
     },
     methods: {
-      getProfileImageUrl(image) {
-        return image ? `/assets/profile/${image}` : '/assets/profile/default.png';
-      },
-  
-      // Obtener el perfil del alumno desde Vuex
-      async fetchProfile() {
-        const { profileId } = this.$route.params;
-        await this.$store.dispatch(`entrenadorDashboard/${Constant.INITIALIZE_PROFILE}`, profileId);
-      },
+        async fetchProfile() {
+            const { profileId } = this.$route.params;
+            if (profileId) {
+                await this.$store.dispatch(`entrenadorDashboard/${Constant.INITIALIZE_PROFILE}`, profileId);
+            }
+        }
     },
-    async mounted() {
-      await this.fetchProfile();
-      if (!this.profile || !this.profile.id) {
-        console.error('Profile ID is undefined or missing.');
-      }
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .alumno-detail {
-    text-align: center;
-  }
-  
-  .profile-info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .alumno-image {
-    width: 100px; /* Reducimos el tamaño de la imagen */
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
+    watch: {
+        '$route.params.profileId': {
+            immediate: true,
+            handler: 'fetchProfile'
+        }
+    }
+});
+</script>
+
+<style scoped>
+.container {
+  background-color: #f8f9fa;
 }
 
-.info {
-  text-align: left;
+.card {
+  transition: transform 0.2s;
 }
 
-.grafica-container {
-  width: 80%; /* Hacemos la gráfica más ancha */
-  margin: 0 auto;
-  padding: 20px;
+.card:hover {
+  transform: translateY(-2px);
 }
 
-h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+.badge {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.8rem;
 }
 
-p {
-  font-size: 16px;
+.bi {
+  font-size: 1.1rem;
+}
+
+.rounded-circle{
+  object-fit: cover;
 }
 </style>
