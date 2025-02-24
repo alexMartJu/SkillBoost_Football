@@ -1,100 +1,160 @@
+# services:
+#   laravel:
+#     build:
+#       context: ./backend_laravel
+#       dockerfile: Dockerfile
+#     container_name: backend-laravel
+#     restart: unless-stopped
+#     depends_on:
+#       - mysql
+#     env_file: ./.env
+#     environment:
+#       DB_HOST: mysql
+#       DB_NAME: ZenithZone
+#       DB_USERNAME: root
+#       DB_PASSWORD: root_secret
+#     volumes:
+#       - ./backend_laravel:/var/www # Para desarrollo, monta el código fuente
+#       - /var/www/vendor # Excluye vendor para evitar conflictos
+#     ports:
+#       - "3000:3000"
+#     # entrypoint: [ "./wait-for-it.sh", "mysql:3306", "--", "php", "artisan", "serve", "--host=0.0.0.0", "--port=3000" ]
+#     # Para desarrollo
+#     stdin_open: true # Mantiene stdin abierto. Para interactuar con el contenedor (docker exec -it <container_id> bash)
+#     tty: true # Asigna un pseudo-terminal
+#     networks:
+#       - ZenithZone
+
+#   springboot:
+#     build:
+#       context: ./backend_springboot
+#       dockerfile: Dockerfile
+#     container_name: springboot_container
+#     restart: on-failure
+#     env_file: ./.env
+#     ports:
+#       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+#     depends_on:
+#       - mysql
+#     environment:
+#       - DB_HOST=mysql
+#       - DB_USERNAME=root
+#       - DB_PASSWORD=root_secret
+#       - DB_NAME=ZenithZone
+#     volumes:
+#       - ./backend_springboot:/app
+#     stdin_open: true
+#     tty: true
+#     networks:
+#       - ZenithZone
+
+#   vue:
+#     build:
+#       context: ./frontend/ZenithZone
+#       dockerfile: Dockerfile
+#     container_name: vue_container
+#     env_file: ./.env
+#     restart: on-failure
+#     ports:
+#       - "$VUE_LOCAL_PORT:$VUE_DOCKER_PORT"
+#     volumes:
+#       - ./frontend/ZenithZone:/app
+#       - /app/node_modules
+#     networks:
+#       - ZenithZone
+
+#   mysql:
+#     image: mysql:8
+#     container_name: mysql_container
+#     env_file: ./.env
+#     environment:
+#       MYSQL_ROOT_PASSWORD: root_secret
+#       MYSQL_DATABASE: ZenithZone
+#     ports:
+#       - "$MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT"
+#     volumes:
+#       - mysql_data:/var/lib/mysql
+#     networks:
+#       - ZenithZone
+
+#   phpmyadmin:
+#     image: phpmyadmin:latest
+#     container_name: adminMySQL_contenidor
+#     env_file: ./.env
+#     environment:
+#       PMA_HOST: mysql
+#       PMA_PORT: $MYSQLDB_LOCAL_PORT
+#     ports:
+#       - "$PHP_MY_ADMIN_LOCAL_PORT:$PHP_MY_ADMIN_DOCKER_PORT"
+#     depends_on:
+#       - mysql
+#     networks:
+#       - ZenithZone
+
+# volumes:
+#   mysql_data:
+
+
+# networks:
+#   ZenithZone:
+#     driver: bridge
+
+name: skillboost_football
+
 services:
-  laravel:
-    build:
-      context: ./backend_laravel
+  app:
+    build: 
+      context: ./backend_main_springboot
       dockerfile: Dockerfile
-    container_name: backend-laravel
+    container_name: skillboost_app
+    ports:
+      - "${SPRING_PORT}:8080"
+    volumes:
+      - ./backend_main_springboot:/app
+      - gradle-cache:/root/.gradle
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/${DB_NAME}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - mysql
     restart: unless-stopped
-    depends_on:
-      - mysql
-    env_file: ./.env
-    environment:
-      DB_HOST: mysql
-      DB_NAME: ZenithZone
-      DB_USERNAME: root
-      DB_PASSWORD: root_secret
-    volumes:
-      - ./backend_laravel:/var/www # Para desarrollo, monta el código fuente
-      - /var/www/vendor # Excluye vendor para evitar conflictos
-    ports:
-      - "3000:3000"
-    # entrypoint: [ "./wait-for-it.sh", "mysql:3306", "--", "php", "artisan", "serve", "--host=0.0.0.0", "--port=3000" ]
-    # Para desarrollo
-    stdin_open: true # Mantiene stdin abierto. Para interactuar con el contenedor (docker exec -it <container_id> bash)
-    tty: true # Asigna un pseudo-terminal
     networks:
-      - ZenithZone
-
-  springboot:
-    build:
-      context: ./backend_springboot
-      dockerfile: Dockerfile
-    container_name: springboot_container
-    restart: on-failure
-    env_file: ./.env
-    ports:
-      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
-    depends_on:
-      - mysql
-    environment:
-      - DB_HOST=mysql
-      - DB_USERNAME=root
-      - DB_PASSWORD=root_secret
-      - DB_NAME=ZenithZone
-    volumes:
-      - ./backend_springboot:/app
-    stdin_open: true
-    tty: true
-    networks:
-      - ZenithZone
-
-  vue:
-    build:
-      context: ./frontend/ZenithZone
-      dockerfile: Dockerfile
-    container_name: vue_container
-    env_file: ./.env
-    restart: on-failure
-    ports:
-      - "$VUE_LOCAL_PORT:$VUE_DOCKER_PORT"
-    volumes:
-      - ./frontend/ZenithZone:/app
-      - /app/node_modules
-    networks:
-      - ZenithZone
+      - backend
 
   mysql:
-    image: mysql:8
-    container_name: mysql_container
-    env_file: ./.env
-    environment:
-      MYSQL_ROOT_PASSWORD: root_secret
-      MYSQL_DATABASE: ZenithZone
+    image: mysql:8.0
+    container_name: skillboost_mysql
     ports:
-      - "$MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT"
+      - "${MYSQL_PORT}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
     networks:
-      - ZenithZone
+      - backend
 
   phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: adminMySQL_contenidor
-    env_file: ./.env
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: $MYSQLDB_LOCAL_PORT
+    image: phpmyadmin/phpmyadmin
+    container_name: skillboost_phpmyadmin
     ports:
-      - "$PHP_MY_ADMIN_LOCAL_PORT:$PHP_MY_ADMIN_DOCKER_PORT"
+      - "${PHPMYADMIN_PORT}:80"
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     depends_on:
       - mysql
+    restart: unless-stopped
     networks:
-      - ZenithZone
+      - backend
 
 volumes:
-  mysql_data:
-
+  mysql-data:
+  gradle-cache:
 
 networks:
-  ZenithZone:
+  backend:
     driver: bridge
