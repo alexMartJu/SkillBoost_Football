@@ -116,6 +116,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/${DB_NAME}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_FLYWAY_ENABLED=true
     depends_on:
       - mysql
     restart: unless-stopped
