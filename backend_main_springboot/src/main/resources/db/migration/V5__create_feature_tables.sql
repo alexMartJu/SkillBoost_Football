@@ -1,0 +1,42 @@
+CREATE TABLE entrenamientos (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    nombre varchar(255),
+    slug varchar(255) UNIQUE,
+    descripcion text,
+    nivel varchar(50),
+    edad_minima int,
+    edad_maxima int,
+    tecnificacion_id int,
+    subtipo_tecnificacion_id int,
+    entrenador_id int,
+    pista_id int,
+    horario_id int,
+    max_plazas int,
+    precio decimal(10,2),
+    objetivos text,
+    equipamiento_necesario text,
+    duracion_minutos int,
+    intensidad varchar(50),
+    status varchar(50) DEFAULT 'active',
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp,
+    deleted_at timestamp NULL,
+    FOREIGN KEY (tecnificacion_id) REFERENCES tecnificaciones(id),
+    FOREIGN KEY (subtipo_tecnificacion_id) REFERENCES subtipo_tecnificacion(id),
+    FOREIGN KEY (entrenador_id) REFERENCES profiles(id),
+    FOREIGN KEY (pista_id) REFERENCES pistas(id),
+    FOREIGN KEY (horario_id) REFERENCES horarios(id)
+);
+
+CREATE TABLE logros (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    nombre varchar(255),
+    descripcion text,
+    requisito_entrenamientos int,
+    imagen varchar(255),
+    nivel_dificultad varchar(50),
+    puntos int,
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NULL,
+    deleted_at timestamp NULL
+);
