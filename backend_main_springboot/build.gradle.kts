@@ -17,10 +17,6 @@ configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
 	}
-	developmentOnly
-    runtimeClasspath {
-        extendsFrom(configurations.developmentOnly.get())
-    }
 }
 
 repositories {
@@ -34,6 +30,8 @@ dependencies {
 	implementation("mysql:mysql-connector-java:8.0.33")
 	implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
+	implementation("jakarta.validation:jakarta.validation-api:3.0.2")
+	implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.projectlombok:lombok")
