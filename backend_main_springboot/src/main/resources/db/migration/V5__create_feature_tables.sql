@@ -9,7 +9,7 @@ CREATE TABLE entrenamientos (
     tecnificacion_id bigint,
     subtipo_tecnificacion_id bigint,
     entrenador_id int,
-    pista_id int,
+    pista_id bigint,
     horario_id int,
     max_plazas int,
     precio decimal(10,2),

@@ -1,9 +1,11 @@
 package com.skillboostfootball.backend_main_springboot.infrastructure.repositoryImpl;
 
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
+import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pista;
 import com.skillboostfootball.backend_main_springboot.domain.entities.subtiposTecnificacion.SubtipoTecnificacion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.tecnificaciones.Tecnificacion;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.images.ImageEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pistas.PistaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.subtiposTecnificacion.SubtipoTecnificacionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.tecnificaciones.TecnificacionEntity;
 
@@ -107,5 +109,44 @@ public class EntityMapper {
                 .imageableId(domain.getImageableId())
                 .imageableType(domain.getImageableType())
                 .build();
+    }
+
+    public Pista toPista(PistaEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Pista.builder()
+            .id(entity.getId())
+            .nombre(entity.getNombre())
+            .slug(entity.getSlug())
+            .descripcion(entity.getDescripcion())
+            .tipo(entity.getTipo())
+            .dimensiones(entity.getDimensiones())
+            .capacidad(entity.getCapacidad())
+            .images(new ArrayList<>())
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .deletedAt(entity.getDeletedAt())
+            .build();
+    }
+
+    public PistaEntity toPistaEntity(Pista domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return PistaEntity.builder()
+            .id(domain.getId())
+            .nombre(domain.getNombre())
+            .slug(domain.getSlug())
+            .descripcion(domain.getDescripcion())
+            .tipo(domain.getTipo())
+            .dimensiones(domain.getDimensiones())
+            .capacidad(domain.getCapacidad())
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
+            .deletedAt(domain.getDeletedAt())
+            .build();
     }
 }
