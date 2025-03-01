@@ -24,8 +24,8 @@ CREATE TABLE profiles (
 );
 
 CREATE TABLE subtipo_tecnificacion (
-    id int PRIMARY KEY AUTO_INCREMENT,
-    tecnificacion_id int,
+    id bigint PRIMARY KEY AUTO_INCREMENT,
+    tecnificacion_id bigint,
     nombre varchar(255),
     slug varchar(255),
     descripcion text,

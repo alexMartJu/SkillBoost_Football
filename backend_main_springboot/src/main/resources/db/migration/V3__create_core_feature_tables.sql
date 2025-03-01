@@ -1,5 +1,5 @@
 CREATE TABLE tecnificaciones (
-    id int PRIMARY KEY AUTO_INCREMENT,
+    id bigint PRIMARY KEY AUTO_INCREMENT,
     nombre varchar(255),
     slug varchar(255) UNIQUE,
     descripcion text,

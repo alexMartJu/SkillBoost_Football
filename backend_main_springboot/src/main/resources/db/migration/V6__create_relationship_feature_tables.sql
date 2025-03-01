@@ -69,10 +69,10 @@ CREATE TABLE evaluaciones_rendimiento (
 );
 
 CREATE TABLE images (
-    id int PRIMARY KEY AUTO_INCREMENT,
+    id bigint PRIMARY KEY AUTO_INCREMENT,
     image_url varchar(255),
     imageable_type varchar(255),
-    imageable_id int,
+    imageable_id bigint,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     deleted_at timestamp NULL
 );
