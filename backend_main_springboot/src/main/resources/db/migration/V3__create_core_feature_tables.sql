@@ -33,10 +33,9 @@ CREATE TABLE pistas (
 );
 
 CREATE TABLE horarios (
-    id int PRIMARY KEY AUTO_INCREMENT,
+    id bigint PRIMARY KEY AUTO_INCREMENT,
     fecha_inicio datetime,
     fecha_fin datetime,
-    dia_semana varchar(20),
     disponible boolean DEFAULT true,
     deleted_at timestamp NULL
 );
