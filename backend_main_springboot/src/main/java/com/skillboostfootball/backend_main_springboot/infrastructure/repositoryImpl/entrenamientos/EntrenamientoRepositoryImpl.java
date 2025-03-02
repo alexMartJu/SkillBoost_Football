@@ -73,5 +73,26 @@ public class EntrenamientoRepositoryImpl implements EntrenamientoRepository {
             .max(Integer::compare)
             .orElse(null);
     }
+
+    @Override
+    public Long countWithFilters(
+            String nombre,
+            String nivel,
+            Integer edadMinima,
+            Integer edadMaxima,
+            Integer maxPlazasMin,
+            Integer maxPlazasMax,
+            String tecnificacionNombre,
+            LocalDateTime fechaInicio,
+            LocalDateTime fechaFin) {
+            
+        return repository.count(
+            EntrenamientoSpecification.withFilters(
+                nombre, nivel, edadMinima, edadMaxima,
+                maxPlazasMin, maxPlazasMax, tecnificacionNombre,
+                fechaInicio, fechaFin
+            )
+        );
+    }
     
 }

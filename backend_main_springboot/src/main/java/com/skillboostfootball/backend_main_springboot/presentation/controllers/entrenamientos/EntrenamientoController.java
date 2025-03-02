@@ -1,9 +1,11 @@
 package com.skillboostfootball.backend_main_springboot.presentation.controllers.entrenamientos;
 
+import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.CountEntrenamientosWithFiltersUseCase;
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientoBySlugUseCase;
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientoFilterDataUseCase;
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientosWithFiltersUseCase;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.request.EntrenamientoFilterRequest;
+import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoCountResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoFilterDataResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoWrapper;
@@ -21,6 +23,7 @@ public class EntrenamientoController {
     private final GetEntrenamientosWithFiltersUseCase getEntrenamientosWithFiltersUseCase;
     private final GetEntrenamientoBySlugUseCase getEntrenamientoBySlugUseCase;
     private final GetEntrenamientoFilterDataUseCase getEntrenamientoFilterDataUseCase;
+    private final CountEntrenamientosWithFiltersUseCase countEntrenamientosWithFiltersUseCase;
     private final EntrenamientoAssembler assembler;
     
     //Listar los entrenamientos con filtros
@@ -64,6 +67,25 @@ public class EntrenamientoController {
             .totalEntrenamientos(filterData.totalEntrenamientos())
             .plazasMinimas(filterData.plazasMinimas())
             .plazasMaximas(filterData.plazasMaximas())
+            .build();
+    }
+
+    @GetMapping("/entrenamientos/count")
+    public EntrenamientoCountResponse countEntrenamientosWithFilters(EntrenamientoFilterRequest filter) {
+        Long count = countEntrenamientosWithFiltersUseCase.execute(
+            filter.getNombre(),
+            filter.getNivel(),
+            filter.getEdadMinima(),
+            filter.getEdadMaxima(),
+            filter.getMaxPlazasMin(),
+            filter.getMaxPlazasMax(),
+            filter.getTecnificacionNombre(),
+            filter.getFechaInicio(),
+            filter.getFechaFin()
+        );
+        
+        return EntrenamientoCountResponse.builder()
+            .count(count)
             .build();
     }
 }

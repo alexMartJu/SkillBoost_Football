@@ -26,4 +26,14 @@ public interface EntrenamientoRepository {
     Integer findMinPlazas();
     Integer findMaxPlazas();
 
+    Long countWithFilters(
+        String nombre,
+        String nivel,
+        Integer edadMinima,
+        Integer edadMaxima,
+        Integer maxPlazasMin,
+        Integer maxPlazasMax,
+        String tecnificacionNombre,
+        LocalDateTime fechaInicio,
+        LocalDateTime fechaFin);
 }
