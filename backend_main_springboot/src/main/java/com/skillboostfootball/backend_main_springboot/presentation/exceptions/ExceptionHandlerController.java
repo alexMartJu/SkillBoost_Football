@@ -4,6 +4,7 @@ import com.skillboostfootball.backend_main_springboot.domain.exceptions.*;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.subtiposTecnificacion.SubtipoTecnificacionNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.tecnificaciones.TecnificacionNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.pistas.PistaNotFoundException;
+import com.skillboostfootball.backend_main_springboot.domain.exceptions.entrenamientos.EntrenamientoNotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -75,6 +76,11 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(PistaNotFoundException.class)
     public ResponseEntity<?> handlePistaNotFound(PistaNotFoundException ex, WebRequest request) {
         return handleResourceNotFound(ex, request, "Pista");
+    }
+
+    @ExceptionHandler(EntrenamientoNotFoundException.class)
+    public ResponseEntity<?> handleEntrenamientoNotFound(EntrenamientoNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "Entrenamiento");
     }
 
     @ExceptionHandler(BusinessException.class)

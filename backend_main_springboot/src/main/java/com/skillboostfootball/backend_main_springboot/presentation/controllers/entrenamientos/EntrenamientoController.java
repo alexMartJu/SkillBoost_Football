@@ -1,7 +1,9 @@
 package com.skillboostfootball.backend_main_springboot.presentation.controllers.entrenamientos;
 
+import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientoBySlugUseCase;
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientosWithFiltersUseCase;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.request.EntrenamientoFilterRequest;
+import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoWrapper;
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.entrenamientos.EntrenamientoAssembler;
 
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class EntrenamientoController {
     private final GetEntrenamientosWithFiltersUseCase getEntrenamientosWithFiltersUseCase;
+    private final GetEntrenamientoBySlugUseCase getEntrenamientoBySlugUseCase;
     private final EntrenamientoAssembler assembler;
     
+    //Listar los entrenamientos con filtros
     @GetMapping("/entrenamientos")
     public EntrenamientoWrapper getEntrenamientosWithFilters(
             EntrenamientoFilterRequest filter,
@@ -39,5 +43,12 @@ public class EntrenamientoController {
         );
         
         return assembler.toWrapper(entrenamientosPage);
+    }
+
+    // Listar un entrenamiento por slug
+    @GetMapping("/entrenamientos/{slug}")
+    public EntrenamientoResponse getEntrenamientoBySlug(@PathVariable String slug) {
+        var entrenamiento = getEntrenamientoBySlugUseCase.execute(slug);
+        return assembler.toResponse(entrenamiento);
     }
 }
