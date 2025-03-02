@@ -1,5 +1,5 @@
 CREATE TABLE profile_logros (
-    profile_id int,
+    profile_id bigint,
     logro_id int,
     fecha_logro timestamp DEFAULT CURRENT_TIMESTAMP,
     progreso_actual int,
@@ -10,7 +10,7 @@ CREATE TABLE profile_logros (
 
 CREATE TABLE pagos (
     id int PRIMARY KEY AUTO_INCREMENT,
-    profile_id int,
+    profile_id bigint,
     suscripcion_id int,
     monto decimal(10,2),
     fecha_pago timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -28,8 +28,8 @@ CREATE TABLE pagos (
 
 CREATE TABLE reservas (
     id int PRIMARY KEY AUTO_INCREMENT,
-    profile_id int,
-    entrenamiento_id int,
+    profile_id bigint,
+    entrenamiento_id bigint,
     fecha datetime,
     estado varchar(50),
     asistencia boolean DEFAULT false,
@@ -46,7 +46,7 @@ CREATE TABLE graficas (
     nivel int,
     Mes int,
     año int,
-    profile_id int,
+    profile_id bigint,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp NULL,
     deleted_at timestamp NULL,
@@ -55,8 +55,8 @@ CREATE TABLE graficas (
 
 CREATE TABLE evaluaciones_rendimiento (
     id int PRIMARY KEY AUTO_INCREMENT,
-    profile_id int,
-    entrenamiento_id int,
+    profile_id bigint,
+    entrenamiento_id bigint,
     fecha_evaluacion date,
     puntuacion int,
     comentarios text,
