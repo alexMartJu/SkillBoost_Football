@@ -1,8 +1,10 @@
 package com.skillboostfootball.backend_main_springboot.presentation.controllers.entrenamientos;
 
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientoBySlugUseCase;
+import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientoFilterDataUseCase;
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientosWithFiltersUseCase;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.request.EntrenamientoFilterRequest;
+import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoFilterDataResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoWrapper;
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.entrenamientos.EntrenamientoAssembler;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class EntrenamientoController {
     private final GetEntrenamientosWithFiltersUseCase getEntrenamientosWithFiltersUseCase;
     private final GetEntrenamientoBySlugUseCase getEntrenamientoBySlugUseCase;
+    private final GetEntrenamientoFilterDataUseCase getEntrenamientoFilterDataUseCase;
     private final EntrenamientoAssembler assembler;
     
     //Listar los entrenamientos con filtros
@@ -50,5 +53,17 @@ public class EntrenamientoController {
     public EntrenamientoResponse getEntrenamientoBySlug(@PathVariable String slug) {
         var entrenamiento = getEntrenamientoBySlugUseCase.execute(slug);
         return assembler.toResponse(entrenamiento);
+    }
+
+    // Obtener los datos de los entrenamientos para filtros
+    @GetMapping("/entrenamientos/filter-data")
+    public EntrenamientoFilterDataResponse getFilterData() {
+        var filterData = getEntrenamientoFilterDataUseCase.execute();
+        
+        return EntrenamientoFilterDataResponse.builder()
+            .totalEntrenamientos(filterData.totalEntrenamientos())
+            .plazasMinimas(filterData.plazasMinimas())
+            .plazasMaximas(filterData.plazasMaximas())
+            .build();
     }
 }

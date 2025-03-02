@@ -22,5 +22,8 @@ public interface EntrenamientoRepository {
             Pageable pageable);
     
     Optional<Entrenamiento> findBySlug(String slug);
+    Long countActiveEntrenamientos();
+    Integer findMinPlazas();
+    Integer findMaxPlazas();
 
 }
