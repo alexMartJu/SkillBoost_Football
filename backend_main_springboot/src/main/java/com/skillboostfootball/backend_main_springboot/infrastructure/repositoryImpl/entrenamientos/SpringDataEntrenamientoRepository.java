@@ -1,0 +1,13 @@
+package com.skillboostfootball.backend_main_springboot.infrastructure.repositoryImpl.entrenamientos;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.entrenamientos.EntrenamientoEntity;
+import java.util.Optional;
+
+public interface SpringDataEntrenamientoRepository extends JpaRepository<EntrenamientoEntity, Long>, JpaSpecificationExecutor<EntrenamientoEntity> {
+    
+    Optional<EntrenamientoEntity> findBySlugAndDeletedAtIsNull(String slug);
+
+}

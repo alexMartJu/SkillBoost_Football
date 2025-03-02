@@ -1,9 +1,13 @@
 package com.skillboostfootball.backend_main_springboot.infrastructure.repositoryImpl;
 
+import com.skillboostfootball.backend_main_springboot.domain.entities.entrenamientos.Entrenamiento;
+import com.skillboostfootball.backend_main_springboot.domain.entities.horarios.Horario;
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
 import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pista;
 import com.skillboostfootball.backend_main_springboot.domain.entities.subtiposTecnificacion.SubtipoTecnificacion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.tecnificaciones.Tecnificacion;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.entrenamientos.EntrenamientoEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horarios.HorarioEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.images.ImageEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pistas.PistaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.subtiposTecnificacion.SubtipoTecnificacionEntity;
@@ -147,6 +151,91 @@ public class EntityMapper {
             .createdAt(domain.getCreatedAt())
             .updatedAt(domain.getUpdatedAt())
             .deletedAt(domain.getDeletedAt())
+            .build();
+    }
+
+    public Entrenamiento toEntrenamiento(EntrenamientoEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Entrenamiento.builder()
+            .id(entity.getId())
+            .nombre(entity.getNombre())
+            .slug(entity.getSlug())
+            .descripcion(entity.getDescripcion())
+            .nivel(entity.getNivel())
+            .edadMinima(entity.getEdadMinima())
+            .edadMaxima(entity.getEdadMaxima())
+            .tecnificacion(entity.getTecnificacion() != null ? toTecnificacion(entity.getTecnificacion()) : null)
+            .subtipoTecnificacion(entity.getSubtipoTecnificacion() != null ? toSubtipoTecnificacion(entity.getSubtipoTecnificacion()) : null)
+            .entrenadorId(entity.getEntrenadorId())
+            .pista(entity.getPista() != null ? toPista(entity.getPista()) : null)
+            .horario(toHorario(entity.getHorario()))
+            .maxPlazas(entity.getMaxPlazas())
+            .objetivos(entity.getObjetivos())
+            .equipamientoNecesario(entity.getEquipamientoNecesario())
+            .duracionMinutos(entity.getDuracionMinutos())
+            .status(entity.getStatus())
+            .images(new ArrayList<>())    
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .deletedAt(entity.getDeletedAt())
+            .build();
+    }
+
+    public EntrenamientoEntity toEntrenamientoEntity(Entrenamiento domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return EntrenamientoEntity.builder()
+            .id(domain.getId())
+            .nombre(domain.getNombre())
+            .slug(domain.getSlug())
+            .descripcion(domain.getDescripcion())
+            .nivel(domain.getNivel())
+            .edadMinima(domain.getEdadMinima())
+            .edadMaxima(domain.getEdadMaxima())
+            .tecnificacion(domain.getTecnificacion() != null ? toTecnificacionEntity(domain.getTecnificacion()) : null)
+            .subtipoTecnificacion(domain.getSubtipoTecnificacion() != null ? toSubtipoTecnificacionEntity(domain.getSubtipoTecnificacion()) : null)
+            .entrenadorId(domain.getEntrenadorId())
+            .pista(domain.getPista() != null ? toPistaEntity(domain.getPista()) : null)
+            .horario(toHorarioEntity(domain.getHorario()))
+            .maxPlazas(domain.getMaxPlazas())
+            .objetivos(domain.getObjetivos())
+            .equipamientoNecesario(domain.getEquipamientoNecesario())
+            .duracionMinutos(domain.getDuracionMinutos())
+            .status(domain.getStatus())
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
+            .deletedAt(domain.getDeletedAt())
+            .build();
+    }
+
+    public Horario toHorario(HorarioEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Horario.builder()
+            .id(entity.getId())
+            .fechaInicio(entity.getFechaInicio())
+            .fechaFin(entity.getFechaFin())
+            .disponible(entity.getDisponible())
+            .build();
+    }
+
+    public HorarioEntity toHorarioEntity(Horario domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return HorarioEntity.builder()
+            .id(domain.getId())
+            .fechaInicio(domain.getFechaInicio())
+            .fechaFin(domain.getFechaFin())
+            .disponible(domain.getDisponible())
             .build();
     }
 }
