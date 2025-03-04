@@ -11,7 +11,7 @@ CREATE TABLE profile_logros (
 CREATE TABLE pagos (
     id int PRIMARY KEY AUTO_INCREMENT,
     profile_id bigint,
-    suscripcion_id int,
+    suscripcion_id bigint,
     monto decimal(10,2),
     fecha_pago timestamp DEFAULT CURRENT_TIMESTAMP,
     fecha_inicio date,
