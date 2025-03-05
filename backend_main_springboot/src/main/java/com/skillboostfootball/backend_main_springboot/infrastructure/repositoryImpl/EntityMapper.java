@@ -5,12 +5,14 @@ import com.skillboostfootball.backend_main_springboot.domain.entities.horarios.H
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
 import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pista;
 import com.skillboostfootball.backend_main_springboot.domain.entities.subtiposTecnificacion.SubtipoTecnificacion;
+import com.skillboostfootball.backend_main_springboot.domain.entities.suscripciones.Suscripcion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.tecnificaciones.Tecnificacion;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.entrenamientos.EntrenamientoEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horarios.HorarioEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.images.ImageEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pistas.PistaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.subtiposTecnificacion.SubtipoTecnificacionEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.suscripciones.SuscripcionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.tecnificaciones.TecnificacionEntity;
 
 import org.springframework.stereotype.Component;
@@ -236,6 +238,50 @@ public class EntityMapper {
             .fechaInicio(domain.getFechaInicio())
             .fechaFin(domain.getFechaFin())
             .disponible(domain.getDisponible())
+            .build();
+    }
+
+    public Suscripcion toSuscripcion(SuscripcionEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Suscripcion.builder()
+            .id(entity.getId())
+            .nombre(entity.getNombre())
+            .slug(entity.getSlug())
+            .precio(entity.getPrecio())
+            .entrenamientosSemanales(entity.getEntrenamientosSemanales())
+            .incluyeGraficas(entity.getIncluyeGraficas())
+            .incluyeEvaluacion(entity.getIncluyeEvaluacion())
+            .ventaja1(entity.getVentaja1())
+            .ventaja2(entity.getVentaja2())
+            .ventaja3(entity.getVentaja3())
+            .ventaja4(entity.getVentaja4())
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .build();
+    }
+
+    public SuscripcionEntity toSuscripcionEntity(Suscripcion domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return SuscripcionEntity.builder()
+            .id(domain.getId())
+            .nombre(domain.getNombre())
+            .slug(domain.getSlug())
+            .precio(domain.getPrecio())
+            .entrenamientosSemanales(domain.getEntrenamientosSemanales())
+            .incluyeGraficas(domain.getIncluyeGraficas())
+            .incluyeEvaluacion(domain.getIncluyeEvaluacion())
+            .ventaja1(domain.getVentaja1())
+            .ventaja2(domain.getVentaja2())
+            .ventaja3(domain.getVentaja3())
+            .ventaja4(domain.getVentaja4())
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
             .build();
     }
 }

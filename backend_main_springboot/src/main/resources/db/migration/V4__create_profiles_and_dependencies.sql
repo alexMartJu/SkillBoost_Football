@@ -1,7 +1,7 @@
 CREATE TABLE profiles (
     id bigint PRIMARY KEY AUTO_INCREMENT,
     usuario_id int,
-    suscripcion_id int,
+    suscripcion_id bigint,
     numerosocio varchar(50) UNIQUE,
     nombre varchar(255),
     apellidos varchar(255),
