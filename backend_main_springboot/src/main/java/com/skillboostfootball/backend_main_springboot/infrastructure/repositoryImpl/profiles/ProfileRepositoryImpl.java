@@ -58,4 +58,11 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         entity = repository.save(entity);
         return mapper.toProfile(entity);
     }
+
+    @Override
+    public List<Profile> findByNumeroEntrenadorIsNotNull() {
+        return repository.findByNumeroEntrenadorIsNotNull().stream()
+            .map(mapper::toProfile)
+            .collect(Collectors.toList());
+    }
 }
