@@ -1,5 +1,5 @@
 CREATE TABLE roles (
-    id int PRIMARY KEY AUTO_INCREMENT,
+    id bigint PRIMARY KEY AUTO_INCREMENT,
     name varchar(255) UNIQUE,
     slug varchar(255) UNIQUE,
     description text,
@@ -9,7 +9,7 @@ CREATE TABLE roles (
 );
 
 CREATE TABLE permissions (
-    id int PRIMARY KEY AUTO_INCREMENT,
+    id bigint PRIMARY KEY AUTO_INCREMENT,
     name varchar(255) UNIQUE,
     slug varchar(255) UNIQUE,
     description text,
@@ -19,11 +19,13 @@ CREATE TABLE permissions (
 );
 
 CREATE TABLE usuarios (
-    id int PRIMARY KEY AUTO_INCREMENT,
+    id bigint PRIMARY KEY AUTO_INCREMENT,
     email varchar(255) UNIQUE,
     password varchar(255),
     tipo_usuario varchar(50),
+    refresh_token TEXT NULL,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NULL,
     status varchar(50) DEFAULT 'active',
     deleted_at timestamp NULL
 );

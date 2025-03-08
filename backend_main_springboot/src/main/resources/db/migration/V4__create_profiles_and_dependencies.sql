@@ -1,6 +1,5 @@
 CREATE TABLE profiles (
     id bigint PRIMARY KEY AUTO_INCREMENT,
-    usuario_id int,
     suscripcion_id bigint,
     numerosocio varchar(50) UNIQUE,
     nombre varchar(255),
@@ -19,7 +18,7 @@ CREATE TABLE profiles (
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp NULL,
     deleted_at timestamp NULL,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (id) REFERENCES usuarios(id),
     FOREIGN KEY (suscripcion_id) REFERENCES suscripciones(id)
 );
 
