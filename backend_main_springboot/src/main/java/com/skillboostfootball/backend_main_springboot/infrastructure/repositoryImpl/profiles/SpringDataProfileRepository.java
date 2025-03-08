@@ -12,5 +12,6 @@ public interface SpringDataProfileRepository extends JpaRepository<ProfileEntity
     List<ProfileEntity> findByEsMenor(Boolean esMenor);
     List<ProfileEntity> findByClubOrigenIsNotNull();
     List<ProfileEntity> findByOrganizacionOrigenIsNotNull();
+    List<ProfileEntity> findByNumeroEntrenadorIsNotNull();
     
 }

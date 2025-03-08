@@ -30,6 +30,7 @@ public class Profile {
     private Suscripcion suscripcion;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
     
     //Metodos de dominio
     public void update(String nombre, String apellidos, String bio, Integer edad) {
@@ -76,5 +77,9 @@ public class Profile {
     
     public boolean isSocialHelp() {
         return organizacionOrigen != null && !organizacionOrigen.isEmpty();
+    }
+
+    public void delete(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

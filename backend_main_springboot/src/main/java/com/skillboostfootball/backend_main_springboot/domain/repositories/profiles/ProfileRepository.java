@@ -14,6 +14,7 @@ public interface ProfileRepository {
     List<Profile> findByEsMenor(Boolean esMenor);
     List<Profile> findByClubOrigenIsNotNull();
     List<Profile> findByOrganizacionOrigenIsNotNull();
+    List<Profile> findByNumeroEntrenadorIsNotNull();
     Profile save(Profile profile);
     
 }
