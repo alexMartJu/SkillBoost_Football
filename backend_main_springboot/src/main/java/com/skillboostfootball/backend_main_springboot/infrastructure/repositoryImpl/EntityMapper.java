@@ -1,23 +1,34 @@
 package com.skillboostfootball.backend_main_springboot.infrastructure.repositoryImpl;
 
+import com.skillboostfootball.backend_main_springboot.domain.entities.blacklistToken.BlacklistToken;
 import com.skillboostfootball.backend_main_springboot.domain.entities.entrenamientos.Entrenamiento;
 import com.skillboostfootball.backend_main_springboot.domain.entities.horarios.Horario;
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
+import com.skillboostfootball.backend_main_springboot.domain.entities.permissions.Permission;
 import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pista;
+import com.skillboostfootball.backend_main_springboot.domain.entities.profiles.Profile;
+import com.skillboostfootball.backend_main_springboot.domain.entities.roles.Role;
 import com.skillboostfootball.backend_main_springboot.domain.entities.subtiposTecnificacion.SubtipoTecnificacion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.suscripciones.Suscripcion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.tecnificaciones.Tecnificacion;
+import com.skillboostfootball.backend_main_springboot.domain.entities.usuarios.Usuario;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.blacklistToken.BlacklistTokenEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.entrenamientos.EntrenamientoEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horarios.HorarioEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.images.ImageEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.permissions.PermissionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pistas.PistaEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.profiles.ProfileEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.roles.RoleEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.subtiposTecnificacion.SubtipoTecnificacionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.suscripciones.SuscripcionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.tecnificaciones.TecnificacionEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.usuarios.UsuarioEntity;
 
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Component
 public class EntityMapper {
@@ -282,6 +293,203 @@ public class EntityMapper {
             .ventaja4(domain.getVentaja4())
             .createdAt(domain.getCreatedAt())
             .updatedAt(domain.getUpdatedAt())
+            .build();
+    }
+
+    public Usuario toUsuario(UsuarioEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Usuario.builder()
+            .id(entity.getId())
+            .email(entity.getEmail())
+            .password(entity.getPassword())
+            .tipoUsuario(entity.getTipoUsuario())
+            .status(entity.getStatus())
+            .profile(toProfile(entity.getProfile()))
+            .roles(entity.getRoles() != null ? 
+                entity.getRoles().stream().map(this::toRole).collect(Collectors.toList()) : 
+                new ArrayList<>())
+            .refreshToken(entity.getRefreshToken())
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .build();
+    }
+
+    public UsuarioEntity toUsuarioEntity(Usuario domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        UsuarioEntity usuarioEntity = UsuarioEntity.builder()
+            .id(domain.getId())
+            .email(domain.getEmail())
+            .password(domain.getPassword())
+            .tipoUsuario(domain.getTipoUsuario())
+            .status(domain.getStatus())
+            .roles(domain.getRoles() != null ? 
+                domain.getRoles().stream().map(this::toRoleEntity).collect(Collectors.toList()) : 
+                new ArrayList<>())
+            .refreshToken(domain.getRefreshToken())
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
+            .build();
+
+        // Configurar el profile de forma segura
+        if (domain.getProfile() != null) {
+            ProfileEntity profileEntity = toProfileEntity(domain.getProfile());
+            profileEntity.setUsuario(usuarioEntity); // Establecer la referencia al usuario
+            usuarioEntity.setProfile(profileEntity); // Establecer la referencia al perfil
+        }
+        
+        return usuarioEntity;
+    }
+    
+    public Profile toProfile(ProfileEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Profile.builder()
+            .id(entity.getId())
+            .numeroSocio(entity.getNumeroSocio())
+            .nombre(entity.getNombre())
+            .apellidos(entity.getApellidos())
+            .bio(entity.getBio())
+            .image(entity.getImage())
+            .edad(entity.getEdad())
+            .esMenor(entity.getEsMenor())
+            .posicionPreferida(entity.getPosicionPreferida())
+            .clubOrigen(entity.getClubOrigen())
+            .numeroEntrenador(entity.getNumeroEntrenador())
+            .especialidad(entity.getEspecialidad())
+            .experienciaAnios(entity.getExperienciaAnios())
+            .certificaciones(entity.getCertificaciones())
+            .organizacionOrigen(entity.getOrganizacionOrigen())
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .build();
+    }
+    
+    public ProfileEntity toProfileEntity(Profile domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        ProfileEntity entity = ProfileEntity.builder()
+            .id(domain.getId())
+            .numeroSocio(domain.getNumeroSocio())
+            .nombre(domain.getNombre())
+            .apellidos(domain.getApellidos())
+            .bio(domain.getBio())
+            .image(domain.getImage())
+            .edad(domain.getEdad())
+            .esMenor(domain.getEsMenor())
+            .posicionPreferida(domain.getPosicionPreferida())
+            .clubOrigen(domain.getClubOrigen())
+            .numeroEntrenador(domain.getNumeroEntrenador())
+            .especialidad(domain.getEspecialidad())
+            .experienciaAnios(domain.getExperienciaAnios())
+            .certificaciones(domain.getCertificaciones())
+            .organizacionOrigen(domain.getOrganizacionOrigen())
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
+            .build();
+
+        return entity;
+    }
+    
+    public Role toRole(RoleEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Role.builder()
+            .id(entity.getId())
+            .name(entity.getName())
+            .slug(entity.getSlug())
+            .description(entity.getDescription())
+            .permissions(entity.getPermissions() != null ? 
+                entity.getPermissions().stream().map(this::toPermission).collect(Collectors.toList()) : 
+                new ArrayList<>())
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .build();
+    }
+    
+    public RoleEntity toRoleEntity(Role domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return RoleEntity.builder()
+            .id(domain.getId())
+            .name(domain.getName())
+            .slug(domain.getSlug())
+            .description(domain.getDescription())
+            .permissions(domain.getPermissions() != null ? 
+                domain.getPermissions().stream().map(this::toPermissionEntity).collect(Collectors.toList()) : 
+                new ArrayList<>())
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
+            .build();
+    }
+    
+    public Permission toPermission(PermissionEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Permission.builder()
+            .id(entity.getId())
+            .name(entity.getName())
+            .slug(entity.getSlug())
+            .description(entity.getDescription())
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .build();
+    }
+    
+    public PermissionEntity toPermissionEntity(Permission domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return PermissionEntity.builder()
+            .id(domain.getId())
+            .name(domain.getName())
+            .slug(domain.getSlug())
+            .description(domain.getDescription())
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
+            .build();
+    }
+    
+    // BlacklistToken mapping
+    public BlacklistToken toBlacklistToken(BlacklistTokenEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return BlacklistToken.builder()
+            .id(entity.getId())
+            .usuarioId(entity.getUsuarioId())
+            .refreshToken(entity.getRefreshToken())
+            .revokeTime(entity.getRevokeTime())
+            .build();
+    }
+    
+    public BlacklistTokenEntity toBlacklistTokenEntity(BlacklistToken domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return BlacklistTokenEntity.builder()
+            .id(domain.getId())
+            .usuarioId(domain.getUsuarioId())
+            .refreshToken(domain.getRefreshToken())
+            .revokeTime(domain.getRevokeTime())
             .build();
     }
 }
