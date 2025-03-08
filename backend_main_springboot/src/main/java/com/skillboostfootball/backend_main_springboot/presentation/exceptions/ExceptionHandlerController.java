@@ -6,6 +6,10 @@ import com.skillboostfootball.backend_main_springboot.domain.exceptions.tecnific
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.pistas.PistaNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.entrenamientos.EntrenamientoNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.suscripciones.SuscripcionNotFoundException;
+import com.skillboostfootball.backend_main_springboot.domain.exceptions.profiles.ProfileNotFoundException;
+import com.skillboostfootball.backend_main_springboot.domain.exceptions.roles.RoleNotFoundException;
+import com.skillboostfootball.backend_main_springboot.domain.exceptions.usuarios.EmailTakenException;
+import com.skillboostfootball.backend_main_springboot.domain.exceptions.usuarios.UsuarioNotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -87,6 +91,26 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(SuscripcionNotFoundException.class)
     public ResponseEntity<?> handleSuscripcionNotFound(SuscripcionNotFoundException ex, WebRequest request) {
         return handleResourceNotFound(ex, request, "Suscripcion");
+    }
+
+    @ExceptionHandler(ProfileNotFoundException.class)
+    public ResponseEntity<?> handleProfileNotFound(ProfileNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "Profile");
+    }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<?> handleRoleNotFound(RoleNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "Role");
+    }
+
+    @ExceptionHandler(UsuarioNotFoundException.class)
+    public ResponseEntity<?> handleUsuarioNotFound(UsuarioNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "Usuario");
+    }
+
+    @ExceptionHandler(EmailTakenException.class)
+    public ResponseEntity<?> handleEmailTaken(EmailTakenException ex, WebRequest request) {
+        return handleTaken(ex, request, "email");
     }
 
     @ExceptionHandler(BusinessException.class)
