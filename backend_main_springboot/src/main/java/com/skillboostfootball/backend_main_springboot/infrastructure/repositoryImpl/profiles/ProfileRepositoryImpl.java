@@ -65,4 +65,16 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             .map(mapper::toProfile)
             .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Profile> findByUsuarioHasRoleName(String roleName) {
+        return repository.findAll().stream()
+            .filter(profileEntity -> 
+                profileEntity.getUsuario() != null && 
+                profileEntity.getUsuario().getRoles().stream()
+                    .anyMatch(role -> role.getName().equals(roleName))
+            )
+            .map(mapper::toProfile)
+            .collect(Collectors.toList());
+    }
 }

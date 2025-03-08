@@ -2,6 +2,10 @@ package com.skillboostfootball.backend_main_springboot.presentation.assemblers.p
 
 import com.skillboostfootball.backend_main_springboot.domain.entities.profiles.Profile;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.profiles.response.ProfileResponse;
+import com.skillboostfootball.backend_main_springboot.presentation.dtos.profiles.response.ProfileWrapper;
+
+import java.util.stream.Collectors;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -29,5 +33,15 @@ public class ProfileAssembler {
             .certificaciones(profile.getCertificaciones())
             .organizacionOrigen(profile.getOrganizacionOrigen())
             .build();
+    }
+
+    public ProfileWrapper toWrapper(List<Profile> profiles) {
+        List<ProfileResponse> responses = profiles.stream()
+                .map(this::toProfileResponse)
+                .collect(Collectors.toList());
+                
+        return ProfileWrapper.builder()
+                .profiles(responses)
+                .build();
     }
 }
