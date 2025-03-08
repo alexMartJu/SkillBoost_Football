@@ -78,6 +78,9 @@ public class ProfileEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
     //Método helper para mantener la relación bidireccional
     public void setUsuario(UsuarioEntity usuario) {
         this.usuario = usuario;

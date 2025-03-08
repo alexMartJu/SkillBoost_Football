@@ -314,6 +314,7 @@ public class EntityMapper {
             .refreshToken(entity.getRefreshToken())
             .createdAt(entity.getCreatedAt())
             .updatedAt(entity.getUpdatedAt())
+            .deletedAt(entity.getDeletedAt())
             .build();
     }
 
@@ -334,6 +335,7 @@ public class EntityMapper {
             .refreshToken(domain.getRefreshToken())
             .createdAt(domain.getCreatedAt())
             .updatedAt(domain.getUpdatedAt())
+            .deletedAt(domain.getDeletedAt())
             .build();
 
         // Configurar el profile de forma segura
@@ -369,6 +371,7 @@ public class EntityMapper {
             .organizacionOrigen(entity.getOrganizacionOrigen())
             .createdAt(entity.getCreatedAt())
             .updatedAt(entity.getUpdatedAt())
+            .deletedAt(entity.getDeletedAt())
             .build();
     }
     
@@ -395,6 +398,7 @@ public class EntityMapper {
             .organizacionOrigen(domain.getOrganizacionOrigen())
             .createdAt(domain.getCreatedAt())
             .updatedAt(domain.getUpdatedAt())
+            .deletedAt(domain.getDeletedAt())
             .build();
 
         return entity;

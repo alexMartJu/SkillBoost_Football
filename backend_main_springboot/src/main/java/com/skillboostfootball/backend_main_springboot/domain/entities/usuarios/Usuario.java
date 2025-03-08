@@ -22,6 +22,7 @@ public class Usuario {
     private String refreshToken;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
     
     //Metodos de dominio
     public void update(String email, String password) {
@@ -62,5 +63,6 @@ public class Usuario {
     
     public void deactivate() {
         this.status = "inactive";
+        this.deletedAt = LocalDateTime.now();
     }
 }
