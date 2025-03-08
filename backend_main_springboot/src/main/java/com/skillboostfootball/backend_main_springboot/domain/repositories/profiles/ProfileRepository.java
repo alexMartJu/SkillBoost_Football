@@ -16,5 +16,6 @@ public interface ProfileRepository {
     List<Profile> findByOrganizacionOrigenIsNotNull();
     List<Profile> findByNumeroEntrenadorIsNotNull();
     Profile save(Profile profile);
+    List<Profile> findByUsuarioHasRoleName(String roleName);
     
 }
