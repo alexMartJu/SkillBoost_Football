@@ -64,4 +64,14 @@ public class EntrenamientoAssembler {
                 .entrenamientos(responseList)
                 .build();
     }
+
+    public EntrenamientoWrapper toWrapper(List<Entrenamiento> entrenamientos) {
+        List<EntrenamientoResponse> responseList = entrenamientos.stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+                
+        return EntrenamientoWrapper.builder()
+                .entrenamientos(responseList)
+                .build();
+    }
 }

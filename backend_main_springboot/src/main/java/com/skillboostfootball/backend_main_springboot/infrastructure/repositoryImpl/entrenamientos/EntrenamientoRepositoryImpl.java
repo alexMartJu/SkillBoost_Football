@@ -114,5 +114,13 @@ public class EntrenamientoRepositoryImpl implements EntrenamientoRepository {
             .map(mapper::toEntrenamiento)
             .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Entrenamiento> findByEntrenadorIdAndStatusIn(Long entrenadorId, List<String> statusList) {
+        List<EntrenamientoEntity> entities = repository.findByEntrenadorIdAndStatusInAndDeletedAtIsNull(entrenadorId, statusList);
+        return entities.stream()
+            .map(mapper::toEntrenamiento)
+            .collect(Collectors.toList());
+    }
     
 }
