@@ -38,10 +38,15 @@ CREATE TABLE pistas (
     deleted_at timestamp NULL
 );
 
-CREATE TABLE horarios (
+CREATE TABLE horarios_pista (
     id bigint PRIMARY KEY AUTO_INCREMENT,
-    fecha_inicio datetime,
-    fecha_fin datetime,
-    disponible boolean DEFAULT true,
-    deleted_at timestamp NULL
+    pista_id bigint NOT NULL,
+    fecha_inicio datetime NOT NULL,
+    fecha_fin datetime NOT NULL,
+    entrenamiento_id bigint NULL,
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NULL,
+    deleted_at timestamp NULL,
+    UNIQUE KEY uk_entrenamiento_id (entrenamiento_id),
+    FOREIGN KEY (pista_id) REFERENCES pistas(id)
 );
