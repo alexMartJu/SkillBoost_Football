@@ -2,7 +2,7 @@ package com.skillboostfootball.backend_main_springboot.infrastructure.repository
 
 import com.skillboostfootball.backend_main_springboot.domain.entities.blacklistToken.BlacklistToken;
 import com.skillboostfootball.backend_main_springboot.domain.entities.entrenamientos.Entrenamiento;
-import com.skillboostfootball.backend_main_springboot.domain.entities.horarios.Horario;
+import com.skillboostfootball.backend_main_springboot.domain.entities.horariosPista.HorarioPista;
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
 import com.skillboostfootball.backend_main_springboot.domain.entities.permissions.Permission;
 import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pista;
@@ -14,7 +14,7 @@ import com.skillboostfootball.backend_main_springboot.domain.entities.tecnificac
 import com.skillboostfootball.backend_main_springboot.domain.entities.usuarios.Usuario;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.blacklistToken.BlacklistTokenEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.entrenamientos.EntrenamientoEntity;
-import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horarios.HorarioEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horariosPista.HorarioPistaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.images.ImageEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.permissions.PermissionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pistas.PistaEntity;
@@ -183,8 +183,7 @@ public class EntityMapper {
             .tecnificacion(entity.getTecnificacion() != null ? toTecnificacion(entity.getTecnificacion()) : null)
             .subtipoTecnificacion(entity.getSubtipoTecnificacion() != null ? toSubtipoTecnificacion(entity.getSubtipoTecnificacion()) : null)
             .entrenadorId(entity.getEntrenadorId())
-            .pista(entity.getPista() != null ? toPista(entity.getPista()) : null)
-            .horario(toHorario(entity.getHorario()))
+            .horarioPista(entity.getHorarioPista() != null ? toHorarioPista(entity.getHorarioPista()) : null)
             .maxPlazas(entity.getMaxPlazas())
             .objetivos(entity.getObjetivos())
             .equipamientoNecesario(entity.getEquipamientoNecesario())
@@ -213,8 +212,7 @@ public class EntityMapper {
             .tecnificacion(domain.getTecnificacion() != null ? toTecnificacionEntity(domain.getTecnificacion()) : null)
             .subtipoTecnificacion(domain.getSubtipoTecnificacion() != null ? toSubtipoTecnificacionEntity(domain.getSubtipoTecnificacion()) : null)
             .entrenadorId(domain.getEntrenadorId())
-            .pista(domain.getPista() != null ? toPistaEntity(domain.getPista()) : null)
-            .horario(toHorarioEntity(domain.getHorario()))
+            .horarioPista(domain.getHorarioPista() != null ? toHorarioPistaEntity(domain.getHorarioPista()) : null)
             .maxPlazas(domain.getMaxPlazas())
             .objetivos(domain.getObjetivos())
             .equipamientoNecesario(domain.getEquipamientoNecesario())
@@ -226,29 +224,47 @@ public class EntityMapper {
             .build();
     }
 
-    public Horario toHorario(HorarioEntity entity) {
+    public HorarioPista toHorarioPista(HorarioPistaEntity entity) {
         if (entity == null) {
             return null;
         }
+
+        Long entrenamientoId = null;
+        if (entity.getEntrenamiento() != null) {
+            entrenamientoId = entity.getEntrenamiento().getId();
+        }
         
-        return Horario.builder()
+        return HorarioPista.builder()
             .id(entity.getId())
+            .pista(entity.getPista() != null ? toPista(entity.getPista()) : null)
             .fechaInicio(entity.getFechaInicio())
             .fechaFin(entity.getFechaFin())
-            .disponible(entity.getDisponible())
+            .entrenamiento(entity.getEntrenamiento() != null ? Entrenamiento.builder().id(entrenamientoId).build() : null)
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .deletedAt(entity.getDeletedAt())
             .build();
     }
-
-    public HorarioEntity toHorarioEntity(Horario domain) {
+    
+    public HorarioPistaEntity toHorarioPistaEntity(HorarioPista domain) {
         if (domain == null) {
             return null;
         }
+
+        Long entrenamientoId = null;
+        if (domain.getEntrenamiento() != null) {
+            entrenamientoId = domain.getEntrenamiento().getId();
+        }
         
-        return HorarioEntity.builder()
+        return HorarioPistaEntity.builder()
             .id(domain.getId())
+            .pista(domain.getPista() != null ? toPistaEntity(domain.getPista()) : null)
             .fechaInicio(domain.getFechaInicio())
             .fechaFin(domain.getFechaFin())
-            .disponible(domain.getDisponible())
+            .entrenamiento(domain.getEntrenamiento() != null ? EntrenamientoEntity.builder().id(entrenamientoId).build() : null)
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
+            .deletedAt(domain.getDeletedAt())
             .build();
     }
 
