@@ -34,7 +34,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/login", "/api/usuarios", "/api/entrenadores/registro", "/api/entrenadores",
                                "/api/jugadores-club/registro", "/api/refresh", "/api/jugadores-sociales/registro").permitAll()
-                .requestMatchers("/api/tecnificaciones/**", "/api/pistas/**").permitAll()
+                .requestMatchers("/api/tecnificaciones/**", "/api/pistas", "/api/pistas/{slug}", "/api/entrenamientos/**").permitAll()
                 .requestMatchers("/api/profiles/**", "/api/logout").permitAll()
                 .anyRequest().authenticated()
             )

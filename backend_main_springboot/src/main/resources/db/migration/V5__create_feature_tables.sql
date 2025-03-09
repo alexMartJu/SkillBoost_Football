@@ -9,10 +9,7 @@ CREATE TABLE entrenamientos (
     tecnificacion_id bigint,
     subtipo_tecnificacion_id bigint,
     entrenador_id bigint,
-    pista_id bigint,
-    horario_id bigint,
     max_plazas int,
-    precio decimal(10,2),
     objetivos text,
     equipamiento_necesario text,
     duracion_minutos int,
@@ -22,9 +19,7 @@ CREATE TABLE entrenamientos (
     deleted_at timestamp NULL,
     FOREIGN KEY (tecnificacion_id) REFERENCES tecnificaciones(id),
     FOREIGN KEY (subtipo_tecnificacion_id) REFERENCES subtipo_tecnificacion(id),
-    FOREIGN KEY (entrenador_id) REFERENCES profiles(id),
-    FOREIGN KEY (pista_id) REFERENCES pistas(id),
-    FOREIGN KEY (horario_id) REFERENCES horarios(id)
+    FOREIGN KEY (entrenador_id) REFERENCES profiles(id)
 );
 
 CREATE TABLE logros (

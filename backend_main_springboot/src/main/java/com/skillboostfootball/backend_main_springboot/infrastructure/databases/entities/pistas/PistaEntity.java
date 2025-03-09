@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horariosPista.HorarioPistaEntity;
 
 @Data
 @Entity
@@ -37,6 +40,9 @@ public class PistaEntity {
     
     @Column(name = "capacidad")
     private Integer capacidad;
+
+    @OneToMany(mappedBy = "pista", fetch = FetchType.LAZY)
+    private List<HorarioPistaEntity> horarios;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

@@ -1,7 +1,7 @@
 package com.skillboostfootball.backend_main_springboot.infrastructure.spec;
 
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.entrenamientos.EntrenamientoEntity;
-import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horarios.HorarioEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horariosPista.HorarioPistaEntity;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -69,17 +69,17 @@ public class EntrenamientoSpecification {
             }
 
             if (fechaInicio != null || fechaFin != null) {
-                Join<EntrenamientoEntity, HorarioEntity> horarioJoin = 
-                    root.join("horario", JoinType.LEFT);
+                Join<EntrenamientoEntity, HorarioPistaEntity> horarioPistaJoin = 
+                    root.join("horarioPista", JoinType.LEFT);
                 
                 if (fechaInicio != null) {
                     predicates.add(criteriaBuilder.greaterThanOrEqualTo(
-                        horarioJoin.get("fechaInicio"), fechaInicio));
+                        horarioPistaJoin.get("fechaInicio"), fechaInicio));
                 }
 
                 if (fechaFin != null) {
                     predicates.add(criteriaBuilder.lessThanOrEqualTo(
-                    horarioJoin.get("fechaFin"), fechaFin));
+                    horarioPistaJoin.get("fechaFin"), fechaFin));
                 }
             }
             

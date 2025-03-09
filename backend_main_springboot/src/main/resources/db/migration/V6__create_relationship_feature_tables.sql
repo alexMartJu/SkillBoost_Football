@@ -76,3 +76,7 @@ CREATE TABLE images (
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     deleted_at timestamp NULL
 );
+
+ALTER TABLE horarios_pista 
+ADD CONSTRAINT fk_horarios_entrenamiento 
+FOREIGN KEY (entrenamiento_id) REFERENCES entrenamientos(id);

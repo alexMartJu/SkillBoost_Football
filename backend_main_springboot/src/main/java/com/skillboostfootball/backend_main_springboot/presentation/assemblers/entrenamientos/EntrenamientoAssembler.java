@@ -6,8 +6,8 @@ import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenam
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoWrapper;
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.tecnificaciones.TecnificacionAssembler;
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.subtiposTecnificacion.SubtipoTecnificacionAssembler;
+import com.skillboostfootball.backend_main_springboot.presentation.assemblers.horariosPista.HorarioPistaAssembler;
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.pistas.PistaAssembler;
-import com.skillboostfootball.backend_main_springboot.presentation.assemblers.horarios.HorarioAssembler;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,8 +21,7 @@ import java.util.stream.Collectors;
 public class EntrenamientoAssembler {
     private final TecnificacionAssembler tecnificacionAssembler;
     private final SubtipoTecnificacionAssembler subtipoAssembler;
-    private final PistaAssembler pistaAssembler;
-    private final HorarioAssembler horarioAssembler;
+    private final HorarioPistaAssembler horarioPistaAssembler;
     
     public EntrenamientoResponse toResponse(Entrenamiento entrenamiento) {
         EntrenamientoResponse response = new EntrenamientoResponse();
@@ -45,12 +44,8 @@ public class EntrenamientoAssembler {
         
         response.setEntrenadorId(entrenamiento.getEntrenadorId());
         
-        if (entrenamiento.getPista() != null) {
-            response.setPista(pistaAssembler.toResponse(entrenamiento.getPista()));
-        }
-        
-        if (entrenamiento.getHorario() != null) {
-            response.setHorario(horarioAssembler.toResponse(entrenamiento.getHorario()));
+        if (entrenamiento.getHorarioPista() != null) {
+            response.setHorarioPista(horarioPistaAssembler.toResponse(entrenamiento.getHorarioPista()));
         }
         response.setMaxPlazas(entrenamiento.getMaxPlazas());
         response.setObjetivos(entrenamiento.getObjetivos());

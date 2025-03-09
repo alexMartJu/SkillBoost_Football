@@ -3,7 +3,7 @@ package com.skillboostfootball.backend_main_springboot.domain.entities.entrenami
 import com.skillboostfootball.backend_main_springboot.domain.entities.tecnificaciones.Tecnificacion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.subtiposTecnificacion.SubtipoTecnificacion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pista;
-import com.skillboostfootball.backend_main_springboot.domain.entities.horarios.Horario;
+import com.skillboostfootball.backend_main_springboot.domain.entities.horariosPista.HorarioPista;
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
 
 import lombok.Builder;
@@ -26,8 +26,7 @@ public class Entrenamiento {
     private Tecnificacion tecnificacion;
     private SubtipoTecnificacion subtipoTecnificacion;
     private Long entrenadorId;
-    private Pista pista;
-    private Horario horario;
+    private HorarioPista horarioPista;
     private Integer maxPlazas;
     private String objetivos;
     private String equipamientoNecesario;
