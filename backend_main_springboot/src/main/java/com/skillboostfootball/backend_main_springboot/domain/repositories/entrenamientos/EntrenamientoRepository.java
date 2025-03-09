@@ -43,4 +43,6 @@ public interface EntrenamientoRepository {
         Entrenamiento save(Entrenamiento entrenamiento);
 
         List<Entrenamiento> findByStatus(String status);
+
+        List<Entrenamiento> findByEntrenadorIdAndStatusIn(Long entrenadorId, List<String> statusList);
 }
