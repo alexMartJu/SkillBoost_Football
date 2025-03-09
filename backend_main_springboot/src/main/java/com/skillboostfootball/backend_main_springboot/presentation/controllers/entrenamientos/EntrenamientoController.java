@@ -2,19 +2,25 @@ package com.skillboostfootball.backend_main_springboot.presentation.controllers.
 
 import com.skillboostfootball.backend_main_springboot.application.security.authorization.CheckSecurity;
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.CountEntrenamientosWithFiltersUseCase;
+import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.CreateEntrenamientoUseCase;
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientoBySlugUseCase;
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientoFilterDataUseCase;
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientosWithFiltersUseCase;
+import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.request.CreateEntrenamientoRequest;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.request.EntrenamientoFilterRequest;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoCountResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoFilterDataResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoWrapper;
+
+import jakarta.validation.Valid;
+
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.entrenamientos.EntrenamientoAssembler;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,6 +31,7 @@ public class EntrenamientoController {
     private final GetEntrenamientoBySlugUseCase getEntrenamientoBySlugUseCase;
     private final GetEntrenamientoFilterDataUseCase getEntrenamientoFilterDataUseCase;
     private final CountEntrenamientosWithFiltersUseCase countEntrenamientosWithFiltersUseCase;
+    private final CreateEntrenamientoUseCase createEntrenamientoUseCase;
     private final EntrenamientoAssembler assembler;
     
     //Listar los entrenamientos con filtros
@@ -92,5 +99,20 @@ public class EntrenamientoController {
         return EntrenamientoCountResponse.builder()
             .count(count)
             .build();
+    }
+
+    //Crear un nuevo entrenamiento viendo la disponibilidad de horarios y pista (solo entrenadores)
+    @PostMapping("/entrenamientos/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    @CheckSecurity.Entrenador.canAccess
+    public EntrenamientoResponse createEntrenamiento(@Valid @RequestBody CreateEntrenamientoRequest request) {
+        
+        var entrenamiento = createEntrenamientoUseCase.execute(request.getNombre(), request.getDescripcion(), request.getNivel(),
+            request.getEdadMinima(), request.getEdadMaxima(), request.getTecnificacionSlug(), request.getSubtipoTecnificacionSlug(),
+            request.getPistaSlug(), request.getFechaInicio(), request.getFechaFin(), request.getMaxPlazas(), request.getObjetivos(),
+            request.getEquipamientoNecesario(), request.getDuracionMinutos());
+        
+        return assembler.toResponse(entrenamiento);
+        
     }
 }
