@@ -7,7 +7,6 @@ import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenam
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.tecnificaciones.TecnificacionAssembler;
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.subtiposTecnificacion.SubtipoTecnificacionAssembler;
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.horariosPista.HorarioPistaAssembler;
-import com.skillboostfootball.backend_main_springboot.presentation.assemblers.pistas.PistaAssembler;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
