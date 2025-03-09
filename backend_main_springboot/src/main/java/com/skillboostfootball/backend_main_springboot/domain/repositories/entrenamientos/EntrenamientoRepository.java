@@ -36,4 +36,8 @@ public interface EntrenamientoRepository {
         String tecnificacionNombre,
         LocalDateTime fechaInicio,
         LocalDateTime fechaFin);
+
+        Optional<Entrenamiento> findById(Long id);
+
+        Entrenamiento save(Entrenamiento entrenamiento);
 }

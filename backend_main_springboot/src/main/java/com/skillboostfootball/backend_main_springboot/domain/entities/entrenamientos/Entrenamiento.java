@@ -2,7 +2,6 @@ package com.skillboostfootball.backend_main_springboot.domain.entities.entrenami
 
 import com.skillboostfootball.backend_main_springboot.domain.entities.tecnificaciones.Tecnificacion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.subtiposTecnificacion.SubtipoTecnificacion;
-import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pista;
 import com.skillboostfootball.backend_main_springboot.domain.entities.horariosPista.HorarioPista;
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
 

@@ -94,5 +94,17 @@ public class EntrenamientoRepositoryImpl implements EntrenamientoRepository {
             )
         );
     }
+
+    @Override
+    public Optional<Entrenamiento> findById(Long id) {
+        return repository.findById(id).map(mapper::toEntrenamiento);
+    }
+
+    @Override
+    public Entrenamiento save(Entrenamiento entrenamiento) {
+        EntrenamientoEntity entity = mapper.toEntrenamientoEntity(entrenamiento);
+        entity = repository.save(entity);
+        return mapper.toEntrenamiento(entity);
+    }
     
 }
