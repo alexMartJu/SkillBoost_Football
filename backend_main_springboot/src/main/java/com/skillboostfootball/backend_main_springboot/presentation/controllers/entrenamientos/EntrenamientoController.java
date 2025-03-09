@@ -1,5 +1,6 @@
 package com.skillboostfootball.backend_main_springboot.presentation.controllers.entrenamientos;
 
+import com.skillboostfootball.backend_main_springboot.application.security.authorization.CheckSecurity;
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.CountEntrenamientosWithFiltersUseCase;
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientoBySlugUseCase;
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientoFilterDataUseCase;
@@ -28,6 +29,7 @@ public class EntrenamientoController {
     
     //Listar los entrenamientos con filtros
     @GetMapping("/entrenamientos")
+    @CheckSecurity.Public.canRead
     public EntrenamientoWrapper getEntrenamientosWithFilters(
             EntrenamientoFilterRequest filter,
             @RequestParam(defaultValue = "0") int offset,
@@ -53,6 +55,7 @@ public class EntrenamientoController {
 
     // Listar un entrenamiento por slug
     @GetMapping("/entrenamientos/{slug}")
+    @CheckSecurity.Public.canRead
     public EntrenamientoResponse getEntrenamientoBySlug(@PathVariable String slug) {
         var entrenamiento = getEntrenamientoBySlugUseCase.execute(slug);
         return assembler.toResponse(entrenamiento);
@@ -60,6 +63,7 @@ public class EntrenamientoController {
 
     // Obtener los datos de los entrenamientos para filtros
     @GetMapping("/entrenamientos/filter-data")
+    @CheckSecurity.Public.canRead
     public EntrenamientoFilterDataResponse getFilterData() {
         var filterData = getEntrenamientoFilterDataUseCase.execute();
         
@@ -71,6 +75,7 @@ public class EntrenamientoController {
     }
 
     @GetMapping("/entrenamientos/count")
+    @CheckSecurity.Public.canRead
     public EntrenamientoCountResponse countEntrenamientosWithFilters(EntrenamientoFilterRequest filter) {
         Long count = countEntrenamientosWithFiltersUseCase.execute(
             filter.getNombre(),

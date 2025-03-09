@@ -3,7 +3,7 @@ package com.skillboostfootball.backend_main_springboot.presentation.dtos.entrena
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.tecnificaciones.response.TecnificacionResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.subtiposTecnificacion.response.SubtipoTecnificacionResponse;
-import com.skillboostfootball.backend_main_springboot.presentation.dtos.horarios.response.HorarioResponse;
+import com.skillboostfootball.backend_main_springboot.presentation.dtos.horariosPista.response.HorarioPistaResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.pistas.response.PistaResponse;
 
 import lombok.Getter;
@@ -24,8 +24,7 @@ public class EntrenamientoResponse {
     private TecnificacionResponse tecnificacion;
     private SubtipoTecnificacionResponse subtipoTecnificacion;
     private Long entrenadorId;
-    private PistaResponse pista;
-    private HorarioResponse horario;
+    private HorarioPistaResponse horarioPista;
     private Integer maxPlazas;
     private String objetivos;
     private String equipamientoNecesario;

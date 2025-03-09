@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horarios.HorarioEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horariosPista.HorarioPistaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pistas.PistaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.subtiposTecnificacion.SubtipoTecnificacionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.tecnificaciones.TecnificacionEntity;
@@ -54,13 +54,8 @@ public class EntrenamientoEntity {
     @Column(name = "entrenador_id")
     private Long entrenadorId;
     
-    @ManyToOne
-    @JoinColumn(name = "pista_id")
-    private PistaEntity pista;
-    
-    @ManyToOne
-    @JoinColumn(name = "horario_id")
-    private HorarioEntity horario;
+    @OneToOne(mappedBy = "entrenamiento")
+    private HorarioPistaEntity horarioPista;
     
     @Column(name = "max_plazas")
     private Integer maxPlazas;
