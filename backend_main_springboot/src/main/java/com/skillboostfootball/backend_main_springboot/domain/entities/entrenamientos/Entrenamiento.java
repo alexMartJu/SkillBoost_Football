@@ -36,4 +36,9 @@ public class Entrenamiento {
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
 
+    public void updateStatus(String status) {
+        this.status = status;
+        this.updatedAt = LocalDateTime.now();
+    }
+
 }

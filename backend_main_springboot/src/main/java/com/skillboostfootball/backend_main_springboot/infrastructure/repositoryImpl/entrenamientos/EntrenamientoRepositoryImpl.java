@@ -106,5 +106,13 @@ public class EntrenamientoRepositoryImpl implements EntrenamientoRepository {
         entity = repository.save(entity);
         return mapper.toEntrenamiento(entity);
     }
+
+    @Override
+    public List<Entrenamiento> findByStatus(String status) {
+        List<EntrenamientoEntity> entities = repository.findByStatusEqualsAndDeletedAtIsNull(status);
+        return entities.stream()
+            .map(mapper::toEntrenamiento)
+            .collect(Collectors.toList());
+    }
     
 }

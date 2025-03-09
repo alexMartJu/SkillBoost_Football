@@ -4,7 +4,6 @@ import com.skillboostfootball.backend_main_springboot.domain.entities.images.Ima
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.tecnificaciones.response.TecnificacionResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.subtiposTecnificacion.response.SubtipoTecnificacionResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.horariosPista.response.HorarioPistaResponse;
-import com.skillboostfootball.backend_main_springboot.presentation.dtos.pistas.response.PistaResponse;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -4,7 +4,7 @@ import com.skillboostfootball.backend_main_springboot.domain.exceptions.*;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.subtiposTecnificacion.SubtipoTecnificacionNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.tecnificaciones.TecnificacionNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.pistas.PistaNotFoundException;
-import com.skillboostfootball.backend_main_springboot.domain.exceptions.entrenamientos.EntrenamientoNotFoundException;
+import com.skillboostfootball.backend_main_springboot.domain.exceptions.entrenamientos.*;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.suscripciones.SuscripcionNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.profiles.ProfileNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.roles.RoleNotFoundException;
@@ -119,6 +119,14 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
         var error = createErrorBuilder(ex.getMessage()).build();
 
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(EntrenamientoInvalidStateException.class)
+    public ResponseEntity<?> handleEntrenamientoInvalidState(EntrenamientoInvalidStateException ex, WebRequest request) {
+        var status = HttpStatus.BAD_REQUEST;
+        var error = createErrorBuilder(ex.getMessage()).build();
+        
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 

@@ -12,5 +12,6 @@ public interface SpringDataEntrenamientoRepository extends JpaRepository<Entrena
     Optional<EntrenamientoEntity> findBySlugAndDeletedAtIsNull(String slug);
     Long countByDeletedAtIsNullAndStatusEquals(String status);
     List<EntrenamientoEntity> findByDeletedAtIsNullAndStatusEquals(String status);
+    List<EntrenamientoEntity> findByStatusEqualsAndDeletedAtIsNull(String status);
 
 }
