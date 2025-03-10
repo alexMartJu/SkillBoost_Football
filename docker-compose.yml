@@ -156,9 +156,33 @@ services:
     networks:
       - backend
 
+  payments:
+    build: 
+      context: ./backend_payments_springboot
+      dockerfile: Dockerfile
+    container_name: skillboost_payments
+    ports:
+      - "${PAYMENTS_PORT}:8085"
+      - "35730:35730"
+    volumes:
+      - ./backend_payments_springboot:/app
+      - payments-gradle-cache:/root/.gradle
+    environment:
+      - GRADLE_USER_HOME=/app/.gradle
+      - GRADLE_OPTS=-Dorg.gradle.daemon=false -Dorg.gradle.parallel=true
+      - JAVA_OPTS=-Dspring-boot.devtools.restart.enabled=true
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}
+      - PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}
+    depends_on:
+      - mysql
+    networks:
+      - backend
+
 volumes:
   mysql-data:
   gradle-cache:
+  payments-gradle-cache:
 
 networks:
   backend:
