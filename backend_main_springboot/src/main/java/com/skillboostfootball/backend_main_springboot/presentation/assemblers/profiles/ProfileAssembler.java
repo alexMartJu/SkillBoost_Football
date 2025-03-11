@@ -32,6 +32,7 @@ public class ProfileAssembler {
             .experienciaAnios(profile.getExperienciaAnios())
             .certificaciones(profile.getCertificaciones())
             .organizacionOrigen(profile.getOrganizacionOrigen())
+            .entrenamientosDisponibles(profile.getEntrenamientosDisponibles())
             .build();
     }
 

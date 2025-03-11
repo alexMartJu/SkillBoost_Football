@@ -15,6 +15,7 @@ CREATE TABLE profiles (
     experiencia_años int NULL,
     certificaciones text NULL,
     organizacion_origen varchar(255) NULL,
+    entrenamientos_disponibles INT DEFAULT 0,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp NULL,
     deleted_at timestamp NULL,
