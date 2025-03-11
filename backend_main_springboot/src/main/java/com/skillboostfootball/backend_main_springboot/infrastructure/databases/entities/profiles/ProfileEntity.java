@@ -1,6 +1,5 @@
 package com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.profiles;
 
-import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.suscripciones.SuscripcionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.usuarios.UsuarioEntity;
 
 import jakarta.persistence.*;
@@ -25,10 +24,6 @@ public class ProfileEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private UsuarioEntity usuario;
-    
-    @ManyToOne
-    @JoinColumn(name = "suscripcion_id")
-    private SuscripcionEntity suscripcion;
 
     @Column(name = "numerosocio", unique = true, nullable = false)
     private String numeroSocio;
