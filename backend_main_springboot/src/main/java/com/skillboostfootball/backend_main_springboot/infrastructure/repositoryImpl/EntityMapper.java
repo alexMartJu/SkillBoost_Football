@@ -4,8 +4,10 @@ import com.skillboostfootball.backend_main_springboot.domain.entities.blacklistT
 import com.skillboostfootball.backend_main_springboot.domain.entities.entrenamientos.Entrenamiento;
 import com.skillboostfootball.backend_main_springboot.domain.entities.horariosPista.HorarioPista;
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
+import com.skillboostfootball.backend_main_springboot.domain.entities.pagos.Pago;
 import com.skillboostfootball.backend_main_springboot.domain.entities.permissions.Permission;
 import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pista;
+import com.skillboostfootball.backend_main_springboot.domain.entities.profileSuscripciones.ProfileSuscripcion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.profiles.Profile;
 import com.skillboostfootball.backend_main_springboot.domain.entities.roles.Role;
 import com.skillboostfootball.backend_main_springboot.domain.entities.subtiposTecnificacion.SubtipoTecnificacion;
@@ -16,8 +18,10 @@ import com.skillboostfootball.backend_main_springboot.infrastructure.databases.e
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.entrenamientos.EntrenamientoEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horariosPista.HorarioPistaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.images.ImageEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pagos.PagoEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.permissions.PermissionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pistas.PistaEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.profileSuscripciones.ProfileSuscripcionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.profiles.ProfileEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.roles.RoleEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.subtiposTecnificacion.SubtipoTecnificacionEntity;
@@ -513,5 +517,79 @@ public class EntityMapper {
             .refreshToken(domain.getRefreshToken())
             .revokeTime(domain.getRevokeTime())
             .build();
+    }
+
+    public ProfileSuscripcion toProfileSuscripcion(ProfileSuscripcionEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return ProfileSuscripcion.builder()
+                .id(entity.getId())
+                .profileId(entity.getProfileId())
+                .suscripcionId(entity.getSuscripcionId())
+                .fechaInicio(entity.getFechaInicio())
+                .fechaFin(entity.getFechaFin())
+                .status(entity.getStatus())
+                .metodoPago(entity.getMetodoPago())
+                .ultimoPagoId(entity.getUltimoPagoId())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
+                .build();
+    }
+
+    public ProfileSuscripcionEntity toProfileSuscripcionEntity(ProfileSuscripcion domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return ProfileSuscripcionEntity.builder()
+                .id(domain.getId())
+                .profileId(domain.getProfileId())
+                .suscripcionId(domain.getSuscripcionId())
+                .fechaInicio(domain.getFechaInicio())
+                .fechaFin(domain.getFechaFin())
+                .status(domain.getStatus())
+                .metodoPago(domain.getMetodoPago())
+                .ultimoPagoId(domain.getUltimoPagoId())
+                .createdAt(domain.getCreatedAt())
+                .updatedAt(domain.getUpdatedAt())
+                .build();
+    }
+
+    public Pago toPago(PagoEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Pago.builder()
+                .id(entity.getId())
+                .profileSuscripcionId(entity.getProfileSuscripcionId())
+                .monto(entity.getMonto())
+                .metodoPago(entity.getMetodoPago())
+                .status(entity.getStatus())
+                .referenciaExterna(entity.getReferenciaExterna())
+                .fecha(entity.getFecha())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
+                .build();
+    }
+
+    public PagoEntity toPagoEntity(Pago domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return PagoEntity.builder()
+                .id(domain.getId())
+                .profileSuscripcionId(domain.getProfileSuscripcionId())
+                .monto(domain.getMonto())
+                .metodoPago(domain.getMetodoPago())
+                .status(domain.getStatus())
+                .referenciaExterna(domain.getReferenciaExterna())
+                .fecha(domain.getFecha())
+                .createdAt(domain.getCreatedAt())
+                .updatedAt(domain.getUpdatedAt())
+                .build();
     }
 }

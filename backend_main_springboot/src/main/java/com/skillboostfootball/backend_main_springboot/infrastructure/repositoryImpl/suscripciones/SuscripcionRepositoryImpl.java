@@ -38,4 +38,9 @@ public class SuscripcionRepositoryImpl implements SuscripcionRepository {
         return mapper.toSuscripcion(entity);
     }
 
+    @Override
+    public Optional<Suscripcion> findById(Long id) {
+        return repository.findById(id).map(mapper::toSuscripcion);
+    }
+
 }
