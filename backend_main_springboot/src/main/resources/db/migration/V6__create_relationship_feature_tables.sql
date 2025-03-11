@@ -1,3 +1,36 @@
+CREATE TABLE profile_suscripciones (
+    id bigint PRIMARY KEY AUTO_INCREMENT,
+    profile_id bigint NOT NULL,
+    suscripcion_id bigint NOT NULL,
+    fecha_inicio date,
+    fecha_fin date,
+    status varchar(50),
+    metodo_pago varchar(50),
+    ultimo_pago_id bigint NULL,
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NULL,
+    FOREIGN KEY (profile_id) REFERENCES profiles(id),
+    FOREIGN KEY (suscripcion_id) REFERENCES suscripciones(id)
+);
+
+CREATE TABLE pagos (
+    id bigint PRIMARY KEY AUTO_INCREMENT,
+    profile_suscripcion_id bigint NOT NULL,
+    monto decimal(10,2),
+    metodo_pago varchar(50),
+    status varchar(50),
+    referencia_externa varchar(255) UNIQUE,
+    fecha datetime,
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NULL,
+    deleted_at timestamp NULL,
+    FOREIGN KEY (profile_suscripcion_id) REFERENCES profile_suscripciones(id)
+);
+
+ALTER TABLE profile_suscripciones 
+ADD CONSTRAINT fk_profile_suscripciones_ultimo_pago
+FOREIGN KEY (ultimo_pago_id) REFERENCES pagos(id);
+
 CREATE TABLE profile_logros (
     profile_id bigint,
     logro_id int,
@@ -6,24 +39,6 @@ CREATE TABLE profile_logros (
     PRIMARY KEY (profile_id, logro_id),
     FOREIGN KEY (profile_id) REFERENCES profiles(id),
     FOREIGN KEY (logro_id) REFERENCES logros(id)
-);
-
-CREATE TABLE pagos (
-    id int PRIMARY KEY AUTO_INCREMENT,
-    profile_id bigint,
-    suscripcion_id bigint,
-    monto decimal(10,2),
-    fecha_pago timestamp DEFAULT CURRENT_TIMESTAMP,
-    fecha_inicio date,
-    fecha_fin date,
-    estado varchar(50),
-    metodo_pago varchar(50),
-    referencia_pago varchar(255),
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp NULL,
-    deleted_at timestamp NULL,
-    FOREIGN KEY (profile_id) REFERENCES profiles(id),
-    FOREIGN KEY (suscripcion_id) REFERENCES suscripciones(id)
 );
 
 CREATE TABLE reservas (
