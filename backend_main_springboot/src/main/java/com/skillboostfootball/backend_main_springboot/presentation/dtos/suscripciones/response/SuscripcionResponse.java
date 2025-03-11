@@ -11,7 +11,7 @@ public class SuscripcionResponse {
     private String nombre;
     private String slug;
     private BigDecimal precio;
-    private Integer entrenamientosSemanales;
+    private Integer entrenamientosTotales;
     private Boolean incluyeGraficas;
     private Boolean incluyeEvaluacion;
     private String ventaja1;

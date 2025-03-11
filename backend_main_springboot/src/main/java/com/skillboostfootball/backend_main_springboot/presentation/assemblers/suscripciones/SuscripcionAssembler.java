@@ -19,7 +19,7 @@ public class SuscripcionAssembler {
         response.setNombre(suscripcion.getNombre());
         response.setSlug(suscripcion.getSlug());
         response.setPrecio(suscripcion.getPrecio());
-        response.setEntrenamientosSemanales(suscripcion.getEntrenamientosSemanales());
+        response.setEntrenamientosTotales(suscripcion.getEntrenamientosTotales());
         response.setIncluyeGraficas(suscripcion.getIncluyeGraficas());
         response.setIncluyeEvaluacion(suscripcion.getIncluyeEvaluacion());
         response.setVentaja1(suscripcion.getVentaja1());
