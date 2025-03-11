@@ -72,6 +72,9 @@ public class ProfileEntity {
     @Column(name = "organizacion_origen")
     private String organizacionOrigen;
 
+    @Column(name = "entrenamientos_disponibles", columnDefinition = "INT DEFAULT 0")
+    private Integer entrenamientosDisponibles;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 

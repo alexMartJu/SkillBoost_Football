@@ -26,6 +26,7 @@ public class Profile {
     private Integer experienciaAnios;
     private String certificaciones;
     private String organizacionOrigen;
+    private Integer entrenamientosDisponibles;
     private Usuario usuario;
     private Suscripcion suscripcion;
     private LocalDateTime createdAt;
@@ -81,5 +82,26 @@ public class Profile {
 
     public void delete(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    public void agregarEntrenamientosDisponibles(Integer cantidad) {
+        if (this.entrenamientosDisponibles == null) {
+            this.entrenamientosDisponibles = 0;
+        }
+        this.entrenamientosDisponibles += cantidad;
+        this.updatedAt = LocalDateTime.now();
+    }
+    
+    public boolean puedeApuntarseAEntrenamiento() {
+        return this.entrenamientosDisponibles != null && this.entrenamientosDisponibles > 0;
+    }
+    
+    public void decrementarEntrenamientoDisponible() {
+        if (puedeApuntarseAEntrenamiento()) {
+            this.entrenamientosDisponibles--;
+            this.updatedAt = LocalDateTime.now();
+        } else {
+            throw new IllegalStateException("No hay entrenamientos disponibles");
+        }
     }
 }

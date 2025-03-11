@@ -29,8 +29,8 @@ public class SuscripcionEntity {
     @Column(name = "precio", precision = 10, scale = 2)
     private BigDecimal precio;
 
-    @Column(name = "entrenamientos_semanales")
-    private Integer entrenamientosSemanales;
+    @Column(name = "entrenamientos_totales")
+    private Integer entrenamientosTotales;
 
     @Column(name = "incluye_graficas")
     private Boolean incluyeGraficas;

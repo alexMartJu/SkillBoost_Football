@@ -13,7 +13,7 @@ CREATE TABLE suscripciones (
     nombre varchar(100) NOT NULL,
     slug varchar(255) UNIQUE NOT NULL,
     precio decimal(10,2) NOT NULL,
-    entrenamientos_semanales int,
+    entrenamientos_totales int,
     incluye_graficas boolean DEFAULT false,
     incluye_evaluacion boolean DEFAULT false,
     ventaja1 varchar(255),

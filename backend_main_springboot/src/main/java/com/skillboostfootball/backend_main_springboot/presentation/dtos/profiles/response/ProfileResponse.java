@@ -15,6 +15,7 @@ public class ProfileResponse {
     private String image;
     private Integer edad;
     private Boolean esMenor;
+    private Integer entrenamientosDisponibles;
     
     // Campos para jugadores de club
     private String posicionPreferida;
