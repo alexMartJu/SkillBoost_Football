@@ -9,5 +9,6 @@ public interface SuscripcionRepository {
     List<Suscripcion> findAll();
     Optional<Suscripcion> findBySlug(String slug);
     Suscripcion save(Suscripcion suscripcion);
+    Optional<Suscripcion> findById(Long id);
 
 }

@@ -1,6 +1,5 @@
 package com.skillboostfootball.backend_main_springboot.domain.entities.profiles;
 
-import com.skillboostfootball.backend_main_springboot.domain.entities.suscripciones.Suscripcion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.usuarios.Usuario;
 
 import lombok.Builder;
@@ -28,7 +27,6 @@ public class Profile {
     private String organizacionOrigen;
     private Integer entrenamientosDisponibles;
     private Usuario usuario;
-    private Suscripcion suscripcion;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
@@ -58,10 +56,6 @@ public class Profile {
     public void updateImage(String image) {
         this.image = image;
         this.updatedAt = LocalDateTime.now();
-    }
-    
-    public void setSuscripcion(Suscripcion suscripcion) {
-        this.suscripcion = suscripcion;
     }
 
     public void setUsuario(Usuario usuario) {
