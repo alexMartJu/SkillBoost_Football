@@ -6,10 +6,12 @@ import com.skillboostfootball.backend_main_springboot.domain.exceptions.tecnific
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.pistas.PistaNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.entrenamientos.*;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.suscripciones.SuscripcionNotFoundException;
+import com.skillboostfootball.backend_main_springboot.domain.exceptions.profiles.NoAvailableTrainingsException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.profiles.ProfileNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.roles.RoleNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.usuarios.EmailTakenException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.usuarios.UsuarioNotFoundException;
+import com.skillboostfootball.backend_main_springboot.domain.exceptions.reservas.*;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -108,6 +110,11 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return handleResourceNotFound(ex, request, "Usuario");
     }
 
+    @ExceptionHandler(ReservaNotFoundException.class)
+    public ResponseEntity<?> handleReservaNotFound(ReservaNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "Reserva");
+    }
+
     @ExceptionHandler(EmailTakenException.class)
     public ResponseEntity<?> handleEmailTaken(EmailTakenException ex, WebRequest request) {
         return handleTaken(ex, request, "email");
@@ -125,6 +132,38 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EntrenamientoInvalidStateException.class)
     public ResponseEntity<?> handleEntrenamientoInvalidState(EntrenamientoInvalidStateException ex, WebRequest request) {
         var status = HttpStatus.BAD_REQUEST;
+        var error = createErrorBuilder(ex.getMessage()).build();
+        
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(EntrenamientoFullException.class)
+    public ResponseEntity<?> handleEntrenamientoFull(EntrenamientoFullException ex, WebRequest request) {
+        var status = HttpStatus.BAD_REQUEST;
+        var error = createErrorBuilder(ex.getMessage()).build();
+        
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(AgeNotAllowedException.class)
+    public ResponseEntity<?> handleAgeNotAllowed(AgeNotAllowedException ex, WebRequest request) {
+        var status = HttpStatus.BAD_REQUEST;
+        var error = createErrorBuilder(ex.getMessage()).build();
+        
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(NoAvailableTrainingsException.class)
+    public ResponseEntity<?> handleNoAvailableTrainings(NoAvailableTrainingsException ex, WebRequest request) {
+        var status = HttpStatus.BAD_REQUEST;
+        var error = createErrorBuilder(ex.getMessage()).build();
+        
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(ReservaAlreadyExistsException.class)
+    public ResponseEntity<?> handleReservaAlreadyExists(ReservaAlreadyExistsException ex, WebRequest request) {
+        var status = HttpStatus.CONFLICT;
         var error = createErrorBuilder(ex.getMessage()).build();
         
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
