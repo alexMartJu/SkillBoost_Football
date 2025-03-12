@@ -42,12 +42,10 @@ CREATE TABLE profile_logros (
 );
 
 CREATE TABLE reservas (
-    id int PRIMARY KEY AUTO_INCREMENT,
+    id bigint PRIMARY KEY AUTO_INCREMENT,
     profile_id bigint,
     entrenamiento_id bigint,
     fecha datetime,
-    estado varchar(50),
-    asistencia boolean DEFAULT false,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp NULL,
     deleted_at timestamp NULL,
