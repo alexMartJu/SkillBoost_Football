@@ -41,4 +41,10 @@ public class Entrenamiento {
         this.updatedAt = LocalDateTime.now();
     }
 
+    
+    public void setStatus(String status) {
+        this.status = status;
+        this.updatedAt = LocalDateTime.now();
+    }
+
 }

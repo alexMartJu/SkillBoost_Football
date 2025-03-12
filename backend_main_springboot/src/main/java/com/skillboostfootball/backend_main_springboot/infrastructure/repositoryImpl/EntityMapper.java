@@ -9,6 +9,7 @@ import com.skillboostfootball.backend_main_springboot.domain.entities.permission
 import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pista;
 import com.skillboostfootball.backend_main_springboot.domain.entities.profileSuscripciones.ProfileSuscripcion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.profiles.Profile;
+import com.skillboostfootball.backend_main_springboot.domain.entities.reservas.Reserva;
 import com.skillboostfootball.backend_main_springboot.domain.entities.roles.Role;
 import com.skillboostfootball.backend_main_springboot.domain.entities.subtiposTecnificacion.SubtipoTecnificacion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.suscripciones.Suscripcion;
@@ -23,6 +24,7 @@ import com.skillboostfootball.backend_main_springboot.infrastructure.databases.e
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pistas.PistaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.profileSuscripciones.ProfileSuscripcionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.profiles.ProfileEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.reservas.ReservaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.roles.RoleEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.subtiposTecnificacion.SubtipoTecnificacionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.suscripciones.SuscripcionEntity;
@@ -591,5 +593,37 @@ public class EntityMapper {
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
                 .build();
+    }
+
+    public Reserva toReserva(ReservaEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Reserva.builder()
+            .id(entity.getId())
+            .profile(toProfile(entity.getProfile()))
+            .entrenamiento(toEntrenamiento(entity.getEntrenamiento()))
+            .fecha(entity.getFecha())
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .deletedAt(entity.getDeletedAt())
+            .build();
+    }
+
+    public ReservaEntity toReservaEntity(Reserva domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return ReservaEntity.builder()
+            .id(domain.getId())
+            .profile(domain.getProfile() != null ? toProfileEntity(domain.getProfile()) : null)
+            .entrenamiento(domain.getEntrenamiento() != null ? toEntrenamientoEntity(domain.getEntrenamiento()) : null)
+            .fecha(domain.getFecha())
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
+            .deletedAt(domain.getDeletedAt())
+            .build();
     }
 }
