@@ -179,6 +179,28 @@ services:
     networks:
       - backend
 
+  cron-service:
+    build:
+      context: ./backend_cron_express
+      dockerfile: Dockerfile
+    container_name: skillboost_cron
+    restart: unless-stopped
+    ports:
+      - "3030:3030"
+    environment:
+      - DATABASE_URL=mysql://${DB_USERNAME}:${DB_PASSWORD}@mysql:3306/${DB_NAME}
+    volumes:
+      - ./backend_cron_express/src:/app/src
+      - ./backend_cron_express/prisma:/app/prisma
+      - ./backend_cron_express/package.json:/app/package.json
+      - ./backend_cron_express/tsconfig.json:/app/tsconfig.json
+      - /app/node_modules
+    depends_on:
+      - mysql
+      - app
+    networks:
+      - backend
+
 volumes:
   mysql-data:
   gradle-cache:
