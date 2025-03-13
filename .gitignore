@@ -24,7 +24,7 @@ Thumbs.db
 docker-compose.override.yml
 docker-compose.override.yaml
 .env
-.dockerignore
+# .dockerignore
 # docker-*
 
 # IDE settings
