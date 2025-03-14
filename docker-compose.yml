@@ -201,6 +201,28 @@ services:
     networks:
       - backend
 
+  notification-service:
+    build:
+      context: ./backend_notification_express
+      dockerfile: Dockerfile
+    container_name: skillboost_notification
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=mysql://${DB_USERNAME}:${DB_PASSWORD}@mysql:3306/${DB_NAME}
+    volumes:
+      - ./backend_notification_express/src:/app/src
+      - ./backend_notification_express/prisma:/app/prisma
+      - ./backend_notification_express/package.json:/app/package.json
+      - ./backend_notification_express/tsconfig.json:/app/tsconfig.json
+      - /app/node_modules
+    depends_on:
+      - mysql
+      - app
+    networks:
+      - backend
+
 volumes:
   mysql-data:
   gradle-cache:
