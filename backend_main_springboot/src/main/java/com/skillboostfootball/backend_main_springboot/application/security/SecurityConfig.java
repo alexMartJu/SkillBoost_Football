@@ -34,9 +34,11 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/login", "/api/usuarios", "/api/entrenadores/registro", "/api/entrenadores",
                                "/api/jugadores-club/registro", "/api/refresh", "/api/jugadores-sociales/registro").permitAll()
-                .requestMatchers("/api/tecnificaciones/**", "/api/pistas", "/api/pistas/{slug}", "/api/entrenamientos",
+                .requestMatchers("/api/pistas", "/api/pistas/{slug}", "/api/entrenamientos",
                 "/api/entrenamientos/{slug}", "/api/entrenamientos/filter-data", "/api/entrenamientos/count").permitAll()
-                .requestMatchers("/api/profiles/**", "/api/logout", "/api/pistas/{pistaSlug}/horarios-ocupados").permitAll()
+                .requestMatchers("/api/profiles/**", "/api/logout", "/api/pistas/{pistaSlug}/horarios-ocupados", "/api/subtipo-tecnificaciones",
+                "/api/subtipo-tecnificaciones/{slug}", "/api/tecnificaciones/{tecnificacionSlug}/subtipos", "/api/subtipo-tecnificaciones-scroll").permitAll()
+                .requestMatchers("/api/tecnificaciones", "/api/tecnificaciones/{slug}").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
