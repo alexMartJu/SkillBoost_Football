@@ -12,6 +12,7 @@ import com.skillboostfootball.backend_main_springboot.domain.exceptions.roles.Ro
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.usuarios.EmailTakenException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.usuarios.UsuarioNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.reservas.*;
+import com.skillboostfootball.backend_main_springboot.domain.exceptions.graficas.GraficaNotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -113,6 +114,11 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ReservaNotFoundException.class)
     public ResponseEntity<?> handleReservaNotFound(ReservaNotFoundException ex, WebRequest request) {
         return handleResourceNotFound(ex, request, "Reserva");
+    }
+
+    @ExceptionHandler(GraficaNotFoundException.class)
+    public ResponseEntity<?> handleGraficaNotFound(GraficaNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "Grafica");
     }
 
     @ExceptionHandler(EmailTakenException.class)
