@@ -1,6 +1,7 @@
 package com.skillboostfootball.backend_main_springboot.presentation.controllers.tecnificaciones;
 
 
+import com.skillboostfootball.backend_main_springboot.application.security.authorization.CheckSecurity;
 import com.skillboostfootball.backend_main_springboot.application.useCases.tecnificaciones.*;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.tecnificaciones.request.TecnificacionRequest;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.tecnificaciones.response.TecnificacionResponse;
@@ -25,15 +26,17 @@ public class TecnificacionController {
     private final DeleteTecnificacionUseCase deleteTecnificacionUseCase;
     private final TecnificacionAssembler assembler;
     
-    // Listar todas las tecnificaciones
+    //Listar todas las tecnificaciones
     @GetMapping("/tecnificaciones")
+    @CheckSecurity.Public.canRead
     public TecnificacionWrapper getAllTecnificaciones() {
         var tecnificaciones = getAllTecnificacionesUseCase.execute();
         return assembler.toWrapper(tecnificaciones);
     }
 
-    // Listar uan tecnificación por slug
+    //Listar uan tecnificación por slug
     @GetMapping("/tecnificaciones/{slug}")
+    @CheckSecurity.Public.canRead
     public TecnificacionResponse getBySlug(@PathVariable String slug) {
         var tecnificacion = getTecnificacionBySlugUseCase.execute(slug);
         return assembler.toResponse(tecnificacion);
@@ -42,6 +45,7 @@ public class TecnificacionController {
     //Crear una tecnificación
     @PostMapping("/tecnificaciones")
     @ResponseStatus(HttpStatus.CREATED)
+    @CheckSecurity.Admin.canAccess
     public TecnificacionResponse createTecnificacion(@Valid @RequestBody TecnificacionRequest request) {
         var tecnificacion = createTecnificacionUseCase.execute(request.getNombre(), request.getDescripcion());
         return assembler.toResponse(tecnificacion);
@@ -49,6 +53,7 @@ public class TecnificacionController {
     
     //Actualizar una tecnificación
     @PutMapping("/tecnificaciones/{slug}")
+    @CheckSecurity.Admin.canAccess
     public TecnificacionResponse updateTecnificacion(@PathVariable String slug, @Valid @RequestBody TecnificacionRequest request) {
         var tecnificacion = updateTecnificacionUseCase.execute(slug, request.getNombre(), request.getDescripcion());
         return assembler.toResponse(tecnificacion);
@@ -57,6 +62,7 @@ public class TecnificacionController {
     //Eliminar una tecnificación (soft delete)
     @DeleteMapping("/tecnificaciones/{slug}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.Admin.canAccess
     public ResponseEntity<Void> deleteTecnificacion(@PathVariable String slug) {
         deleteTecnificacionUseCase.execute(slug);
         return ResponseEntity.noContent().build();

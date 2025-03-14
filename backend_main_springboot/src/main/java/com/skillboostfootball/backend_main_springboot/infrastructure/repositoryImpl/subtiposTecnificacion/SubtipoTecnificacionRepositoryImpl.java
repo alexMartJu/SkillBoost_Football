@@ -7,7 +7,8 @@ import com.skillboostfootball.backend_main_springboot.infrastructure.repositoryI
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,6 +45,11 @@ public class SubtipoTecnificacionRepositoryImpl implements SubtipoTecnificacionR
         SubtipoTecnificacionEntity entity = repository.findById(subtipoTecnificacion.getId()).orElseThrow();
         entity.setDeletedAt(subtipoTecnificacion.getDeletedAt());
         repository.save(entity);
+    }
+
+    @Override
+    public Page<SubtipoTecnificacion> findAllActive(Pageable pageable) {
+        return repository.findByDeletedAtIsNull(pageable).map(mapper::toSubtipoTecnificacion);
     }
 
 }
