@@ -2,6 +2,7 @@ package com.skillboostfootball.backend_main_springboot.infrastructure.repository
 
 import com.skillboostfootball.backend_main_springboot.domain.entities.blacklistToken.BlacklistToken;
 import com.skillboostfootball.backend_main_springboot.domain.entities.entrenamientos.Entrenamiento;
+import com.skillboostfootball.backend_main_springboot.domain.entities.graficas.Grafica;
 import com.skillboostfootball.backend_main_springboot.domain.entities.horariosPista.HorarioPista;
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
 import com.skillboostfootball.backend_main_springboot.domain.entities.pagos.Pago;
@@ -17,6 +18,7 @@ import com.skillboostfootball.backend_main_springboot.domain.entities.tecnificac
 import com.skillboostfootball.backend_main_springboot.domain.entities.usuarios.Usuario;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.blacklistToken.BlacklistTokenEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.entrenamientos.EntrenamientoEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.graficas.GraficaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horariosPista.HorarioPistaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.images.ImageEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pagos.PagoEntity;
@@ -621,6 +623,42 @@ public class EntityMapper {
             .profile(domain.getProfile() != null ? toProfileEntity(domain.getProfile()) : null)
             .entrenamiento(domain.getEntrenamiento() != null ? toEntrenamientoEntity(domain.getEntrenamiento()) : null)
             .fecha(domain.getFecha())
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
+            .deletedAt(domain.getDeletedAt())
+            .build();
+    }
+
+    public Grafica toGrafica(GraficaEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Grafica.builder()
+            .id(entity.getId())
+            .seccion(entity.getSeccion())
+            .nivel(entity.getNivel())
+            .mes(entity.getMes())
+            .año(entity.getAño())
+            .profileId(entity.getProfile() != null ? entity.getProfile().getId() : null)
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .deletedAt(entity.getDeletedAt())
+            .build();
+    }
+
+    public GraficaEntity toGraficaEntity(Grafica domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return GraficaEntity.builder()
+            .id(domain.getId())
+            .seccion(domain.getSeccion())
+            .nivel(domain.getNivel())
+            .mes(domain.getMes())
+            .año(domain.getAño())
+            .profile(domain.getProfileId() != null ? ProfileEntity.builder().id(domain.getProfileId()).build() : null)
             .createdAt(domain.getCreatedAt())
             .updatedAt(domain.getUpdatedAt())
             .deletedAt(domain.getDeletedAt())
