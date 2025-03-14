@@ -8,22 +8,27 @@ import com.skillboostfootball.backend_main_springboot.domain.exceptions.usuarios
 import com.skillboostfootball.backend_main_springboot.domain.repositories.usuarios.UsuarioRepository;
 import com.skillboostfootball.backend_main_springboot.domain.repositories.roles.RoleRepository;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.roles.RoleNotFoundException;
+import com.skillboostfootball.backend_main_springboot.application.applicationServices.NotificationService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
 public class RegisterStandardUserUseCase {
+    private static final Logger logger = LoggerFactory.getLogger(RegisterStandardUserUseCase.class);
+
     private final UsuarioRepository usuarioRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final NumeroSocioGenerator numeroSocioGenerator;
+    private final NotificationService notificationService;
     
     private static final String DEFAULT_IMAGE = "https://static.productionready.io/images/default-user.png";
     
@@ -64,6 +69,13 @@ public class RegisterStandardUserUseCase {
             .build();       
         usuario.setProfile(profile);
         usuario = usuarioRepository.save(usuario);
+
+        //Enviar notificación de registro
+        notificationService.sendUserRegistrationNotification(usuario)
+            .subscribe(
+                null,
+                error -> logger.error("Error al procesar notificación: {}", error.getMessage(), error)
+            );
         
         return usuario;
 

@@ -11,6 +11,7 @@ import com.skillboostfootball.backend_main_springboot.domain.repositories.pagos.
 import com.skillboostfootball.backend_main_springboot.domain.repositories.profiles.ProfileRepository;
 import com.skillboostfootball.backend_main_springboot.domain.repositories.profileSuscripciones.ProfileSuscripcionRepository;
 import com.skillboostfootball.backend_main_springboot.domain.repositories.suscripciones.SuscripcionRepository;
+import com.skillboostfootball.backend_main_springboot.application.applicationServices.NotificationService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class CreateBuySuscripcionUseCase {
     private final PagoRepository pagoRepository;
     private final ProfileRepository profileRepository;
     private final GetCurrentUserUseCase getCurrentUserUseCase;
+    private final NotificationService notificationService;
 
     @Transactional
     public Pago execute(String suscripcionSlug, BigDecimal monto, String metodoPago, String referenciaExterna) {
@@ -99,6 +101,12 @@ public class CreateBuySuscripcionUseCase {
         logger.info("Entrenamientos actualizados: {} → {}", entrenamientosActuales, profile.getEntrenamientosDisponibles());
         
         profileRepository.save(profile);
+
+        notificationService.sendSubscriptionPaymentNotification(usuario, suscripcion.getId(), suscripcion.getNombre(), monto, metodoPago
+        ).subscribe(
+            null,
+            error -> logger.error("Error al procesar notificación de pago: {}", error.getMessage(), error)
+        );
         
         return pago;
     }
