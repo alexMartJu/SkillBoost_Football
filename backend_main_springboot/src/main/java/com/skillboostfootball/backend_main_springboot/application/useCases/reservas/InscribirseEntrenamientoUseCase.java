@@ -13,22 +13,28 @@ import com.skillboostfootball.backend_main_springboot.domain.exceptions.reservas
 import com.skillboostfootball.backend_main_springboot.domain.repositories.entrenamientos.EntrenamientoRepository;
 import com.skillboostfootball.backend_main_springboot.domain.repositories.profiles.ProfileRepository;
 import com.skillboostfootball.backend_main_springboot.domain.repositories.reservas.ReservaRepository;
+import com.skillboostfootball.backend_main_springboot.application.applicationServices.NotificationService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class InscribirseEntrenamientoUseCase {
+
+    private static final Logger logger = LoggerFactory.getLogger(InscribirseEntrenamientoUseCase.class);
+    
     
     private final GetCurrentUserUseCase getCurrentUserUseCase;
     private final GetEntrenamientoBySlugUseCase getEntrenamientoBySlugUseCase;
     private final ReservaRepository reservaRepository;
     private final ProfileRepository profileRepository;
     private final EntrenamientoRepository entrenamientoRepository;
+    private final NotificationService notificationService;
     
     @Transactional
     public Reserva execute(String entrenamientoSlug) {
@@ -79,6 +85,13 @@ public class InscribirseEntrenamientoUseCase {
             entrenamiento.setStatus("completed");
             entrenamientoRepository.save(entrenamiento);
         }
+
+        notificationService.sendTrainingRegistrationNotification(currentUser, entrenamiento)
+            .subscribe(
+                null,
+                error -> logger.error("Error al procesar notificación de inscripción: {}", error.getMessage(), error)
+            );
+
         return reserva;
         
     }
