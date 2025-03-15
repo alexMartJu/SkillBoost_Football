@@ -63,4 +63,9 @@ public class ReservaRepositoryImpl implements ReservaRepository {
     public void deleteByEntrenamientoId(Long entrenamientoId) {
         repository.deleteByEntrenamientoId(entrenamientoId);
     }
+
+    @Override
+    public int countByProfileId(Long profileId) {
+        return repository.countByProfileIdAndDeletedAtIsNull(profileId);
+    }
 }

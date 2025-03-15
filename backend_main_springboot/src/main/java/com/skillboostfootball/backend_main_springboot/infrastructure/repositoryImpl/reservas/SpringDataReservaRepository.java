@@ -26,4 +26,6 @@ public interface SpringDataReservaRepository extends JpaRepository<ReservaEntity
     @Modifying
     @Query("DELETE FROM ReservaEntity r WHERE r.entrenamiento.id = ?1")
     void deleteByEntrenamientoId(Long entrenamientoId);
+
+    int countByProfileIdAndDeletedAtIsNull(Long profileId);
 }
