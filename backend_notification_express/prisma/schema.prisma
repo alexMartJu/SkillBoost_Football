@@ -82,7 +82,7 @@ model flyway_schema_history {
 }
 
 model graficas {
-  id         Int       @id @default(autoincrement())
+  id         BigInt    @id @default(autoincrement())
   seccion    String?   @db.VarChar(255)
   nivel      Int?
   Mes        Int?
@@ -121,13 +121,13 @@ model images {
 }
 
 model logros {
-  id                       Int              @id @default(autoincrement())
-  nombre                   String?          @db.VarChar(255)
+  id                       BigInt           @id @default(autoincrement())
+  nombre                   String?          @unique(map: "nombre") @db.VarChar(255)
+  slug                     String?          @db.VarChar(255)
   descripcion              String?          @db.Text
   requisito_entrenamientos Int?
-  imagen                   String?          @db.VarChar(255)
   nivel_dificultad         String?          @db.VarChar(50)
-  puntos                   Int?
+  recompensa               String?          @db.VarChar(255)
   created_at               DateTime?        @default(now()) @db.Timestamp(0)
   updated_at               DateTime?        @db.Timestamp(0)
   deleted_at               DateTime?        @db.Timestamp(0)
@@ -178,9 +178,10 @@ model pistas {
 
 model profile_logros {
   profile_id      BigInt
-  logro_id        Int
+  logro_id        BigInt
   fecha_logro     DateTime? @default(now()) @db.Timestamp(0)
   progreso_actual Int?
+  notificado      Boolean?
   profiles        profiles  @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profile_logros_ibfk_1")
   logros          logros    @relation(fields: [logro_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profile_logros_ibfk_2")
 
