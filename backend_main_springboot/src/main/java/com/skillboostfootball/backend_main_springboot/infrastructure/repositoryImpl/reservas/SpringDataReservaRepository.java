@@ -28,4 +28,9 @@ public interface SpringDataReservaRepository extends JpaRepository<ReservaEntity
     void deleteByEntrenamientoId(Long entrenamientoId);
 
     int countByProfileIdAndDeletedAtIsNull(Long profileId);
+
+    List<ReservaEntity> findByEntrenamientoIdAndDeletedAtIsNull(Long entrenamientoId);
+    List<ReservaEntity> findByEntrenamientoEntrenadorIdAndDeletedAtIsNull(Long entrenadorId);
+    List<ReservaEntity> findByEntrenamientoIdAndProfileIdAndDeletedAtIsNull(Long entrenamientoId, Long profileId);
+    
 }

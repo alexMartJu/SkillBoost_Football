@@ -68,7 +68,7 @@ CREATE TABLE graficas (
 );
 
 CREATE TABLE evaluaciones_rendimiento (
-    id int PRIMARY KEY AUTO_INCREMENT,
+    id bigint PRIMARY KEY AUTO_INCREMENT,
     profile_id bigint,
     entrenamiento_id bigint,
     fecha_evaluacion date,

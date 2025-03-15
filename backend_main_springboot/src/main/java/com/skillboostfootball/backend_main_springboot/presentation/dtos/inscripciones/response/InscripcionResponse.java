@@ -1,18 +1,18 @@
-package com.skillboostfootball.backend_main_springboot.presentation.dtos.reservas.response;
+package com.skillboostfootball.backend_main_springboot.presentation.dtos.inscripciones.response;
 
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.evaluaciones.response.EvaluacionRendimientoResponse;
-
+import com.skillboostfootball.backend_main_springboot.presentation.dtos.profiles.response.ProfileResponse;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class ReservaResponse {
+public class InscripcionResponse {
     private Long id;
+    private ProfileResponse profile;
     private EntrenamientoResponse entrenamiento;
-    private EvaluacionRendimientoResponse evaluacion;
     private LocalDateTime fecha;
+    private EvaluacionRendimientoResponse evaluacion;
 }

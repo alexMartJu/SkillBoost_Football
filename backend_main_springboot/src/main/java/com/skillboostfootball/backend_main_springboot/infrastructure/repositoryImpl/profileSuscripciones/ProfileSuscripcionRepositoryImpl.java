@@ -45,4 +45,9 @@ public class ProfileSuscripcionRepositoryImpl implements ProfileSuscripcionRepos
         return repository.findById(id).map(mapper::toProfileSuscripcion);
     }
 
+    @Override
+    public Optional<ProfileSuscripcion> findActiveWithSuscripcionByProfileId(Long profileId) {
+        return repository.findActiveWithSuscripcionByProfileId(profileId, LocalDate.now()).map(mapper::toProfileSuscripcion);
+    }
+
 }

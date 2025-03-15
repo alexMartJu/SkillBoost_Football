@@ -45,4 +45,8 @@ public class ProfileAssembler {
                 .profiles(responses)
                 .build();
     }
+
+    public ProfileResponse toResponse(Profile profile) {
+        return toProfileResponse(profile);
+    }
 }
