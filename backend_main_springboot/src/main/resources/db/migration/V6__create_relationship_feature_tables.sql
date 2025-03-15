@@ -33,9 +33,10 @@ FOREIGN KEY (ultimo_pago_id) REFERENCES pagos(id);
 
 CREATE TABLE profile_logros (
     profile_id bigint,
-    logro_id int,
+    logro_id bigint,
     fecha_logro timestamp DEFAULT CURRENT_TIMESTAMP,
     progreso_actual int,
+    notificado boolean,
     PRIMARY KEY (profile_id, logro_id),
     FOREIGN KEY (profile_id) REFERENCES profiles(id),
     FOREIGN KEY (logro_id) REFERENCES logros(id)

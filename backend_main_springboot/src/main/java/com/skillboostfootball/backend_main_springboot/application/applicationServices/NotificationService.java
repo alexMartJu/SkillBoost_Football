@@ -1,6 +1,7 @@
 package com.skillboostfootball.backend_main_springboot.application.applicationServices;
 
 import com.skillboostfootball.backend_main_springboot.domain.entities.entrenamientos.Entrenamiento;
+import com.skillboostfootball.backend_main_springboot.domain.entities.logros.Logro;
 import com.skillboostfootball.backend_main_springboot.domain.entities.usuarios.Usuario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,6 +98,33 @@ public class NotificationService {
                         usuario.getEmail()))
                 .onErrorResume(e -> {
                     logger.error("Error al enviar notificación de inscripción a entrenamiento: {}", e.getMessage(), e);
+                    return Mono.empty();
+                })
+                .then();
+    }
+
+    public Mono<Void> sendAchievementNotification(Usuario usuario, Logro logro) {
+        logger.info("Enviando notificación de logro para el usuario: {}, logro: {}", 
+                usuario.getEmail(), logro.getNombre());
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("userId", usuario.getId().toString());
+        requestBody.put("email", usuario.getEmail());
+        requestBody.put("logroId", logro.getId().toString());
+        requestBody.put("nombreLogro", logro.getNombre());
+        requestBody.put("requisitoEntrenamientos", logro.getRequisitoEntrenamientos());
+        requestBody.put("recompensa", logro.getRecompensa());
+
+        return webClient.post()
+                .uri("/api/achievement/unlocked")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(requestBody)
+                .retrieve()
+                .toBodilessEntity()
+                .doOnSuccess(response -> logger.info("Notificación de logro enviada exitosamente para: {}",
+                        usuario.getEmail()))
+                .onErrorResume(e -> {
+                    logger.error("Error al enviar notificación de logro: {}", e.getMessage(), e);
                     return Mono.empty();
                 })
                 .then();

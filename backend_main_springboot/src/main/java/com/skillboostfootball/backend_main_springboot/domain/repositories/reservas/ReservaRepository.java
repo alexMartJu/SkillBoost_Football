@@ -12,4 +12,5 @@ public interface ReservaRepository {
     int countByEntrenamientoId(Long entrenamientoId);
     void deleteByProfileIdAndEntrenamientoId(Long profileId, Long entrenamientoId);
     void deleteByEntrenamientoId(Long entrenamientoId);
+    int countByProfileId(Long profileId);
 }

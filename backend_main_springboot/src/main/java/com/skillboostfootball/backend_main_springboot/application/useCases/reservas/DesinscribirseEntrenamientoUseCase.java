@@ -1,6 +1,7 @@
 package com.skillboostfootball.backend_main_springboot.application.useCases.reservas;
 
 import com.skillboostfootball.backend_main_springboot.application.useCases.entrenamientos.GetEntrenamientoBySlugUseCase;
+import com.skillboostfootball.backend_main_springboot.application.useCases.logros.VerifyLogrosUsuarioUseCase;
 import com.skillboostfootball.backend_main_springboot.application.useCases.usuarios.GetCurrentUserUseCase;
 import com.skillboostfootball.backend_main_springboot.domain.entities.entrenamientos.Entrenamiento;
 import com.skillboostfootball.backend_main_springboot.domain.entities.profiles.Profile;
@@ -23,6 +24,7 @@ public class DesinscribirseEntrenamientoUseCase {
     private final ReservaRepository reservaRepository;
     private final ProfileRepository profileRepository;
     private final EntrenamientoRepository entrenamientoRepository;
+    private final VerifyLogrosUsuarioUseCase verificarLogrosUsuarioUseCase;
     
     @Transactional
     public void execute(String entrenamientoSlug) {
@@ -48,6 +50,9 @@ public class DesinscribirseEntrenamientoUseCase {
             entrenamiento.setStatus("active");
             entrenamientoRepository.save(entrenamiento);
         }
+
+        //Verificar logros
+        verificarLogrosUsuarioUseCase.execute(currentUser);
 
     }
 }

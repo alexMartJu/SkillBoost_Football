@@ -5,6 +5,8 @@ import com.skillboostfootball.backend_main_springboot.domain.entities.entrenamie
 import com.skillboostfootball.backend_main_springboot.domain.entities.graficas.Grafica;
 import com.skillboostfootball.backend_main_springboot.domain.entities.horariosPista.HorarioPista;
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
+import com.skillboostfootball.backend_main_springboot.domain.entities.logros.Logro;
+import com.skillboostfootball.backend_main_springboot.domain.entities.logros.ProfileLogro;
 import com.skillboostfootball.backend_main_springboot.domain.entities.pagos.Pago;
 import com.skillboostfootball.backend_main_springboot.domain.entities.permissions.Permission;
 import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pista;
@@ -21,6 +23,8 @@ import com.skillboostfootball.backend_main_springboot.infrastructure.databases.e
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.graficas.GraficaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horariosPista.HorarioPistaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.images.ImageEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.logros.LogroEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.logros.ProfileLogroEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pagos.PagoEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.permissions.PermissionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pistas.PistaEntity;
@@ -663,5 +667,72 @@ public class EntityMapper {
             .updatedAt(domain.getUpdatedAt())
             .deletedAt(domain.getDeletedAt())
             .build();
+    }
+
+    public Logro toLogro(LogroEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Logro.builder()
+            .id(entity.getId())
+            .nombre(entity.getNombre())
+            .slug(entity.getSlug())
+            .descripcion(entity.getDescripcion())
+            .requisitoEntrenamientos(entity.getRequisitoEntrenamientos())
+            .nivelDificultad(entity.getNivelDificultad())
+            .recompensa(entity.getRecompensa())
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .deletedAt(entity.getDeletedAt())
+            .build();
+    }
+
+    public LogroEntity toLogroEntity(Logro domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return LogroEntity.builder()
+            .id(domain.getId())
+            .nombre(domain.getNombre())
+            .slug(domain.getSlug())
+            .descripcion(domain.getDescripcion())
+            .requisitoEntrenamientos(domain.getRequisitoEntrenamientos())
+            .nivelDificultad(domain.getNivelDificultad())
+            .recompensa(domain.getRecompensa())
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
+            .deletedAt(domain.getDeletedAt())
+            .build();
+    }
+
+    public ProfileLogro toProfileLogro(ProfileLogroEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return ProfileLogro.builder()
+            .profileId(entity.getProfileId())
+            .logroId(entity.getLogroId())
+            .fechaLogro(entity.getFechaLogro())
+            .progresoActual(entity.getProgresoActual())
+            .notificado(entity.getNotificado())
+            .build();
+    }
+
+    public ProfileLogroEntity toProfileLogroEntity(ProfileLogro domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        ProfileLogroEntity entity = new ProfileLogroEntity();
+        entity.setProfileId(domain.getProfileId());
+        entity.setLogroId(domain.getLogroId());
+        entity.setFechaLogro(domain.getFechaLogro());
+        entity.setProgresoActual(domain.getProgresoActual());
+        entity.setNotificado(domain.getNotificado());
+        
+        return entity;
     }
 }
