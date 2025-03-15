@@ -17,4 +17,9 @@ public interface SpringDataProfileSuscripcionRepository extends JpaRepository<Pr
            "AND ps.status = 'active' AND (ps.fechaFin >= :hoy OR ps.fechaFin IS NULL)")
     Optional<ProfileSuscripcionEntity> findActiveByProfileId(@Param("profileId") Long profileId, @Param("hoy") LocalDate hoy);
 
+    @Query("SELECT ps FROM ProfileSuscripcionEntity ps " +
+           "JOIN FETCH ps.suscripcion s " +
+           "WHERE ps.profileId = :profileId " +
+           "AND ps.status = 'active' AND (ps.fechaFin >= :hoy OR ps.fechaFin IS NULL)")
+    Optional<ProfileSuscripcionEntity> findActiveWithSuscripcionByProfileId(@Param("profileId") Long profileId, @Param("hoy") LocalDate hoy);
 }

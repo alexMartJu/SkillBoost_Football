@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.suscripciones.SuscripcionEntity;
+
 @Data
 @Entity
 @Builder
@@ -25,6 +27,10 @@ public class ProfileSuscripcionEntity {
     
     @Column(name = "suscripcion_id", nullable = false)
     private Long suscripcionId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "suscripcion_id", insertable = false, updatable = false)
+    private SuscripcionEntity suscripcion;
     
     @Column(name = "fecha_inicio")
     private LocalDate fechaInicio;

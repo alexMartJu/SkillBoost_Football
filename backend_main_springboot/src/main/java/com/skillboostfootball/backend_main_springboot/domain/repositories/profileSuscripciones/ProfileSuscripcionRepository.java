@@ -10,4 +10,5 @@ public interface ProfileSuscripcionRepository {
     Optional<ProfileSuscripcion> findActiveByProfileId(Long profileId);
     ProfileSuscripcion save(ProfileSuscripcion profileSuscripcion);
     Optional<ProfileSuscripcion> findById(Long id);
+    Optional<ProfileSuscripcion> findActiveWithSuscripcionByProfileId(Long profileId);
 }

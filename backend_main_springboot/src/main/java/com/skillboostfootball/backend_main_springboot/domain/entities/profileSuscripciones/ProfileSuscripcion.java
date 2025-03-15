@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import com.skillboostfootball.backend_main_springboot.domain.entities.suscripciones.Suscripcion;
 
 @Getter
 @Builder
@@ -11,6 +12,7 @@ public class ProfileSuscripcion {
     private Long id;
     private Long profileId;
     private Long suscripcionId;
+    private Suscripcion suscripcion;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private String status;
