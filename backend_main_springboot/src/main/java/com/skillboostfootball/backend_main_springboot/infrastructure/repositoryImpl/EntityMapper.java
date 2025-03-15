@@ -2,6 +2,7 @@ package com.skillboostfootball.backend_main_springboot.infrastructure.repository
 
 import com.skillboostfootball.backend_main_springboot.domain.entities.blacklistToken.BlacklistToken;
 import com.skillboostfootball.backend_main_springboot.domain.entities.entrenamientos.Entrenamiento;
+import com.skillboostfootball.backend_main_springboot.domain.entities.evaluaciones.EvaluacionRendimiento;
 import com.skillboostfootball.backend_main_springboot.domain.entities.graficas.Grafica;
 import com.skillboostfootball.backend_main_springboot.domain.entities.horariosPista.HorarioPista;
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
@@ -20,6 +21,7 @@ import com.skillboostfootball.backend_main_springboot.domain.entities.tecnificac
 import com.skillboostfootball.backend_main_springboot.domain.entities.usuarios.Usuario;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.blacklistToken.BlacklistTokenEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.entrenamientos.EntrenamientoEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.evaluaciones.EvaluacionRendimientoEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.graficas.GraficaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horariosPista.HorarioPistaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.images.ImageEntity;
@@ -536,6 +538,7 @@ public class EntityMapper {
                 .id(entity.getId())
                 .profileId(entity.getProfileId())
                 .suscripcionId(entity.getSuscripcionId())
+                .suscripcion(entity.getSuscripcion() != null ? toSuscripcion(entity.getSuscripcion()) : null)
                 .fechaInicio(entity.getFechaInicio())
                 .fechaFin(entity.getFechaFin())
                 .status(entity.getStatus())
@@ -734,5 +737,43 @@ public class EntityMapper {
         entity.setNotificado(domain.getNotificado());
         
         return entity;
+    }
+
+    public EvaluacionRendimiento toEvaluacionRendimiento(EvaluacionRendimientoEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return EvaluacionRendimiento.builder()
+            .id(entity.getId())
+            .profileId(entity.getProfile() != null ? entity.getProfile().getId() : null)
+            .entrenamientoId(entity.getEntrenamiento() != null ? entity.getEntrenamiento().getId() : null)
+            .fechaEvaluacion(entity.getFechaEvaluacion())
+            .puntuacion(entity.getPuntuacion())
+            .comentarios(entity.getComentarios())
+            .areasMejora(entity.getAreasMejora())
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .deletedAt(entity.getDeletedAt())
+            .build();
+    }
+
+    public EvaluacionRendimientoEntity toEvaluacionRendimientoEntity(EvaluacionRendimiento domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return EvaluacionRendimientoEntity.builder()
+            .id(domain.getId())
+            .profile(domain.getProfileId() != null ? ProfileEntity.builder().id(domain.getProfileId()).build() : null)
+            .entrenamiento(domain.getEntrenamientoId() != null ? EntrenamientoEntity.builder().id(domain.getEntrenamientoId()).build() : null)
+            .fechaEvaluacion(domain.getFechaEvaluacion())
+            .puntuacion(domain.getPuntuacion())
+            .comentarios(domain.getComentarios())
+            .areasMejora(domain.getAreasMejora())
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
+            .deletedAt(domain.getDeletedAt())
+            .build();
     }
 }
