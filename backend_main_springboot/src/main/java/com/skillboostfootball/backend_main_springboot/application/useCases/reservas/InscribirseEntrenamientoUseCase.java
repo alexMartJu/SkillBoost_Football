@@ -14,6 +14,7 @@ import com.skillboostfootball.backend_main_springboot.domain.repositories.entren
 import com.skillboostfootball.backend_main_springboot.domain.repositories.profiles.ProfileRepository;
 import com.skillboostfootball.backend_main_springboot.domain.repositories.reservas.ReservaRepository;
 import com.skillboostfootball.backend_main_springboot.application.applicationServices.NotificationService;
+import com.skillboostfootball.backend_main_springboot.application.useCases.logros.VerifyLogrosUsuarioUseCase;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ public class InscribirseEntrenamientoUseCase {
     private final ReservaRepository reservaRepository;
     private final ProfileRepository profileRepository;
     private final EntrenamientoRepository entrenamientoRepository;
+    private final VerifyLogrosUsuarioUseCase verificarLogrosUsuarioUseCase;
     private final NotificationService notificationService;
     
     @Transactional
@@ -91,6 +93,9 @@ public class InscribirseEntrenamientoUseCase {
                 null,
                 error -> logger.error("Error al procesar notificación de inscripción: {}", error.getMessage(), error)
             );
+
+        //Verificar logros
+        verificarLogrosUsuarioUseCase.execute(currentUser);
 
         return reserva;
         
