@@ -55,6 +55,16 @@ public class AuthorizationConfig {
         return authentication != null && (
             authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_JUGADOR_CLUB")));
     }
+
+    public boolean areJugadores() {
+        Authentication authentication = authUtils.getAuthentication();
+        return authentication != null && (
+            authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_JUGADOR")) ||
+            authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_JUGADOR_CLUB")) ||
+            authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_JUGADOR_SOCIAL")) ||
+            authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TUTOR"))
+        );
+    }
     
     public boolean canManageEntrenamiento(String slug) {
         if (!isAuthenticated()) {

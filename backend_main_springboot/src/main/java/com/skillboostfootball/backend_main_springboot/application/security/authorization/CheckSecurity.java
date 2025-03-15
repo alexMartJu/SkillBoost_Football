@@ -64,6 +64,13 @@ public @interface CheckSecurity {
         @PreAuthorize("@authorizationConfig.isJugadorClub")
         public @interface canAccess {}
     }
+
+    public @interface Jugadores {
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        @PreAuthorize("@authorizationConfig.areJugadores")
+        public @interface canAccess {}
+    }
     
     public @interface Entrenamientos {
         @Retention(RetentionPolicy.RUNTIME)
