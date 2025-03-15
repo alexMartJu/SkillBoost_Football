@@ -23,13 +23,13 @@ CREATE TABLE entrenamientos (
 );
 
 CREATE TABLE logros (
-    id int PRIMARY KEY AUTO_INCREMENT,
-    nombre varchar(255),
+    id bigint PRIMARY KEY AUTO_INCREMENT,
+    nombre varchar(255) UNIQUE,
+    slug varchar(255),
     descripcion text,
     requisito_entrenamientos int,
-    imagen varchar(255),
     nivel_dificultad varchar(50),
-    puntos int,
+    recompensa varchar(255),
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp NULL,
     deleted_at timestamp NULL
