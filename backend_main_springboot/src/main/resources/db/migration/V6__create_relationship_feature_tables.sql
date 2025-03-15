@@ -54,7 +54,7 @@ CREATE TABLE reservas (
 );
 
 CREATE TABLE graficas (
-    id int PRIMARY KEY AUTO_INCREMENT,
+    id bigint PRIMARY KEY AUTO_INCREMENT,
     seccion varchar(255),
     nivel int,
     Mes int,
