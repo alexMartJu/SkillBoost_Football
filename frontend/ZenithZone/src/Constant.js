@@ -73,5 +73,23 @@ export default {
   DELETE_ONE_RESERVA: "DeleteOneReserva",
 
 
-  INITIALIZE_HORARIO: "InitializeHorario"
+  INITIALIZE_HORARIO: "InitializeHorario", 
+
+  //Tecnificaciones
+  INITIALIZE_TECNIFICACION: "InitializeTecnificacion",
+  INITIALIZE_ONE_STATE_TECNIFICACION: "InitializeOneStateTecnificacion",
+  DELETE_ONE_TECNIFICACION: "DeleteOneTecnificacion",
+  UPDATE_ONE_TECNIFICACION: "UpdateOneTecnificacion",
+  CREATE_ONE_TECNIFICACION: "CreateOneTecnificacion",
+  FETCH_TECNIFICACION_BY_SLUG: "FetchTecnificacionBySlug",
+  SET_CURRENT_TECNIFICACION: "SetCurrentTecnificacion",
+
+  //Subtipos de Tecnificación
+  INITIALIZE_SUBTIPO_TECNIFICACION: "InitializeSubtipoTecnificacion",
+  INITIALIZE_ONE_STATE_SUBTIPO_TECNIFICACION: "InitializeOneStateSubtipoTecnificacion",
+  DELETE_ONE_SUBTIPO_TECNIFICACION: "DeleteOneSubtipoTecnificacion",
+  UPDATE_ONE_SUBTIPO_TECNIFICACION: "UpdateOneSubtipoTecnificacion",
+  CREATE_ONE_SUBTIPO_TECNIFICACION: "CreateOneSubtipoTecnificacion",
+  FETCH_SUBTIPO_TECNIFICACION_BY_SLUG: "FetchSubtipoTecnificacionBySlug",
+  SET_CURRENT_SUBTIPO_TECNIFICACION: "SetCurrentSubtipoTecnificacion",
 }
