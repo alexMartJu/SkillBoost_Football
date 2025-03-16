@@ -20,6 +20,12 @@ public class SubtipoTecnificacionAssembler {
         response.setNombre(subtipo.getNombre());
         response.setSlug(subtipo.getSlug());
         response.setDescripcion(subtipo.getDescripcion());
+        response.setTipoEntrenamiento(subtipo.getTipoEntrenamiento());
+        response.setObjetivos(subtipo.getObjetivos());
+        response.setBeneficios(subtipo.getBeneficios());
+        response.setFrecuenciaSugerida(subtipo.getFrecuenciaSugerida());
+        response.setMetodoEvaluacion(subtipo.getMetodoEvaluacion());
+        response.setTecnologiaUtilizada(subtipo.getTecnologiaUtilizada());
         response.setImages(subtipo.getImages());
         
         return response;
