@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/user")
+@RequestMapping("/api/main")
 public class UsuarioController {
     private final UpdateProfileUseCase updateProfileUseCase;
     private final UpdateCoachProfileUseCase updateCoachProfileUseCase;
@@ -20,7 +20,7 @@ public class UsuarioController {
     private final UsuarioAssembler userAssembler;
     
     //Obtener el usuario actual
-    @GetMapping
+    @GetMapping("/user")
     @CheckSecurity.Protected.canManage
     public UserResponse getCurrentUser() {
         var user = getCurrentUserUseCase.execute();
@@ -28,7 +28,7 @@ public class UsuarioController {
     }
     
     //Actualizar usuario estándar
-    @PutMapping
+    @PutMapping("/user")
     @CheckSecurity.Protected.canManage
     public UserResponse updateUser(@Valid @RequestBody UpdateUserRequest request) {
         updateProfileUseCase.execute(request.getNombre(), request.getApellidos(), request.getBio(), request.getImage(),
@@ -40,7 +40,7 @@ public class UsuarioController {
     }
     
     //Endpoint específico para actualizar usuario entrenador
-    @PutMapping("/coach")
+    @PutMapping("/user/coach")
     @CheckSecurity.Entrenador.canAccess
     public UserResponse updateCoachUser(@Valid @RequestBody UpdateCoachUserRequest request) {
         updateCoachProfileUseCase.execute(request.getNombre(), request.getApellidos(), request.getBio(), request.getImage(),

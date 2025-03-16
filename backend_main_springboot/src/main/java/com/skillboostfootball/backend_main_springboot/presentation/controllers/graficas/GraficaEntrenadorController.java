@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/entrenador")
+@RequestMapping("/api/main")
 public class GraficaEntrenadorController {
     
     private final UpdateGraficaByEntrenadorUseCase updateGraficaByEntrenadorUseCase;
     private final GraficaAssembler graficaAssembler;
     
     //Actualizar gráficas de un jugador
-    @PutMapping("/profiles/{numeroSocio}/graficas")
+    @PutMapping("/entrenador/profiles/{numeroSocio}/graficas")
     @CheckSecurity.Entrenador.canAccess
     public GraficaWrapper updateGraficas(@PathVariable String numeroSocio, @Valid @RequestBody GraficaUpdateRequest request) {
         

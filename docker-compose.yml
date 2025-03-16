@@ -125,7 +125,7 @@ services:
       - mysql
     restart: unless-stopped
     networks:
-      - backend
+      - skillboost_football_network
 
   mysql:
     image: mysql:8.0
@@ -139,7 +139,7 @@ services:
       - mysql-data:/var/lib/mysql
     restart: unless-stopped
     networks:
-      - backend
+      - skillboost_football_network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -154,7 +154,7 @@ services:
       - mysql
     restart: unless-stopped
     networks:
-      - backend
+      - skillboost_football_network
 
   payments:
     build: 
@@ -177,7 +177,7 @@ services:
     depends_on:
       - mysql
     networks:
-      - backend
+      - skillboost_football_network
 
   cron-service:
     build:
@@ -199,7 +199,7 @@ services:
       - mysql
       - app
     networks:
-      - backend
+      - skillboost_football_network
 
   notification-service:
     build:
@@ -221,7 +221,7 @@ services:
       - mysql
       - app
     networks:
-      - backend
+      - skillboost_football_network
 
   proxy:
     build:
@@ -233,7 +233,21 @@ services:
     depends_on:
       - mysql
     networks:
-      - backend
+      - skillboost_football_network
+
+  vue:
+    build:
+      context: ./frontend/ZenithZone
+      dockerfile: Dockerfile
+    container_name: skillboost_vue
+    restart: on-failure
+    ports:
+      - "$VUE_LOCAL_PORT:$VUE_DOCKER_PORT"
+    volumes:
+      - ./frontend/ZenithZone:/app
+      - /app/node_modules
+    networks:
+      - skillboost_football_network
 
 volumes:
   mysql-data:
@@ -241,5 +255,5 @@ volumes:
   payments-gradle-cache:
 
 networks:
-  backend:
+  skillboost_football_network:
     driver: bridge

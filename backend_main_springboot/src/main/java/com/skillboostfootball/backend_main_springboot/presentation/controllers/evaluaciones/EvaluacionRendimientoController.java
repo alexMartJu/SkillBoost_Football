@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/entrenador")
+@RequestMapping("/api/main")
 public class EvaluacionRendimientoController {
     
     private final CreateEvaluacionRendimientoUseCase createEvaluacionRendimientoUseCase;
@@ -23,7 +23,7 @@ public class EvaluacionRendimientoController {
     private final EvaluacionRendimientoAssembler evaluacionAssembler;
     
     //Crear una evaluación de rendimiento para un usuario en un entrenamiento
-    @PostMapping("/profiles/{numeroSocio}/entrenamientos/{slug}/evaluaciones")
+    @PostMapping("/entrenador/profiles/{numeroSocio}/entrenamientos/{slug}/evaluaciones")
     @ResponseStatus(HttpStatus.CREATED)
     @CheckSecurity.Entrenador.canAccess
     public EvaluacionRendimientoResponse createEvaluacion(@PathVariable String numeroSocio, @PathVariable String slug,
@@ -34,7 +34,7 @@ public class EvaluacionRendimientoController {
     }
     
     //Actualizar una evaluación de rendimiento existente
-    @PutMapping("/profiles/{numeroSocio}/entrenamientos/{slug}/evaluaciones")
+    @PutMapping("/entrenador/profiles/{numeroSocio}/entrenamientos/{slug}/evaluaciones")
     @CheckSecurity.Entrenador.canAccess
     public EvaluacionRendimientoResponse updateEvaluacion(@PathVariable String numeroSocio, @PathVariable String slug,
         @Valid @RequestBody EvaluacionRendimientoRequest request) {
@@ -45,7 +45,7 @@ public class EvaluacionRendimientoController {
     }
     
     //Obtener una evaluación de rendimiento específica
-    @GetMapping("/profiles/{numeroSocio}/entrenamientos/{slug}/evaluaciones")
+    @GetMapping("/entrenador/profiles/{numeroSocio}/entrenamientos/{slug}/evaluaciones")
     @CheckSecurity.Entrenador.canAccess
     public EvaluacionRendimientoResponse getEvaluacion(@PathVariable String numeroSocio, @PathVariable String slug) {
         var evaluacion = getEvaluacionByProfileAndEntrenamientoUseCase.execute(numeroSocio, slug);

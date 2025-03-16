@@ -5,7 +5,7 @@ import { useStore } from 'vuex';
 import userService from './client/user.service';
 import store from '@/store';
 
-export default (URL, isSpringboot = 'true') => {
+export default (URL) => {
     const api = axios.create({
         baseURL: URL,
     });
@@ -15,24 +15,21 @@ export default (URL, isSpringboot = 'true') => {
             const token = localStorage.getItem('token');
             const tokenAdmin = localStorage.getItem('tokenAdmin');
             const entrenadorToken = localStorage.getItem('entrenadorToken');
-            // console.log(`api services isSpringboot: ${isSpringboot}`);
 
             config.headers = config.headers || {};
 
             if (token) {
                 console.log(`api services is Token`);
                 config.headers['Authorization'] = `Bearer ${token}`;
-                config.headers['isSpringboot'] = isSpringboot;
+                
             } else if (tokenAdmin) {
                 console.log(`api services is tokenAdmin`);
                 config.headers['Authorization'] = `Bearer ${tokenAdmin}`;
-                config.headers['isSpringboot'] = isSpringboot;
+                
             } else if (entrenadorToken) {
                 console.log(`api services is entrenadorToken`);
                 config.headers['Authorization'] = `Bearer ${entrenadorToken}`;
-                config.headers['isSpringboot'] = isSpringboot;
-            } else {
-                config.headers['isSpringboot'] = isSpringboot;
+                
             }
 
             // console.log('Request Headers:', config.headers);

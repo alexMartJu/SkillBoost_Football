@@ -19,7 +19,7 @@ import com.skillboostfootball.backend_main_springboot.application.useCases.entre
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/entrenador")
+@RequestMapping("/api/main")
 public class EntrenamientoCoachController {
     
     private final GetEntrenamientosByCoachAndStatusUseCase getEntrenamientosByEntrenadorAndStatusUseCase;
@@ -27,7 +27,7 @@ public class EntrenamientoCoachController {
     private final EntrenamientoAssembler assembler;
 
     //Listar entrenamientos pendientes del entrenador logueado
-    @GetMapping("/entrenamientos/pending")
+    @GetMapping("/entrenador/entrenamientos/pending")
     @CheckSecurity.Entrenador.canAccess
     public EntrenamientoWrapper getPendingEntrenamientos() {
         var entrenamientos = getEntrenamientosByEntrenadorAndStatusUseCase.execute(List.of("pending"));
@@ -35,7 +35,7 @@ public class EntrenamientoCoachController {
     }
 
     //Listar entrenamientos aprobados (activos o completados) del entrenador logueado
-    @GetMapping("/entrenamientos/approved")
+    @GetMapping("/entrenador/entrenamientos/approved")
     @CheckSecurity.Entrenador.canAccess
     public EntrenamientoWrapper getApprovedEntrenamientos() {
         var entrenamientos = getEntrenamientosByEntrenadorAndStatusUseCase.execute(List.of("active", "completed"));
@@ -43,7 +43,7 @@ public class EntrenamientoCoachController {
     }
 
     //Listar entrenamientos denegados del entrenador logueado
-    @GetMapping("/entrenamientos/denied")
+    @GetMapping("/entrenador/entrenamientos/denied")
     @CheckSecurity.Entrenador.canAccess
     public EntrenamientoWrapper getDeniedEntrenamientos() {
         var entrenamientos = getEntrenamientosByEntrenadorAndStatusUseCase.execute(List.of("denied"));
@@ -51,7 +51,7 @@ public class EntrenamientoCoachController {
     }
 
     //Crear un nuevo entrenamiento viendo la disponibilidad de horarios y pista (solo entrenadores)
-    @PostMapping("/entrenamientos/create")
+    @PostMapping("/entrenador/entrenamientos/create")
     @ResponseStatus(HttpStatus.CREATED)
     @CheckSecurity.Entrenador.canAccess
     public EntrenamientoResponse createEntrenamiento(@Valid @RequestBody CreateEntrenamientoRequest request) {

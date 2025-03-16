@@ -16,7 +16,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/main")
 public class PagoController {
     
     private final CreateBuySuscripcionUseCase crearComprarSuscripcionUseCase;

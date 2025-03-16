@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/entrenador")
+@RequestMapping("/api/main")
 public class InscripcionController {
     
     private final GetInscripcionesByEntrenamientoUseCase getInscripcionesByEntrenamientoUseCase;
@@ -19,7 +19,7 @@ public class InscripcionController {
     private final InscripcionAssembler inscripcionAssembler;
     
     //Listar todas las inscripciones de los entrenamientos del entrenador
-    @GetMapping("/inscripciones")
+    @GetMapping("/entrenador/inscripciones")
     @CheckSecurity.Entrenador.canAccess
     public InscripcionWrapper getAllInscripciones() {
         var inscripciones = getAllInscripcionesByEntrenadorUseCase.execute();
@@ -27,7 +27,7 @@ public class InscripcionController {
     }
     
     //Listar inscripciones de un entrenamiento específico
-    @GetMapping("/entrenamientos/{slug}/inscripciones")
+    @GetMapping("/entrenador/entrenamientos/{slug}/inscripciones")
     @CheckSecurity.Entrenador.canAccess
     public InscripcionWrapper getInscripcionesByEntrenamiento(@PathVariable String slug) {
         var inscripciones = getInscripcionesByEntrenamientoUseCase.execute(slug);

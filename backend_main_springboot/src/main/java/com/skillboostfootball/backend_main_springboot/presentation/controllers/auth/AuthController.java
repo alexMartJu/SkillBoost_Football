@@ -1,5 +1,6 @@
 package com.skillboostfootball.backend_main_springboot.presentation.controllers.auth;
 
+import com.skillboostfootball.backend_main_springboot.application.security.authorization.CheckSecurity;
 import com.skillboostfootball.backend_main_springboot.application.useCases.auth.*;
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.usuarios.UsuarioAssembler;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.auth.request.*;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/main")
 public class AuthController {
     private final RegisterStandardUserUseCase registerStandardUserUseCase;
     private final RegisterCoachUserUseCase registerCoachUserUseCase;
@@ -37,6 +38,7 @@ public class AuthController {
     
     //Registro de entrenador
     @PostMapping("/entrenadores/registro")
+    @CheckSecurity.Admin.canAccess
     public UserResponse registerCoach(@Valid @RequestBody RegisterCoachRequest request) {
         var user = registerCoachUserUseCase.execute(request.getEmail(), request.getPassword(), request.getNombre(),
             request.getApellidos(), request.getEspecialidad(), request.getExperienciaAnios(), request.getCertificaciones()); 
@@ -46,6 +48,7 @@ public class AuthController {
     
     //Registro de jugador de club
     @PostMapping("/jugadores-club/registro")
+    @CheckSecurity.Admin.canAccess
     public UserResponse registerClubPlayer(@Valid @RequestBody RegisterClubPlayerRequest request) {
         var user = registerClubPlayerUseCase.execute(request.getEmail(), request.getPassword(), request.getNombre(),
             request.getApellidos(), request.getEdad(), request.getPosicionPreferida(), request.getClubOrigen());
@@ -55,6 +58,7 @@ public class AuthController {
 
     //Registro de jugador de ayuda social
     @PostMapping("/jugadores-sociales/registro")
+    @CheckSecurity.Admin.canAccess
     public UserResponse registerSocialHelpPlayer(@Valid @RequestBody RegisterSocialHelpPlayerRequest request) {
         var user = registerSocialHelpPlayerUseCase.execute(request.getEmail(), request.getPassword(), request.getNombre(),
             request.getApellidos(), request.getEdad(), request.getOrganizacionOrigen()
