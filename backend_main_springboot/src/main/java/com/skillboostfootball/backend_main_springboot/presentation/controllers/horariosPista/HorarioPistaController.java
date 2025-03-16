@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/main")
 public class HorarioPistaController {
     
     private final GetHorariosOcupadosByPistaAndFechaUseCase getHorariosOcupadosUseCase;

@@ -15,7 +15,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/main")
 public class PistaController {
     
     private final GetAllPistasUseCase getAllPistasUseCase;

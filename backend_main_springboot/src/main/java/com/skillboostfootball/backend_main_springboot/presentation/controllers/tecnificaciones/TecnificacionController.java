@@ -17,7 +17,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/main")
 public class TecnificacionController {
     private final GetAllTecnificacionesUseCase getAllTecnificacionesUseCase;
     private final GetTecnificacionBySlugUseCase getTecnificacionBySlugUseCase;

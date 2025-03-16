@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/main")
 public class EntrenamientoController {
     private final GetEntrenamientosWithFiltersUseCase getEntrenamientosWithFiltersUseCase;
     private final GetEntrenamientoBySlugUseCase getEntrenamientoBySlugUseCase;

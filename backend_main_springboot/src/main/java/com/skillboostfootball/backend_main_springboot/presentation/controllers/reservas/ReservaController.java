@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/main")
 public class ReservaController {
     private final InscribirseEntrenamientoUseCase inscribirseEntrenamientoUseCase;
     private final DesinscribirseEntrenamientoUseCase desinscribirseEntrenamientoUseCase;

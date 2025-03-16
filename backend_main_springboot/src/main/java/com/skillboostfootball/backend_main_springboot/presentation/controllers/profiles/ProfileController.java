@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/main")
 public class ProfileController {
     private final GetProfileByNumeroSocioUseCase getProfileByNumeroSocioUseCase;
     private final GetProfileByNumeroEntrenadorUseCase getProfileByNumeroEntrenadorUseCase;

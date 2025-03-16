@@ -1,6 +1,7 @@
 package com.skillboostfootball.backend_main_springboot.presentation.controllers.suscripciones;
 
 
+import com.skillboostfootball.backend_main_springboot.application.security.authorization.CheckSecurity;
 import com.skillboostfootball.backend_main_springboot.application.useCases.suscripciones.*;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.suscripciones.request.UpdateSuscripcionPrecioRequest;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.suscripciones.response.SuscripcionResponse;
@@ -15,7 +16,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/main")
 public class SuscripcionController {
 
     private static final Logger logger = LoggerFactory.getLogger(SuscripcionController.class);
@@ -34,6 +35,7 @@ public class SuscripcionController {
     
     //Actualizar el precio de una suscripción
     @PatchMapping("/suscripciones/{slug}/precio")
+    @CheckSecurity.Admin.canAccess
     public SuscripcionResponse updatePrecio(@PathVariable String slug, @Valid @RequestBody UpdateSuscripcionPrecioRequest request) {
         logger.debug("Nuevo precio: {}", request.getPrecio());
         var suscripcion = updateSuscripcionPrecioUseCase.execute(slug, request.getPrecio());

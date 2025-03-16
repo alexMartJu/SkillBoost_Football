@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/admin")
+@RequestMapping("/api/main")
 public class EntrenamientoAdminController {
 
     private final GetPendingEntrenamientosUseCase getPendingEntrenamientosUseCase;
@@ -23,7 +23,7 @@ public class EntrenamientoAdminController {
     private final EntrenamientoAssembler assembler;
 
     //Listar todos los entrenamientos pendientes (solo admins)
-    @GetMapping("/entrenamientos/pending")
+    @GetMapping("/admin/entrenamientos/pending")
     @CheckSecurity.Admin.canAccess
     public EntrenamientoWrapper getPendingEntrenamientos() {
         var entrenamientos = getPendingEntrenamientosUseCase.execute();
@@ -34,7 +34,7 @@ public class EntrenamientoAdminController {
     }
 
     //Aprobar un entrenamiento (solo admins)
-    @PostMapping("/entrenamientos/{slug}/approve")
+    @PostMapping("/admin/entrenamientos/{slug}/approve")
     @CheckSecurity.Admin.canAccess
     public EntrenamientoResponse approveEntrenamiento(@PathVariable String slug) {
         var entrenamiento = approveEntrenamientoUseCase.execute(slug);
@@ -42,7 +42,7 @@ public class EntrenamientoAdminController {
     }
 
     //Rechazar un entrenamiento (solo admins)
-    @PostMapping("/entrenamientos/{slug}/deny")
+    @PostMapping("/admin/entrenamientos/{slug}/deny")
     @CheckSecurity.Admin.canAccess
     public EntrenamientoResponse denyEntrenamiento(@PathVariable String slug) {
         var entrenamiento = denyEntrenamientoUseCase.execute(slug);
