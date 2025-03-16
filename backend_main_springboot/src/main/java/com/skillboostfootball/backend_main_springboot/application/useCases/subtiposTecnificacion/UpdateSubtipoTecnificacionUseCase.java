@@ -17,7 +17,9 @@ public class UpdateSubtipoTecnificacionUseCase {
     private final SlugService slugService;
     
     @Transactional
-    public SubtipoTecnificacion execute(String slug, String nombre, String descripcion) {
+    public SubtipoTecnificacion execute(String slug, String nombre, String descripcion, String tipoEntrenamiento, String objetivos, 
+        String beneficios, String frecuenciaSugerida, String metodoEvaluacion, String tecnologiaUtilizada) {
+            
         //Buscar el subtipo por slug
         SubtipoTecnificacion subtipo = subtipoTecnificacionRepository.findBySlug(slug).orElseThrow(SubtipoTecnificacionNotFoundException::new);
         
@@ -28,7 +30,8 @@ public class UpdateSubtipoTecnificacionUseCase {
         }
         
         //Actualizar el subtipo
-        subtipo.update(nombre, descripcion, newSlug);
+        subtipo.update(nombre, descripcion, newSlug, tipoEntrenamiento, objetivos, beneficios, 
+            frecuenciaSugerida, metodoEvaluacion, tecnologiaUtilizada);
         
         //Guardar cambios
         return subtipoTecnificacionRepository.save(subtipo);

@@ -13,5 +13,11 @@ public class SubtipoTecnificacionResponse {
     private String nombre;
     private String slug;
     private String descripcion;
+    private String tipoEntrenamiento;
+    private String objetivos;
+    private String beneficios;
+    private String frecuenciaSugerida;
+    private String metodoEvaluacion;
+    private String tecnologiaUtilizada;
     private List<Image> images;
 }
