@@ -16,16 +16,29 @@ public class SubtipoTecnificacion {
     private String slug;
     private String descripcion;
     private Tecnificacion tecnificacion;
+    private String tipoEntrenamiento;
+    private String objetivos;
+    private String beneficios;
+    private String frecuenciaSugerida;
+    private String metodoEvaluacion;
+    private String tecnologiaUtilizada;
     private List<Image> images;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
     
     // Métodos de domain
-    public void update(String nombre, String descripcion, String slug) {
+    public void update(String nombre, String descripcion, String slug, String tipoEntrenamiento, String objetivos, 
+        String beneficios, String frecuenciaSugerida, String metodoEvaluacion, String tecnologiaUtilizada) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.slug = slug;
+        this.tipoEntrenamiento = tipoEntrenamiento;
+        this.objetivos = objetivos;
+        this.beneficios = beneficios;
+        this.frecuenciaSugerida = frecuenciaSugerida;
+        this.metodoEvaluacion = metodoEvaluacion;
+        this.tecnologiaUtilizada = tecnologiaUtilizada;
         this.updatedAt = LocalDateTime.now();
     }
     

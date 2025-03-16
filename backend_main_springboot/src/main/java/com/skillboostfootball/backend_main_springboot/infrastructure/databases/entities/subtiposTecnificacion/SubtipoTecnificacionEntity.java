@@ -34,6 +34,24 @@ public class SubtipoTecnificacionEntity {
     @JoinColumn(name = "tecnificacion_id")
     private TecnificacionEntity tecnificacion;
 
+    @Column(name = "tipo_entrenamiento", length = 100)
+    private String tipoEntrenamiento;
+    
+    @Column(name = "objetivos", columnDefinition = "TEXT")
+    private String objetivos;
+    
+    @Column(name = "beneficios", columnDefinition = "TEXT")
+    private String beneficios;
+    
+    @Column(name = "frecuencia_sugerida", length = 100)
+    private String frecuenciaSugerida;
+    
+    @Column(name = "metodo_evaluacion", length = 255)
+    private String metodoEvaluacion;
+    
+    @Column(name = "tecnologia_utilizada", length = 255)
+    private String tecnologiaUtilizada;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     
