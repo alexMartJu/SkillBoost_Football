@@ -50,7 +50,8 @@ public class SubtipoTecnificacionController {
     @ResponseStatus(HttpStatus.CREATED)
     @CheckSecurity.Admin.canAccess
     public SubtipoTecnificacionResponse createSubtipo(@PathVariable String tecnificacionSlug, @Valid @RequestBody SubtipoTecnificacionRequest request) {
-        var subtipo = createSubtipoUseCase.execute(tecnificacionSlug, request.getNombre(), request.getDescripcion());
+        var subtipo = createSubtipoUseCase.execute(tecnificacionSlug, request.getNombre(), request.getDescripcion(), request.getTipoEntrenamiento(),
+            request.getObjetivos(), request.getBeneficios(), request.getFrecuenciaSugerida(), request.getMetodoEvaluacion(), request.getTecnologiaUtilizada());
         return assembler.toResponse(subtipo);
     }
     
@@ -58,7 +59,8 @@ public class SubtipoTecnificacionController {
     @PutMapping("/subtipo-tecnificaciones/{slug}")
     @CheckSecurity.Admin.canAccess
     public SubtipoTecnificacionResponse updateSubtipo(@PathVariable String slug, @Valid @RequestBody SubtipoTecnificacionRequest request) {
-        var subtipo = updateSubtipoUseCase.execute(slug, request.getNombre(), request.getDescripcion());
+        var subtipo = updateSubtipoUseCase.execute(slug, request.getNombre(), request.getDescripcion(), request.getTipoEntrenamiento(),
+            request.getObjetivos(), request.getBeneficios(), request.getFrecuenciaSugerida(), request.getMetodoEvaluacion(), request.getTecnologiaUtilizada());
         return assembler.toResponse(subtipo);
     }
     

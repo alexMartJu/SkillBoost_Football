@@ -23,7 +23,9 @@ public class CreateSubtipoTecnificacionUseCase {
     private final SlugService slugService;
     
     @Transactional
-    public SubtipoTecnificacion execute(String tecnificacionSlug, String nombre, String descripcion) {
+    public SubtipoTecnificacion execute(String tecnificacionSlug, String nombre, String descripcion, String tipoEntrenamiento, 
+        String objetivos, String beneficios, String frecuenciaSugerida, String metodoEvaluacion, String tecnologiaUtilizada) {
+
         //Buscar la tecnificación a la que pertenecerá el subtipo
         Tecnificacion tecnificacion = tecnificacionRepository.findBySlug(tecnificacionSlug).orElseThrow(TecnificacionNotFoundException::new);
         
@@ -34,6 +36,12 @@ public class CreateSubtipoTecnificacionUseCase {
             .descripcion(descripcion)
             .slug(slug)
             .tecnificacion(tecnificacion)
+            .tipoEntrenamiento(tipoEntrenamiento)
+            .objetivos(objetivos)
+            .beneficios(beneficios)
+            .frecuenciaSugerida(frecuenciaSugerida)
+            .metodoEvaluacion(metodoEvaluacion)
+            .tecnologiaUtilizada(tecnologiaUtilizada)
             .images(new ArrayList<>())
             .createdAt(LocalDateTime.now())
             .updatedAt(LocalDateTime.now())
