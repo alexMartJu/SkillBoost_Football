@@ -4,10 +4,9 @@
             <div class="row g-4 align-items-center">
                 <div class="col-lg-4">
                     <div>
-                        <h5 class="display-6 fw-bold mb-3 gradient-text">ZenithZone</h5>
+                        <h5 class="display-6 fw-bold mb-3 gradient-text">SkillBoost Football</h5>
                         <p class="lead mb-0 opacity-75">
-                            Transformando ideas en experiencias digitales extraordinarias.
-                        </p>
+                            Formando el futuro del fútbol: desarrollando talento y creando oportunidades para todos.                        </p>
                     </div>
                 </div>
 
@@ -32,9 +31,9 @@
                 <div class="col-lg-4">
                     <h5 class="text-uppercase fw-bold mb-3">Contacto</h5>
                     <div class="d-flex flex-column gap-3">
-                        <a href="mailto:info@zenithzone.com" class="text-white text-decoration-none contact-link">
+                        <a href="mailto:info@skillboostfootball.com" class="text-white text-decoration-none contact-link">
                             <i class="bi bi-envelope-fill me-2"></i>
-                            <span>info@zenithzone.com</span>
+                            <span>info@skillboostfootball.com</span>
                         </a>
                         <a href="tel:+1234567890" class="text-white text-decoration-none contact-link">
                             <i class="bi bi-telephone-fill me-2"></i>
@@ -49,7 +48,7 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <p class="opacity-75 small">
-                        © 2024 ZenithZone. Todos los derechos reservados.
+                        © 2025 SkillBoost Football. Todos los derechos reservados.
                     </p>
                 </div>
             </div>

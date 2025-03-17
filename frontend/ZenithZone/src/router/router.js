@@ -15,7 +15,7 @@ const router = createRouter({
       component: () => import('../views/client/Home.vue')
     },
 
-    // INSTALACIONES
+    // INSTALACIONES --> QUITAR ESTO
     {
       path: "/instalaciones",
       name: "instalaciones",
@@ -26,6 +26,31 @@ const router = createRouter({
           name: "InstalacionesSlug",
           component: () => import('../views/client/Instalaciones.vue')
         }
+      ]
+    },
+
+    // RECURSOS
+    {
+      path: "/recursos",
+      component: () => import('../views/client/Recursos.vue'),
+      children: [
+        {
+          path: "",
+          name: "recursos",
+          redirect: "/recursos/subtipos"
+        },
+        {
+          path: "subtipos",
+          name: "recursosSubtipos",
+          component: () => import('../components/recursos/recursosSubtiposTecnificacion.vue'),
+          children: [
+            {
+              path: ":slug",
+              name: "TecnificacionSlug",
+              component: () => import('../components/recursos/recursosSubtiposTecnificacion.vue')
+            }
+          ]
+        },
       ]
     },
 
@@ -69,6 +94,11 @@ const router = createRouter({
     {
       path: "/pista/:slug",
       name: "detailsPista",
+      component: () => import('../views/client/Details.vue')
+    },
+    {
+      path: "/subtipo/:slug",
+      name: "detailsSubtipoTecnificacion",
       component: () => import('../views/client/Details.vue')
     },
 
@@ -242,6 +272,10 @@ const router = createRouter({
         },
 
       ]
+    },
+    {
+      path: "/:pathMatch(.*)*", //Ruta para cualquier ruta que no esté definida
+      redirect: "/",
     },
   ],
   scrollBehavior(to, from, savedPosition) { // Para que al cambiar de vista, la página se desplace a la parte superior

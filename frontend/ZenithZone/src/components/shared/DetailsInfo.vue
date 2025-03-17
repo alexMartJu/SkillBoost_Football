@@ -4,16 +4,18 @@
             <h1 class="display-4 mb-4 text-primary">
                 <i class="bi bi-trophy-fill me-2"></i>{{ state.entrenamiento.nombre }}
             </h1>
-            
+
             <div class="accordion" id="entrenamientoAccordion">
                 <!-- Detalles Section -->
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="detallesHeader">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#detallesCollapse" aria-expanded="true" aria-controls="detallesCollapse">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#detallesCollapse" aria-expanded="true" aria-controls="detallesCollapse">
                             <i class="bi bi-info-circle-fill me-2"></i>Detalles del Entrenamiento
                         </button>
                     </h2>
-                    <div id="detallesCollapse" class="accordion-collapse collapse show" aria-labelledby="detallesHeader">
+                    <div id="detallesCollapse" class="accordion-collapse collapse show"
+                        aria-labelledby="detallesHeader">
                         <div class="accordion-body">
                             <div class="card shadow-sm">
                                 <div class="card-body">
@@ -30,7 +32,8 @@
                                         <i class="bi bi-clock me-2"></i>{{ state.entrenamiento.duracion }} minutos
                                     </p>
                                     <p class="card-text">
-                                        <i class="bi bi-people-fill me-2"></i>Plazas máximas: {{ state.entrenamiento.maxPlazas }}
+                                        <i class="bi bi-people-fill me-2"></i>Plazas máximas: {{
+                                        state.entrenamiento.maxPlazas }}
                                     </p>
                                     <p class="card-text">
                                         <i class="bi bi-currency-euro me-2"></i>{{ state.entrenamiento.precio }}€
@@ -47,7 +50,9 @@
                 <!-- Entrenador Section -->
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="entrenadorHeader">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#entrenadorCollapse" aria-expanded="false" aria-controls="entrenadorCollapse">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#entrenadorCollapse" aria-expanded="false"
+                            aria-controls="entrenadorCollapse">
                             <i class="bi bi-person-badge-fill me-2"></i>Información del Entrenador
                         </button>
                     </h2>
@@ -56,7 +61,8 @@
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        <i class="bi bi-person-circle me-2"></i>{{ state.entrenamiento.entrenador.nombre }} {{ state.entrenamiento.entrenador.apellidos }}
+                                        <i class="bi bi-person-circle me-2"></i>{{ state.entrenamiento.entrenador.nombre
+                                        }} {{ state.entrenamiento.entrenador.apellidos }}
                                     </p>
                                 </div>
                             </div>
@@ -67,7 +73,8 @@
                 <!-- Ubicación Section -->
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="ubicacionHeader">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ubicacionCollapse" aria-expanded="false" aria-controls="ubicacionCollapse">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#ubicacionCollapse" aria-expanded="false" aria-controls="ubicacionCollapse">
                             <i class="bi bi-geo-alt-fill me-2"></i>Ubicación
                         </button>
                     </h2>
@@ -99,17 +106,18 @@
         </div>
     </div>
     <!-- SI ES DETAILS PISTA -->
-    <div v-else>
+    <div v-else-if="!isSubtipoTecnificacion">
         <div class="container py-4" v-if="state.pista">
             <h1 class="display-4 mb-4 text-primary">
                 <i class="bi bi-building-fill me-2"></i>{{ state.pista.nombre }}
             </h1>
-            
+
             <div class="accordion" id="pistaAccordion">
                 <!-- Reserva Section -->
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="reservaHeader">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#reservaCollapse" aria-expanded="true" aria-controls="reservaCollapse">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#reservaCollapse" aria-expanded="true" aria-controls="reservaCollapse">
                             <i class="bi bi-calendar-plus-fill me-2"></i>Realizar Reserva
                         </button>
                     </h2>
@@ -121,30 +129,36 @@
                                         <label for="datepicker" class="form-label fw-bold">
                                             <i class="bi bi-calendar-date me-2"></i>Selecciona una fecha:
                                         </label>
-                                        <input type="date" id="datepicker" v-model="selectedDate" class="form-control form-control-lg" :min="minDate" />
+                                        <input type="date" id="datepicker" v-model="selectedDate"
+                                            class="form-control form-control-lg" :min="minDate" />
                                     </div>
-                                    
+
                                     <div v-if="selectedDate" class="mb-4">
                                         <label for="horarios" class="form-label fw-bold">
                                             <i class="bi bi-clock-fill me-2"></i>Selecciona un horario:
                                         </label>
-                                        <select name="horarios" id="horarios" class="form-select form-select-lg" v-model="selectedHorario">
-                                            <option v-for="horario in horarios" :key="horario" :value="horario" :disabled="isHorarioReserved(horario)">
+                                        <select name="horarios" id="horarios" class="form-select form-select-lg"
+                                            v-model="selectedHorario">
+                                            <option v-for="horario in horarios" :key="horario" :value="horario"
+                                                :disabled="isHorarioReserved(horario)">
                                                 {{ horario.charAt(0).toUpperCase() + horario.slice(1) }}
                                             </option>
                                         </select>
                                     </div>
 
-                                    <button @click="logDate" :disabled="!currentUser.isUser" class="btn btn-primary btn-lg w-100">
+                                    <button @click="logDate" :disabled="!currentUser.isUser"
+                                        class="btn btn-primary btn-lg w-100">
                                         <i class="bi bi-calendar-check me-2"></i>
                                         {{ isReserved ? 'Horario reservado' : 'Reservar pista' }}
                                     </button>
 
-                                    <div v-if="reservaSuccess" class="alert alert-success mt-3 d-flex align-items-center" role="alert">
+                                    <div v-if="reservaSuccess"
+                                        class="alert alert-success mt-3 d-flex align-items-center" role="alert">
                                         <i class="bi bi-check-circle-fill me-2"></i>
                                         Reserva realizada con éxito.
                                     </div>
-                                    <div v-if="reservaError" class="alert alert-danger mt-3 d-flex align-items-center" role="alert">
+                                    <div v-if="reservaError" class="alert alert-danger mt-3 d-flex align-items-center"
+                                        role="alert">
                                         <i class="bi bi-exclamation-triangle-fill me-2"></i>
                                         Error al realizar la reserva. Inténtalo de nuevo.
                                     </div>
@@ -157,7 +171,8 @@
                 <!-- Info Section -->
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="infoHeader">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#infoCollapse" aria-expanded="false" aria-controls="infoCollapse">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#infoCollapse" aria-expanded="false" aria-controls="infoCollapse">
                             <i class="bi bi-info-circle-fill me-2"></i>Información de la Pista
                         </button>
                     </h2>
@@ -184,6 +199,125 @@
             </div>
         </div>
     </div>
+    <div v-else>
+        <div class="container py-4" v-if="state.subtipoTecnificacion">
+            <h1 class="display-4 mb-4 text-primary">
+                <i class="bi bi-trophy-fill me-2"></i>{{ state.subtipoTecnificacion.nombre }}
+            </h1>
+
+            <div class="accordion" id="subtipoAccordion">
+                <!-- Detalles Section -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="detallesHeader">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#detallesCollapse" aria-expanded="true" aria-controls="detallesCollapse">
+                            <i class="bi bi-info-circle-fill me-2"></i>Detalles del Subtipo de Tecnificación
+                        </button>
+                    </h2>
+                    <div id="detallesCollapse" class="accordion-collapse collapse show"
+                        aria-labelledby="detallesHeader">
+                        <div class="accordion-body">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <i class="bi bi-chat-quote-fill me-2"></i>{{
+                                            state.subtipoTecnificacion.descripcion }}
+                                    </p>
+                                    <p class="card-text">
+                                        <i class="bi bi-lightning-fill me-2"></i><strong>Tipo de Entrenamiento:</strong>
+                                        {{ state.subtipoTecnificacion.tipoEntrenamiento }}
+                                    </p>
+                                    <p class="card-text">
+                                        <i class="bi bi-calendar-check-fill me-2"></i><strong>Frecuencia
+                                            Sugerida:</strong> {{ state.subtipoTecnificacion.frecuenciaSugerida }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Objetivos Section -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="objetivosHeader">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#objetivosCollapse" aria-expanded="false" aria-controls="objetivosCollapse">
+                            <i class="bi bi-bullseye me-2"></i>Objetivos
+                        </button>
+                    </h2>
+                    <div id="objetivosCollapse" class="accordion-collapse collapse" aria-labelledby="objetivosHeader">
+                        <div class="accordion-body">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        {{ state.subtipoTecnificacion.objetivos }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Beneficios Section -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="beneficiosHeader">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#beneficiosCollapse" aria-expanded="false"
+                            aria-controls="beneficiosCollapse">
+                            <i class="bi bi-star-fill me-2"></i>Beneficios
+                        </button>
+                    </h2>
+                    <div id="beneficiosCollapse" class="accordion-collapse collapse" aria-labelledby="beneficiosHeader">
+                        <div class="accordion-body">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        {{ state.subtipoTecnificacion.beneficios }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metodología Section -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="metodologiaHeader">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#metodologiaCollapse" aria-expanded="false"
+                            aria-controls="metodologiaCollapse">
+                            <i class="bi bi-clipboard-check-fill me-2"></i>Metodología
+                        </button>
+                    </h2>
+                    <div id="metodologiaCollapse" class="accordion-collapse collapse"
+                        aria-labelledby="metodologiaHeader">
+                        <div class="accordion-body">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <i class="bi bi-check-circle-fill me-2"></i><strong>Método de
+                                            Evaluación:</strong> {{ state.subtipoTecnificacion.metodoEvaluacion }}
+                                    </p>
+                                    <p class="card-text">
+                                        <i class="bi bi-laptop-fill me-2"></i><strong>Tecnología Utilizada:</strong> {{
+                                            state.subtipoTecnificacion.tecnologiaUtilizada }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-else>
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="h5 mt-3">Cargando información del subtipo de tecnificación...</p>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -194,13 +328,16 @@ import entrenamientosService from '@/services/client/entrenamientos.service';
 import { useStore } from 'vuex';
 import { ref } from 'vue';
 import reservasService from '@/services/client/reservas.service';
-import { useRouter } from 'vue-router';
 
 export default {
     props: {
         isEntrenamiento: {
             type: Boolean,
             Required: true
+        },
+        isSubtipoTecnificacion: {
+            type: Boolean,
+            default: false
         },
         state: {
             type: Object,
@@ -214,7 +351,6 @@ export default {
 
     setup(props) {
         const store = useStore();
-        // const router = useRouter();
         const currentUser = reactive({
             isUser: computed(() => store.getters['user/GetIsAuth']),
         });
@@ -234,7 +370,7 @@ export default {
         }
 
         const isSubscribed = computed(() => {
-            return props.state.entrenamiento.slug && suscribedEntrenamientos.has(props.state.entrenamiento.slug);
+            return props.state.entrenamiento?.slug && suscribedEntrenamientos.has(props.state.entrenamiento.slug);
         });
 
 
@@ -281,11 +417,11 @@ export default {
 
         const isReserved = computed(() => {
             if (currentUser.isUser) return false;
-            return props.state.pista.slug && suscribedReservas.has(`${props.state.pista.slug}-${selectedDate.value}-${selectedHorario.value}`);
+            return props.state.pista?.slug && suscribedReservas.has(`${props.state.pista.slug}-${selectedDate.value}-${selectedHorario.value}`);
         });
 
         const isHorarioReserved = (horario) => {
-            if (!props.state.pista.slug || !selectedDate.value) return false;
+            if (!props.state.pista?.slug || !selectedDate.value) return false;
             return suscribedReservas.has(`${props.state.pista.slug}-${selectedDate.value}-${horario}`);
         };
 
@@ -305,13 +441,10 @@ export default {
             minDate
         };
     }
-
-
 }
 </script>
 
 <style scoped>
-
 button {
     margin: 0px;
 }

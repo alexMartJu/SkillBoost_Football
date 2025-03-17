@@ -4,7 +4,7 @@
     <MiddleSection />
     <Olympics />
     <GraphicSection />
-    <ListDeportesHome />
+    <ListTecnificacionesHome />
 </template>
 
 <script>
@@ -13,6 +13,7 @@ import HeroSection from '../../components/home/HeroSection.vue';
 import MiddleSection from '@/components/home/MiddleSection.vue';
 import GraphicSection from '@/components/home/GraphicSection.vue';
 import ListDeportesHome from '@/components/home/ListDeportesHome.vue';
+import ListTecnificacionesHome from '@/components/home/ListTecnificacionesHome.vue';
 
 export default {
     components: {
@@ -20,7 +21,8 @@ export default {
         MiddleSection,
         Olympics,
         GraphicSection,
-        ListDeportesHome
+        ListDeportesHome,
+        ListTecnificacionesHome
     }
 };
 </script>

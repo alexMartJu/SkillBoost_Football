@@ -1,23 +1,10 @@
 <template>
-    <!-- <Splide :options="splideOptions">
-        <SplideSlide>
-            <img src="https://placehold.co/600x400" class="d-block w-100 h-100 object-fit-cover" alt="" />
-        </SplideSlide>
-        <SplideSlide>
-            <img src="https://placehold.co/600x400/png" class="d-block w-100 h-100 object-fit-cover" alt="" />
-        </SplideSlide>
-        <SplideSlide>
-            <img src="https://placehold.co/600x400/jpeg" class="d-block w-100 h-100 object-fit-cover" alt="" />
-        </SplideSlide>
-    </Splide> -->
-    
-    <!-- Este es el carrusel si hay imagenes -->
     <div class="container-fluid p-0">
         <div class="row">
             <div class="col-12">
                 <Splide :options="splideOptions">
-                    <SplideSlide v-for="pista in pistas.images" :key="pista.id" class="ratio ratio-16x9">
-                        <img :src="`/assets/pistas/${pista.imageUrl}`" class="img-fluid w-100 h-100 object-fit-cover" alt="" />
+                    <SplideSlide v-for="(image, index) in getImages" :key="index" class="ratio ratio-16x9">
+                        <img :src="getImagePath(image)" class="img-fluid w-100 h-100 object-fit-cover" alt="" />
                     </SplideSlide>
                 </Splide>
             </div>
@@ -25,10 +12,10 @@
     </div>
 </template>
 
-
 <script>
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
+import { computed } from "vue";
 
 export default {
     props: {
@@ -43,8 +30,28 @@ export default {
         SplideSlide,
     },
 
-    data() {
+    setup(props) {
+        const getImages = computed(() => {
+            if (!props.pistas) return [];
+            return props.pistas.images || [];
+        });
+
+        const getImagePath = (image) => {
+            if (!image) return '';
+            
+            // Determine the correct path based on the type of content
+            if (props.pistas.tipo_entrenamiento) {
+                // It's a subtipo tecnificacion
+                return `/assets/subtipos/${image.imageUrl}`;
+            } else {
+                // It's a pista or something else
+                return `/assets/pistas/${image.imageUrl}`;
+            }
+        };
+
         return {
+            getImages,
+            getImagePath,
             splideOptions: {
                 type: "loop",
                 autoplay: false,
