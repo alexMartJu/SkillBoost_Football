@@ -1,12 +1,12 @@
 <template>
     <div class="main-servicios">
             <nav class="btn-group justify-content-center align-items-center shadow bg-light col-12 mb-4" role="group">
-                <router-link 
+                <!-- <router-link 
                     to="/servicios/deportes" 
                     class="btn fw-bold p-3" 
                     active-class="active">
                     Deportes
-                </router-link>
+                </router-link> -->
                 <router-link 
                     to="/servicios/entrenamientos" 
                     class="btn fw-bold p-3" 
@@ -27,13 +27,13 @@
 
 
 <script>
-import serviciosDeporte from '@/components/servicios/serviciosDeportes.vue';
+// import serviciosDeporte from '@/components/servicios/serviciosDeportes.vue';
 import serviciosEntrenamientos from '@/components/servicios/serviciosEntrenamientos.vue';
 import serviciosGraficas from '@/components/servicios/serviciosGraficas.vue';
 
 export default {
     name: 'Servicios',
-    components: { serviciosDeporte, serviciosEntrenamientos, serviciosGraficas },
+    components: { serviciosEntrenamientos, serviciosGraficas },
 };
 </script>
 

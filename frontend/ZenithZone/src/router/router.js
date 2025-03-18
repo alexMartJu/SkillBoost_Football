@@ -15,20 +15,6 @@ const router = createRouter({
       component: () => import('../views/client/Home.vue')
     },
 
-    // INSTALACIONES --> QUITAR ESTO
-    {
-      path: "/instalaciones",
-      name: "instalaciones",
-      component: () => import('../views/client/Instalaciones.vue'),
-      children: [
-        {
-          path: ":slug",
-          name: "InstalacionesSlug",
-          component: () => import('../views/client/Instalaciones.vue')
-        }
-      ]
-    },
-
     // RECURSOS
     {
       path: "/recursos",
@@ -55,6 +41,11 @@ const router = createRouter({
           path: "pistas",
           name: "recursosPistas",
           component: () => import('../components/recursos/recursosPistas.vue')
+        },
+        {
+          path: "entrenadores",
+          name: "recursosEntrenadores",
+          component: () => import('../components/recursos/recursosEntrenadores.vue')
         }
       ]
     },
@@ -105,13 +96,6 @@ const router = createRouter({
       path: "/subtipo/:slug",
       name: "detailsSubtipoTecnificacion",
       component: () => import('../views/client/Details.vue')
-    },
-
-    // ENTRENADORES
-    {
-      path: "/entrenadores",
-      name: "entrenadores",
-      component: () => import('../views/client/Entrenadores.vue')
     },
 
     // LOGIN
