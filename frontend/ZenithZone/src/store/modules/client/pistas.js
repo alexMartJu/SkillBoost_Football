@@ -5,15 +5,14 @@ export const pistas = {
     namespaced: true,
 
     state: {
-        pistas: []
+        pistas: [],
+        pistaSingle: null
     },
 
     actions: {
         [Constant.INITIALIZE_PISTA]: async (store) => {
             try {
                 const { data } = await pistaService.GetPistas();
-                // console.log(data);
-
                 store.commit(Constant.INITIALIZE_PISTA, data.pistas);
             } catch (error) {
                 console.error("Error al cargar las pistas:", error);
@@ -39,7 +38,7 @@ export const pistas = {
         },
         [Constant.INITIALIZE_ONE_STATE_PISTA](state, payload) {
             if (payload) {
-                state.pistas = payload;
+                state.pistaSingle = payload;
             }
         },
     },
@@ -49,7 +48,7 @@ export const pistas = {
             return state.pistas;
         },
         GetOnePista(state) {
-            return state.pistas;
+            return state.pistaSingle;
         }
     }
 };
