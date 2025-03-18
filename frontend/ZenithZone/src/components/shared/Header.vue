@@ -97,7 +97,7 @@ export default {
             return this.$route.name === 'home';
         },
         isRecursos() {
-            return this.$route.name === 'recursos';
+            return this.$route.path.startsWith('/recursos');
         },
         isServicios() {
             return this.$route.path.startsWith('/servicios');

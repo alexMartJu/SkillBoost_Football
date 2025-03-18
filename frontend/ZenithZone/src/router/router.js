@@ -51,6 +51,11 @@ const router = createRouter({
             }
           ]
         },
+        {
+          path: "pistas",
+          name: "recursosPistas",
+          component: () => import('../components/recursos/recursosPistas.vue')
+        }
       ]
     },
 

@@ -109,79 +109,33 @@
     <div v-else-if="!isSubtipoTecnificacion">
         <div class="container py-4" v-if="state.pista">
             <h1 class="display-4 mb-4 text-primary">
-                <i class="bi bi-building-fill me-2"></i>{{ state.pista.nombre }}
+                <i class="mdi mdi-stadium me-2"></i>{{ state.pista.nombre }}
             </h1>
 
             <div class="accordion" id="pistaAccordion">
-                <!-- Reserva Section -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="reservaHeader">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#reservaCollapse" aria-expanded="true" aria-controls="reservaCollapse">
-                            <i class="bi bi-calendar-plus-fill me-2"></i>Realizar Reserva
-                        </button>
-                    </h2>
-                    <div id="reservaCollapse" class="accordion-collapse collapse show" aria-labelledby="reservaHeader">
-                        <div class="accordion-body">
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <div class="mb-4">
-                                        <label for="datepicker" class="form-label fw-bold">
-                                            <i class="bi bi-calendar-date me-2"></i>Selecciona una fecha:
-                                        </label>
-                                        <input type="date" id="datepicker" v-model="selectedDate"
-                                            class="form-control form-control-lg" :min="minDate" />
-                                    </div>
-
-                                    <div v-if="selectedDate" class="mb-4">
-                                        <label for="horarios" class="form-label fw-bold">
-                                            <i class="bi bi-clock-fill me-2"></i>Selecciona un horario:
-                                        </label>
-                                        <select name="horarios" id="horarios" class="form-select form-select-lg"
-                                            v-model="selectedHorario">
-                                            <option v-for="horario in horarios" :key="horario" :value="horario"
-                                                :disabled="isHorarioReserved(horario)">
-                                                {{ horario.charAt(0).toUpperCase() + horario.slice(1) }}
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                    <button @click="logDate" :disabled="!currentUser.isUser"
-                                        class="btn btn-primary btn-lg w-100">
-                                        <i class="bi bi-calendar-check me-2"></i>
-                                        {{ isReserved ? 'Horario reservado' : 'Reservar pista' }}
-                                    </button>
-
-                                    <div v-if="reservaSuccess"
-                                        class="alert alert-success mt-3 d-flex align-items-center" role="alert">
-                                        <i class="bi bi-check-circle-fill me-2"></i>
-                                        Reserva realizada con éxito.
-                                    </div>
-                                    <div v-if="reservaError" class="alert alert-danger mt-3 d-flex align-items-center"
-                                        role="alert">
-                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                                        Error al realizar la reserva. Inténtalo de nuevo.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Info Section -->
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="infoHeader">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#infoCollapse" aria-expanded="false" aria-controls="infoCollapse">
-                            <i class="bi bi-info-circle-fill me-2"></i>Información de la Pista
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#infoCollapse" aria-expanded="true" aria-controls="infoCollapse">
+                            <i class="bi bi-info-circle-fill me-2"></i>Información del Campo
                         </button>
                     </h2>
-                    <div id="infoCollapse" class="accordion-collapse collapse" aria-labelledby="infoHeader">
+                    <div id="infoCollapse" class="accordion-collapse collapse show" aria-labelledby="infoHeader">
                         <div class="accordion-body">
                             <div class="card shadow-sm">
                                 <div class="card-body">
-                                    <p class="lead">
-                                        <i class="bi bi-card-text me-2"></i>{{ state.pista.info }}
+                                    <p class="card-text">
+                                        <i class="bi bi-card-text me-2"></i><strong>Descripción:</strong> {{ state.pista.descripcion }}
+                                    </p>
+                                    <p class="card-text">
+                                        <i class="bi bi-tag-fill me-2"></i><strong>Tipo:</strong> {{ state.pista.tipo }}
+                                    </p>
+                                    <p class="card-text">
+                                        <i class="bi bi-people-fill me-2"></i><strong>Capacidad:</strong> {{ state.pista.capacidad }} personas
+                                    </p>
+                                    <p class="card-text">
+                                        <i class="bi bi-rulers me-2"></i><strong>Dimensiones:</strong> {{ state.pista.dimensiones }}
                                     </p>
                                 </div>
                             </div>
@@ -279,7 +233,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Metodología Section -->
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="metodologiaHeader">
@@ -326,8 +279,6 @@ import UnirseEntrenamientoButton from './buttons/UnirseEntrenamientoButton.vue';
 import { computed } from 'vue';
 import entrenamientosService from '@/services/client/entrenamientos.service';
 import { useStore } from 'vuex';
-import { ref } from 'vue';
-import reservasService from '@/services/client/reservas.service';
 
 export default {
     props: {
@@ -354,7 +305,6 @@ export default {
         const currentUser = reactive({
             isUser: computed(() => store.getters['user/GetIsAuth']),
         });
-        const horarios = ['mañana', 'mediodia', 'tarde', 'noche'];
 
         // APUNTARSE ENTRENAMIENTOS
         const suscribedEntrenamientos = reactive(new Set());
@@ -373,72 +323,13 @@ export default {
             return props.state.entrenamiento?.slug && suscribedEntrenamientos.has(props.state.entrenamiento.slug);
         });
 
-
-        // RESERVA PISTAS
-        const selectedDate = ref('');
-        const selectedHorario = ref('');
-        const reservaSuccess = ref(false);
-        const reservaError = ref(false);
-
-        const logDate = async () => {
-            reservaSuccess.value = false;
-            reservaError.value = false;
-            if (selectedDate.value) {
-                const data = {
-                    slugPista: props.state.pista.slug,
-                    hora: selectedHorario.value,
-                    fecha: selectedDate.value
-                };
-
-                try {
-                    await reservasService.CreateReserva(data);
-                    reservaSuccess.value = true;
-                } catch (error) {
-                    reservaError.value = true;
-                }
-            } else {
-                console.warn('No se ha seleccionado ninguna fecha');
-            }
-        };
-
-        const suscribedReservas = reactive(new Set());
-
-        const checkAlreadyReserved = async () => {
-            const { data } = await reservasService.GetReservas();
-            console.log(data);
-            suscribedReservas.clear();
-            data.forEach(reserva => suscribedReservas.add(`${reserva.slug}-${reserva.fecha}-${reserva.hora}`));
-            console.log(suscribedReservas);
-        };
-
-        if (currentUser.isUser) {
-            checkAlreadyReserved();
-        }
-
-        const isReserved = computed(() => {
-            if (currentUser.isUser) return false;
-            return props.state.pista?.slug && suscribedReservas.has(`${props.state.pista.slug}-${selectedDate.value}-${selectedHorario.value}`);
-        });
-
-        const isHorarioReserved = (horario) => {
-            if (!props.state.pista?.slug || !selectedDate.value) return false;
-            return suscribedReservas.has(`${props.state.pista.slug}-${selectedDate.value}-${horario}`);
-        };
-
         watchEffect(() => { });
 
-        const minDate = computed(() => {
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = String(today.getMonth() + 1).padStart(2, '0'); // Mes en formato MM
-            const day = String(today.getDate()).padStart(2, '0'); // Día en formato DD
-            return `${year}-${month}-${day}`;
-        });
-
         return {
-            horarios, suscribedEntrenamientos, isSubscribed, isReserved, isHorarioReserved, checkAlreadySuscribed,
-            checkAlreadyReserved, logDate, selectedDate, selectedHorario, reservaSuccess, reservaError, currentUser,
-            minDate
+            suscribedEntrenamientos, 
+            isSubscribed, 
+            checkAlreadySuscribed,
+            currentUser
         };
     }
 }
