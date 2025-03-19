@@ -22,6 +22,18 @@ public class GetEntrenamientoBySlugUseCase {
         
         var images = imageService.getImagesForEntity("Entrenamiento", entrenamiento.getId());
         entrenamiento.getImages().addAll(images);
+
+        //Cargar imágenes del subtipo de tecnificación si existe
+        if (entrenamiento.getSubtipoTecnificacion() != null) {
+            var subtipoImages = imageService.getImagesForEntity("SubtipoTecnificacion", entrenamiento.getSubtipoTecnificacion().getId());
+            entrenamiento.getSubtipoTecnificacion().getImages().addAll(subtipoImages);
+        }
+        
+        //Cargar imágenes de la pista si existe
+        if (entrenamiento.getHorarioPista() != null && entrenamiento.getHorarioPista().getPista() != null) {
+            var pistaImages = imageService.getImagesForEntity("Pista", entrenamiento.getHorarioPista().getPista().getId());
+            entrenamiento.getHorarioPista().getPista().getImages().addAll(pistaImages);
+        }
         
         return entrenamiento;
     }
