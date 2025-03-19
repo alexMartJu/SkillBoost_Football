@@ -1,8 +1,7 @@
 <template>
-<!-- <h1>hola</h1> -->
-<div class="search-container">
-    <input type="text" v-model="searchTerm" @input="updateSearch" placeholder="Buscar por nombre..." />
-</div>
+    <div class="search-container">
+        <input type="text" v-model="searchTerm" placeholder="Buscar por nombre..." />
+    </div>
 </template>
 
 
@@ -12,16 +11,16 @@ export default {
         filters: Object
     },
     emits: ['search'],
-    data() {
-        return {
-            searchTerm: this.filters.nombre || ''
-        };
-    },
-    methods: {
-        updateSearch() {
-            this.filters.nombre = this.searchTerm;
-            this.$emit('search', this.filters);
-        },
+    computed: {
+        searchTerm: {
+            get() {
+                return this.filters.nombre || '';
+            },
+            set(value) {
+                this.filters.nombre = value;
+                this.$emit('search', this.filters);
+            }
+        }
     }
 };
 </script>

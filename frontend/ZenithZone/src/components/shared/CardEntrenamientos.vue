@@ -3,7 +3,7 @@
         <div class="row g-3">
             <section class="col-md-12">
                 <div class="card shadow-sm">
-                    <img :src="`/assets/pistas/${entrenamiento.pistaPrivada.images[0].imageUrl}`" 
+                    <img :src="`/assets/pistas/${entrenamiento.images[0]}`" 
                          class="card-img-top img-fluid object-fit-cover" 
                          :style="isServiciosView ? 'height: 275px' : 'height: 300px'"
                          alt="Entrenamiento imagen">

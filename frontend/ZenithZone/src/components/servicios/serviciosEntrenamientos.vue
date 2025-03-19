@@ -29,10 +29,11 @@ import PaginateComponent from '../filters/Paginate.vue';
 import {
     useEntrenamientos
 } from '../../composables/client/useEntrenamientos';
-import { reactive, watchEffect } from 'vue';
+import { reactive, watchEffect, onMounted } from 'vue';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import entrenamientosService from '@/services/client/entrenamientos.service';
+import Constant from '../../Constant';
 
 export default {
     components: {
@@ -42,6 +43,11 @@ export default {
     },
     setup() {
         const store = useStore();
+
+        //Cargar tecnificaciones
+        onMounted(() => {
+            store.dispatch(`tecnificaciones/${Constant.INITIALIZE_TECNIFICACION}`);
+        });
 
         const {
             state,
