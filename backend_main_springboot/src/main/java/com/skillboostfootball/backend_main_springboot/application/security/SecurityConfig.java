@@ -36,7 +36,7 @@ public class SecurityConfig {
         "/api/main/entrenamientos/count", "/api/main/pistas/{pistaSlug}/horarios-ocupados", "/api/main/pistas", "/api/main/pistas/{slug}",
         "/api/main/profiles/{numeroSocio}", "/api/main/profiles/entrenadores/{numeroEntrenador}", "/api/main/subtipo-tecnificaciones",
         "/api/main/subtipo-tecnificaciones/{slug}", "/api/main/tecnificaciones/{tecnificacionSlug}/subtipos", "/api/main/subtipo-tecnificaciones-scroll",
-        "/api/main/suscripciones", "/api/main/tecnificaciones", "/api/main/tecnificaciones/{slug}"
+        "/api/main/suscripciones", "/api/main/tecnificaciones", "/api/main/tecnificaciones/{slug}", "/api/main/organizaciones", "/api/main/organizaciones/{slug}"
     };
 
     //Define endpoints públicos para operaciones de escritura (POST, PUT, etc.)
