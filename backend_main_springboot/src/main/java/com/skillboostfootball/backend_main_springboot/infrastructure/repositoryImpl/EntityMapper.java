@@ -8,6 +8,7 @@ import com.skillboostfootball.backend_main_springboot.domain.entities.horariosPi
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
 import com.skillboostfootball.backend_main_springboot.domain.entities.logros.Logro;
 import com.skillboostfootball.backend_main_springboot.domain.entities.logros.ProfileLogro;
+import com.skillboostfootball.backend_main_springboot.domain.entities.organizaciones.Organizacion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.pagos.Pago;
 import com.skillboostfootball.backend_main_springboot.domain.entities.permissions.Permission;
 import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pista;
@@ -27,6 +28,7 @@ import com.skillboostfootball.backend_main_springboot.infrastructure.databases.e
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.images.ImageEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.logros.LogroEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.logros.ProfileLogroEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.organizaciones.OrganizacionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pagos.PagoEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.permissions.PermissionEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.pistas.PistaEntity;
@@ -788,4 +790,63 @@ public class EntityMapper {
             .deletedAt(domain.getDeletedAt())
             .build();
     }
+
+    public Organizacion toOrganizacion(OrganizacionEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Organizacion.builder()
+            .id(entity.getId())
+            .nombre(entity.getNombre())
+            .slug(entity.getSlug())
+            .tipo(entity.getTipo())
+            .vision(entity.getVision())
+            .logo(entity.getLogo())
+            .descripcion(entity.getDescripcion())
+            .mision(entity.getMision())
+            .impactoSocial(entity.getImpactoSocial())
+            .sitioWeb(entity.getSitioWeb())
+            .contactoEmail(entity.getContactoEmail())
+            .contactoTlf(entity.getContactoTlf())
+            .direccion(entity.getDireccion())
+            .ciudad(entity.getCiudad())
+            .pais(entity.getPais())
+            .colaboracionDescripcion(entity.getColaboracionDescripcion())
+            .fechaInicioColaboracion(entity.getFechaInicioColaboracion())
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .deletedAt(entity.getDeletedAt())
+            .build();
+    }
+
+    public OrganizacionEntity toOrganizacionEntity(Organizacion domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return OrganizacionEntity.builder()
+            .id(domain.getId())
+            .nombre(domain.getNombre())
+            .slug(domain.getSlug())
+            .tipo(domain.getTipo())
+            .vision(domain.getVision())
+            .logo(domain.getLogo())
+            .descripcion(domain.getDescripcion())
+            .mision(domain.getMision())
+            .impactoSocial(domain.getImpactoSocial())
+            .sitioWeb(domain.getSitioWeb())
+            .contactoEmail(domain.getContactoEmail())
+            .contactoTlf(domain.getContactoTlf())
+            .direccion(domain.getDireccion())
+            .ciudad(domain.getCiudad())
+            .pais(domain.getPais())
+            .colaboracionDescripcion(domain.getColaboracionDescripcion())
+            .fechaInicioColaboracion(domain.getFechaInicioColaboracion())
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
+            .deletedAt(domain.getDeletedAt())
+            .build();
+    }
+
 }
