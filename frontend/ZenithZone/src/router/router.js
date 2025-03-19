@@ -50,35 +50,17 @@ const router = createRouter({
       ]
     },
 
-    // SERVICIOS
+    // ENTRENA
     {
-      path: "/servicios",
-      name: "servicios",
-      component: () => import('../views/client/Servicios.vue'),
-      children: [
-        {
-          path: "deportes",
-          name: "serviciosDeportes",
-          component: () => import('../components/servicios/serviciosDeportes.vue')
-        },
-        {
-          path: "entrenamientos",
-          name: "serviciosEntrenamientos",
-          component: () => import('../components/servicios/serviciosEntrenamientos.vue'),
-          children: [
-            {
-              path: ":filters",
-              name: "serviciosEntrenamientosFilter",
-              component: () => import('../components/servicios/serviciosEntrenamientos.vue'),
-            },
-          ]
-        },
-        {
-          path: "graficas",
-          name: "serviciosGraficas",
-          component: () => import('../components/servicios/serviciosGraficas.vue')
-        },
-      ]
+      path: "/entrena",
+      name: "entrena",
+      component: () => import('../views/client/Entrena.vue'),
+    },
+    // Ruta específica para filtros de entrenamientos
+    {
+      path: "/entrena/:filters",
+      name: "entrenaFilter",
+      component: () => import('../views/client/Entrena.vue'),
     },
 
     // DETAILS

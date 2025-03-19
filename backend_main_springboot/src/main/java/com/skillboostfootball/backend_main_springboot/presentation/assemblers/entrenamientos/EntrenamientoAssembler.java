@@ -2,10 +2,12 @@ package com.skillboostfootball.backend_main_springboot.presentation.assemblers.e
 
 
 import com.skillboostfootball.backend_main_springboot.domain.entities.entrenamientos.Entrenamiento;
+import com.skillboostfootball.backend_main_springboot.domain.repositories.profiles.ProfileRepository;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoResponse;
 import com.skillboostfootball.backend_main_springboot.presentation.dtos.entrenamientos.response.EntrenamientoWrapper;
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.tecnificaciones.TecnificacionAssembler;
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.subtiposTecnificacion.SubtipoTecnificacionAssembler;
+import com.skillboostfootball.backend_main_springboot.presentation.assemblers.entrenadores.EntrenadorAssembler;
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.horariosPista.HorarioPistaAssembler;
 
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,8 @@ public class EntrenamientoAssembler {
     private final TecnificacionAssembler tecnificacionAssembler;
     private final SubtipoTecnificacionAssembler subtipoAssembler;
     private final HorarioPistaAssembler horarioPistaAssembler;
+    private final EntrenadorAssembler entrenadorAssembler;
+    private final ProfileRepository profileRepository;
     
     public EntrenamientoResponse toResponse(Entrenamiento entrenamiento) {
         EntrenamientoResponse response = new EntrenamientoResponse();
@@ -41,7 +45,12 @@ public class EntrenamientoAssembler {
             response.setSubtipoTecnificacion(subtipoAssembler.toResponse(entrenamiento.getSubtipoTecnificacion()));
         }
         
-        response.setEntrenadorId(entrenamiento.getEntrenadorId());
+        if (entrenamiento.getEntrenadorId() != null) {
+            profileRepository.findById(entrenamiento.getEntrenadorId())
+                .ifPresent(profile -> {
+                    response.setEntrenador(entrenadorAssembler.toResponse(profile));
+                });
+        }
         
         if (entrenamiento.getHorarioPista() != null) {
             response.setHorarioPista(horarioPistaAssembler.toResponse(entrenamiento.getHorarioPista()));

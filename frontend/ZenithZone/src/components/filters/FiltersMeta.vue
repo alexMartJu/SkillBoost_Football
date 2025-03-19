@@ -3,13 +3,23 @@
         <div class="row g-4">
             <!-- Search Section -->
             <div class="col-12">
-                <select v-model="state.filters.deporteId" class="form-select mb-3">
-                    <option value="" disabled selected>✨ Elige tu deporte favorito</option>
-                    <option v-for="deporte in state.deportes" :key="deporte.id" :value="deporte.id">
-                        {{ deporte.nombre }}
+                <select v-model="state.filters.tecnificacionNombre" class="form-select mb-3">
+                    <option value="" disabled selected>✨ Elige tu tipo de tecnificación</option>
+                    <option v-for="tecnificacion in state.tecnificaciones" :key="tecnificacion.id" :value="tecnificacion.nombre">
+                        {{ tecnificacion.nombre }}
                     </option>
                 </select>
                 <Search :filters="state.filters" @search="sendFilters"/>
+            </div>
+
+            <!-- Nivel Section -->
+            <div class="col-12">
+                <select v-model="state.filters.nivel" class="form-select mb-3">
+                    <option value="" disabled selected>🏆 Selecciona tu nivel</option>
+                    <option value="principiante">Principiante</option>
+                    <option value="intermedio">Intermedio</option>
+                    <option value="avanzado">Avanzado</option>
+                </select>
             </div>
 
             <!-- Sliders Section -->
@@ -18,44 +28,51 @@
                     <div class="card-body">
                         <div class="mb-4">
                             <label class="form-label d-flex justify-content-between">
-                                <span>Precio</span>
-                                <span class="text-primary">{{ state.filters.precioMax }}€</span>
+                                <span>Edad Mínima</span>
+                                <span class="text-primary">{{ state.filters.edadMinima || 0 }} años</span>
                             </label>
                             <input type="range" class="form-range" 
-                                :min="minPrice" 
-                                :max="maxPrice" 
-                                v-model.lazy="state.filters.precioMax"
+                                min="1" 
+                                max="99" 
+                                v-model.number="state.filters.edadMinima"
+                                @input="debouncedFilter">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label d-flex justify-content-between">
+                                <span>Edad Máxima</span>
+                                <span class="text-primary">{{ state.filters.edadMaxima || 0 }} años</span>
+                            </label>
+                            <input type="range" class="form-range" 
+                                min="1" 
+                                max="99" 
+                                v-model.number="state.filters.edadMaxima"
                                 @input="debouncedFilter">
                         </div>
 
                         <div>
                             <label class="form-label d-flex justify-content-between">
-                                <span>Duración</span>
-                                <span class="text-primary">{{ state.filters.duracionMax }} min</span>
+                                <span>Plazas Máximas</span>
+                                <span class="text-primary">{{ state.filters.maxPlazasMax || 1 }}</span>
                             </label>
                             <input type="range" class="form-range"
-                                :min="minDuracion" 
-                                :max="maxDuracion" 
-                                v-model="state.filters.duracionMax">
+                                :min="minPlazas" 
+                                :max="maxPlazas" 
+                                v-model.number="state.filters.maxPlazasMax">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Days Section -->
+            <!-- Date Range Section -->
             <div class="col-12">
-                <h5 class="text-center mb-3">¿Qué días te vienen mejor?</h5>
-                <div class="d-flex flex-wrap gap-2">
-                    <div v-for="dia in diasDeLaSemana" :key="dia" class="form-check">
-                        <input type="checkbox" 
-                            :id="dia" 
-                            :value="dia" 
-                            v-model="state.filters.diasSeleccionados"
-                            class="btn-check">
-                        <label :for="dia" class="btn btn-outline-primary">
-                            {{ dia.substring(0,10) }}
-                        </label>
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label">Fecha Inicio</label>
+                    <input type="datetime-local" class="form-control" v-model="state.filters.fechaInicio">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Fecha Fin</label>
+                    <input type="datetime-local" class="form-control" v-model="state.filters.fechaFin">
                 </div>
             </div>
 
@@ -90,44 +107,44 @@ export default {
         const store = useStore();
         const { emit } = getCurrentInstance();
 
-        const diasDeLaSemana = [
-            "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"
-        ];
-
-        store.dispatch(`deportes/${Constant.INITIALIZE_DEPORTE}`);
+        store.dispatch(`tecnificaciones/${Constant.INITIALIZE_TECNIFICACION}`);
 
         const state = reactive({
-            deportes: computed(() => store.getters['deportes/GetDeportes']),
+            tecnificaciones: computed(() => store.getters['tecnificaciones/GetTecnificaciones']),
             filters: { 
                 ...props.filters,
-                precioMin: props.meta?.precioMinimo || 0,
-                precioMax: props.meta?.precioMaximo || 100,
-                duracionMax: props.meta?.duracionMaxima || 100,  // Asignar duracionMaxima como duracionMax
-                duracionMin: props.meta?.duracionMinima || 0,  // Asignar duracionMinima como duracionMin
-                diasSeleccionados: []
+                edadMinima: props.filters.edadMinima || 1,
+                edadMaxima: props.filters.edadMaxima || 99,
+                maxPlazasMin: props.filters.maxPlazasMin || 1,
+                maxPlazasMax: props.filters.maxPlazasMax || 50,
+                nivel: props.filters.nivel || "",
+                tecnificacionNombre: props.filters.tecnificacionNombre || "",
+                fechaInicio: props.filters.fechaInicio || null,
+                fechaFin: props.filters.fechaFin || null
             },
             meta: computed(() => props.meta)
         });
+
+        // Computados para los límites de los sliders
+        const minPlazas = computed(() => state.meta?.plazasMinimas || 1);
+        const maxPlazas = computed(() => state.meta?.plazasMaximas || 50);
 
         // Reactividad para sincronizar meta y filtros
         watch(
             () => props.meta,
             (newMeta) => {
                 if (newMeta) {
-                    state.filters.precioMin = newMeta.precioMinimo;
-                    state.filters.precioMax = newMeta.precioMaximo;
-                    state.filters.duracionMin = newMeta.duracionMinima; // Cambiar duracionMaxima a duracionMinima
-                    state.filters.duracionMax = newMeta.duracionMaxima; // Cambiar duracionMinima a duracionMaxima
+                    // Actualizar con los valores del meta
+                    if (newMeta.plazasMinimas !== undefined) {
+                        state.filters.maxPlazasMin = newMeta.plazasMinimas;
+                    }
+                    if (newMeta.plazasMaximas !== undefined) {
+                        state.filters.maxPlazasMax = newMeta.plazasMaximas;
+                    }
                 }
             },
             { immediate: true }
         );
-
-        // Computados para minPrice, maxPrice, minDuracion y maxDuracion
-        const minPrice = computed(() => state.meta.precioMinimo || 0);
-        const maxPrice = computed(() => state.meta.precioMaximo || 100);
-        const minDuracion = computed(() => state.meta.duracionMinima || 0); // Duración mínima
-        const maxDuracion = computed(() => state.meta.duracionMaxima || 100); // Duración máxima
 
         const debouncedFilter = debounce((event) => {
             state.filters[event.target.name] = event.target.value;
@@ -148,17 +165,16 @@ export default {
 
         const deleteFilters = () => {
             state.filters.nombre = "";
-            state.filters.dia = "";
-            state.filters.duracionMin = minDuracion.value;
-            state.filters.duracionMax = maxDuracion.value;
-            state.filters.maxPlazasMin = 0;
-            state.filters.maxPlazasMax = 0;
-            state.filters.precioMin = minPrice.value;
-            state.filters.precioMax = maxPrice.value;
-            state.filters.deporteId = "";
+            state.filters.nivel = "";
+            state.filters.edadMinima = 1;
+            state.filters.edadMaxima = 99;
+            state.filters.maxPlazasMin = state.meta?.plazasMinimas || 1;
+            state.filters.maxPlazasMax = state.meta?.plazasMaximas || 50;
+            state.filters.tecnificacionNombre = "";
+            state.filters.fechaInicio = null;
+            state.filters.fechaFin = null;
             state.filters.offset = 0;
             state.filters.limit = 3;
-            state.filters.diasSeleccionados = [];
             emit('deleteFilters', state.filters);
         };
 
@@ -166,7 +182,15 @@ export default {
             state.filters.nombre = search;
         };
 
-        return { state, sendFilters, deleteFilters, updateSearch, diasDeLaSemana, minPrice, maxPrice, minDuracion, maxDuracion };
+        return { 
+            state, 
+            sendFilters, 
+            deleteFilters, 
+            updateSearch, 
+            debouncedFilter,
+            minPlazas,
+            maxPlazas
+        };
     }
 };
 </script>

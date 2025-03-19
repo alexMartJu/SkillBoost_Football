@@ -2,17 +2,19 @@
     <div class="container-fluid">
         <div class="row pt-4">
             <!-- Filters Column -->
-            <div class="col-lg-3">
+            <div class="col-lg-3 col-md-4">
                 <FiltersComponent :filters_url="state.filters" :meta="state.meta" @apply-filters="ApplyFilters"
                     @reset-filters="resetFilters" />
             </div>
-            
+
             <!-- Cards Column -->
-            <div class="col-lg-9">
-                <div class="row g-3 justify-content-center">
-                    <CardClases v-for="entrenamiento in state.entrenamientos" :key="entrenamiento.id"
-                        :entrenamiento="entrenamiento" :isServiciosView="true" :isSuscribed="suscribedEntrenamientos.has(entrenamiento.slug)"
-                        class="col-md-6 col-lg-4" />
+            <div class="col-lg-9 col-md-8">
+                <div class="row g-3">
+                    <div v-for="entrenamiento in state.entrenamientos" :key="entrenamiento.id"
+                        class="col-xl-4 col-lg-6 col-md-12">
+                        <CardClases :entrenamiento="entrenamiento" :isServiciosView="true"
+                            :isSuscribed="suscribedEntrenamientos.has(entrenamiento.slug)" :isProfile="false" />
+                    </div>
                 </div>
                 <PaginateComponent :page="state.offset" :totalPages="state.totalPages" @update:page="updatePage"
                     @page-click="clickCallback" />
@@ -23,16 +25,17 @@
 
 
 <script>
-import FiltersComponent from '../filters/Filters.vue';
-import CardClases from '../shared/CardEntrenamientos.vue';
-import PaginateComponent from '../filters/Paginate.vue';
+import FiltersComponent from '../../components/filters/Filters.vue';
+import CardClases from '../../components/shared/CardEntrenamientos.vue';
+import PaginateComponent from '../../components/filters/Paginate.vue';
 import {
     useEntrenamientos
 } from '../../composables/client/useEntrenamientos';
-import { reactive, watchEffect } from 'vue';
+import { reactive, watchEffect, onMounted } from 'vue';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import entrenamientosService from '@/services/client/entrenamientos.service';
+import Constant from '../../Constant';
 
 export default {
     components: {
@@ -42,6 +45,11 @@ export default {
     },
     setup() {
         const store = useStore();
+
+        //Cargar tecnificaciones
+        onMounted(() => {
+            store.dispatch(`tecnificaciones/${Constant.INITIALIZE_TECNIFICACION}`);
+        });
 
         const {
             state,
