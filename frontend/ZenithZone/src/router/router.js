@@ -93,6 +93,13 @@ const router = createRouter({
       props: true
     },
 
+    //PLANES
+    {
+      path: "/planes",
+      name: "planes",
+      component: () => import('../views/client/Planes.vue')
+    },
+
     // LOGIN
     {
       path: "/login",
