@@ -80,6 +80,19 @@ const router = createRouter({
       component: () => import('../views/client/Details.vue')
     },
 
+    //APOYO
+    {
+      path: "/apoyo",
+      name: "apoyo",
+      component: () => import('../views/client/Apoyo.vue')
+    },
+    {
+      path: "/apoyo/:slug",
+      name: "organizacionDetail",
+      component: () => import('../components/apoyo/OrganizacionDetail.vue'),
+      props: true
+    },
+
     // LOGIN
     {
       path: "/login",

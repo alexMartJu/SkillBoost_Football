@@ -31,8 +31,8 @@
                             </a>
                         </li>
                         <li v-if="!state.isAdmin && !state.isEntrenador" class="nav-item">
-                            <a @click="redirects.entrenadores" class="nav-link modern-link" :class="{ 'active-link': isEntrenadores }">
-                                <i class="bi bi-people me-1"></i>Entrenadores
+                            <a @click="redirects.apoyo" class="nav-link modern-link" :class="{ 'active-link': isApoyo }">
+                                <i class="bi bi-hand-thumbs-up me-1"></i>Apoyo                                                        
                             </a>
                         </li>
 
@@ -102,8 +102,8 @@ export default {
         isEntrena() {
             return this.$route.path.startsWith('/entrena');
         },
-        isEntrenadores() {
-            return this.$route.name === 'entrenadores';
+        isApoyo() {
+            return this.$route.name === 'apoyo';
         },
         isLogin() {
             return ['/login', '/register'].includes(this.$route.path);
@@ -132,7 +132,7 @@ export default {
             home: () => router.push({ name: 'home' }),
             recursos: () => router.push({ name: 'recursos' }),
             entrena: () => router.push({ name: 'entrena' }),
-            entrenadores: () => router.push({ name: 'entrenadores' }),
+            apoyo: () => router.push({ name: 'apoyo' }),
             profile: () => router.push({ name: 'profile', params: { numeroSocio: state.user.numeroSocio } }),
             profileEntrenador: () => router.push({ name: 'profileEntrenador', params: { numeroentrenador: state.user.numeroentrenador } }),
             login: () => router.push({ name: 'login' }),

@@ -92,4 +92,10 @@ export default {
   CREATE_ONE_SUBTIPO_TECNIFICACION: "CreateOneSubtipoTecnificacion",
   FETCH_SUBTIPO_TECNIFICACION_BY_SLUG: "FetchSubtipoTecnificacionBySlug",
   SET_CURRENT_SUBTIPO_TECNIFICACION: "SetCurrentSubtipoTecnificacion",
+
+  //Organizaciones
+  INITIALIZE_ORGANIZACION: "InitializeOrganizacion",
+  CREATE_ONE_ORGANIZACION: "CreateOneOrganizacion",
+  FETCH_ORGANIZACION_BY_SLUG: "FetchOrganizacionBySlug",
+  SET_CURRENT_ORGANIZACION: "SetCurrentOrganizacion"
 }
