@@ -26,8 +26,8 @@
                             </a>
                         </li>
                         <li v-if="!state.isAdmin && !state.isEntrenador" class="nav-item">
-                            <a @click="redirects.servicios" class="nav-link modern-link" :class="{ 'active-link': isServicios }">
-                                <i class="bi bi-gear me-1"></i>Servicios
+                            <a @click="redirects.entrena" class="nav-link modern-link" :class="{ 'active-link': isEntrena }">
+                                <i class="bi bi-person-arms-up me-1"></i>Entrena                            
                             </a>
                         </li>
                         <li v-if="!state.isAdmin && !state.isEntrenador" class="nav-item">
@@ -99,8 +99,8 @@ export default {
         isRecursos() {
             return this.$route.path.startsWith('/recursos');
         },
-        isServicios() {
-            return this.$route.path.startsWith('/servicios');
+        isEntrena() {
+            return this.$route.path.startsWith('/entrena');
         },
         isEntrenadores() {
             return this.$route.name === 'entrenadores';
@@ -131,7 +131,7 @@ export default {
         const redirects = {
             home: () => router.push({ name: 'home' }),
             recursos: () => router.push({ name: 'recursos' }),
-            servicios: () => router.push({ name: 'serviciosEntrenamientos' }),
+            entrena: () => router.push({ name: 'entrena' }),
             entrenadores: () => router.push({ name: 'entrenadores' }),
             profile: () => router.push({ name: 'profile', params: { numeroSocio: state.user.numeroSocio } }),
             profileEntrenador: () => router.push({ name: 'profileEntrenador', params: { numeroentrenador: state.user.numeroentrenador } }),

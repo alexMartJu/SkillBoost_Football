@@ -62,7 +62,7 @@ export function useEntrenamientos() {
 
     const ApplyFilters = (filters) => {
         const filters_64 = btoa(JSON.stringify(filters));
-        router.push({ name: 'serviciosEntrenamientosFilter', params: { filters: filters_64 } });
+        router.push({ name: 'entrenaFilter', params: { filters: filters_64 } });
         fetchEntrenamientos(filters);
         fetchTotalPages(filters, filters.limit);
     };
@@ -81,7 +81,7 @@ export function useEntrenamientos() {
             offset: 0,
             limit: 3,
         };
-        router.push({ name: 'serviciosEntrenamientos' });
+        router.push({ name: 'entrena' });
         fetchEntrenamientos(state.filters);
         fetchTotalPages(state.filters, state.filters.limit);
     };

@@ -17,6 +17,7 @@ export default createVuetify({
         dark: false,
         colors: {
           primary: '#ff6600', //Color bootstrap
+          success: '#0066CC'
         }
       }
     }
