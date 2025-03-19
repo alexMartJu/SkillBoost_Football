@@ -14,6 +14,7 @@ import com.skillboostfootball.backend_main_springboot.domain.exceptions.usuarios
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.reservas.*;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.graficas.GraficaNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.evaluaciones.EvaluacionNotFoundException;
+import com.skillboostfootball.backend_main_springboot.domain.exceptions.organizaciones.*;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -127,9 +128,19 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return handleResourceNotFound(ex, request, "Evaluacion");
     }
 
+    @ExceptionHandler(OrganizacionNotFoundException.class)
+    public ResponseEntity<?> handleOrganizacionNotFound(OrganizacionNotFoundException ex, WebRequest request) {
+        return handleResourceNotFound(ex, request, "Organizacion");
+    }
+
     @ExceptionHandler(EmailTakenException.class)
     public ResponseEntity<?> handleEmailTaken(EmailTakenException ex, WebRequest request) {
         return handleTaken(ex, request, "email");
+    }
+
+    @ExceptionHandler(OrganizacionNameTakenException.class)
+    public ResponseEntity<?> handleOrganizacionTaken(OrganizacionNameTakenException ex, WebRequest request) {
+        return handleTaken(ex, request, "organizacionName");    
     }
 
     @ExceptionHandler(BusinessException.class)
