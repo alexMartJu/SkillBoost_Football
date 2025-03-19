@@ -35,6 +35,11 @@
                                 <i class="bi bi-hand-thumbs-up me-1"></i>Apoyo                                                        
                             </a>
                         </li>
+                        <li v-if="!state.isAdmin && !state.isEntrenador" class="nav-item">
+                            <a @click="redirects.planes" class="nav-link modern-link" :class="{ 'active-link': isPlan }">
+                                <i class="bi bi-credit-card me-1"></i>Planes                                                       
+                            </a>
+                        </li>
 
                         <!-- Dashboards -->
                         <li v-if="state.isAdmin" class="nav-item">
@@ -105,6 +110,9 @@ export default {
         isApoyo() {
             return this.$route.name === 'apoyo';
         },
+        isPlan() {
+            return this.$route.name === 'planes';
+        },
         isLogin() {
             return ['/login', '/register'].includes(this.$route.path);
         },
@@ -133,6 +141,7 @@ export default {
             recursos: () => router.push({ name: 'recursos' }),
             entrena: () => router.push({ name: 'entrena' }),
             apoyo: () => router.push({ name: 'apoyo' }),
+            planes: () => router.push({ name: 'planes' }),
             profile: () => router.push({ name: 'profile', params: { numeroSocio: state.user.numeroSocio } }),
             profileEntrenador: () => router.push({ name: 'profileEntrenador', params: { numeroentrenador: state.user.numeroentrenador } }),
             login: () => router.push({ name: 'login' }),
