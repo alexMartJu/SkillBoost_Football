@@ -1,12 +1,7 @@
 <template>
     <section class="mb-4">
         <div class="card shadow-sm h-100">
-            <!-- Use pista image if available, otherwise use subtipoTecnificacion image -->
-            <img v-if="entrenamiento.pista && entrenamiento.pista.images && entrenamiento.pista.images.length > 0"
-                :src="`/assets/pistas/${entrenamiento.pista.images[0].imageUrl}`"
-                class="card-img-top img-fluid object-fit-cover"
-                :style="isServiciosView ? 'height: 275px' : 'height: 300px'" alt="Imagen de pista">
-            <img v-else-if="entrenamiento.subtipoTecnificacion && entrenamiento.subtipoTecnificacion.images && entrenamiento.subtipoTecnificacion.images.length > 0"
+            <img v-if="entrenamiento.subtipoTecnificacion && entrenamiento.subtipoTecnificacion.images && entrenamiento.subtipoTecnificacion.images.length > 0"
                 :src="`/assets/tecnificaciones/${entrenamiento.subtipoTecnificacion.images[0].imageUrl}`"
                 class="card-img-top img-fluid object-fit-cover"
                 :style="isServiciosView ? 'height: 275px' : 'height: 300px'" alt="Imagen de tecnificación">
@@ -42,7 +37,7 @@
                                 </span>
                                 <span class="badge bg-success-subtle text-success p-3 fs-6">
                                     <i class="bi bi-person-badge me-1"></i>{{ entrenamiento.edadMinima }}-{{
-                                    entrenamiento.edadMaxima }} años
+                                        entrenamiento.edadMaxima }} años
                                 </span>
                                 <span v-if="entrenamiento.pista" class="badge bg-info-subtle text-info p-3 fs-6">
                                     <i class="bi bi-geo-alt me-1"></i>{{ entrenamiento.pista.nombre }}

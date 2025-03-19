@@ -1,5 +1,5 @@
 <template>
-    <main class="main-details">
+    <main class="main-details" :key="$route.fullPath">
         <section class="container">
             <div class="card shadow-sm p-3 mb-5 bg-white rounded">
                 <div class="row g-0">
@@ -35,7 +35,10 @@ export default {
     setup() {
         const store = useStore();
         const route = useRoute();
-        const slug = route.params.slug;
+
+        // Convertir estas propiedades en computed para que se actualicen automáticamente
+        const isEntrenamiento = computed(() => route.path.includes('entrenamiento'));
+        const isSubtipoTecnificacion = computed(() => route.path.includes('subtipo'));
 
         const state = reactive({
             entrenamiento: computed(() => store.getters['entrenamientos/GetOneEntrenamiento']),
@@ -43,13 +46,11 @@ export default {
             subtipoTecnificacion: computed(() => store.getters['subtiposTecnificacion/GetOneSubtipoTecnificacion'])
         });
 
-        const isEntrenamiento = route.path.includes('entrenamiento');
-        const isSubtipoTecnificacion = route.path.includes('subtipo');
-
         const fetchData = () => {
-            if (isEntrenamiento) {
+            const slug = route.params.slug;
+            if (isEntrenamiento.value) {
                 store.dispatch(`entrenamientos/${Constant.INITIALIZE_ONE_STATE_ENTRENAMIENTO}`, slug);
-            } else if (isSubtipoTecnificacion) {
+            } else if (isSubtipoTecnificacion.value) {
                 store.dispatch(`subtiposTecnificacion/${Constant.INITIALIZE_ONE_STATE_SUBTIPO_TECNIFICACION}`, slug);
             } else {
                 store.dispatch(`pistas/${Constant.INITIALIZE_ONE_STATE_PISTA}`, slug);
@@ -58,10 +59,11 @@ export default {
 
         fetchData();
 
+        //Observar cambios en la ruta completa, no solo en el slug
         watch(
-            () => route.params.slug,
+            () => route.fullPath,
             () => {
-                console.log(`cambia slug`);
+                console.log(`cambia ruta a: ${route.fullPath}`);
                 fetchData();
             }
         )

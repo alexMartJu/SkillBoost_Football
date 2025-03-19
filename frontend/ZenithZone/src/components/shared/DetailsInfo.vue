@@ -2,7 +2,7 @@
     <div v-if="isEntrenamiento">
         <div class="container py-4" v-if="state.entrenamiento">
             <h1 class="display-4 mb-4 text-primary">
-                <i class="bi bi-trophy-fill me-2"></i>{{ state.entrenamiento.nombre }}
+                <i class="bi bi-dribbble me-2"></i>{{ state.entrenamiento.nombre }}
             </h1>
 
             <div class="accordion" id="entrenamientoAccordion">
@@ -19,28 +19,89 @@
                         <div class="accordion-body">
                             <div class="card shadow-sm">
                                 <div class="card-body">
-                                    <h3 class="card-subtitle mb-3">
-                                        <i class="bi bi-dribbble me-2"></i>{{ state.entrenamiento.deporte.nombre }}
-                                    </h3>
-                                    <p class="card-text">
+                                    <p class="card-text" v-if="state.entrenamiento.descripcion">
                                         <i class="bi bi-chat-quote-fill me-2"></i>{{ state.entrenamiento.descripcion }}
                                     </p>
                                     <p class="card-text">
-                                        <i class="bi bi-calendar-event me-2"></i>{{ state.entrenamiento.dia }}
-                                    </p>
-                                    <p class="card-text">
-                                        <i class="bi bi-clock me-2"></i>{{ state.entrenamiento.duracion }} minutos
-                                    </p>
-                                    <p class="card-text">
-                                        <i class="bi bi-people-fill me-2"></i>Plazas máximas: {{
+                                        <i class="bi bi-people-fill me-2"></i><strong>Plazas máximas:</strong> {{
                                         state.entrenamiento.maxPlazas }}
                                     </p>
                                     <p class="card-text">
-                                        <i class="bi bi-currency-euro me-2"></i>{{ state.entrenamiento.precio }}€
+                                        <i class="bi bi-person-badge me-2"></i><strong>Edad:</strong> {{
+                                        state.entrenamiento.edadMinima }} - {{ state.entrenamiento.edadMaxima }} años
                                     </p>
+                                    <p class="card-text" v-if="state.entrenamiento.equipamientoNecesario">
+                                        <i class="bi bi-tools me-2"></i><strong>Equipamiento:</strong> {{
+                                            state.entrenamiento.equipamientoNecesario }}
+                                    </p>
+                                    <p class="card-text" v-if="state.entrenamiento.nivel">
+                                        <i class="bi bi-bar-chart-fill me-2"></i><strong>Nivel:</strong> {{
+                                        state.entrenamiento.nivel }}
+                                    </p>
+                                    <p class="card-text" v-if="state.entrenamiento.horarioPista">
+                                        <i class="bi bi-calendar-event me-2"></i><strong>Fecha:</strong> {{
+                                            formatDate(state.entrenamiento.horarioPista.fechaInicio) }}
+                                    </p>
+                                    <p class="card-text" v-if="state.entrenamiento.horarioPista">
+                                        <i class="bi bi-alarm me-2"></i><strong>Horario:</strong> {{
+                                            formatTime(state.entrenamiento.horarioPista.fechaInicio) }} - {{
+                                            formatTime(state.entrenamiento.horarioPista.fechaFin) }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tecnificación Section -->
+                <div class="accordion-item" v-if="state.entrenamiento.tecnificacion">
+                    <h2 class="accordion-header" id="tecnificacionHeader">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#tecnificacionCollapse" aria-expanded="false"
+                            aria-controls="tecnificacionCollapse">
+                            <i class="bi bi-lightning-charge-fill me-2"></i>Tecnificación
+                        </button>
+                    </h2>
+                    <div id="tecnificacionCollapse" class="accordion-collapse collapse"
+                        aria-labelledby="tecnificacionHeader">
+                        <div class="accordion-body">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h4>{{ state.entrenamiento.tecnificacion.nombre }}</h4>
                                     <p class="card-text">
-                                        <i class="bi bi-alarm me-2"></i>{{ state.entrenamiento.horario.hora }}
+                                        <i class="bi bi-chat-quote-fill me-2"></i>{{
+                                            state.entrenamiento.tecnificacion.descripcion }}
                                     </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subtipo Tecnificación Section -->
+                <div class="accordion-item" v-if="state.entrenamiento.subtipoTecnificacion">
+                    <h2 class="accordion-header" id="subtipoHeader">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#subtipoCollapse" aria-expanded="false" aria-controls="subtipoCollapse">
+                            <i class="bi bi-lightning-fill me-2"></i>Subtipo de Tecnificación
+                        </button>
+                    </h2>
+                    <div id="subtipoCollapse" class="accordion-collapse collapse" aria-labelledby="subtipoHeader">
+                        <div class="accordion-body">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h4>{{ state.entrenamiento.subtipoTecnificacion.nombre }}</h4>
+                                    <p class="card-text">
+                                        <i class="bi bi-chat-quote-fill me-2"></i>{{
+                                            state.entrenamiento.subtipoTecnificacion.descripcion }}
+                                    </p>
+                                    <div class="mt-3">
+                                        <router-link
+                                            :to="{ name: 'detailsSubtipoTecnificacion', params: { slug: state.entrenamiento.subtipoTecnificacion.slug } }"
+                                            class="btn btn-outline-primary">
+                                            <i class="bi bi-info-circle me-2"></i>Ver más detalles
+                                        </router-link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -48,22 +109,35 @@
                 </div>
 
                 <!-- Entrenador Section -->
-                <div class="accordion-item">
+                <div class="accordion-item" v-if="state.entrenamiento.entrenador">
                     <h2 class="accordion-header" id="entrenadorHeader">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#entrenadorCollapse" aria-expanded="false"
                             aria-controls="entrenadorCollapse">
-                            <i class="bi bi-person-badge-fill me-2"></i>Información del Entrenador
+                            <i class="bi bi-person-fill me-2"></i>Entrenador
                         </button>
                     </h2>
                     <div id="entrenadorCollapse" class="accordion-collapse collapse" aria-labelledby="entrenadorHeader">
                         <div class="accordion-body">
                             <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        <i class="bi bi-person-circle me-2"></i>{{ state.entrenamiento.entrenador.nombre
-                                        }} {{ state.entrenamiento.entrenador.apellidos }}
-                                    </p>
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img :src="state.entrenamiento.entrenador.image" class="img-fluid rounded-start"
+                                            alt="Entrenador">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h4>{{ state.entrenamiento.entrenador.nombre }} {{
+                                                state.entrenamiento.entrenador.apellidos }}</h4>
+                                            <div class="mt-3">
+                                                <!-- <router-link 
+                                                    :to="{ name: 'EntrenadorDetails', params: { numeroEntrenador: state.entrenamiento.entrenador.numeroEntrenador }}" 
+                                                    class="btn btn-outline-primary">
+                                                    <i class="bi bi-info-circle me-2"></i>Ver perfil completo
+                                                </router-link> -->
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +145,8 @@
                 </div>
 
                 <!-- Ubicación Section -->
-                <div class="accordion-item">
+                <div class="accordion-item"
+                    v-if="state.entrenamiento.horarioPista && state.entrenamiento.horarioPista.pista">
                     <h2 class="accordion-header" id="ubicacionHeader">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#ubicacionCollapse" aria-expanded="false" aria-controls="ubicacionCollapse">
@@ -82,9 +157,14 @@
                         <div class="accordion-body">
                             <div class="card shadow-sm">
                                 <div class="card-body">
-                                    <p class="card-text">
-                                        <i class="bi bi-building me-2"></i>{{ state.entrenamiento.pistaPrivada.nombre }}
-                                    </p>
+                                    <h4>{{ state.entrenamiento.horarioPista.pista.nombre }}</h4>
+                                    <div class="mt-3">
+                                        <router-link
+                                            :to="{ name: 'detailsPista', params: { slug: state.entrenamiento.horarioPista.pista.slug } }"
+                                            class="btn btn-outline-primary">
+                                            <i class="bi bi-info-circle me-2"></i>Ver detalles de la pista
+                                        </router-link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -126,16 +206,19 @@
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        <i class="bi bi-card-text me-2"></i><strong>Descripción:</strong> {{ state.pista.descripcion }}
+                                        <i class="bi bi-card-text me-2"></i><strong>Descripción:</strong> {{
+                                        state.pista.descripcion }}
                                     </p>
                                     <p class="card-text">
                                         <i class="bi bi-tag-fill me-2"></i><strong>Tipo:</strong> {{ state.pista.tipo }}
                                     </p>
                                     <p class="card-text">
-                                        <i class="bi bi-people-fill me-2"></i><strong>Capacidad:</strong> {{ state.pista.capacidad }} personas
+                                        <i class="bi bi-people-fill me-2"></i><strong>Capacidad:</strong> {{
+                                        state.pista.capacidad }} personas
                                     </p>
                                     <p class="card-text">
-                                        <i class="bi bi-rulers me-2"></i><strong>Dimensiones:</strong> {{ state.pista.dimensiones }}
+                                        <i class="bi bi-rulers me-2"></i><strong>Dimensiones:</strong> {{
+                                        state.pista.dimensiones }}
                                     </p>
                                 </div>
                             </div>
@@ -323,13 +406,36 @@ export default {
             return props.state.entrenamiento?.slug && suscribedEntrenamientos.has(props.state.entrenamiento.slug);
         });
 
+        //Función para formatear fechas
+        const formatDate = (dateString) => {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        };
+
+        //Función para formatear horas
+        const formatTime = (dateString) => {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        };
+
         watchEffect(() => { });
 
         return {
-            suscribedEntrenamientos, 
-            isSubscribed, 
+            suscribedEntrenamientos,
+            isSubscribed,
             checkAlreadySuscribed,
-            currentUser
+            currentUser,
+            formatDate,
+            formatTime
         };
     }
 }
