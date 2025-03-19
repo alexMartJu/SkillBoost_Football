@@ -9,6 +9,7 @@ import { entrenadores } from "./modules/client/entrenadores";
 import { reservas } from "./modules/client/reservas";
 import { tecnificaciones } from "./modules/client/tecnificaciones";
 import { subtiposTecnificacion } from "./modules/client/subtiposTecnificacion";
+import { organizaciones } from "./modules/client/organizaciones";
 
 export default Vuex.createStore({
     modules: {
@@ -21,6 +22,7 @@ export default Vuex.createStore({
         entrenadores: entrenadores,
         reservas: reservas,
         tecnificaciones: tecnificaciones, 
-        subtiposTecnificacion: subtiposTecnificacion
+        subtiposTecnificacion: subtiposTecnificacion,
+        organizaciones: organizaciones
     }
 });
