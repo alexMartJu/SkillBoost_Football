@@ -97,5 +97,13 @@ export default {
   INITIALIZE_ORGANIZACION: "InitializeOrganizacion",
   CREATE_ONE_ORGANIZACION: "CreateOneOrganizacion",
   FETCH_ORGANIZACION_BY_SLUG: "FetchOrganizacionBySlug",
-  SET_CURRENT_ORGANIZACION: "SetCurrentOrganizacion"
+  SET_CURRENT_ORGANIZACION: "SetCurrentOrganizacion",
+
+  //Suscripciones
+  INITIALIZE_SUSCRIPCION: "InitializeSuscripcion",
+  INITIALIZE_ONE_STATE_SUSCRIPCION: "InitializeOneStateSuscripcion",
+  UPDATE_ONE_SUSCRIPCION: "UpdateOneSuscripcion",
+  UPDATE_ONE_SUSCRIPCION_PRECIO: "UpdateOneSuscripcionPrecio",
+  FETCH_SUSCRIPCION_BY_SLUG: "FetchSuscripcionBySlug",
+  SET_CURRENT_SUSCRIPCION: "SetCurrentSuscripcion",
 }
