@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-5">
+    <div class="chart-wrapper">
         <canvas ref="radarChart"></canvas>
     </div>
 </template>
@@ -14,7 +14,7 @@ export default {
     name: 'RadarChart',
 
     props: {
-        graficas: {
+        sets: {
             type: Array,
             required: true,
         },
@@ -27,9 +27,9 @@ export default {
             [69, 79, 93, 50, 45]
         ]; // estos son los datos default que pinta en el home
 
-        if (props.graficas != undefined) {
-            nivelesPorGrafica = props.graficas.map((grafica) => {
-                return grafica.secciones.map(seccion => seccion.nivel);
+        if (props.sets != undefined) {
+            nivelesPorGrafica = props.sets.map((grafica) => {
+                return grafica.secciones ? grafica.secciones.map(seccion => seccion.nivel) : grafica;
             });
         } // aquí es cuando se le asignan los datos de las gráficas del perfil
 
@@ -38,8 +38,10 @@ export default {
         onMounted(() => {
             const ctx = radarChart.value.getContext('2d');
 
-            radarChart.value.width = 600;
-            radarChart.value.height = 600;
+            // Ajustar el tamaño del canvas para que se adapte al contenedor
+            const parentWidth = radarChart.value.parentElement.clientWidth;
+            radarChart.value.width = parentWidth;
+            radarChart.value.height = parentWidth * 0.8; // Proporción altura/anchura
 
             new Chart(ctx, {
                 type: 'radar',
@@ -55,6 +57,7 @@ export default {
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: {
                             display: false
@@ -70,7 +73,7 @@ export default {
                             ticks: {
                                 stepSize: 20, // Intervalo de valores
                                 font: {
-                                    size: 14,
+                                    size: 12,
                                 },
                                 color: '#4b5563', // Color del texto
                             },
@@ -79,7 +82,7 @@ export default {
                             },
                             pointLabels: {
                                 font: {
-                                    size: 20,
+                                    size: 14,
                                 },
                                 color: '#000', // Color de las etiquetas (ejes)
                             },
@@ -96,25 +99,23 @@ export default {
 };
 </script>
 
-
 <style scoped>
+.chart-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 canvas {
     max-width: 100%;
-    height: auto;
+    max-height: 100%;
     margin: auto;
-    backdrop-filter: blur(5px);
     transition: all 0.3s ease;
 }
 
 canvas:hover {
     filter: brightness(1.05);
-}
-
-.chart-container {
-    position: relative;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
 }
 </style>
