@@ -1,28 +1,28 @@
 <template>
     <HeroSection />
-
-    <MiddleSection />
-    <Olympics />
+    <MissionSection />
+    <SocialImpactSection />
+    <SubscriptionSection />
     <GraphicSection />
     <ListTecnificacionesHome />
 </template>
 
 <script>
-import Olympics from '../../components/home/Olympics.vue';
 import HeroSection from '../../components/home/HeroSection.vue';
-import MiddleSection from '@/components/home/MiddleSection.vue';
 import GraphicSection from '@/components/home/GraphicSection.vue';
-import ListDeportesHome from '@/components/home/ListDeportesHome.vue';
 import ListTecnificacionesHome from '@/components/home/ListTecnificacionesHome.vue';
+import SocialImpactSection from '@/components/home/SocialImpactSection.vue';
+import SubscriptionSection from '@/components/home/SubscriptionSection.vue';
+import MissionSection from '@/components/home/MissionSection.vue';
 
 export default {
     components: {
         HeroSection,
-        MiddleSection,
-        Olympics,
+        MissionSection,
         GraphicSection,
-        ListDeportesHome,
-        ListTecnificacionesHome
+        ListTecnificacionesHome,
+        SocialImpactSection,
+        SubscriptionSection
     }
 };
 </script>
