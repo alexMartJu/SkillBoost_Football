@@ -4,36 +4,38 @@ import secrets from "../../secrets";
 export default {
     // USER
     Register(data) {
-        return Api(secrets.URL_SPRING).post('users', data);
+        return Api(secrets.URL_PROXY).post('main/usuarios', data);
     },
 
     Login(data) {
-        return Api(secrets.URL_SPRING).post('users/login', data);
+        return Api(secrets.URL_PROXY).post('main/login', data);
     },
 
-    UpdateUser() {
-        return Api(secrets.URL_SPRING).put('user');
+    UpdateUser(data) {
+        return Api(secrets.URL_PROXY).put('main/user', data);
     },
-
-    CurrentUserProfile() {
-        return Api(secrets.URL_SPRING).get('user');
+    
+    UpdateCoachUser(data) {
+        return Api(secrets.URL_PROXY).put('main/user/coach', data);
     },
 
     GetCurrentUser() {
-        return Api(secrets.URL_SPRING).get('user');
+        return Api(secrets.URL_PROXY).get('main/user');
     },
 
     Refresh(refreshToken) {
-        return Api(secrets.URL_SPRING).post(`refresh`, refreshToken);
+        return Api(secrets.URL_PROXY).post(`main/refresh`, refreshToken);
     },
 
-    BlacklistToken(refreshToken) {
-        return Api(secrets.URL_SPRING).post(`logout`, refreshToken);
+    Logout(refreshToken) {
+        return Api(secrets.URL_PROXY).post(`main/logout`, refreshToken);
     },
 
-    // ADMIN
-    GetCurrentAdmin() {
-        return Api(secrets.URL_SPRING, 'false').get('currentAdmin',);
+    GetProfileByNumeroSocio(numeroSocio) {
+        return Api(secrets.URL_PROXY).get(`main/profiles/${numeroSocio}`);
     },
-
-}//export
+    
+    GetProfileByNumeroEntrenador(numeroEntrenador) {
+        return Api(secrets.URL_PROXY).get(`main/profiles/entrenadores/${numeroEntrenador}`);
+    }
+}

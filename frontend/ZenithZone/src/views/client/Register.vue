@@ -23,7 +23,7 @@ export default {
                 if (error.response && error.response.status === 422) {
                     errorMessage.value = 'El email registrado ya existe';
                 } else {
-                    console.log(`error`);
+                    console.log(`error`, error);
                     errorMessage.value = 'Ocurrió un error. Inténtalo de nuevo.';
                 }
                 registerSuccesful.value = false;
