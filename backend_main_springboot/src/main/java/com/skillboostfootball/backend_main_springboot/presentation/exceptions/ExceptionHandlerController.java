@@ -1,6 +1,7 @@
 package com.skillboostfootball.backend_main_springboot.presentation.exceptions;
 
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.*;
+import com.skillboostfootball.backend_main_springboot.domain.exceptions.auth.TokenExpiredException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.subtiposTecnificacion.SubtipoTecnificacionNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.tecnificaciones.TecnificacionNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.pistas.PistaNotFoundException;
@@ -21,6 +22,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -141,6 +144,26 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(OrganizacionNameTakenException.class)
     public ResponseEntity<?> handleOrganizacionTaken(OrganizacionNameTakenException ex, WebRequest request) {
         return handleTaken(ex, request, "organizacionName");    
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<?> handleTokenExpired(TokenExpiredException ex, WebRequest request) {
+        var status = HttpStatus.UNAUTHORIZED; // 401
+        var error = createErrorBuilder(ex.getMessage()).build();
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler({AccessDeniedException.class, AuthorizationDeniedException.class})
+    public ResponseEntity<?> handleAccessDenied(Exception ex, WebRequest request) {
+        var status = HttpStatus.FORBIDDEN;
+        
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("status", "error");
+        errorDetails.put("code", "access_denied");
+        errorDetails.put("message", "No tienes permisos para acceder a este recurso");
+        errorDetails.put("path", request.getDescription(false).replace("uri=", ""));
+        
+        return handleExceptionInternal(ex, errorDetails, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(BusinessException.class)

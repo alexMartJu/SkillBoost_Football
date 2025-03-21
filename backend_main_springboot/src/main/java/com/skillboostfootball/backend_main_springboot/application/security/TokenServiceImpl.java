@@ -1,5 +1,6 @@
 package com.skillboostfootball.backend_main_springboot.application.security;
 
+import com.skillboostfootball.backend_main_springboot.domain.exceptions.auth.TokenExpiredException;
 import com.skillboostfootball.backend_main_springboot.domain.repositories.usuarios.UsuarioRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -104,7 +105,7 @@ public class TokenServiceImpl implements TokenService {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException ex) {
-            throw new RuntimeException("Token expired");
+            throw new TokenExpiredException();
         }
     }
 
