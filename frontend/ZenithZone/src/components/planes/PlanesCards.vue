@@ -34,7 +34,8 @@
                     </ul>
 
                     <div class="mt-auto">
-                        <button type="button" class="w-100 btn btn-lg" :class="getButtonClass(index)">
+                        <button type="button" class="w-100 btn btn-lg" :class="getButtonClass(index)"
+                            @click="seleccionarPlan(plan)">
                             Suscribirse
                         </button>
                     </div>
@@ -45,47 +46,90 @@
 </template>
 
 <script>
+import { useStore } from 'vuex';
+import Swal from 'sweetalert2';
+import { useRouter } from 'vue-router';
+
 export default {
-    name: 'PlanesCards',
-    props: {
-        suscripciones: {
-            type: Array,
-            required: true
-        }
-    },
-    setup() {
-
-        const formatPrice = (price) => {
-            return new Intl.NumberFormat('es-ES', {
-                style: 'currency',
-                currency: 'EUR'
-            }).format(price);
-        };
-
-        const getHeaderClass = (index) => {
-            const classes = [
-                'bg-primary text-white',
-                'bg-success text-white',
-                'bg-info text-white'
-            ];
-            return classes[index % classes.length];
-        };
-
-        const getButtonClass = (index) => {
-            const classes = [
-                'btn-outline-primary',
-                'btn-success',
-                'btn-outline-info'
-            ];
-            return classes[index % classes.length];
-        };
-
-        return {
-            formatPrice,
-            getHeaderClass,
-            getButtonClass
-        };
+  name: 'PlanesCards',
+  props: {
+    suscripciones: {
+      type: Array,
+      required: true
     }
+  },
+  emits: ['seleccionarPlan'],
+  setup(props, { emit }) {
+    const store = useStore();
+    const router = useRouter();
+
+    const formatPrice = (price) => {
+      return new Intl.NumberFormat('es-ES', {
+        style: 'currency',
+        currency: 'EUR'
+      }).format(price);
+    };
+
+    const getHeaderClass = (index) => {
+      const classes = [
+        'bg-primary text-white',
+        'bg-success text-white',
+        'bg-info text-white'
+      ];
+      return classes[index % classes.length];
+    };
+
+    const getButtonClass = (index) => {
+      const classes = [
+        'btn-outline-primary',
+        'btn-success',
+        'btn-outline-info'
+      ];
+      return classes[index % classes.length];
+    };
+
+    const seleccionarPlan = (plan) => {
+      const isAuth = store.getters['user/GetIsAuth'];
+      const userType = store.getters['user/GetUserType'];
+      
+      if (!isAuth) {
+        //Usuario no autenticado
+        Swal.fire({
+          title: 'Acceso denegado',
+          text: 'Debes iniciar sesión para realizar un pago',
+          icon: 'warning',
+          confirmButtonText: 'Ir a iniciar sesión',
+          cancelButtonText: 'Cancelar',
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          showCancelButton: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push({ name: 'login' });
+          }
+        });
+      } else if (userType && userType.toLowerCase() !== 'jugador' && userType.toLowerCase() !== 'tutor') {
+        //Usuario autenticado pero no es jugador ni tutor
+        Swal.fire({
+          title: 'Acceso denegado',
+          text: 'Tus pagos los gestionan los clubes u organizaciones',
+          icon: 'info',
+          confirmButtonText: 'Entendido',
+          confirmButtonColor: '#3085d6',
+        });
+      } else {
+        //Usuario autorizado, emitir evento
+        emit('seleccionarPlan', plan);
+      }
+    };
+
+    return {
+      formatPrice,
+      getHeaderClass,
+      getButtonClass,
+      seleccionarPlan
+    };
+  }
 }
 </script>
 
