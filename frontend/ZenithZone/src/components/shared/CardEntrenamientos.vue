@@ -47,12 +47,11 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="d-flex flex-column gap-2 h-100">
-                            <button class="btn btn-outline-primary rounded-pill fw-semibold"
-                                @click="details(entrenamiento.slug)">
+                            <button class="btn btn-outline-primary w-100" @click="details(entrenamiento.slug)">
                                 <i class="bi bi-info-circle me-2"></i>Info
                             </button>
                             <UnirseEntrenamientoButton v-if="!isProfile" :slug="entrenamiento.slug"
-                                :disabled="isSuscribed || !state.isLogged" class="rounded-pill" />
+                                :isSuscribed="isSuscribed" class="rounded-pill" />
                             <CancelarEntrenamientoButton v-if="isProfile" :slug="entrenamiento.slug"
                                 class="rounded-pill" />
                         </div>

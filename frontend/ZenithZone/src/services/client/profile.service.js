@@ -26,6 +26,6 @@ export default {
         return Api(secrets.URL_SPRING).delete(`entrenamientos/${slug}/inscripcion`);
     },
     UnirseEntrenamiento(slug) {
-        return Api(secrets.URL_SPRING).post(`entrenamientos/${slug}/inscripcion`);
+        return Api(secrets.URL_PROXY).post(`main/entrenamientos/${slug}/inscribirse`);
     }
 }

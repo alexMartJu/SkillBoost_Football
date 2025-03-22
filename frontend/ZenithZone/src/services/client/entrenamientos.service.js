@@ -46,6 +46,6 @@ export default {
     },
 
     GetSuscribedEntrenamientos() {
-        return Api(secrets.URL_SPRING).get(`entrenamientosInscritos`);
+        return Api(secrets.URL_PROXY).get(`main/reservas`);
     }
 }

@@ -173,7 +173,7 @@
             </div>
 
             <div class="mt-4">
-                <UnirseEntrenamientoButton :slug="state.entrenamiento.slug" :disabled="isSubscribed" />
+                <UnirseEntrenamientoButton :slug="state.entrenamiento.slug" :isSuscribed="isSubscribed" />
             </div>
         </div>
         <div v-else>
@@ -360,8 +360,8 @@
 import { reactive, watchEffect } from 'vue';
 import UnirseEntrenamientoButton from './buttons/UnirseEntrenamientoButton.vue';
 import { computed } from 'vue';
-import entrenamientosService from '@/services/client/entrenamientos.service';
 import { useStore } from 'vuex';
+import Constant from '../../Constant';
 
 export default {
     props: {
@@ -389,21 +389,15 @@ export default {
             isUser: computed(() => store.getters['user/GetIsAuth']),
         });
 
-        // APUNTARSE ENTRENAMIENTOS
-        const suscribedEntrenamientos = reactive(new Set());
-
-        const checkAlreadySuscribed = async () => {
-            const { data } = await entrenamientosService.GetSuscribedEntrenamientos();
-            suscribedEntrenamientos.clear();
-            data.forEach(entrenamiento => suscribedEntrenamientos.add(entrenamiento.slug));
-        };
-
+        //Si el usuario está autenticado, cargar sus entrenamientos suscritos
         if (currentUser.isUser) {
-            checkAlreadySuscribed();
+            store.dispatch(`entrenamientos/${Constant.FETCH_SUSCRIBED_ENTRENAMIENTOS}`);
         }
 
+        //Usar el getter del store para verificar si el entrenamiento actual está suscrito
         const isSubscribed = computed(() => {
-            return props.state.entrenamiento?.slug && suscribedEntrenamientos.has(props.state.entrenamiento.slug);
+            if (!props.state.entrenamiento?.slug) return false;
+            return store.getters['entrenamientos/isEntrenamientoSuscribed'](props.state.entrenamiento.slug);
         });
 
         //Función para formatear fechas
@@ -430,10 +424,8 @@ export default {
         watchEffect(() => { });
 
         return {
-            suscribedEntrenamientos,
-            isSubscribed,
-            checkAlreadySuscribed,
             currentUser,
+            isSubscribed,
             formatDate,
             formatTime
         };

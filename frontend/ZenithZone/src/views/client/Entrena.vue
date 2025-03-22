@@ -13,7 +13,7 @@
                     <div v-for="entrenamiento in state.entrenamientos" :key="entrenamiento.id"
                         class="col-xl-4 col-lg-6 col-md-12">
                         <CardClases :entrenamiento="entrenamiento" :isServiciosView="true"
-                            :isSuscribed="suscribedEntrenamientos.has(entrenamiento.slug)" :isProfile="false" />
+                            :isSuscribed="isEntrenamientoSuscribed(entrenamiento.slug)" :isProfile="false" />
                     </div>
                 </div>
                 <PaginateComponent :page="state.offset" :totalPages="state.totalPages" @update:page="updatePage"
@@ -31,10 +31,9 @@ import PaginateComponent from '../../components/filters/Paginate.vue';
 import {
     useEntrenamientos
 } from '../../composables/client/useEntrenamientos';
-import { reactive, watchEffect, onMounted } from 'vue';
+import { reactive, onMounted } from 'vue';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import entrenamientosService from '@/services/client/entrenamientos.service';
 import Constant from '../../Constant';
 
 export default {
@@ -46,9 +45,14 @@ export default {
     setup() {
         const store = useStore();
 
-        //Cargar tecnificaciones
         onMounted(() => {
+            //Cargar tecnificaciones
             store.dispatch(`tecnificaciones/${Constant.INITIALIZE_TECNIFICACION}`);
+
+            //Si el usuario está autenticado, cargar sus entrenamientos suscritos
+            if (store.getters['user/GetIsAuth']) {
+                store.dispatch(`entrenamientos/${Constant.FETCH_SUSCRIBED_ENTRENAMIENTOS}`);
+            }
         });
 
         const {
@@ -62,17 +66,10 @@ export default {
             isUser: computed(() => store.getters['user/GetIsAuth']),
         });
 
-        const suscribedEntrenamientos = reactive(new Set());
-
-        const checkAlreadySuscribed = async () => {
-            const { data } = await entrenamientosService.GetSuscribedEntrenamientos();
-            suscribedEntrenamientos.clear();
-            data.forEach(entrenamiento => suscribedEntrenamientos.add(entrenamiento.slug));
+        const isEntrenamientoSuscribed = (slug) => {
+            if (!currentUser.isUser) return false;
+            return store.getters['entrenamientos/isEntrenamientoSuscribed'](slug);
         };
-
-        if (currentUser.isUser) {
-            checkAlreadySuscribed();
-        }
 
         const updatePage = (pageNum) => {
             state.offset = pageNum;
@@ -84,7 +81,7 @@ export default {
             resetFilters,
             clickCallback,
             updatePage,
-            suscribedEntrenamientos
+            isEntrenamientoSuscribed
         };
     }
 };
