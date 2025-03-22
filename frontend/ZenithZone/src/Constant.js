@@ -108,4 +108,10 @@ export default {
   UPDATE_ONE_SUSCRIPCION_PRECIO: "UpdateOneSuscripcionPrecio",
   FETCH_SUSCRIPCION_BY_SLUG: "FetchSuscripcionBySlug",
   SET_CURRENT_SUSCRIPCION: "SetCurrentSuscripcion",
+
+  //Notificaciones
+  INITIALIZE_NOTIFICATIONS: "InitializeNotifications",
+  INITIALIZE_UNREAD_BELL_NOTIFICATIONS: "InitializeUnreadBellNotifications",
+  MARK_NOTIFICATION_AS_READ: "MarkNotificationAsRead",
+  SET_CURRENT_NOTIFICATIONS: "SetCurrentNotifications"
 }
