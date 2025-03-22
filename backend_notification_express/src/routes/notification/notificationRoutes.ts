@@ -6,5 +6,6 @@ const notificationController = new NotificationController();
 
 router.get('/user/:userId', notificationController.getUserNotifications);
 router.patch('/:id/read', notificationController.markNotificationAsRead);
+router.get('/user/:userId/unread-bell', notificationController.getUnreadBellNotifications);
 
 export default router;

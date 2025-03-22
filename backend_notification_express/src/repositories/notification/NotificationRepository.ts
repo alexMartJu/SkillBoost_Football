@@ -63,4 +63,22 @@ export class NotificationRepository {
             throw new AppError('Error al marcar la notificación como leída', 500);
         }
     }
+
+    async getUnreadBellNotificationsByUserId(userId: number): Promise<any[]> {
+        try {
+            return await prisma.notificaciones.findMany({
+                where: {
+                    id_usuario: BigInt(userId),
+                    isRead: false,
+                    tipo_notificacion: 'bell'
+                },
+                orderBy: {
+                    createdAt: 'desc'
+                }
+            });
+        } catch (error) {
+            console.error('Error fetching unread bell notifications:', error);
+            throw new AppError('Error al obtener las notificaciones no leídas', 500);
+        }
+    }
 }

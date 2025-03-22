@@ -25,4 +25,13 @@ export class NotificationService {
             throw error instanceof AppError ? error : new AppError('Error al marcar la notificación como leída', 500);
         }
     }
+
+    async getUnreadBellNotifications(userId: number): Promise<any[]> {
+        try {
+            return await this.notificationRepo.getUnreadBellNotificationsByUserId(userId);
+        } catch (error) {
+            console.error('Error getting unread bell notifications:', error);
+            throw error instanceof AppError ? error : new AppError('Error al obtener las notificaciones no leídas', 500);
+        }
+    }
 }

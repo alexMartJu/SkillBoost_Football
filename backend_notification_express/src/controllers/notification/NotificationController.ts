@@ -46,4 +46,23 @@ export class NotificationController {
             next(error);
         }
     };
+
+    getUnreadBellNotifications = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const userId = parseInt(req.params.userId);
+    
+            if (isNaN(userId)) {
+                throw new AppError('ID de usuario inválido', 400);
+            }
+    
+            const notifications = await this.notificationService.getUnreadBellNotifications(userId);
+    
+            res.status(200).json({
+                status: 'success',
+                data: notifications
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
 }
