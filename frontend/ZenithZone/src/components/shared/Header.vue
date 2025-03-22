@@ -53,6 +53,11 @@
                             </a>
                         </li>
 
+                        <!-- Notificaciones -->
+                        <li v-if="state.isLogged && state.user && state.user.id" class="nav-item ms-lg-3">
+                            <NotificationBell :userId="state.user.id" />
+                        </li>
+
                         <!-- User Profile -->
                         <li v-if="state.isLogged && state.user.profile" class="nav-item ms-lg-3">
                             <div class="d-flex align-items-center">
@@ -89,13 +94,17 @@
 
 <script>
 import Constant from '@/Constant';
-import { computed, watch } from 'vue';
+import { computed, watch, onMounted } from 'vue';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import NotificationBell from './NotificationBell.vue';
 
 export default {
     name: "Header",
+    components: {
+        NotificationBell
+    },
 
     computed: {
         isHome() {
@@ -181,11 +190,13 @@ export default {
             store.dispatch(`user/${Constant.LOGOUT}`, refreshToken);
         };
 
-        //Inicializar usuario si hay un token
-        const accessToken = localStorage.getItem('accessToken');
-        if (accessToken) {
-            store.dispatch(`user/${Constant.INITIALIZE_USER}`, { accessToken });
-        }
+        onMounted(() => {
+            //Inicializar usuario si hay un token
+            const accessToken = localStorage.getItem('accessToken');
+            if (accessToken) {
+                store.dispatch(`user/${Constant.INITIALIZE_USER}`, { accessToken });
+            }
+        });
 
         return { redirects, state, logout, redirectToProfile };
     }
