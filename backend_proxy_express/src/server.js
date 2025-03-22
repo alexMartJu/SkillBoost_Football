@@ -17,13 +17,13 @@ const proxy = httpProxy.createProxyServer({
 });
 
 const routes = {
+    '/api/payment': {
+        target: URL_SPRING_PAYMENTS,
+        port: PORT_SPRING_PAYMENTS
+    },
     '/api/main': {
         target: URL_SPRING_MAIN,
         port: PORT_SPRING_MAIN
-    },
-    '/api/payments': {
-        target: URL_SPRING_PAYMENTS,
-        port: PORT_SPRING_PAYMENTS
     },
     '/api/notifications': {
         target: URL_EXPRESS_NOTIFICATIONS,
