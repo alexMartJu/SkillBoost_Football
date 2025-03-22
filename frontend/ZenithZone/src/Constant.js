@@ -17,6 +17,8 @@ export default {
     CREATE_ONE_ENTRENAMIENTO: "CreateOneEntrenamiento",
     SET_CURRENT_ENTRENAMIENTO: "SetCurrentEntrenamiento",
     FETCH_ENTRENAMIENTOS_OCUPADOS: "FetchEntrenamientosOcupados",
+    FETCH_SUSCRIBED_ENTRENAMIENTOS: "FetchSuscribedEntrenamientos",
+    SET_SUSCRIBED_ENTRENAMIENTOS: "SetSuscribedEntrenamientos",
 
     // Pistas
     INITIALIZE_PISTA: "InitializePista",
