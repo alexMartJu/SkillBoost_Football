@@ -96,8 +96,21 @@ const router = createRouter({
     //PLANES
     {
       path: "/planes",
-      name: "planes",
-      component: () => import('../views/client/Planes.vue')
+      component: () => import('../views/client/Planes.vue'),
+      children: [
+        {
+          path: "",
+          name: "planes",
+          component: () => import('../components/planes/PlanesList.vue')
+        },
+        {
+          path: "pago/:slug",
+          name: "procesosPago",
+          component: () => import('../components/pagos/ProcesoPago.vue'),
+          props: true,
+          beforeEnter: AuthGuards.paymentGuard
+        }
+      ]
     },
 
     // LOGIN
