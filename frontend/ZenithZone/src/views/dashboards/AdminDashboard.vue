@@ -18,6 +18,9 @@
           <i class="bi bi-geo-alt me-2"></i> Campos
         </router-link>
         
+        <router-link to="/dashboardAdmin/suscripciones" class="nav-link sidebar-link">
+          <i class="bi bi-credit-card me-2"></i> Suscripciones
+        </router-link>
         <!-- Sección de usuarios mejorada -->
         <div class="sidebar-section">
           <div class="sidebar-link" @click="toggleUserMenu">

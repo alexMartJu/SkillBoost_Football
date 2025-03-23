@@ -20,6 +20,9 @@
             jugadores: [],
             jugadoresSociales: [],
             loadingUsers: false,
+            //Suscripciones
+            suscripciones: [],
+            currentSuscripcion: null,
         },
 
         mutations: {
@@ -83,7 +86,14 @@
             },
             [Constant.SET_LOADING_USERS](state, payload) {
                 state.loadingUsers = payload;
-            }
+            },
+            //Suscripciones
+            [Constant.SET_SUSCRIPCIONES_ADMIN](state, payload) {
+                state.suscripciones = payload;
+            },
+            [Constant.SET_CURRENT_SUSCRIPCION_ADMIN](state, suscripcion) {
+                state.currentSuscripcion = suscripcion;
+            },
             
 
         },
@@ -279,6 +289,28 @@
                     } finally {
                         commit(Constant.SET_LOADING_USERS, false);
                     }
+                },
+                //Suscripciones
+                async [Constant.INITIALIZE_SUSCRIPCIONES_ADMIN]({ commit }) {
+                    try {
+                        const { data } = await adminDashboardService.GetSuscripciones();
+                        commit(Constant.SET_SUSCRIPCIONES_ADMIN, data.suscripciones);
+                        return data.suscripciones;
+                    } catch (error) {
+                        console.error("Error al cargar las suscripciones:", error);
+                        throw error;
+                    }
+                },
+                async [Constant.UPDATE_SUSCRIPCION_PRECIO_ADMIN]({ commit, dispatch }, { slug, precio }) {
+                    try {
+                        const { data } = await adminDashboardService.UpdateSuscripcionPrecio(slug, { precio });
+                        // Actualizar la lista de suscripciones después de la actualización
+                        await dispatch(Constant.INITIALIZE_SUSCRIPCIONES_ADMIN);
+                        return data;
+                    } catch (error) {
+                        console.error("Error al actualizar el precio de la suscripción:", error);
+                        throw error;
+                    }
                 }
                   
             
@@ -310,7 +342,14 @@
             getJugadoresClub: state => state.jugadoresClub,
             getJugadores: state => state.jugadores,
             getJugadoresSociales: state => state.jugadoresSociales,
-            isLoadingUsers: state => state.loadingUsers
+            isLoadingUsers: state => state.loadingUsers,
+            //Suscripciones
+            GetSuscripciones(state) {
+                return state.suscripciones;
+            },
+            GetCurrentSuscripcion(state) {
+                return state.currentSuscripcion;
+            }
             
         }
     };

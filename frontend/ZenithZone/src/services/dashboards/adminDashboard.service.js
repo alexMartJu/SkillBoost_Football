@@ -65,6 +65,13 @@ export default {
     },
     GetJugadoresSociales() {
         return Api(secrets.URL_PROXY).get('main/profiles/jugadores-sociales');
+    },
+    //Suscripciones
+    GetSuscripciones() {
+        return Api(secrets.URL_PROXY).get('main/suscripciones');
+    },
+    UpdateSuscripcionPrecio(slug, precioData) {
+        return Api(secrets.URL_PROXY).patch(`main/suscripciones/${slug}/precio`, precioData);
     }
 
 

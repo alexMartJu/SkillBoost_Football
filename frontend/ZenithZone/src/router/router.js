@@ -325,6 +325,12 @@ const router = createRouter({
           name: "adminJugadoresSociales",
           component: () => import('../components/dashboards/admin/usuarios/ListJugadoresSociales.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "suscripciones",
+          name: "adminSuscripciones",
+          component: () => import('../components/dashboards/admin/suscripciones/ListSuscripciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
         }
 
       ]
