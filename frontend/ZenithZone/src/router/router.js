@@ -129,57 +129,22 @@ const router = createRouter({
 
     // PROFILE
     {
-      path: "/profile/:numeroSocio",
-      name: "profile",
-      component: () => import('../views/client/Profile.vue'),
-      children: [
-        {
-          path: "info",
-          name: "profileInfo",
-          component: () => import('../views/client/Profile.vue'),
-        },
-        {
-          path: "graficas",
-          name: "profileGraficas",
-          component: () => import('../components/profile/ProfileGraficas.vue'),
-        },
-        {
-          path: "reservas",
-          name: "profileReservas",
-          component: () => import('../components/profile/ProfileReservas.vue'),
-        },
-        {
-          path: "entrenamientos",
-          name: "profileEntrenamientos",
-          component: () => import('../components/profile/ProfileEntrenamientos.vue'),
-        },
-      ]
+      path: '/profile/:numeroSocio',
+      name: 'profile',
+      component: () => import('@/views/client/ProfileView.vue'),
+      meta: {
+        title: 'Perfil de Jugador',
+        public: true // Accesible sin estar logueado
+      }
     },
-    // Editar perfil. Se pone aparte para que no salga como una pestaña en el perfil
     {
-      path: "/profile/:numeroSocio/editar",
-      name: "profileEdit",
-      component: () => import('../components/profile/ProfileEdit.vue'),
-    },
-
-    // Profile Entrenador
-    {
-      path: "/entrenador/:numeroentrenador",
-      name: "profileEntrenador",
-      component: () => import('../views/client/Profile.vue'),
-      children: [
-        {
-          path: "info",
-          name: "profileEntrenadorInfo",
-          component: () => import('../components/entrenador/Profile.vue'),
-        },
-      ]
-    },
-    // Editar perfil. Se pone aparte para que no salga como una pestaña en el perfil
-    {
-      path: "/entrenador/:numeroentrenador/editar",
-      name: "profileEntrenadorEdit",
-      component: () => import('../components/profile/ProfileEdit.vue'),
+      path: '/entrenador/:numeroentrenador',
+      name: 'profileEntrenador',
+      component: () => import('@/views/client/ProfileView.vue'),
+      meta: {
+        title: 'Perfil de Entrenador',
+        public: true // Accesible sin estar logueado
+      }
     },
 
     // DASHBOARD ENTRENADOR

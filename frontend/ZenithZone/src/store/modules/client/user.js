@@ -95,6 +95,25 @@ export const user = {
                 console.error(error);
             }
         },//INITIALIZE_USER
+
+        [Constant.UPDATE_USER]: async (store, payload) => {
+            try {
+              let response;
+              if (store.state.isEntrenador) {
+                response = await UserService.UpdateCoachUser(payload);
+              } else {
+                response = await UserService.UpdateUser(payload);
+              }
+              
+              if (response.status === 200) {
+                store.commit(Constant.UPDATE_USER, response.data);
+                return response.data;
+              }
+            } catch (error) {
+              console.error("Error al actualizar el usuario:", error);
+              throw error;
+            }
+          },
     },
 
     mutations: {
@@ -188,6 +207,24 @@ export const user = {
                 console.log(`Logout successful`);
             }
         },//LOGOUT
+
+        [Constant.UPDATE_USER]: (state, payload) => {
+            if (payload) {
+              // Actualizar el usuario en el estado
+              state.user = {
+                ...state.user,
+                ...payload
+              };
+              
+              // Si el payload incluye un perfil, actualizarlo también
+              if (payload.profile) {
+                state.profile = {
+                  ...state.profile,
+                  ...payload.profile
+                };
+              }
+            }
+          },
     },
 
     getters: {
