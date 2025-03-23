@@ -8,30 +8,53 @@
       </div>
       <hr class="border-light opacity-25 my-0">
       <div class="d-flex flex-column py-3">
-        <router-link to="/dashboardAdmin/listar" class="nav-link sidebar-link">
-          <i class="bi bi-list-ul me-2"></i> Listar
+        <router-link to="/dashboardAdmin/tecnificaciones" class="nav-link sidebar-link">
+          <i class="bi bi-lightning-charge me-2"></i> Tecnificaciones
         </router-link>
-        <router-link to="/dashboardAdmin/crear" class="nav-link sidebar-link">
-          <i class="bi bi-plus-circle me-2"></i> Crear
+        <router-link to="/dashboardAdmin/subtipos-tecnificaciones" class="nav-link sidebar-link">
+          <i class="bi bi-list-nested me-2"></i> Subtipos de Tecnificación
         </router-link>
-        <router-link to="/dashboardAdmin/entrenador" class="nav-link sidebar-link">
-          <i class="bi bi-person-badge me-2"></i> Entrenadores
+        <router-link to="/dashboardAdmin/pistas" class="nav-link sidebar-link">
+          <i class="bi bi-geo-alt me-2"></i> Campos
         </router-link>
-        <router-link to="/dashboardAdmin/entrenador/register" class="nav-link sidebar-link">
-          <i class="bi bi-person-plus me-2"></i> Registrar Entrenador
+        
+        <router-link to="/dashboardAdmin/suscripciones" class="nav-link sidebar-link">
+          <i class="bi bi-credit-card me-2"></i> Suscripciones
         </router-link>
-        <router-link to="/dashboardAdmin/entrenamientos" class="nav-link sidebar-link">
-          <i class="bi bi-calendar-check me-2"></i> Entrenamientos
+        <router-link to="/dashboardAdmin/organizaciones" class="nav-link sidebar-link">
+          <i class="bi bi-building me-2"></i> Organizaciones
         </router-link>
-        <router-link to="/dashboardAdmin/salas" class="nav-link sidebar-link">
-          <i class="bi bi-building me-2"></i> Crear Salas
+        <router-link to="/dashboardAdmin/entrenadores" class="nav-link sidebar-link">
+          <i class="bi bi-person-badge-fill me-2"></i> Entrenadores
         </router-link>
-        <router-link to="/dashboardAdmin/pistasprivadas" class="nav-link sidebar-link">
-          <i class="bi bi-trophy me-2"></i> Pistas Privadas
-        </router-link>
-        <router-link to="/dashboardAdmin/Reservas" class="nav-link sidebar-link">
-          <i class="bi bi-bookmark-check me-2"></i> Reservas
-        </router-link>
+        <!-- Sección de usuarios mejorada -->
+        <div class="sidebar-section">
+          <div class="sidebar-link" @click="toggleUserMenu">
+            <i class="bi bi-people me-2"></i> Usuarios
+            <i class="bi" :class="userMenuOpen ? 'bi-chevron-down' : 'bi-chevron-right'" style="float: right;"></i>
+          </div>
+          
+          <div class="submenu" :class="{ 'submenu-open': userMenuOpen }">
+            <router-link to="/dashboardAdmin/usuarios/registro" class="nav-link sidebar-sublink">
+              <i class="bi bi-person-plus-fill me-2"></i> Registrar Usuarios
+            </router-link>
+            <router-link to="/dashboardAdmin/usuarios" class="nav-link sidebar-sublink">
+              <i class="bi bi-people-fill me-2"></i> Todos los usuarios
+            </router-link>
+            <router-link to="/dashboardAdmin/usuarios/tutores" class="nav-link sidebar-sublink">
+              <i class="bi bi-person-badge me-2"></i> Tutores
+            </router-link>
+            <router-link to="/dashboardAdmin/usuarios/jugadores-club" class="nav-link sidebar-sublink">
+              <i class="bi bi-trophy me-2"></i> Jugadores de Club
+            </router-link>
+            <router-link to="/dashboardAdmin/usuarios/jugadores" class="nav-link sidebar-sublink">
+              <i class="bi bi-person me-2"></i> Jugadores
+            </router-link>
+            <router-link to="/dashboardAdmin/usuarios/jugadores-sociales" class="nav-link sidebar-sublink">
+              <i class="bi bi-heart me-2"></i> Jugadores Sociales
+            </router-link>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -44,10 +67,33 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "AdminDashboard",
+<script setup>
+import { ref, watch, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+
+// Estado reactivo
+const userMenuOpen = ref(false);
+const route = useRoute();
+
+// Métodos
+const toggleUserMenu = () => {
+  userMenuOpen.value = !userMenuOpen.value;
 };
+
+// Observar cambios en la ruta
+watch(() => route.path, (newPath) => {
+  // Abrir automáticamente el menú de usuarios si la ruta actual está relacionada con usuarios
+  if (newPath.includes('/usuarios')) {
+    userMenuOpen.value = true;
+  }
+}, { immediate: true });
+
+// Inicializar el estado del menú basado en la ruta actual
+onMounted(() => {
+  if (route.path.includes('/usuarios')) {
+    userMenuOpen.value = true;
+  }
+});
 </script>
 
 <style scoped>
@@ -67,12 +113,43 @@ export default {
   text-decoration: none;
   border-left: 4px solid transparent;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.sidebar-link:hover, .sidebar-link.router-link-active {
+.sidebar-link:hover,
+.sidebar-link.router-link-active {
   background-color: rgba(var(--bs-primary-rgb), 0.1);
   color: var(--bs-primary);
   border-left: 4px solid var(--bs-primary);
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.submenu-open {
+  max-height: 300px;
+}
+
+.sidebar-sublink {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.6rem 1rem 0.6rem 3rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.sidebar-sublink:hover,
+.sidebar-sublink.router-link-active {
+  background-color: rgba(var(--bs-primary-rgb), 0.1);
+  color: var(--bs-primary);
 }
 
 .main-content {

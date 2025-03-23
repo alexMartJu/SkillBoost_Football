@@ -27,6 +27,9 @@ public class SubtipoTecnificacionAssembler {
         response.setMetodoEvaluacion(subtipo.getMetodoEvaluacion());
         response.setTecnologiaUtilizada(subtipo.getTecnologiaUtilizada());
         response.setImages(subtipo.getImages());
+        if (subtipo.getTecnificacion() != null) {
+            response.setTecnificacionNombre(subtipo.getTecnificacion().getNombre());
+        }
         
         return response;
     }

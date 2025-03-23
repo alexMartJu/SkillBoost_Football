@@ -30,7 +30,7 @@ public class RegisterStandardUserUseCase {
     private final NumeroSocioGenerator numeroSocioGenerator;
     private final NotificationService notificationService;
     
-    private static final String DEFAULT_IMAGE = "https://static.productionready.io/images/default-user.png";
+    private static final String DEFAULT_IMAGE = "https://static.productionready.io/images/smiley-cyrus.jpg";
     
     @Transactional
     public Usuario execute(String email, String password, String nombre, String apellidos, Integer edad) {

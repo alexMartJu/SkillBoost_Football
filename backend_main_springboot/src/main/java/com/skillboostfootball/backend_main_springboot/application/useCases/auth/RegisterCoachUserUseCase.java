@@ -25,7 +25,7 @@ public class RegisterCoachUserUseCase {
     private final PasswordEncoder passwordEncoder;
     private final NumeroSocioGenerator numeroSocioGenerator;
     
-    private static final String DEFAULT_IMAGE = "https://static.productionready.io/images/default-user.png";
+    private static final String DEFAULT_IMAGE = "https://static.productionready.io/images/smiley-cyrus.jpg";
     
     @Transactional
     public Usuario execute(String email, String password, String nombre, String apellidos, String especialidad, Integer experienciaAnios, String certificaciones) {

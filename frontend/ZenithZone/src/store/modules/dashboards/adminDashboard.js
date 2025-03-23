@@ -5,367 +5,508 @@
         namespaced: true,
 
         state: {
-            deportes: [],
+            //Tecnificaciones
+            tecnificaciones: [],
+            currentTecnificacion: null,
+            //Subtipos de Tecnificación
+            subtiposTecnificacion: [],
+            currentSubtipoTecnificacion: null,
+            //Pistas
             pistas: [],
+            currentPista: null,
+            //Tipos de usuarios
+            tutores: [],
+            jugadoresClub: [],
+            jugadores: [],
+            jugadoresSociales: [],
+            loadingUsers: false,
+            //Suscripciones
+            suscripciones: [],
+            currentSuscripcion: null,
+            //Organizaciones
+            organizaciones: [],
+            currentOrganizacion: null,
+            //Entrenadores
             entrenadores: [],
-            entrenamientos: [],
-            salas:[],
-            pistasPrivadas: [],
-            currentPistaPrivada: null,
-            reservas: [],
+            currentEntrenador: null,
+            loadingEntrenadores: false,
+            errorEntrenadores: null
         },
 
         mutations: {
-            [Constant.INITIALIZE_PISTA_PRIVADA](state, payload) {
+            //Tecnificaciones
+            [Constant.INITIALIZE_TECNIFICACION_ADMIN](state, payload) {
                 if (payload) {
-                    state.pistasPrivadas = payload;
+                    state.tecnificaciones = payload;
                 }
             },
-            [Constant.CREATE_ONE_PISTA_PRIVADA](state, newPistaPrivada) {
-                state.pistasPrivadas.push(newPistaPrivada);
+            [Constant.CREATE_ONE_TECNIFICACION_ADMIN](state, newTecnificacion) {
+                state.tecnificaciones.push(newTecnificacion);
             },
-            [Constant.SET_CURRENT_PISTA_PRIVADA](state, pista) {
-                state.currentPistaPrivada = pista;
+            [Constant.SET_CURRENT_TECNIFICACION_ADMIN](state, tecnificacion) {
+                state.currentTecnificacion = tecnificacion;
             },
-            [Constant.DELETE_ONE_PISTA_PRIVADA](state, pistaslug) {
-                state.pistasPrivadas = state.pistasPrivadas.filter(pista => pista.slug !== pistaslug);
+            [Constant.DELETE_ONE_TECNIFICACION_ADMIN](state, slug) {
+                state.tecnificaciones = state.tecnificaciones.filter(tecnificacion => tecnificacion.slug !== slug);
             },
-            [Constant.INITIALIZE_DEPORTE](state, payload) {
+            //Subtipos de Tecnificación
+            [Constant.INITIALIZE_SUBTIPO_TECNIFICACION_ADMIN](state, payload) {
                 if (payload) {
-                    state.deportes = payload;
+                    state.subtiposTecnificacion = payload;
                 }
             },
-            [Constant.INITIALIZE_PISTA](state, payload) {
+            [Constant.CREATE_ONE_SUBTIPO_TECNIFICACION_ADMIN](state, newSubtipo) {
+                state.subtiposTecnificacion.push(newSubtipo);
+            },
+            [Constant.SET_CURRENT_SUBTIPO_TECNIFICACION_ADMIN](state, subtipo) {
+                state.currentSubtipoTecnificacion = subtipo;
+            },
+            [Constant.DELETE_ONE_SUBTIPO_TECNIFICACION_ADMIN](state, slug) {
+                state.subtiposTecnificacion = state.subtiposTecnificacion.filter(subtipo => subtipo.slug !== slug);
+            },
+            //Pistas
+            [Constant.INITIALIZE_PISTA_ADMIN](state, payload) {
                 if (payload) {
                     state.pistas = payload;
                 }
             },
-            [Constant.CREATE_ONE_DEPORTE](state, newDeporte) {
-                state.deportes.push(newDeporte); 
+            [Constant.CREATE_ONE_PISTA_ADMIN](state, newPista) {
+                state.pistas.push(newPista);
             },
-            // Crear una pista
-            [Constant.CREATE_ONE_PISTA](state, newPista) {
-                state.pistas.push(newPista); 
+            [Constant.SET_CURRENT_PISTA_ADMIN](state, pista) {
+                state.currentPista = pista;
             },
-            [Constant.SET_CURRENT_PISTA](state, pista) {
-                state.currentPista = pista; 
+            [Constant.DELETE_ONE_PISTA_ADMIN](state, slug) {
+                state.pistas = state.pistas.filter(pista => pista.slug !== slug);
             },
-            [Constant.SET_CURRENT_DEPORTE](state, pista) {
-                state.currentPista = pista; 
+            //Tipos de usuarios
+            [Constant.SET_TUTORES](state, payload) {
+                state.tutores = payload;
             },
-            [Constant.DELETE_ONE_DEPORTE](state, deporteslug) {
-                state.deportes = state.deportes.filter(deporte => deporte.slug !== deporteslug);
+            [Constant.SET_JUGADORES_CLUB](state, payload) {
+                state.jugadoresClub = payload;
             },
-            [Constant.DELETE_ONE_PISTA](state, pistaslug) {
-                state.pistas = state.pistas.filter(pista => pista.slug !== pistaslug);
+            [Constant.SET_JUGADORES](state, payload) {
+                state.jugadores = payload;
             },
-            [Constant.INITIALIZE_ENTRENADOR](state, entrenadores) {
-                state.entrenadores = entrenadores;  
+            [Constant.SET_JUGADORES_SOCIALES](state, payload) {
+                state.jugadoresSociales = payload;
             },
-            [Constant.DELETE_ONE_ENTRENADOR](state, entrenadorId) {
-                state.entrenadores.data = state.entrenadores.data.filter(entrenador => entrenador.numeroentrenador !== entrenadorId)
+            [Constant.SET_LOADING_USERS](state, payload) {
+                state.loadingUsers = payload;
             },
-            [Constant.ADD_NEW_ENTRENADOR](state, newEntrenador) {
-                state.entrenadores.data.push(newEntrenador);
+            //Suscripciones
+            [Constant.SET_SUSCRIPCIONES_ADMIN](state, payload) {
+                state.suscripciones = payload;
             },
-            [Constant.INITIALIZE_ENTRENAMIENTO](state, entrenamientos) {
-                state.entrenamientos = entrenamientos;
+            [Constant.SET_CURRENT_SUSCRIPCION_ADMIN](state, suscripcion) {
+                state.currentSuscripcion = suscripcion;
             },
-            [Constant.DELETE_ONE_ENTRENAMIENTO](state, entrenamientoId) {
-                state.entrenamientos = state.entrenamientos.filter(entrenamiento => entrenamiento.id !== entrenamientoId);
-            },
-            [Constant.SET_CURRENT_ENTRENAMIENTO](state, entrenamiento) {
-                state.currentEntrenamiento = entrenamiento;
-            },
-            [Constant.UPDATE_STATUS_ENTRENAMIENTO](state, { slug, status }) {
-                const entrenamiento = state.entrenamientos.find(ent => ent.slug === slug);
-                if (entrenamiento) {
-                    entrenamiento.status = status; 
-                }
-            },
-            [Constant.INITIALIZE_SALAS](state, salas) {
-                state.salas = salas;
-            },
-            [Constant.CREATE_ONE_SALA](state, nuevaSala) {
-                state.salas.push(nuevaSala);
-            },
-            [Constant.DELETE_ONE_SALA](state, salaId) {
-                state.salas = state.salas.filter(sala => sala.id !== salaId);
-            },
-            [Constant.INITIALIZE_RESERVA](state, payload) {
+            //Organizaciones
+            [Constant.INITIALIZE_ORGANIZACIONES_ADMIN](state, payload) {
                 if (payload) {
-                    state.reservas = payload;
+                    state.organizaciones = payload;
                 }
             },
-            [Constant.DELETE_ONE_RESERVA](state, reservaId) {
-                state.reservas = state.reservas.filter(reserva => reserva.id !== reservaId);
+            [Constant.CREATE_ONE_ORGANIZACION_ADMIN](state, newOrganizacion) {
+                state.organizaciones.push(newOrganizacion);
             },
+            [Constant.SET_CURRENT_ORGANIZACION_ADMIN](state, organizacion) {
+                state.currentOrganizacion = organizacion;
+            },
+            // Entrenadores
+            [Constant.ADMIN_SET_ENTRENADORES](state, entrenadores) {
+                state.entrenadores = entrenadores;
+            },
+            [Constant.ADMIN_SET_CURRENT_ENTRENADOR](state, entrenador) {
+                state.currentEntrenador = entrenador;
+            },
+            [Constant.ADMIN_DELETE_ENTRENADOR](state, numeroEntrenador) {
+                state.entrenadores = state.entrenadores.filter(
+                    entrenador => entrenador.numeroEntrenador !== numeroEntrenador
+                );
+            },
+            SET_LOADING_ENTRENADORES(state, status) {
+                state.loadingEntrenadores = status;
+            },
+            SET_ERROR_ENTRENADORES(state, error) {
+                state.errorEntrenadores = error;
+            }
             
 
         },
 
         actions: {
-
-
-            async [Constant.INITIALIZE_PISTA_PRIVADA]({ commit }) {
-                try {
-                    const { data } = await adminDashboardService.GetPistasPrivadas();
-                    commit(Constant.INITIALIZE_PISTA_PRIVADA, data.data);
-                } catch (error) {
-                    console.error("Error al cargar las pistas privadas:", error);
-                }
-            },
-            async [Constant.CREATE_ONE_PISTA_PRIVADA]({ commit }, newPistaPrivada) {
-                try {
-                    const { data } = await adminDashboardService.CreatePistaPrivada(newPistaPrivada);
-                    commit(Constant.CREATE_ONE_PISTA_PRIVADA, data.data);
-                } catch (error) {
-                    console.error("Error al crear la pista privada:", error);
-                }
-            },
-            async [Constant.FETCH_PISTA_PRIVADA_BY_SLUG]({ commit }, slug) {
-                try {
-                    const { data } = await adminDashboardService.GetPistaPrivadaBySlug(slug);
-                    commit(Constant.SET_CURRENT_PISTA_PRIVADA, data.data);
-                    return data.data;
-                } catch (error) {
-                    console.error("Error al cargar la pista privada:", error);
-                }
-            },
-            async [Constant.DELETE_ONE_PISTA_PRIVADA]({ commit }, pistaslug) {
-                try {
-                    await adminDashboardService.DeletePistaPrivada(pistaslug);
-                    commit(Constant.DELETE_ONE_PISTA_PRIVADA, pistaslug);
-                } catch (error) {
-                    console.error("Error al eliminar la pista privada:", error);
-                }
-            },
-            async [Constant.INITIALIZE_DEPORTE](store) {
-                try {
-                    const { data } = await adminDashboardService.GetDeportes();
-                    store.commit(Constant.INITIALIZE_DEPORTE, data.data);
-                } catch (error) {
-                    console.error("Error al cargar los deportes:", error);
-                }
-            },
-            
-            async [Constant.INITIALIZE_PISTA](store) {
-                try {
-                    const { data } = await adminDashboardService.GetPistas();
-                    store.commit(Constant.INITIALIZE_PISTA, data.data);
-                } catch (error) {
-                    console.error("Error al cargar las pistas:", error);
-                }
-            },
-        
-            async [Constant.CREATE_ONE_DEPORTE]({ commit }, newDeporte) {
-                try {
-                const { data } = await adminDashboardService.CreateDeporte(newDeporte);
-                commit(Constant.CREATE_ONE_DEPORTE, data.data); // Agregar el deporte creado
-                } catch (error) {
-                console.error("Error al crear el deporte:", error);
-                }
-            },
-    
-        // Crear una pista
-            async [Constant.CREATE_ONE_PISTA]({ commit }, newPista) {
-                try {
-                const { data } = await adminDashboardService.CreatePista(newPista);
-                commit(Constant.CREATE_ONE_PISTA, data.data); 
-                } catch (error) {
-                console.error("Error al crear la pista:", error);
-                }
-            },
-                async [Constant.FETCH_PISTA_BY_SLUG]({ commit }, slug) {
+                //Tecnificaciones
+                async [Constant.INITIALIZE_TECNIFICACION_ADMIN]({ commit }) {
                     try {
-                        console.log("fetched");
-                        const { data } = await adminDashboardService.GetPistaBySlug(slug); 
-                        console.log("data"+JSON.stringify(data.data));
-                        commit(Constant.SET_CURRENT_PISTA, data.data); 
-                        return data.data;
+                        const { data } = await adminDashboardService.GetTecnificaciones();
+                        commit(Constant.INITIALIZE_TECNIFICACION_ADMIN, data.tecnificaciones);
+                    } catch (error) {
+                        console.error("Error al cargar las tecnificaciones:", error);
+                    }
+                },
+                async [Constant.FETCH_TECNIFICACION_BY_SLUG_ADMIN]({ commit }, slug) {
+                    try {
+                        const { data } = await adminDashboardService.GetTecnificacionBySlug(slug);
+                        commit(Constant.SET_CURRENT_TECNIFICACION_ADMIN, data);
+                        return data;
+                    } catch (error) {
+                        console.error("Error al cargar la tecnificación:", error);
+                    }
+                },
+                async [Constant.CREATE_ONE_TECNIFICACION_ADMIN]({ commit }, newTecnificacion) {
+                    try {
+                        const { data } = await adminDashboardService.CreateTecnificacion(newTecnificacion);
+                        commit(Constant.CREATE_ONE_TECNIFICACION_ADMIN, data);
+                        return data;
+                    } catch (error) {
+                        console.error("Error al crear la tecnificación:", error);
+                    }
+                },
+                async [Constant.UPDATE_ONE_TECNIFICACION_ADMIN]({ commit }, { slug, data }) {
+                    try {
+                        const response = await adminDashboardService.UpdateTecnificacion(slug, data);
+                        commit(Constant.SET_CURRENT_TECNIFICACION_ADMIN, response.data);
+                        return response.data;
+                    } catch (error) {
+                        console.error("Error al actualizar la tecnificación:", error);
+                    }
+                },
+                async [Constant.DELETE_ONE_TECNIFICACION_ADMIN]({ commit }, slug) {
+                    try {
+                        await adminDashboardService.DeleteTecnificacion(slug);
+                        commit(Constant.DELETE_ONE_TECNIFICACION_ADMIN, slug);
+                    } catch (error) {
+                        console.error("Error al eliminar la tecnificación:", error);
+                    }
+                },
+                //Subtipos de Tecnificación
+                async [Constant.INITIALIZE_SUBTIPO_TECNIFICACION_ADMIN]({ commit }) {
+                    try {
+                        const { data } = await adminDashboardService.GetSubtiposTecnificacion();
+                        commit(Constant.INITIALIZE_SUBTIPO_TECNIFICACION_ADMIN, data.subtipos);
+                    } catch (error) {
+                        console.error("Error al cargar los subtipos de tecnificación:", error);
+                    }
+                },
+                async [Constant.FETCH_SUBTIPO_TECNIFICACION_BY_SLUG_ADMIN]({ commit }, slug) {
+                    try {
+                        const { data } = await adminDashboardService.GetSubtipoTecnificacionBySlug(slug);
+                        commit(Constant.SET_CURRENT_SUBTIPO_TECNIFICACION_ADMIN, data);
+                        return data;
+                    } catch (error) {
+                        console.error("Error al cargar el subtipo de tecnificación:", error);
+                    }
+                },
+                async [Constant.CREATE_ONE_SUBTIPO_TECNIFICACION_ADMIN]({ commit }, { tecnificacionSlug, subtipo }) {
+                    try {
+                        const { data } = await adminDashboardService.CreateSubtipoTecnificacion(tecnificacionSlug, subtipo);
+                        commit(Constant.CREATE_ONE_SUBTIPO_TECNIFICACION_ADMIN, data);
+                        return data;
+                    } catch (error) {
+                        console.error("Error al crear el subtipo de tecnificación:", error);
+                        throw error;
+                    }
+                },
+                async [Constant.UPDATE_ONE_SUBTIPO_TECNIFICACION_ADMIN]({ commit }, { slug, data }) {
+                    try {
+                        const response = await adminDashboardService.UpdateSubtipoTecnificacion(slug, data);
+                        commit(Constant.SET_CURRENT_SUBTIPO_TECNIFICACION_ADMIN, response.data);
+                        return response.data;
+                    } catch (error) {
+                        console.error("Error al actualizar el subtipo de tecnificación:", error);
+                        throw error;
+                    }
+                },
+                async [Constant.DELETE_ONE_SUBTIPO_TECNIFICACION_ADMIN]({ commit }, slug) {
+                    try {
+                        await adminDashboardService.DeleteSubtipoTecnificacion(slug);
+                        commit(Constant.DELETE_ONE_SUBTIPO_TECNIFICACION_ADMIN, slug);
+                    } catch (error) {
+                        console.error("Error al eliminar el subtipo de tecnificación:", error);
+                        throw error;
+                    }
+                },
+                //Pistas
+                async [Constant.INITIALIZE_PISTA_ADMIN]({ commit }) {
+                    try {
+                        const { data } = await adminDashboardService.GetPistas();
+                        commit(Constant.INITIALIZE_PISTA_ADMIN, data.pistas);
+                    } catch (error) {
+                        console.error("Error al cargar las pistas:", error);
+                    }
+                },
+                async [Constant.FETCH_PISTA_BY_SLUG_ADMIN]({ commit }, slug) {
+                    try {
+                        const { data } = await adminDashboardService.GetPistaBySlug(slug);
+                        commit(Constant.SET_CURRENT_PISTA_ADMIN, data);
+                        return data;
                     } catch (error) {
                         console.error("Error al cargar la pista:", error);
                     }
                 },
-                async [Constant.UPDATE_ONE_PISTA]({ commit }, { slug, data }) {
+                async [Constant.CREATE_ONE_PISTA_ADMIN]({ commit }, newPista) {
                     try {
-                        const { data: updatedData } = await adminDashboardService.UpdatePista(slug, data);
-                        commit(Constant.SET_CURRENT_PISTA, updatedData);
-                        return updatedData;
+                        const { data } = await adminDashboardService.CreatePista(newPista);
+                        commit(Constant.CREATE_ONE_PISTA_ADMIN, data);
+                        return data;
+                    } catch (error) {
+                        console.error("Error al crear la pista:", error);
+                        throw error;
+                    }
+                },
+                async [Constant.UPDATE_ONE_PISTA_ADMIN]({ commit }, { slug, data }) {
+                    try {
+                        const response = await adminDashboardService.UpdatePista(slug, data);
+                        commit(Constant.SET_CURRENT_PISTA_ADMIN, response.data);
+                        return response.data;
                     } catch (error) {
                         console.error("Error al actualizar la pista:", error);
+                        throw error;
                     }
                 },
-                async [Constant.FETCH_DEPORTE_BY_SLUG]({ commit }, slug) {
+                async [Constant.DELETE_ONE_PISTA_ADMIN]({ commit }, slug) {
                     try {
-                        console.log("fetched");
-                        const { data } = await adminDashboardService.GetDeporteBySlug(slug); 
-                        console.log("data"+JSON.stringify(data.data));
-                        commit(Constant.SET_CURRENT_DEPORTE, data.data); 
-                        return data.data;
+                        await adminDashboardService.DeletePista(slug);
+                        commit(Constant.DELETE_ONE_PISTA_ADMIN, slug);
                     } catch (error) {
-                        console.error("Error al cargar la pista:", error);
+                        console.error("Error al eliminar la pista:", error);
+                        throw error;
                     }
                 },
-            
-                async [Constant.UPDATE_ONE_DEPORTE]({ commit }, { slug, data }) {
+                //Tipos de usuarios
+                async [Constant.FETCH_TUTORES]({ commit }) {
                     try {
-                        const { data: updatedData } = await adminDashboardService.UpdateDeporte(slug, data);
-                        commit(Constant.SET_CURRENT_DEPORTE, updatedData);
-                        return updatedData;
+                        commit(Constant.SET_LOADING_USERS, true);
+                        const { data } = await adminDashboardService.GetTutores();
+                        commit(Constant.SET_TUTORES, data.profiles || []);
+                        return data.profiles;
                     } catch (error) {
-                        console.error("Error al actualizar el deporte:", error);
+                        console.error("Error al cargar tutores:", error);
+                        return [];
+                    } finally {
+                        commit(Constant.SET_LOADING_USERS, false);
                     }
                 },
-                async [Constant.DELETE_ONE_DEPORTE]({ commit }, deporteslug) {
+                async [Constant.FETCH_JUGADORES_CLUB]({ commit }) {
                     try {
-                    await adminDashboardService.DeleteDeporte(deporteslug);
-                    commit(Constant.DELETE_ONE_DEPORTE, deporteslug);
+                        commit(Constant.SET_LOADING_USERS, true);
+                        const { data } = await adminDashboardService.GetJugadoresClub();
+                        commit(Constant.SET_JUGADORES_CLUB, data.profiles || []);
+                        return data.profiles;
                     } catch (error) {
-                    console.error("Error al eliminar el deporte:", error);
+                        console.error("Error al cargar jugadores de club:", error);
+                        return [];
+                    } finally {
+                        commit(Constant.SET_LOADING_USERS, false);
                     }
                 },
-                async [Constant.DELETE_ONE_PISTA]({ commit }, pistaslug) {
+                async [Constant.FETCH_JUGADORES]({ commit }) {
                     try {
-                    await adminDashboardService.DeletePista   (pistaslug);
-                    commit(Constant.DELETE_ONE_PISTA, pistaslug);
+                        commit(Constant.SET_LOADING_USERS, true);
+                        const { data } = await adminDashboardService.GetJugadores();
+                        commit(Constant.SET_JUGADORES, data.profiles || []);
+                        return data.profiles;
                     } catch (error) {
-                    console.error("Error al eliminar la pista:", error);
+                        console.error("Error al cargar jugadores:", error);
+                        return [];
+                    } finally {
+                        commit(Constant.SET_LOADING_USERS, false);
                     }
                 },
-                async [Constant.INITIALIZE_ENTRENADOR]({ commit }) {
+                async [Constant.FETCH_JUGADORES_SOCIALES]({ commit }) {
                     try {
-                    const { data } = await adminDashboardService.GetEntrenadores(); 
-                    commit(Constant.INITIALIZE_ENTRENADOR, data); 
+                        commit(Constant.SET_LOADING_USERS, true);
+                        const { data } = await adminDashboardService.GetJugadoresSociales();
+                        commit(Constant.SET_JUGADORES_SOCIALES, data.profiles || []);
+                        return data.profiles;
                     } catch (error) {
-                    console.error("Error al obtener la lista de entrenadores:", error);
+                        console.error("Error al cargar jugadores sociales:", error);
+                        return [];
+                    } finally {
+                        commit(Constant.SET_LOADING_USERS, false);
                     }
                 },
-                async [Constant.DELETE_ONE_ENTRENADOR]({ commit }, numeroentrenador) {
+                async [Constant.REGISTER_COACH]({ commit }, coachData) {
                     try {
-                    await adminDashboardService.DeleteEntrenador(numeroentrenador);
-                    commit(Constant.DELETE_ONE_ENTRENADOR, numeroentrenador);
+                        const response = await adminDashboardService.RegisterCoach(coachData);
+                        return response.data;
                     } catch (error) {
-                    console.error("Error al eliminar el entrenador:", error);
+                        console.error("Error al registrar entrenador:", error);
+                        throw error;
                     }
                 },
-                async [Constant.REGISTER_ENTRENADOR]({ commit }, entrenadorData) {
+                async [Constant.REGISTER_CLUB_PLAYER]({ commit }, playerData) {
                     try {
-                        const { data } = await adminDashboardService.RegisterEntrenador(entrenadorData);
-                        console.log("Entrenador registrado:", data);
-                        // Puedes agregar una mutación para actualizar el estado si es necesario, como agregar el nuevo entrenador a la lista.
-                        commit(Constant.ADD_NEW_ENTRENADOR, data);
+                        const response = await adminDashboardService.RegisterClubPlayer(playerData);
+                        return response.data;
                     } catch (error) {
-                        console.error("Error al registrar el entrenador:", error);
+                        console.error("Error al registrar jugador de club:", error);
+                        throw error;
                     }
                 },
-                async [Constant.UPDATE_ONE_ENTRENAMIENTO]({ commit }, { id, data }) {
+                async [Constant.REGISTER_SOCIAL_HELP_PLAYER]({ commit }, playerData) {
                     try {
-                    const { data: updatedData } = await adminDashboardService.UpdateEntrenamiento(id, data);
-                    commit(Constant.SET_CURRENT_ENTRENAMIENTO, updatedData);
+                        const response = await adminDashboardService.RegisterSocialHelpPlayer(playerData);
+                        return response.data;
                     } catch (error) {
-                    console.error("Error al actualizar el entrenamiento:", error);
+                        console.error("Error al registrar jugador social:", error);
+                        throw error;
                     }
                 },
-                async [Constant.INITIALIZE_ENTRENAMIENTO]({ commit }) {
+                //Suscripciones
+                async [Constant.INITIALIZE_SUSCRIPCIONES_ADMIN]({ commit }) {
                     try {
-                    const { data } = await adminDashboardService.GetEntrenamientos();
-                
-                    commit(Constant.INITIALIZE_ENTRENAMIENTO, data.data);
+                        const { data } = await adminDashboardService.GetSuscripciones();
+                        commit(Constant.SET_SUSCRIPCIONES_ADMIN, data.suscripciones);
+                        return data.suscripciones;
                     } catch (error) {
-                    console.error("Error al cargar los entrenamientos:", error);
+                        console.error("Error al cargar las suscripciones:", error);
+                        throw error;
                     }
                 },
-                async [Constant.UPDATE_STATUS_ENTRENAMIENTO]({ commit }, { slug, status }) {
+                async [Constant.UPDATE_SUSCRIPCION_PRECIO_ADMIN]({ commit, dispatch }, { slug, precio }) {
                     try {
-                        const { data } = await adminDashboardService.UpdateStatus(slug, status);
-                        commit(Constant.UPDATE_STATUS_ENTRENAMIENTO, { slug, status });
+                        const { data } = await adminDashboardService.UpdateSuscripcionPrecio(slug, { precio });
+                        // Actualizar la lista de suscripciones después de la actualización
+                        await dispatch(Constant.INITIALIZE_SUSCRIPCIONES_ADMIN);
+                        return data;
                     } catch (error) {
-                        console.error("Error al cambiar el estado del entrenamiento:", error);
+                        console.error("Error al actualizar el precio de la suscripción:", error);
+                        throw error;
                     }
                 },
-                async [Constant.INITIALIZE_SALAS]({ commit }) {
+                //Organizaciones
+                async [Constant.INITIALIZE_ORGANIZACIONES_ADMIN]({ commit }) {
                     try {
-                      const { data } = await adminDashboardService.GetSalas();
-                      console.log("Datos de salas:", data);
-                      commit(Constant.INITIALIZE_SALAS, data);
+                        const { data } = await adminDashboardService.GetOrganizaciones();
+                        commit(Constant.INITIALIZE_ORGANIZACIONES_ADMIN, data.organizaciones);
                     } catch (error) {
-                      console.error("Error al inicializar salas:", error);
-                    }
-                  },
-                  async  [Constant.CREATE_ONE_SALA]({ commit }, sala) {
-                    try {
-                        const { data } =  await adminDashboardService.CreateSalas(sala);
-                      console.log(JSON.stringify(data)+"data");
-                      commit(Constant.CREATE_ONE_SALA, data);
-                    } catch (error) {
-                      console.error("Error al crear sala:", error);
-                    }
-                  },
-                  async  [Constant.DELETE_ONE_SALA]({ commit }, sala) {
-                    try {
-                        const { data } =  await adminDashboardService.DeleteSalas(sala);
-                      console.log(JSON.stringify(data)+"data");
-                      commit(Constant.DELETE_ONE_SALA, data);
-                    } catch (error) {
-                      console.error("Error al crear sala:", error);
-                    }
-                  },
-
-                async [Constant.INITIALIZE_RESERVA]({ commit }) {
-                    try {
-                        const { data } = await adminDashboardService.GetReservas();
-                        console.log("reservas"+JSON.stringify(data.data));
-                        commit(Constant.INITIALIZE_RESERVA, data.data);
-                    } catch (error) {
-                        console.error("Error al cargar las reservas:", error);
+                        console.error("Error al cargar las organizaciones:", error);
                     }
                 },
-                async [Constant.DELETE_ONE_RESERVA]({ commit }, reservaId) {
+                async [Constant.FETCH_ORGANIZACION_BY_SLUG_ADMIN]({ commit }, slug) {
                     try {
-                        await adminDashboardService.DeleteReserva(reservaId);
-                        commit(Constant.DELETE_ONE_RESERVA, reservaId);
+                        const { data } = await adminDashboardService.GetOrganizacionBySlug(slug);
+                        commit(Constant.SET_CURRENT_ORGANIZACION_ADMIN, data);
+                        return data;
                     } catch (error) {
-                        console.error("Error al eliminar la reserva:", error);
+                        console.error("Error al cargar la organización:", error);
                     }
                 },
+                async [Constant.CREATE_ONE_ORGANIZACION_ADMIN]({ commit }, newOrganizacion) {
+                    try {
+                        const { data } = await adminDashboardService.CreateOrganizacion(newOrganizacion);
+                        commit(Constant.CREATE_ONE_ORGANIZACION_ADMIN, data);
+                        return data;
+                    } catch (error) {
+                        console.error("Error al crear la organización:", error);
+                        throw error;
+                    }
+                },
+                // Entrenadores
+                async [Constant.ADMIN_INITIALIZE_ENTRENADORES]({ commit }) {
+                    try {
+                        commit('SET_LOADING_ENTRENADORES', true);
+                        commit('SET_ERROR_ENTRENADORES', null);
+                        
+                        const { data } = await adminDashboardService.GetEntrenadores();
+                        commit(Constant.ADMIN_SET_ENTRENADORES, data.entrenadores);
+                        
+                        return data.entrenadores;
+                    } catch (error) {
+                        commit('SET_ERROR_ENTRENADORES', 'Error al cargar los entrenadores');
+                        console.error('Error al cargar entrenadores:', error);
+                        return [];
+                    } finally {
+                        commit('SET_LOADING_ENTRENADORES', false);
+                    }
+                },
+                async [Constant.ADMIN_DELETE_ENTRENADOR]({ commit }, numeroEntrenador) {
+                    try {
+                        commit('SET_LOADING_ENTRENADORES', true);
+                        commit('SET_ERROR_ENTRENADORES', null);
+                        
+                        await adminDashboardService.DeleteEntrenador(numeroEntrenador);
+                        commit(Constant.ADMIN_DELETE_ENTRENADOR, numeroEntrenador);
+                        
+                        return true;
+                    } catch (error) {
+                        commit('SET_ERROR_ENTRENADORES', 'Error al eliminar el entrenador');
+                        console.error('Error al eliminar entrenador:', error);
+                        return false;
+                    } finally {
+                        commit('SET_LOADING_ENTRENADORES', false);
+                    }
+                },
+                async [Constant.ADMIN_SET_CURRENT_ENTRENADOR]({ commit }, numeroEntrenador) {
+                    try {
+                        commit('SET_LOADING_ENTRENADORES', true);
+                        commit('SET_ERROR_ENTRENADORES', null);
+                        
+                        const { data } = await adminDashboardService.GetEntrenadorByNumero(numeroEntrenador);
+                        commit(Constant.ADMIN_SET_CURRENT_ENTRENADOR, data);
+                        
+                        return data;
+                    } catch (error) {
+                        commit('SET_ERROR_ENTRENADORES', 'Error al cargar los detalles del entrenador');
+                        console.error('Error al cargar detalles del entrenador:', error);
+                        return null;
+                    } finally {
+                        commit('SET_LOADING_ENTRENADORES', false);
+                    }
+                }
                   
             
         },
 
         getters: {
-            GetDeportes(state) {
-                return state.deportes;
+            //Tecnificaciones
+            GetTecnificaciones(state) {
+                return state.tecnificaciones;
             },
+            GetCurrentTecnificacion(state) {
+                return state.currentTecnificacion;
+            },
+            //Subtipos de Tecnificación
+            GetSubtiposTecnificacion(state) {
+                return state.subtiposTecnificacion;
+            },
+            GetCurrentSubtipoTecnificacion(state) {
+                return state.currentSubtipoTecnificacion;
+            },
+            //Pistas
             GetPistas(state) {
                 return state.pistas;
             },
             GetCurrentPista(state) {
-                return state.currentPista; 
+                return state.currentPista;
             },
-            GetCurrentDeporte(state){
-                return state.currentDeporte;
+            getTutores: state => state.tutores,
+            getJugadoresClub: state => state.jugadoresClub,
+            getJugadores: state => state.jugadores,
+            getJugadoresSociales: state => state.jugadoresSociales,
+            isLoadingUsers: state => state.loadingUsers,
+            //Suscripciones
+            GetSuscripciones(state) {
+                return state.suscripciones;
             },
-            GetEntrenadores(state){
-                return state.entrenadores
+            GetCurrentSuscripcion(state) {
+                return state.currentSuscripcion;
             },
-            GetEntrenamientos: (state) => {
-                return state.entrenamientos; 
+            //Organizaciones
+            GetOrganizaciones(state) {
+                return state.organizaciones;
             },
-            GetSalas(state) {
-                return state.salas;
-            },
-            GetEntrenadores(state) {
-                return state.entrenadores;
-            },
-            GetPistasPrivadas(state) {
-                return state.pistasPrivadas;
-            },
-            GetCurrentPistaPrivada(state) {
-                return state.currentPistaPrivada;
-            },
-            GetReservas(state) {
-                return state.reservas;
-            },
+            GetCurrentOrganizacion(state) {
+                return state.currentOrganizacion;
+            },  
+            //Entrenadores
+            getEntrenadores: state => state.entrenadores,
+            getCurrentEntrenador: state => state.currentEntrenador,
+            isLoadingEntrenadores: state => state.loadingEntrenadores,
+            getErrorEntrenadores: state => state.errorEntrenadores
+            
         }
     };

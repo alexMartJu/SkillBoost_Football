@@ -239,6 +239,123 @@ const router = createRouter({
           component: () => import('../components/dashboards/admin/Reservas.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
+        {
+          path: "tecnificaciones",
+          name: "adminTecnificaciones",
+          component: () => import('../components/dashboards/admin/tecnificaciones/ListTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "tecnificaciones/crear",
+          name: "adminCrearTecnificacion",
+          component: () => import('../components/dashboards/admin/tecnificaciones/FormTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "tecnificaciones/editar/:slug",
+          name: "adminEditarTecnificacion",
+          component: () => import('../components/dashboards/admin/tecnificaciones/FormTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin,
+          props: true
+        },
+        {
+          path: "subtipos-tecnificaciones",
+          name: "adminSubtiposTecnificaciones",
+          component: () => import('../components/dashboards/admin/subtiposTecnificacion/ListSubtiposTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "subtipos-tecnificaciones/crear",
+          name: "adminCrearSubtipoTecnificacion",
+          component: () => import('../components/dashboards/admin/subtiposTecnificacion/FormSubtiposTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "subtipos-tecnificaciones/editar/:slug",
+          name: "adminEditarSubtipoTecnificacion",
+          component: () => import('../components/dashboards/admin/subtiposTecnificacion/FormSubtiposTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin,
+          props: true
+        },
+        {
+          path: "pistas",
+          name: "adminPistas",
+          component: () => import('../components/dashboards/admin/pistas/ListPistas.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "pistas/crear",
+          name: "adminCrearPista",
+          component: () => import('../components/dashboards/admin/pistas/FormPistas.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "pistas/editar/:slug",
+          name: "adminEditarPista",
+          component: () => import('../components/dashboards/admin/pistas/FormPistas.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin,
+          props: true
+        },
+        {
+          path: "usuarios",
+          name: "adminUsuarios",
+          component: () => import('../components/dashboards/admin/usuarios/ListUsuarios.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "usuarios/tutores",
+          name: "adminTutores",
+          component: () => import('../components/dashboards/admin/usuarios/ListTutores.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "usuarios/jugadores-club",
+          name: "adminJugadoresClub",
+          component: () => import('../components/dashboards/admin/usuarios/ListJugadoresClub.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "usuarios/jugadores",
+          name: "adminJugadores",
+          component: () => import('../components/dashboards/admin/usuarios/ListJugadores.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "usuarios/jugadores-sociales",
+          name: "adminJugadoresSociales",
+          component: () => import('../components/dashboards/admin/usuarios/ListJugadoresSociales.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "suscripciones",
+          name: "adminSuscripciones",
+          component: () => import('../components/dashboards/admin/suscripciones/ListSuscripciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "organizaciones",
+          name: "adminOrganizaciones",
+          component: () => import('../components/dashboards/admin/organizaciones/ListOrganizaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "organizaciones/crear",
+          name: "adminCrearOrganizacion",
+          component: () => import('../components/dashboards/admin/organizaciones/FormOrganizaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "usuarios/registro",
+          name: "adminRegistroUsuarios",
+          component: () => import('../components/dashboards/admin/usuarios/RegisterUsers.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "entrenadores",
+          name: "adminEntrenadores",
+          component: () => import('../components/dashboards/admin/entrenadores/ListEntrenadores.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
 
       ]
     },
