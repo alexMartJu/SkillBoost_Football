@@ -70,7 +70,7 @@ export default {
     });
 
     const redirects = {
-      profileEntrenador: () => router.push({ name: 'profileEntrenador', params: { numeroEntrenador: props.entrenador.numeroentrenador } }),
+      profileEntrenador: () => router.push({ name: 'profileEntrenador', params: { numeroentrenador: props.entrenador.numeroEntrenador } }),
     };
 
     return { redirects, randomIcon }

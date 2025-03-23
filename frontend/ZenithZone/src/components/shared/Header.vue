@@ -165,7 +165,7 @@ export default {
             else if (state.isEntrenador && state.user.profile?.numeroEntrenador) {
                 router.push({ 
                     name: 'profileEntrenador', 
-                    params: { numeroEntrenador: state.user.profile.numeroEntrenador } 
+                    params: { numeroentrenador: state.user.profile.numeroEntrenador } 
                 });
             } 
             //Para usuarios normales con numeroSocio

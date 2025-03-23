@@ -1,6 +1,5 @@
 import Constant from '@/Constant';
 import profileService from '@/services/client/profile.service';
-// import entrenamientosService from '../../../services/client/entrenamientos.service';
 
 export const profile = {
     namespaced: true,
@@ -8,7 +7,9 @@ export const profile = {
     state: {
         entrenamientos: [],
         reservas: [],
-        graficas: []
+        graficas: [],
+        reservasActivas: [],
+        reservasExpiradas: []
     },
 
     actions: {
@@ -40,6 +41,32 @@ export const profile = {
                 console.error("Error al cargar las graficas:", error);
             }
         },
+        [Constant.INITIALIZE_RESERVAS_ACTIVAS]: async (store) => {
+            try {
+                const { data } = await profileService.ReservasActivas();
+                store.commit(Constant.INITIALIZE_RESERVAS_ACTIVAS, data.reservas);
+            } catch (error) {
+                console.error("Error al cargar las reservas activas:", error);
+            }
+        },
+        [Constant.INITIALIZE_RESERVAS_EXPIRADAS]: async (store) => {
+            try {
+                const { data } = await profileService.ReservasExpiradas();
+                store.commit(Constant.INITIALIZE_RESERVAS_EXPIRADAS, data.reservas);
+            } catch (error) {
+                console.error("Error al cargar las reservas expiradas:", error);
+            }
+        },
+        [Constant.CANCELAR_ENTRENAMIENTO]: async (store, slug) => {
+            try {
+                await profileService.CancelarEntrenamiento(slug);
+                store.commit(Constant.CANCELAR_ENTRENAMIENTO, slug);
+                return true;
+            } catch (error) {
+                console.error("Error al cancelar el entrenamiento:", error);
+                throw error;
+            }
+        }
     },
 
     mutations: {
@@ -57,6 +84,20 @@ export const profile = {
             if (payload) {
                 state.graficas = payload;
             }
+        },
+        [Constant.INITIALIZE_RESERVAS_ACTIVAS](state, payload) {
+            if (payload) {
+                state.reservasActivas = payload;
+            }
+        },
+        [Constant.INITIALIZE_RESERVAS_EXPIRADAS](state, payload) {
+            if (payload) {
+                state.reservasExpiradas = payload;
+            }
+        },
+        [Constant.CANCELAR_ENTRENAMIENTO](state, slug) {
+            //Eliminar el entrenamiento de las reservas activas
+            state.reservasActivas = state.reservasActivas.filter(reserva => reserva.slug !== slug);
         }
     },
 
@@ -68,8 +109,13 @@ export const profile = {
             return state.reservas;
         },
         GetGraficasProfile(state) {
-            // console.log(state.graficas);
             return state.graficas;
+        },
+        GetReservasActivas(state) {
+            return state.reservasActivas;
+        },
+        GetReservasExpiradas(state) {
+            return state.reservasExpiradas;
         }
     }
 };
