@@ -8,29 +8,8 @@
       </div>
       <hr class="border-light opacity-25 my-0">
       <div class="d-flex flex-column py-3">
-        <router-link to="/dashboardAdmin/listar" class="nav-link sidebar-link">
-          <i class="bi bi-list-ul me-2"></i> Listar
-        </router-link>
-        <router-link to="/dashboardAdmin/crear" class="nav-link sidebar-link">
-          <i class="bi bi-plus-circle me-2"></i> Crear
-        </router-link>
-        <router-link to="/dashboardAdmin/entrenador" class="nav-link sidebar-link">
-          <i class="bi bi-person-badge me-2"></i> Entrenadores
-        </router-link>
-        <router-link to="/dashboardAdmin/entrenador/register" class="nav-link sidebar-link">
-          <i class="bi bi-person-plus me-2"></i> Registrar Entrenador
-        </router-link>
-        <router-link to="/dashboardAdmin/entrenamientos" class="nav-link sidebar-link">
-          <i class="bi bi-calendar-check me-2"></i> Entrenamientos
-        </router-link>
-        <router-link to="/dashboardAdmin/salas" class="nav-link sidebar-link">
-          <i class="bi bi-building me-2"></i> Crear Salas
-        </router-link>
-        <router-link to="/dashboardAdmin/pistasprivadas" class="nav-link sidebar-link">
-          <i class="bi bi-trophy me-2"></i> Pistas Privadas
-        </router-link>
-        <router-link to="/dashboardAdmin/Reservas" class="nav-link sidebar-link">
-          <i class="bi bi-bookmark-check me-2"></i> Reservas
+        <router-link to="/dashboardAdmin/tecnificaciones" class="nav-link sidebar-link">
+          <i class="bi bi-lightning-charge me-2"></i> Tecnificaciones
         </router-link>
       </div>
     </div>
@@ -69,7 +48,8 @@ export default {
   transition: all 0.3s ease;
 }
 
-.sidebar-link:hover, .sidebar-link.router-link-active {
+.sidebar-link:hover,
+.sidebar-link.router-link-active {
   background-color: rgba(var(--bs-primary-rgb), 0.1);
   color: var(--bs-primary);
   border-left: 4px solid var(--bs-primary);

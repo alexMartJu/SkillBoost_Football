@@ -239,6 +239,25 @@ const router = createRouter({
           component: () => import('../components/dashboards/admin/Reservas.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
+        {
+          path: "tecnificaciones",
+          name: "adminTecnificaciones",
+          component: () => import('../components/dashboards/admin/tecnificaciones/ListTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "tecnificaciones/crear",
+          name: "adminCrearTecnificacion",
+          component: () => import('../components/dashboards/admin/tecnificaciones/FormTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "tecnificaciones/editar/:slug",
+          name: "adminEditarTecnificacion",
+          component: () => import('../components/dashboards/admin/tecnificaciones/FormTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin,
+          props: true
+        }
 
       ]
     },
