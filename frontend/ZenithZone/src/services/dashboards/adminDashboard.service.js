@@ -105,6 +105,18 @@ export default {
     GetEntrenadorByNumero(numeroEntrenador) {
         return Api(secrets.URL_PROXY).get(`main/entrenadores/${numeroEntrenador}`);
     },
+    //Entrenamientos pendientes
+    GetPendingEntrenamientos() {
+        return Api(secrets.URL_PROXY).get('main/admin/entrenamientos/pending');
+    },
+    
+    ApproveEntrenamiento(slug) {
+        return Api(secrets.URL_PROXY).post(`main/admin/entrenamientos/${slug}/approve`);
+    },
+    
+    DenyEntrenamiento(slug) {
+        return Api(secrets.URL_PROXY).post(`main/admin/entrenamientos/${slug}/deny`);
+    },
 
 
 };

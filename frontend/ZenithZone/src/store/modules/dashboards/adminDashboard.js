@@ -30,7 +30,11 @@
             entrenadores: [],
             currentEntrenador: null,
             loadingEntrenadores: false,
-            errorEntrenadores: null
+            errorEntrenadores: null,
+            // Entrenamientos pendientes
+            pendingEntrenamientos: [],
+            loadingEntrenamientos: false,
+            errorEntrenamientos: null
         },
 
         mutations: {
@@ -131,6 +135,16 @@
             },
             SET_ERROR_ENTRENADORES(state, error) {
                 state.errorEntrenadores = error;
+            },
+            // Entrenamientos pendientes
+            [Constant.SET_PENDING_ENTRENAMIENTOS](state, entrenamientos) {
+                state.pendingEntrenamientos = entrenamientos;
+            },
+            [Constant.SET_LOADING_ENTRENAMIENTOS](state, status) {
+                state.loadingEntrenamientos = status;
+            },
+            [Constant.SET_ERROR_ENTRENAMIENTOS](state, error) {
+                state.errorEntrenamientos = error;
             }
             
 
@@ -456,6 +470,60 @@
                     } finally {
                         commit('SET_LOADING_ENTRENADORES', false);
                     }
+                },
+                // Entrenamientos pendientes
+                async [Constant.FETCH_PENDING_ENTRENAMIENTOS]({ commit }) {
+                    try {
+                        commit(Constant.SET_LOADING_ENTRENAMIENTOS, true);
+                        commit(Constant.SET_ERROR_ENTRENAMIENTOS, null);
+                        
+                        const response = await adminDashboardService.GetPendingEntrenamientos();
+                        commit(Constant.SET_PENDING_ENTRENAMIENTOS, response.data.entrenamientos);
+                        
+                        return response.data.entrenamientos;
+                    } catch (error) {
+                        commit(Constant.SET_ERROR_ENTRENAMIENTOS, 'Error al cargar los entrenamientos pendientes');
+                        console.error('Error al cargar entrenamientos pendientes:', error);
+                        return [];
+                    } finally {
+                        commit(Constant.SET_LOADING_ENTRENAMIENTOS, false);
+                    }
+                },
+                async [Constant.APPROVE_ENTRENAMIENTO]({ commit, dispatch }, slug) {
+                    try {
+                        commit(Constant.SET_LOADING_ENTRENAMIENTOS, true);
+                        commit(Constant.SET_ERROR_ENTRENAMIENTOS, null);
+                        
+                        await adminDashboardService.ApproveEntrenamiento(slug);
+                        // Recargar la lista después de aprobar
+                        await dispatch(Constant.FETCH_PENDING_ENTRENAMIENTOS);
+                        
+                        return true;
+                    } catch (error) {
+                        commit(Constant.SET_ERROR_ENTRENAMIENTOS, 'Error al aprobar el entrenamiento');
+                        console.error('Error al aprobar entrenamiento:', error);
+                        return false;
+                    } finally {
+                        commit(Constant.SET_LOADING_ENTRENAMIENTOS, false);
+                    }
+                },    
+                async [Constant.DENY_ENTRENAMIENTO]({ commit, dispatch }, slug) {
+                    try {
+                        commit(Constant.SET_LOADING_ENTRENAMIENTOS, true);
+                        commit(Constant.SET_ERROR_ENTRENAMIENTOS, null);
+                        
+                        await adminDashboardService.DenyEntrenamiento(slug);
+                        // Recargar la lista después de denegar
+                        await dispatch(Constant.FETCH_PENDING_ENTRENAMIENTOS);
+                        
+                        return true;
+                    } catch (error) {
+                        commit(Constant.SET_ERROR_ENTRENAMIENTOS, 'Error al denegar el entrenamiento');
+                        console.error('Error al denegar entrenamiento:', error);
+                        return false;
+                    } finally {
+                        commit(Constant.SET_LOADING_ENTRENAMIENTOS, false);
+                    }
                 }
                   
             
@@ -506,7 +574,11 @@
             getEntrenadores: state => state.entrenadores,
             getCurrentEntrenador: state => state.currentEntrenador,
             isLoadingEntrenadores: state => state.loadingEntrenadores,
-            getErrorEntrenadores: state => state.errorEntrenadores
+            getErrorEntrenadores: state => state.errorEntrenadores,
+            //Entrenamientos pendientes
+            getPendingEntrenamientos: state => state.pendingEntrenamientos,
+            isLoadingEntrenamientos: state => state.loadingEntrenamientos,
+            getErrorEntrenamientos: state => state.errorEntrenamientos
             
         }
     };

@@ -190,7 +190,7 @@ const router = createRouter({
       name: "DashboardAdmin",
       component: () => import('../views/dashboards/AdminDashboard.vue'),
       beforeEnter: AuthGuards.authGuardAdmin, meta: { requiresAuth: true },
-      redirect: { name: 'adminListar' },
+      redirect: { name: 'adminEntrenamientosPendientes' },
       children: [
         {
           path: "listar",
@@ -363,6 +363,12 @@ const router = createRouter({
           component: () => import('../components/dashboards/admin/entrenadores/ListEntrenadores.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
+        {
+          path: "entrenamientos-pendientes",
+          name: "adminEntrenamientosPendientes",
+          component: () => import('../components/dashboards/admin/entrenamientos/PendingEntrenamientos.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        }
 
       ]
     },

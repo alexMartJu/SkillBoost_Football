@@ -8,6 +8,19 @@
       </div>
       <hr class="border-light opacity-25 my-0">
       <div class="d-flex flex-column py-3">
+        <!-- Sección destacada para entrenamientos pendientes -->
+        <div class="sidebar-section mb-3">
+          <router-link to="/dashboardAdmin/entrenamientos-pendientes" class="nav-link sidebar-link highlight-link">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-hourglass-split me-2"></i>
+              <span>Entrenamientos Pendientes</span>
+              <span v-if="pendingCount > 0" class="ms-auto badge rounded-pill bg-danger">
+                {{ pendingCount }}
+              </span>
+            </div>
+          </router-link>
+        </div>
+
         <router-link to="/dashboardAdmin/tecnificaciones" class="nav-link sidebar-link">
           <i class="bi bi-lightning-charge me-2"></i> Tecnificaciones
         </router-link>
@@ -68,16 +81,27 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+import Constant from '@/Constant';
 
-// Estado reactivo
 const userMenuOpen = ref(false);
 const route = useRoute();
+const store = useStore();
+const pendingCount = computed(() => {
+  const pendingEntrenamientos = store.getters['adminDashboard/getPendingEntrenamientos'];
+  return pendingEntrenamientos ? pendingEntrenamientos.length : 0;
+});
 
 // Métodos
 const toggleUserMenu = () => {
   userMenuOpen.value = !userMenuOpen.value;
+};
+
+//Cargar entrenamientos pendientes al montar el componente
+const loadPendingEntrenamientos = async () => {
+  await store.dispatch(`adminDashboard/${Constant.FETCH_PENDING_ENTRENAMIENTOS}`);
 };
 
 // Observar cambios en la ruta
@@ -89,10 +113,19 @@ watch(() => route.path, (newPath) => {
 }, { immediate: true });
 
 // Inicializar el estado del menú basado en la ruta actual
-onMounted(() => {
+onMounted(async () => {
   if (route.path.includes('/usuarios')) {
     userMenuOpen.value = true;
   }
+
+  //Cargar entrenamientos pendientes
+  await loadPendingEntrenamientos();
+
+  //Configurar intervalo para actualizar entrenamientos pendientes cada 5 minutos
+  const interval = setInterval(loadPendingEntrenamientos, 5 * 60 * 1000);
+
+  //Limpiar intervalo al desmontar
+  return () => clearInterval(interval);
 });
 </script>
 
@@ -121,6 +154,21 @@ onMounted(() => {
   background-color: rgba(var(--bs-primary-rgb), 0.1);
   color: var(--bs-primary);
   border-left: 4px solid var(--bs-primary);
+}
+
+/* Estilo para el enlace destacado de entrenamientos pendientes */
+.highlight-link {
+  background-color: rgba(var(--bs-primary-rgb), 0.15);
+  margin: 0 0.5rem;
+  border-radius: 0.5rem;
+  border-left: none;
+}
+
+.highlight-link:hover,
+.highlight-link.router-link-active {
+  background-color: rgba(var(--bs-primary-rgb), 0.25);
+  border-left: none;
+  transform: translateY(-2px);
 }
 
 .sidebar-section {
