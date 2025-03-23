@@ -1,40 +1,30 @@
 import secrets from "@/secrets";
 import Api from "../Api";
-const isSpringboot = "false";
+
 export default {
-    // Obtener la lista de entrenamientos desde la API
-    GetEntrenamientos() {
-        return Api(secrets.URL_SPRING,isSpringboot).get('entrenamientos');
+    //Obtener todas las pistas
+    GetAllPistas() {
+        return Api(secrets.URL_PROXY).get('main/pistas');
+    },
+    
+    //Obtener horarios ocupados de una pista en una fecha específica
+    GetHorariosOcupados(pistaSlug, fecha) {
+        return Api(secrets.URL_PROXY).get(`main/pistas/${pistaSlug}/horarios-ocupados?fecha=${fecha}`);
+    },
+    
+    //Crear un nuevo entrenamiento
+    CreateEntrenamiento(entrenamiento) {
+        return Api(secrets.URL_PROXY).post('main/entrenador/entrenamientos/create', entrenamiento);
     },
 
-    // Crear un nuevo entrenamiento en la API
-    CreateEntrenamiento(nuevoEntrenamiento) {
-        return Api(secrets.URL_SPRING,isSpringboot).post('entrenamientos', nuevoEntrenamiento);
+    //Obtener todas las tecnificaciones
+    GetAllTecnificaciones() {
+        return Api(secrets.URL_PROXY).get('main/tecnificaciones');
     },
-    GetGraficas(id) {
-        return Api(secrets.URL_SPRING, isSpringboot).get(`graficas/profile/${id}`);
-      },
     
-    UpdateGraficas(id, graficas) {
-        return Api(secrets.URL_SPRING, isSpringboot).post(`graficas/profile/${id}`, graficas);
-    },
-    GetProfile(id) {
-        return Api(secrets.URL_SPRING, isSpringboot).get(`profile/${id}`);
-    },
-    DeleteEntrenamiento(id){
-        return Api(secrets.URL_SPRING,isSpringboot).delete(`entrenamientos/${id}`);
-    },
-    GetEntrenador(){
-        return Api(secrets.URL_SPRING,isSpringboot).get(`currentEntrenador`);
-    },
-    GetPistasPrivadas(){
-        return Api(secrets.URL_SPRING,isSpringboot).get(`pistasprivadas`);
-    },
-    GetEntrenamientosOcupados(pistaId){
-        return Api(secrets.URL_SPRING,isSpringboot).get(`horariosocupados/${pistaId}`);
-    },
-    GetHorarios(pistaId){
-        return Api(secrets.URL_SPRING,isSpringboot).get(`horarios`);
+    //Obtener subtipos de una tecnificación específica
+    GetSubtiposByTecnificacion(tecnificacionSlug) {
+        return Api(secrets.URL_PROXY).get(`main/tecnificaciones/${tecnificacionSlug}/subtipos`);
     }
 
 };

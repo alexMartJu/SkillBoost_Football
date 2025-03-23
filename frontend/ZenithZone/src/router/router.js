@@ -151,29 +151,36 @@ const router = createRouter({
     {
       path: "/dashboardEntrenador",
       name: "DashboardEntrenador",
-      component: () => import('../views/dashboards/EntrenadorDashboard.vue'),  // Vista principal del entrenador
-      beforeEnter: AuthGuards.authGuardEntrenador, meta: { requiresAuth: true },
-      redirect: { name: 'entrenadorListarEntrenamientos' },
+      component: () => import('../views/dashboards/EntrenadorDashboard.vue'),
+      beforeEnter: AuthGuards.authGuardEntrenador, 
+      meta: { requiresAuth: true },
+      redirect: { name: 'entrenadorListarPistas' },
       children: [
         {
-          path: "listar",  // Si está vacío, se mostrará por defecto la vista de Listar Entrenamientos
-          name: "entrenadorListarEntrenamientos",
-          component: () => import('../components/dashboards/entrenador/ListEntrenamientosDashboard.vue'),  // Vista para listar entrenamientos
+          path: "listar",
+          name: "entrenadorListarPistas",
+          component: () => import('../components/dashboards/entrenador/ListPistas.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador
+        },
+        {
+          path: "horarios-pista",
+          name: "entrenadorHorariosPista",
+          component: () => import('../components/dashboards/entrenador/HorarioPista.vue'),
           beforeEnter: AuthGuards.authGuardEntrenador
         },
         {
           path: "crear-entrenamiento",
           name: "entrenadorCrearEntrenamiento",
-          component: () => import('../components/dashboards/entrenador/CreateEntrenamientoDashboard.vue'),  // Vista para crear un nuevo entrenamiento
-          beforeEnter: AuthGuards.authGuardEntrenador
+          component: () => import('../components/dashboards/entrenador/CreateEntrenamientoDashboard.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador,
+          props: true
         },
         {
-          path: '/alumno/:profileId',
-          name: "AlumnoDetail",
-          component: () => import('../components/dashboards/entrenador/AlumnoDetail.vue'),  // Vista para crear un nuevo entrenamiento
+          path: "mis-entrenamientos",
+          name: "entrenadorMisEntrenamientos",
+          component: () => import('../components/dashboards/entrenador/ListEntrenamientosDashboard.vue'),
           beforeEnter: AuthGuards.authGuardEntrenador
-        },
-
+        }
       ]
     },
 
