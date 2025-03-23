@@ -93,6 +93,18 @@ export default {
     RegisterSocialHelpPlayer(playerData) {
         return Api(secrets.URL_PROXY).post('main/jugadores-sociales/registro', playerData);
     },
+    //Entrenadores
+    GetEntrenadores() {
+        return Api(secrets.URL_PROXY).get('main/entrenadores');
+    },
+    
+    DeleteEntrenador(numeroEntrenador) {
+        return Api(secrets.URL_PROXY).delete(`main/entrenadores/${numeroEntrenador}`);
+    },
+    
+    GetEntrenadorByNumero(numeroEntrenador) {
+        return Api(secrets.URL_PROXY).get(`main/entrenadores/${numeroEntrenador}`);
+    },
 
 
 };

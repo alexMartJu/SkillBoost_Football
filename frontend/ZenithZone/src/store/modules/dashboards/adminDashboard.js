@@ -26,6 +26,11 @@
             //Organizaciones
             organizaciones: [],
             currentOrganizacion: null,
+            //Entrenadores
+            entrenadores: [],
+            currentEntrenador: null,
+            loadingEntrenadores: false,
+            errorEntrenadores: null
         },
 
         mutations: {
@@ -109,6 +114,24 @@
             [Constant.SET_CURRENT_ORGANIZACION_ADMIN](state, organizacion) {
                 state.currentOrganizacion = organizacion;
             },
+            // Entrenadores
+            [Constant.ADMIN_SET_ENTRENADORES](state, entrenadores) {
+                state.entrenadores = entrenadores;
+            },
+            [Constant.ADMIN_SET_CURRENT_ENTRENADOR](state, entrenador) {
+                state.currentEntrenador = entrenador;
+            },
+            [Constant.ADMIN_DELETE_ENTRENADOR](state, numeroEntrenador) {
+                state.entrenadores = state.entrenadores.filter(
+                    entrenador => entrenador.numeroEntrenador !== numeroEntrenador
+                );
+            },
+            SET_LOADING_ENTRENADORES(state, status) {
+                state.loadingEntrenadores = status;
+            },
+            SET_ERROR_ENTRENADORES(state, error) {
+                state.errorEntrenadores = error;
+            }
             
 
         },
@@ -382,6 +405,58 @@
                         throw error;
                     }
                 },
+                // Entrenadores
+                async [Constant.ADMIN_INITIALIZE_ENTRENADORES]({ commit }) {
+                    try {
+                        commit('SET_LOADING_ENTRENADORES', true);
+                        commit('SET_ERROR_ENTRENADORES', null);
+                        
+                        const { data } = await adminDashboardService.GetEntrenadores();
+                        commit(Constant.ADMIN_SET_ENTRENADORES, data.entrenadores);
+                        
+                        return data.entrenadores;
+                    } catch (error) {
+                        commit('SET_ERROR_ENTRENADORES', 'Error al cargar los entrenadores');
+                        console.error('Error al cargar entrenadores:', error);
+                        return [];
+                    } finally {
+                        commit('SET_LOADING_ENTRENADORES', false);
+                    }
+                },
+                async [Constant.ADMIN_DELETE_ENTRENADOR]({ commit }, numeroEntrenador) {
+                    try {
+                        commit('SET_LOADING_ENTRENADORES', true);
+                        commit('SET_ERROR_ENTRENADORES', null);
+                        
+                        await adminDashboardService.DeleteEntrenador(numeroEntrenador);
+                        commit(Constant.ADMIN_DELETE_ENTRENADOR, numeroEntrenador);
+                        
+                        return true;
+                    } catch (error) {
+                        commit('SET_ERROR_ENTRENADORES', 'Error al eliminar el entrenador');
+                        console.error('Error al eliminar entrenador:', error);
+                        return false;
+                    } finally {
+                        commit('SET_LOADING_ENTRENADORES', false);
+                    }
+                },
+                async [Constant.ADMIN_SET_CURRENT_ENTRENADOR]({ commit }, numeroEntrenador) {
+                    try {
+                        commit('SET_LOADING_ENTRENADORES', true);
+                        commit('SET_ERROR_ENTRENADORES', null);
+                        
+                        const { data } = await adminDashboardService.GetEntrenadorByNumero(numeroEntrenador);
+                        commit(Constant.ADMIN_SET_CURRENT_ENTRENADOR, data);
+                        
+                        return data;
+                    } catch (error) {
+                        commit('SET_ERROR_ENTRENADORES', 'Error al cargar los detalles del entrenador');
+                        console.error('Error al cargar detalles del entrenador:', error);
+                        return null;
+                    } finally {
+                        commit('SET_LOADING_ENTRENADORES', false);
+                    }
+                }
                   
             
         },
@@ -427,6 +502,11 @@
             GetCurrentOrganizacion(state) {
                 return state.currentOrganizacion;
             },  
+            //Entrenadores
+            getEntrenadores: state => state.entrenadores,
+            getCurrentEntrenador: state => state.currentEntrenador,
+            isLoadingEntrenadores: state => state.loadingEntrenadores,
+            getErrorEntrenadores: state => state.errorEntrenadores
             
         }
     };

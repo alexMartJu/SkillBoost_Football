@@ -170,4 +170,10 @@ export default {
   REGISTER_COACH: "REGISTER_COACH",
   REGISTER_CLUB_PLAYER: "REGISTER_CLUB_PLAYER",
   REGISTER_SOCIAL_HELP_PLAYER: "REGISTER_SOCIAL_HELP_PLAYER",
+
+  //Entrenadores (Admin Dashboard)
+  ADMIN_INITIALIZE_ENTRENADORES: "AdminInitializeEntrenadores",
+  ADMIN_SET_ENTRENADORES: "AdminSetEntrenadores",
+  ADMIN_SET_CURRENT_ENTRENADOR: "AdminSetCurrentEntrenador",
+  ADMIN_DELETE_ENTRENADOR: "AdminDeleteEntrenador",
 }

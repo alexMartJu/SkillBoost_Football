@@ -24,6 +24,9 @@
         <router-link to="/dashboardAdmin/organizaciones" class="nav-link sidebar-link">
           <i class="bi bi-building me-2"></i> Organizaciones
         </router-link>
+        <router-link to="/dashboardAdmin/entrenadores" class="nav-link sidebar-link">
+          <i class="bi bi-person-badge-fill me-2"></i> Entrenadores
+        </router-link>
         <!-- Sección de usuarios mejorada -->
         <div class="sidebar-section">
           <div class="sidebar-link" @click="toggleUserMenu">
@@ -132,7 +135,7 @@ onMounted(() => {
 }
 
 .submenu-open {
-  max-height: 300px; /* Altura máxima para el menú desplegado */
+  max-height: 300px;
 }
 
 .sidebar-sublink {
