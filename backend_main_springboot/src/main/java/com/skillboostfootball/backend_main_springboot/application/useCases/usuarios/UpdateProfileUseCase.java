@@ -18,7 +18,7 @@ public class UpdateProfileUseCase {
     private final PasswordEncoder passwordEncoder;
     
     @Transactional
-    public Profile execute(String nombre, String apellidos, String bio, String image, String email, String password, Integer edad, String posicionPreferida) {
+    public Usuario execute(String nombre, String apellidos, String bio, String image, String email, String password, Integer edad, String posicionPreferida) {
 
         Usuario usuario = getCurrentUserUseCase.execute();
         //Verificar si el usuario es admin
@@ -42,7 +42,6 @@ public class UpdateProfileUseCase {
         Profile profile = usuario.getProfile();
         profile.update(nombre, apellidos, bio, edad);
         
-
         if (image != null && !image.isEmpty()) {
             profile.updateImage(image);
         }
@@ -50,7 +49,8 @@ public class UpdateProfileUseCase {
             profile.updatePlayerInfo(posicionPreferida, profile.getClubOrigen());
         }
         usuario = usuarioRepository.save(usuario);
-        return usuario.getProfile();
-
+        
+        return usuario;
     }
+
 }

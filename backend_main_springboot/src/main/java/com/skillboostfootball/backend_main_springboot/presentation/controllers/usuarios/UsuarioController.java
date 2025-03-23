@@ -31,11 +31,9 @@ public class UsuarioController {
     @PutMapping("/user")
     @CheckSecurity.Protected.canManage
     public UserResponse updateUser(@Valid @RequestBody UpdateUserRequest request) {
-        updateProfileUseCase.execute(request.getNombre(), request.getApellidos(), request.getBio(), request.getImage(),
+        var updatedUser = updateProfileUseCase.execute(request.getNombre(), request.getApellidos(), request.getBio(), request.getImage(),
             request.getEmail(), request.getPassword(), request.getEdad(), request.getPosicionPreferida());
         
-        //Obtenemos el usuario actualizado para devolverlo completo
-        var updatedUser = getCurrentUserUseCase.execute();
         return userAssembler.toUserResponse(updatedUser);
     }
     
@@ -43,10 +41,9 @@ public class UsuarioController {
     @PutMapping("/user/coach")
     @CheckSecurity.Entrenador.canAccess
     public UserResponse updateCoachUser(@Valid @RequestBody UpdateCoachUserRequest request) {
-        updateCoachProfileUseCase.execute(request.getNombre(), request.getApellidos(), request.getBio(), request.getImage(),
+        var updatedUser = updateCoachProfileUseCase.execute(request.getNombre(), request.getApellidos(), request.getBio(), request.getImage(),
             request.getEmail(), request.getPassword(), request.getEdad(), request.getEspecialidad(), request.getCertificaciones());
         
-        var updatedUser = getCurrentUserUseCase.execute();
         return userAssembler.toUserResponse(updatedUser);
     }
 }
