@@ -14,6 +14,9 @@
         <router-link to="/dashboardAdmin/subtipos-tecnificaciones" class="nav-link sidebar-link">
           <i class="bi bi-list-nested me-2"></i> Subtipos de Tecnificación
         </router-link>
+        <router-link to="/dashboardAdmin/pistas" class="nav-link sidebar-link">
+          <i class="bi bi-geo-alt me-2"></i> Campos
+        </router-link>
       </div>
     </div>
 

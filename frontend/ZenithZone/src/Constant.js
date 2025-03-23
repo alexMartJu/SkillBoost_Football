@@ -134,4 +134,13 @@ export default {
   CREATE_ONE_SUBTIPO_TECNIFICACION_ADMIN: "CreateOneSubtipoTecnificacionAdmin",
   FETCH_SUBTIPO_TECNIFICACION_BY_SLUG_ADMIN: "FetchSubtipoTecnificacionBySlugAdmin",
   SET_CURRENT_SUBTIPO_TECNIFICACION_ADMIN: "SetCurrentSubtipoTecnificacionAdmin",
-  }
+
+  //Pistas Admin
+  INITIALIZE_PISTA_ADMIN: "InitializePistaAdmin",
+  INITIALIZE_ONE_STATE_PISTA_ADMIN: "InitializeOneStatePistaAdmin",
+  DELETE_ONE_PISTA_ADMIN: "DeleteOnePistaAdmin",
+  UPDATE_ONE_PISTA_ADMIN: "UpdateOnePistaAdmin",
+  CREATE_ONE_PISTA_ADMIN: "CreateOnePistaAdmin",
+  FETCH_PISTA_BY_SLUG_ADMIN: "FetchPistaBySlugAdmin",
+  SET_CURRENT_PISTA_ADMIN: "SetCurrentPistaAdmin",
+}

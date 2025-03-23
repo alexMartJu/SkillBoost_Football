@@ -36,6 +36,22 @@ export default {
     },
     GetSubtiposByTecnificacionSlug(tecnificacionSlug) {
         return Api(secrets.URL_PROXY).get(`main/tecnificaciones/${tecnificacionSlug}/subtipos`);
+    },
+    //Pistas
+    GetPistas() {
+        return Api(secrets.URL_PROXY).get('main/pistas');
+    },
+    GetPistaBySlug(slug) {
+        return Api(secrets.URL_PROXY).get(`main/pistas/${slug}`);
+    },
+    CreatePista(pista) {
+        return Api(secrets.URL_PROXY).post('main/pistas/create', pista);
+    },
+    UpdatePista(slug, pista) {
+        return Api(secrets.URL_PROXY).put(`main/pistas/${slug}/update`, pista);
+    },
+    DeletePista(slug) {
+        return Api(secrets.URL_PROXY).delete(`main/pistas/${slug}/delete`);
     }
 
 

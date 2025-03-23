@@ -145,7 +145,6 @@ export default {
           // Manejar errores del servidor
           if (error.response && error.response.data) {
             const serverErrors = error.response.data;
-            // Aquí podrías manejar los errores específicos del servidor
             console.error("Errores del servidor:", serverErrors);
           }
         });

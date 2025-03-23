@@ -11,6 +11,9 @@
             //Subtipos de Tecnificación
             subtiposTecnificacion: [],
             currentSubtipoTecnificacion: null,
+            //Pistas
+            pistas: [],
+            currentPista: null,
         },
 
         mutations: {
@@ -43,6 +46,21 @@
             },
             [Constant.DELETE_ONE_SUBTIPO_TECNIFICACION_ADMIN](state, slug) {
                 state.subtiposTecnificacion = state.subtiposTecnificacion.filter(subtipo => subtipo.slug !== slug);
+            },
+            //Pistas
+            [Constant.INITIALIZE_PISTA_ADMIN](state, payload) {
+                if (payload) {
+                    state.pistas = payload;
+                }
+            },
+            [Constant.CREATE_ONE_PISTA_ADMIN](state, newPista) {
+                state.pistas.push(newPista);
+            },
+            [Constant.SET_CURRENT_PISTA_ADMIN](state, pista) {
+                state.currentPista = pista;
+            },
+            [Constant.DELETE_ONE_PISTA_ADMIN](state, slug) {
+                state.pistas = state.pistas.filter(pista => pista.slug !== slug);
             },
             
 
@@ -140,6 +158,53 @@
                         throw error;
                     }
                 },
+                //Pistas
+                async [Constant.INITIALIZE_PISTA_ADMIN]({ commit }) {
+                    try {
+                        const { data } = await adminDashboardService.GetPistas();
+                        commit(Constant.INITIALIZE_PISTA_ADMIN, data.pistas);
+                    } catch (error) {
+                        console.error("Error al cargar las pistas:", error);
+                    }
+                },
+                async [Constant.FETCH_PISTA_BY_SLUG_ADMIN]({ commit }, slug) {
+                    try {
+                        const { data } = await adminDashboardService.GetPistaBySlug(slug);
+                        commit(Constant.SET_CURRENT_PISTA_ADMIN, data);
+                        return data;
+                    } catch (error) {
+                        console.error("Error al cargar la pista:", error);
+                    }
+                },
+                async [Constant.CREATE_ONE_PISTA_ADMIN]({ commit }, newPista) {
+                    try {
+                        const { data } = await adminDashboardService.CreatePista(newPista);
+                        commit(Constant.CREATE_ONE_PISTA_ADMIN, data);
+                        return data;
+                    } catch (error) {
+                        console.error("Error al crear la pista:", error);
+                        throw error;
+                    }
+                },
+                async [Constant.UPDATE_ONE_PISTA_ADMIN]({ commit }, { slug, data }) {
+                    try {
+                        const response = await adminDashboardService.UpdatePista(slug, data);
+                        commit(Constant.SET_CURRENT_PISTA_ADMIN, response.data);
+                        return response.data;
+                    } catch (error) {
+                        console.error("Error al actualizar la pista:", error);
+                        throw error;
+                    }
+                },
+                async [Constant.DELETE_ONE_PISTA_ADMIN]({ commit }, slug) {
+                    try {
+                        await adminDashboardService.DeletePista(slug);
+                        commit(Constant.DELETE_ONE_PISTA_ADMIN, slug);
+                    } catch (error) {
+                        console.error("Error al eliminar la pista:", error);
+                        throw error;
+                    }
+                },
                   
             
         },
@@ -158,6 +223,13 @@
             },
             GetCurrentSubtipoTecnificacion(state) {
                 return state.currentSubtipoTecnificacion;
+            },
+            //Pistas
+            GetPistas(state) {
+                return state.pistas;
+            },
+            GetCurrentPista(state) {
+                return state.currentPista;
             }
         }
     };

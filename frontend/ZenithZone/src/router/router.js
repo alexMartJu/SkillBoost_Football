@@ -276,6 +276,25 @@ const router = createRouter({
           component: () => import('../components/dashboards/admin/subtiposTecnificacion/FormSubtiposTecnificaciones.vue'),
           beforeEnter: AuthGuards.authGuardAdmin,
           props: true
+        },
+        {
+          path: "pistas",
+          name: "adminPistas",
+          component: () => import('../components/dashboards/admin/pistas/ListPistas.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "pistas/crear",
+          name: "adminCrearPista",
+          component: () => import('../components/dashboards/admin/pistas/FormPistas.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "pistas/editar/:slug",
+          name: "adminEditarPista",
+          component: () => import('../components/dashboards/admin/pistas/FormPistas.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin,
+          props: true
         }
 
       ]
