@@ -21,6 +21,9 @@
         <router-link to="/dashboardAdmin/suscripciones" class="nav-link sidebar-link">
           <i class="bi bi-credit-card me-2"></i> Suscripciones
         </router-link>
+        <router-link to="/dashboardAdmin/organizaciones" class="nav-link sidebar-link">
+          <i class="bi bi-building me-2"></i> Organizaciones
+        </router-link>
         <!-- Sección de usuarios mejorada -->
         <div class="sidebar-section">
           <div class="sidebar-link" @click="toggleUserMenu">

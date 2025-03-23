@@ -160,4 +160,10 @@ export default {
   UPDATE_SUSCRIPCION_PRECIO_ADMIN: "UpdateSuscripcionPrecioAdmin",
   SET_SUSCRIPCIONES_ADMIN: "SetSuscripcionesAdmin",
   SET_CURRENT_SUSCRIPCION_ADMIN: "SetCurrentSuscripcionAdmin",
+
+  //Organizaciones Admin
+  INITIALIZE_ORGANIZACIONES_ADMIN: "InitializeOrganizacionesAdmin",
+  CREATE_ONE_ORGANIZACION_ADMIN: "CreateOneOrganizacionAdmin",
+  FETCH_ORGANIZACION_BY_SLUG_ADMIN: "FetchOrganizacionBySlugAdmin",
+  SET_CURRENT_ORGANIZACION_ADMIN: "SetCurrentOrganizacionAdmin",
 }

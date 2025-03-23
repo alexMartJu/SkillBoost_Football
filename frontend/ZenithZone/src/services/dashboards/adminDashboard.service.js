@@ -72,7 +72,17 @@ export default {
     },
     UpdateSuscripcionPrecio(slug, precioData) {
         return Api(secrets.URL_PROXY).patch(`main/suscripciones/${slug}/precio`, precioData);
-    }
+    },
+    //Organizaciones
+    GetOrganizaciones() {
+        return Api(secrets.URL_PROXY).get('main/organizaciones');
+    },
+    GetOrganizacionBySlug(slug) {
+        return Api(secrets.URL_PROXY).get(`main/organizaciones/${slug}`);
+    },
+    CreateOrganizacion(organizacion) {
+        return Api(secrets.URL_PROXY).post('main/organizaciones', organizacion);
+    },
 
 
 };

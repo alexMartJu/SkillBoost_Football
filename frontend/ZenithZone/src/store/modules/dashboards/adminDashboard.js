@@ -23,6 +23,9 @@
             //Suscripciones
             suscripciones: [],
             currentSuscripcion: null,
+            //Organizaciones
+            organizaciones: [],
+            currentOrganizacion: null,
         },
 
         mutations: {
@@ -93,6 +96,18 @@
             },
             [Constant.SET_CURRENT_SUSCRIPCION_ADMIN](state, suscripcion) {
                 state.currentSuscripcion = suscripcion;
+            },
+            //Organizaciones
+            [Constant.INITIALIZE_ORGANIZACIONES_ADMIN](state, payload) {
+                if (payload) {
+                    state.organizaciones = payload;
+                }
+            },
+            [Constant.CREATE_ONE_ORGANIZACION_ADMIN](state, newOrganizacion) {
+                state.organizaciones.push(newOrganizacion);
+            },
+            [Constant.SET_CURRENT_ORGANIZACION_ADMIN](state, organizacion) {
+                state.currentOrganizacion = organizacion;
             },
             
 
@@ -311,7 +326,35 @@
                         console.error("Error al actualizar el precio de la suscripción:", error);
                         throw error;
                     }
-                }
+                },
+                //Organizaciones
+                async [Constant.INITIALIZE_ORGANIZACIONES_ADMIN]({ commit }) {
+                    try {
+                        const { data } = await adminDashboardService.GetOrganizaciones();
+                        commit(Constant.INITIALIZE_ORGANIZACIONES_ADMIN, data.organizaciones);
+                    } catch (error) {
+                        console.error("Error al cargar las organizaciones:", error);
+                    }
+                },
+                async [Constant.FETCH_ORGANIZACION_BY_SLUG_ADMIN]({ commit }, slug) {
+                    try {
+                        const { data } = await adminDashboardService.GetOrganizacionBySlug(slug);
+                        commit(Constant.SET_CURRENT_ORGANIZACION_ADMIN, data);
+                        return data;
+                    } catch (error) {
+                        console.error("Error al cargar la organización:", error);
+                    }
+                },
+                async [Constant.CREATE_ONE_ORGANIZACION_ADMIN]({ commit }, newOrganizacion) {
+                    try {
+                        const { data } = await adminDashboardService.CreateOrganizacion(newOrganizacion);
+                        commit(Constant.CREATE_ONE_ORGANIZACION_ADMIN, data);
+                        return data;
+                    } catch (error) {
+                        console.error("Error al crear la organización:", error);
+                        throw error;
+                    }
+                },
                   
             
         },
@@ -349,7 +392,14 @@
             },
             GetCurrentSuscripcion(state) {
                 return state.currentSuscripcion;
-            }
+            },
+            //Organizaciones
+            GetOrganizaciones(state) {
+                return state.organizaciones;
+            },
+            GetCurrentOrganizacion(state) {
+                return state.currentOrganizacion;
+            },  
             
         }
     };
