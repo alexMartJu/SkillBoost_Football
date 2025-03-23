@@ -1,6 +1,7 @@
 package com.skillboostfootball.backend_main_springboot.application.useCases.auth;
 
 import com.skillboostfootball.backend_main_springboot.application.applicationServices.NumeroSocioGenerator;
+import com.skillboostfootball.backend_main_springboot.application.applicationServices.SuscripcionAssignmentService;
 import com.skillboostfootball.backend_main_springboot.domain.entities.usuarios.Usuario;
 import com.skillboostfootball.backend_main_springboot.domain.entities.profiles.Profile;
 import com.skillboostfootball.backend_main_springboot.domain.entities.roles.Role;
@@ -13,19 +14,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
 public class RegisterSocialHelpPlayerUseCase {
+
+    private static final Logger logger = LoggerFactory.getLogger(RegisterSocialHelpPlayerUseCase.class);
+
     private final UsuarioRepository usuarioRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final NumeroSocioGenerator numeroSocioGenerator;
+    private final SuscripcionAssignmentService suscripcionAssignmentService;
     
-    private static final String DEFAULT_IMAGE = "https://static.productionready.io/images/default-user.png";
+    private static final String DEFAULT_IMAGE = "https://static.productionready.io/images/smiley-cyrus.jpg";
     
     @Transactional
     public Usuario execute(String email, String password, String nombre, String apellidos, Integer edad, String organizacionOrigen) {
@@ -59,11 +65,17 @@ public class RegisterSocialHelpPlayerUseCase {
             .edad(edad)
             .esMenor(esMenor)
             .organizacionOrigen(organizacionOrigen)
+            .entrenamientosDisponibles(0)
             .createdAt(LocalDateTime.now())
             .updatedAt(LocalDateTime.now())
             .build();
         usuario.setProfile(profile);
         usuario = usuarioRepository.save(usuario);
+
+        logger.info("Usuario jugador social registrado con ID: {}", usuario.getId());
+
+        //Asignar suscripción Desarrollo Avanzado
+        suscripcionAssignmentService.asignarSuscripcionJugadorSocial(usuario.getProfile());
         
         return usuario;
         
