@@ -126,4 +126,12 @@ export default {
   CREATE_ONE_TECNIFICACION_ADMIN: "CreateOneTecnificacionAdmin",
   FETCH_TECNIFICACION_BY_SLUG_ADMIN: "FetchTecnificacionBySlugAdmin",
   SET_CURRENT_TECNIFICACION_ADMIN: "SetCurrentTecnificacionAdmin",
-}
+
+  //Subtipos de Tecnificación Admin
+  INITIALIZE_SUBTIPO_TECNIFICACION_ADMIN: "InitializeSubtipoTecnificacionAdmin",
+  DELETE_ONE_SUBTIPO_TECNIFICACION_ADMIN: "DeleteOneSubtipoTecnificacionAdmin",
+  UPDATE_ONE_SUBTIPO_TECNIFICACION_ADMIN: "UpdateOneSubtipoTecnificacionAdmin",
+  CREATE_ONE_SUBTIPO_TECNIFICACION_ADMIN: "CreateOneSubtipoTecnificacionAdmin",
+  FETCH_SUBTIPO_TECNIFICACION_BY_SLUG_ADMIN: "FetchSubtipoTecnificacionBySlugAdmin",
+  SET_CURRENT_SUBTIPO_TECNIFICACION_ADMIN: "SetCurrentSubtipoTecnificacionAdmin",
+  }

@@ -257,6 +257,25 @@ const router = createRouter({
           component: () => import('../components/dashboards/admin/tecnificaciones/FormTecnificaciones.vue'),
           beforeEnter: AuthGuards.authGuardAdmin,
           props: true
+        },
+        {
+          path: "subtipos-tecnificaciones",
+          name: "adminSubtiposTecnificaciones",
+          component: () => import('../components/dashboards/admin/subtiposTecnificacion/ListSubtiposTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "subtipos-tecnificaciones/crear",
+          name: "adminCrearSubtipoTecnificacion",
+          component: () => import('../components/dashboards/admin/subtiposTecnificacion/FormSubtiposTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "subtipos-tecnificaciones/editar/:slug",
+          name: "adminEditarSubtipoTecnificacion",
+          component: () => import('../components/dashboards/admin/subtiposTecnificacion/FormSubtiposTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin,
+          props: true
         }
 
       ]

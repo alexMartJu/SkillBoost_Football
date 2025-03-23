@@ -20,4 +20,5 @@ public class SubtipoTecnificacionResponse {
     private String metodoEvaluacion;
     private String tecnologiaUtilizada;
     private List<Image> images;
+    private String tecnificacionNombre;
 }
