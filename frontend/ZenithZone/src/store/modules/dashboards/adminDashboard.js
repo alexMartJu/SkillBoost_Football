@@ -305,6 +305,33 @@
                         commit(Constant.SET_LOADING_USERS, false);
                     }
                 },
+                async [Constant.REGISTER_COACH]({ commit }, coachData) {
+                    try {
+                        const response = await adminDashboardService.RegisterCoach(coachData);
+                        return response.data;
+                    } catch (error) {
+                        console.error("Error al registrar entrenador:", error);
+                        throw error;
+                    }
+                },
+                async [Constant.REGISTER_CLUB_PLAYER]({ commit }, playerData) {
+                    try {
+                        const response = await adminDashboardService.RegisterClubPlayer(playerData);
+                        return response.data;
+                    } catch (error) {
+                        console.error("Error al registrar jugador de club:", error);
+                        throw error;
+                    }
+                },
+                async [Constant.REGISTER_SOCIAL_HELP_PLAYER]({ commit }, playerData) {
+                    try {
+                        const response = await adminDashboardService.RegisterSocialHelpPlayer(playerData);
+                        return response.data;
+                    } catch (error) {
+                        console.error("Error al registrar jugador social:", error);
+                        throw error;
+                    }
+                },
                 //Suscripciones
                 async [Constant.INITIALIZE_SUSCRIPCIONES_ADMIN]({ commit }) {
                     try {

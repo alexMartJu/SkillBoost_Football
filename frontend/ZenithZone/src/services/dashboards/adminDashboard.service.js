@@ -83,6 +83,16 @@ export default {
     CreateOrganizacion(organizacion) {
         return Api(secrets.URL_PROXY).post('main/organizaciones', organizacion);
     },
+    //Registro de usuarios
+    RegisterCoach(coachData) {
+        return Api(secrets.URL_PROXY).post('main/entrenadores/registro', coachData);
+    },
+    RegisterClubPlayer(playerData) {
+        return Api(secrets.URL_PROXY).post('main/jugadores-club/registro', playerData);
+    },
+    RegisterSocialHelpPlayer(playerData) {
+        return Api(secrets.URL_PROXY).post('main/jugadores-sociales/registro', playerData);
+    },
 
 
 };

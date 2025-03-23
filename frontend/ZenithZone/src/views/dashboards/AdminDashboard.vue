@@ -32,6 +32,9 @@
           </div>
           
           <div class="submenu" :class="{ 'submenu-open': userMenuOpen }">
+            <router-link to="/dashboardAdmin/usuarios/registro" class="nav-link sidebar-sublink">
+              <i class="bi bi-person-plus-fill me-2"></i> Registrar Usuarios
+            </router-link>
             <router-link to="/dashboardAdmin/usuarios" class="nav-link sidebar-sublink">
               <i class="bi bi-people-fill me-2"></i> Todos los usuarios
             </router-link>
