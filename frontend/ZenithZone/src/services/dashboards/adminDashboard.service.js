@@ -52,6 +52,19 @@ export default {
     },
     DeletePista(slug) {
         return Api(secrets.URL_PROXY).delete(`main/pistas/${slug}/delete`);
+    },
+    //Tipos usuarios
+    GetTutores() {
+        return Api(secrets.URL_PROXY).get('main/profiles/tutores');
+    },
+    GetJugadoresClub() {
+        return Api(secrets.URL_PROXY).get('main/profiles/jugadores-club');
+    },
+    GetJugadores() {
+        return Api(secrets.URL_PROXY).get('main/profiles/jugadores');
+    },
+    GetJugadoresSociales() {
+        return Api(secrets.URL_PROXY).get('main/profiles/jugadores-sociales');
     }
 
 

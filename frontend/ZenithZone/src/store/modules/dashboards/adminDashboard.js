@@ -14,6 +14,12 @@
             //Pistas
             pistas: [],
             currentPista: null,
+            //Tipos de usuarios
+            tutores: [],
+            jugadoresClub: [],
+            jugadores: [],
+            jugadoresSociales: [],
+            loadingUsers: false,
         },
 
         mutations: {
@@ -62,6 +68,22 @@
             [Constant.DELETE_ONE_PISTA_ADMIN](state, slug) {
                 state.pistas = state.pistas.filter(pista => pista.slug !== slug);
             },
+            //Tipos de usuarios
+            [Constant.SET_TUTORES](state, payload) {
+                state.tutores = payload;
+            },
+            [Constant.SET_JUGADORES_CLUB](state, payload) {
+                state.jugadoresClub = payload;
+            },
+            [Constant.SET_JUGADORES](state, payload) {
+                state.jugadores = payload;
+            },
+            [Constant.SET_JUGADORES_SOCIALES](state, payload) {
+                state.jugadoresSociales = payload;
+            },
+            [Constant.SET_LOADING_USERS](state, payload) {
+                state.loadingUsers = payload;
+            }
             
 
         },
@@ -205,6 +227,59 @@
                         throw error;
                     }
                 },
+                //Tipos de usuarios
+                async [Constant.FETCH_TUTORES]({ commit }) {
+                    try {
+                        commit(Constant.SET_LOADING_USERS, true);
+                        const { data } = await adminDashboardService.GetTutores();
+                        commit(Constant.SET_TUTORES, data.profiles || []);
+                        return data.profiles;
+                    } catch (error) {
+                        console.error("Error al cargar tutores:", error);
+                        return [];
+                    } finally {
+                        commit(Constant.SET_LOADING_USERS, false);
+                    }
+                },
+                async [Constant.FETCH_JUGADORES_CLUB]({ commit }) {
+                    try {
+                        commit(Constant.SET_LOADING_USERS, true);
+                        const { data } = await adminDashboardService.GetJugadoresClub();
+                        commit(Constant.SET_JUGADORES_CLUB, data.profiles || []);
+                        return data.profiles;
+                    } catch (error) {
+                        console.error("Error al cargar jugadores de club:", error);
+                        return [];
+                    } finally {
+                        commit(Constant.SET_LOADING_USERS, false);
+                    }
+                },
+                async [Constant.FETCH_JUGADORES]({ commit }) {
+                    try {
+                        commit(Constant.SET_LOADING_USERS, true);
+                        const { data } = await adminDashboardService.GetJugadores();
+                        commit(Constant.SET_JUGADORES, data.profiles || []);
+                        return data.profiles;
+                    } catch (error) {
+                        console.error("Error al cargar jugadores:", error);
+                        return [];
+                    } finally {
+                        commit(Constant.SET_LOADING_USERS, false);
+                    }
+                },
+                async [Constant.FETCH_JUGADORES_SOCIALES]({ commit }) {
+                    try {
+                        commit(Constant.SET_LOADING_USERS, true);
+                        const { data } = await adminDashboardService.GetJugadoresSociales();
+                        commit(Constant.SET_JUGADORES_SOCIALES, data.profiles || []);
+                        return data.profiles;
+                    } catch (error) {
+                        console.error("Error al cargar jugadores sociales:", error);
+                        return [];
+                    } finally {
+                        commit(Constant.SET_LOADING_USERS, false);
+                    }
+                }
                   
             
         },
@@ -230,6 +305,12 @@
             },
             GetCurrentPista(state) {
                 return state.currentPista;
-            }
+            },
+            getTutores: state => state.tutores,
+            getJugadoresClub: state => state.jugadoresClub,
+            getJugadores: state => state.jugadores,
+            getJugadoresSociales: state => state.jugadoresSociales,
+            isLoadingUsers: state => state.loadingUsers
+            
         }
     };

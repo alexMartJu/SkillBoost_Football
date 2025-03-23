@@ -295,6 +295,36 @@ const router = createRouter({
           component: () => import('../components/dashboards/admin/pistas/FormPistas.vue'),
           beforeEnter: AuthGuards.authGuardAdmin,
           props: true
+        },
+        {
+          path: "usuarios",
+          name: "adminUsuarios",
+          component: () => import('../components/dashboards/admin/usuarios/ListUsuarios.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "usuarios/tutores",
+          name: "adminTutores",
+          component: () => import('../components/dashboards/admin/usuarios/ListTutores.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "usuarios/jugadores-club",
+          name: "adminJugadoresClub",
+          component: () => import('../components/dashboards/admin/usuarios/ListJugadoresClub.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "usuarios/jugadores",
+          name: "adminJugadores",
+          component: () => import('../components/dashboards/admin/usuarios/ListJugadores.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "usuarios/jugadores-sociales",
+          name: "adminJugadoresSociales",
+          component: () => import('../components/dashboards/admin/usuarios/ListJugadoresSociales.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
         }
 
       ]
