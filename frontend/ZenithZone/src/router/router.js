@@ -180,6 +180,12 @@ const router = createRouter({
           name: "entrenadorMisEntrenamientos",
           component: () => import('../components/dashboards/entrenador/MisEntrenamientos.vue'),
           beforeEnter: AuthGuards.authGuardEntrenador
+        },
+        {
+          path: "mi-calendario",
+          name: "entrenadorMiCalendario",
+          component: () => import('../components/dashboards/entrenador/MiCalendario.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador
         }
       ]
     },
