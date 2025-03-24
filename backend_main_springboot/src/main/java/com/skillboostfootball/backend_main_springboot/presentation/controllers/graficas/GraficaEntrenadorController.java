@@ -1,6 +1,7 @@
 package com.skillboostfootball.backend_main_springboot.presentation.controllers.graficas;
 
 import com.skillboostfootball.backend_main_springboot.application.security.authorization.CheckSecurity;
+import com.skillboostfootball.backend_main_springboot.application.useCases.graficas.GetGraficasByNumeroSocioAndYearUseCase;
 import com.skillboostfootball.backend_main_springboot.application.useCases.graficas.UpdateGraficaByEntrenadorUseCase;
 import com.skillboostfootball.backend_main_springboot.application.useCases.graficas.UpdateGraficaByEntrenadorUseCase.GraficaUpdateData;
 import com.skillboostfootball.backend_main_springboot.presentation.assemblers.graficas.GraficaAssembler;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class GraficaEntrenadorController {
     
     private final UpdateGraficaByEntrenadorUseCase updateGraficaByEntrenadorUseCase;
+    private final GetGraficasByNumeroSocioAndYearUseCase getGraficasByNumeroSocioAndYearUseCase;
     private final GraficaAssembler graficaAssembler;
     
     //Actualizar gráficas de un jugador
@@ -31,5 +33,15 @@ public class GraficaEntrenadorController {
         var graficas = updateGraficaByEntrenadorUseCase.execute(numeroSocio, graficasData);
         return graficaAssembler.toWrapper(graficas);
         
+    }
+
+    //Obtener las gráficas de un usuario por número de socio y año
+    @GetMapping("/profiles/{numeroSocio}/graficas")
+    @CheckSecurity.Entrenador.canAccess
+    public GraficaWrapper getGraficasByNumeroSocioAndYear(
+            @PathVariable String numeroSocio, 
+            @RequestParam Integer año) {
+        var graficas = getGraficasByNumeroSocioAndYearUseCase.execute(numeroSocio, año);
+        return graficaAssembler.toWrapper(graficas);
     }
 }
