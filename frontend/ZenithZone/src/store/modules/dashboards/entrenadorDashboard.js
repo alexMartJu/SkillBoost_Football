@@ -11,7 +11,15 @@ export const entrenadorDashboard = {
         tecnificaciones: [],
         subtiposTecnificacion: [],
         loading: false,
-        error: null
+        error: null,
+        pendingEntrenamientos: [],
+        approvedEntrenamientos: [],
+        deniedEntrenamientos: [],
+        inscripciones: [],
+        currentEntrenamiento: null,
+        currentAlumno: null,
+        evaluacion: null,
+        graficas: []
     },
 
     mutations: {
@@ -36,6 +44,30 @@ export const entrenadorDashboard = {
         [Constant.SET_SUBTIPOS_TECNIFICACION](state, subtipos) {
             state.subtiposTecnificacion = subtipos;
         },
+        [Constant.SET_PENDING_ENTRENAMIENTOS](state, entrenamientos) {
+            state.pendingEntrenamientos = entrenamientos;
+        },
+        [Constant.SET_APPROVED_ENTRENAMIENTOS](state, entrenamientos) {
+            state.approvedEntrenamientos = entrenamientos;
+        },
+        [Constant.SET_DENIED_ENTRENAMIENTOS](state, entrenamientos) {
+            state.deniedEntrenamientos = entrenamientos;
+        },
+        [Constant.SET_INSCRIPCIONES](state, inscripciones) {
+            state.inscripciones = inscripciones;
+        },
+        [Constant.SET_CURRENT_ENTRENAMIENTO](state, entrenamiento) {
+            state.currentEntrenamiento = entrenamiento;
+        },
+        [Constant.SET_CURRENT_ALUMNO](state, alumno) {
+            state.currentAlumno = alumno;
+        },
+        [Constant.SET_EVALUACION](state, evaluacion) {
+            state.evaluacion = evaluacion;
+        },
+        [Constant.SET_GRAFICAS](state, graficas) {
+            state.graficas = graficas;
+        }
     },
 
     actions: {
@@ -116,6 +148,146 @@ export const entrenadorDashboard = {
                 commit(Constant.SET_LOADING, false);
             }
         },
+        // Cargar entrenamientos pendientes
+        async fetchPendingEntrenamientos({ commit }) {
+            try {
+                commit(Constant.SET_LOADING, true);
+                const response = await entrenadorDashboardService.GetPendingEntrenamientos();
+                commit(Constant.SET_PENDING_ENTRENAMIENTOS, response.data.entrenamientos);
+                commit(Constant.SET_ERROR, null);
+            } catch (error) {
+                console.error('Error al cargar entrenamientos pendientes:', error);
+                commit(Constant.SET_ERROR, 'No se pudieron cargar los entrenamientos pendientes');
+            } finally {
+                commit(Constant.SET_LOADING, false);
+            }
+        },
+        
+        // Cargar entrenamientos aprobados
+        async fetchApprovedEntrenamientos({ commit }) {
+            try {
+                commit(Constant.SET_LOADING, true);
+                const response = await entrenadorDashboardService.GetApprovedEntrenamientos();
+                commit(Constant.SET_APPROVED_ENTRENAMIENTOS, response.data.entrenamientos);
+                commit(Constant.SET_ERROR, null);
+            } catch (error) {
+                console.error('Error al cargar entrenamientos aprobados:', error);
+                commit(Constant.SET_ERROR, 'No se pudieron cargar los entrenamientos aprobados');
+            } finally {
+                commit(Constant.SET_LOADING, false);
+            }
+        },
+        
+        // Cargar entrenamientos denegados
+        async fetchDeniedEntrenamientos({ commit }) {
+            try {
+                commit(Constant.SET_LOADING, true);
+                const response = await entrenadorDashboardService.GetDeniedEntrenamientos();
+                commit(Constant.SET_DENIED_ENTRENAMIENTOS, response.data.entrenamientos);
+                commit(Constant.SET_ERROR, null);
+            } catch (error) {
+                console.error('Error al cargar entrenamientos denegados:', error);
+                commit(Constant.SET_ERROR, 'No se pudieron cargar los entrenamientos denegados');
+            } finally {
+                commit(Constant.SET_LOADING, false);
+            }
+        },
+        async [Constant.FETCH_INSCRIPCIONES_BY_ENTRENAMIENTO]({ commit }, slug) {
+            try {
+                commit(Constant.SET_LOADING, true);
+                const response = await entrenadorDashboardService.GetInscripcionesByEntrenamiento(slug);
+                commit(Constant.SET_INSCRIPCIONES, response.data.inscripciones);
+                commit(Constant.SET_ERROR, null);
+                return response.data.inscripciones;
+            } catch (error) {
+                console.error('Error al cargar inscripciones:', error);
+                commit(Constant.SET_ERROR, 'No se pudieron cargar los alumnos inscritos');
+                throw error;
+            } finally {
+                commit(Constant.SET_LOADING, false);
+            }
+        },
+        async [Constant.FETCH_EVALUACION_ALUMNO]({ commit }, { numeroSocio, slug }) {
+            try {
+                commit(Constant.SET_LOADING, true);
+                const response = await entrenadorDashboardService.GetEvaluacionAlumno(numeroSocio, slug);
+                commit(Constant.SET_EVALUACION, response.data);
+                commit(Constant.SET_ERROR, null);
+                return response.data;
+            } catch (error) {
+                console.error('Error al cargar evaluación:', error);
+                if (error.response && error.response.status === 404) {
+                    // Si no existe evaluación, devolvemos null pero no es un error
+                    commit(Constant.SET_EVALUACION, null);
+                    return null;
+                }
+                commit(Constant.SET_ERROR, 'No se pudo cargar la evaluación del alumno');
+                throw error;
+            } finally {
+                commit(Constant.SET_LOADING, false);
+            }
+        },
+        async [Constant.CREATE_EVALUACION_ALUMNO]({ commit }, { numeroSocio, slug, evaluacion }) {
+            try {
+                commit(Constant.SET_LOADING, true);
+                const response = await entrenadorDashboardService.CreateEvaluacionAlumno(numeroSocio, slug, evaluacion);
+                commit(Constant.SET_EVALUACION, response.data);
+                commit(Constant.SET_ERROR, null);
+                return response.data;
+            } catch (error) {
+                console.error('Error al crear evaluación:', error);
+                commit(Constant.SET_ERROR, 'No se pudo crear la evaluación del alumno');
+                throw error;
+            } finally {
+                commit(Constant.SET_LOADING, false);
+            }
+        },
+        async [Constant.UPDATE_EVALUACION_ALUMNO]({ commit }, { numeroSocio, slug, evaluacion }) {
+            try {
+                commit(Constant.SET_LOADING, true);
+                const response = await entrenadorDashboardService.UpdateEvaluacionAlumno(numeroSocio, slug, evaluacion);
+                commit(Constant.SET_EVALUACION, response.data);
+                commit(Constant.SET_ERROR, null);
+                return response.data;
+            } catch (error) {
+                console.error('Error al actualizar evaluación:', error);
+                commit(Constant.SET_ERROR, 'No se pudo actualizar la evaluación del alumno');
+                throw error;
+            } finally {
+                commit(Constant.SET_LOADING, false);
+            }
+        },
+        async [Constant.INITIALIZE_GRAFICAS]({ commit }, numeroSocio) {
+            try {
+                commit(Constant.SET_LOADING, true);
+                const currentYear = new Date().getFullYear();
+                const response = await entrenadorDashboardService.GetGraficasAlumno(numeroSocio, currentYear);
+                commit(Constant.SET_GRAFICAS, response.data.graficas);
+                commit(Constant.SET_ERROR, null);
+                return response.data.graficas;
+            } catch (error) {
+                console.error('Error al cargar gráficas:', error);
+                commit(Constant.SET_ERROR, 'No se pudieron cargar las gráficas del alumno');
+                throw error;
+            } finally {
+                commit(Constant.SET_LOADING, false);
+            }
+        },
+        async [Constant.UPDATE_ONE_GRAFICA]({ commit, dispatch }, { id, graficas }) {
+            try {
+                commit(Constant.SET_LOADING, true);
+                await entrenadorDashboardService.UpdateGraficasAlumno(id, graficas);
+                //Recargar las gráficas después de actualizar
+                await dispatch(Constant.INITIALIZE_GRAFICAS, id);
+                commit(Constant.SET_ERROR, null);
+            } catch (error) {
+                console.error('Error al actualizar gráfica:', error);
+                commit(Constant.SET_ERROR, 'No se pudo actualizar la gráfica del alumno');
+                throw error;
+            } finally {
+                commit(Constant.SET_LOADING, false);
+            }
+        }
     },
 
     getters: {
@@ -126,5 +298,13 @@ export const entrenadorDashboard = {
         getError: state => state.error,
         getTecnificaciones: state => state.tecnificaciones,
         getSubtiposTecnificacion: state => state.subtiposTecnificacion,
+        getPendingEntrenamientos: state => state.pendingEntrenamientos,
+        getApprovedEntrenamientos: state => state.approvedEntrenamientos,
+        getDeniedEntrenamientos: state => state.deniedEntrenamientos,
+        getInscripciones: state => state.inscripciones,
+        getCurrentEntrenamiento: state => state.currentEntrenamiento,
+        getCurrentAlumno: state => state.currentAlumno,
+        getEvaluacion: state => state.evaluacion,
+        getGraficas: state => state.graficas
     }
 };

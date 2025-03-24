@@ -49,7 +49,7 @@ model entrenamientos {
 }
 
 model evaluaciones_rendimiento {
-  id               Int             @id @default(autoincrement())
+  id               BigInt          @id @default(autoincrement())
   profile_id       BigInt?
   entrenamiento_id BigInt?
   fecha_evaluacion DateTime?       @db.Date
@@ -82,7 +82,7 @@ model flyway_schema_history {
 }
 
 model graficas {
-  id         Int       @id @default(autoincrement())
+  id         BigInt    @id @default(autoincrement())
   seccion    String?   @db.VarChar(255)
   nivel      Int?
   Mes        Int?
@@ -121,13 +121,13 @@ model images {
 }
 
 model logros {
-  id                       Int              @id @default(autoincrement())
-  nombre                   String?          @db.VarChar(255)
+  id                       BigInt           @id @default(autoincrement())
+  nombre                   String?          @unique(map: "nombre") @db.VarChar(255)
+  slug                     String?          @db.VarChar(255)
   descripcion              String?          @db.Text
   requisito_entrenamientos Int?
-  imagen                   String?          @db.VarChar(255)
   nivel_dificultad         String?          @db.VarChar(50)
-  puntos                   Int?
+  recompensa               String?          @db.VarChar(255)
   created_at               DateTime?        @default(now()) @db.Timestamp(0)
   updated_at               DateTime?        @db.Timestamp(0)
   deleted_at               DateTime?        @db.Timestamp(0)
@@ -178,9 +178,10 @@ model pistas {
 
 model profile_logros {
   profile_id      BigInt
-  logro_id        Int
+  logro_id        BigInt
   fecha_logro     DateTime? @default(now()) @db.Timestamp(0)
   progreso_actual Int?
+  notificado      Boolean?
   profiles        profiles  @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profile_logros_ibfk_1")
   logros          logros    @relation(fields: [logro_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profile_logros_ibfk_2")
 
@@ -276,16 +277,22 @@ model roles {
 }
 
 model subtipo_tecnificacion {
-  id               BigInt           @id @default(autoincrement())
-  tecnificacion_id BigInt?
-  nombre           String?          @db.VarChar(255)
-  slug             String?          @db.VarChar(255)
-  descripcion      String?          @db.Text
-  created_at       DateTime?        @default(now()) @db.Timestamp(0)
-  updated_at       DateTime?        @db.Timestamp(0)
-  deleted_at       DateTime?        @db.Timestamp(0)
-  entrenamientos   entrenamientos[]
-  tecnificaciones  tecnificaciones? @relation(fields: [tecnificacion_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "subtipo_tecnificacion_ibfk_1")
+  id                   BigInt           @id @default(autoincrement())
+  tecnificacion_id     BigInt?
+  nombre               String?          @db.VarChar(255)
+  slug                 String?          @db.VarChar(255)
+  descripcion          String?          @db.Text
+  tipo_entrenamiento   String?          @db.VarChar(100)
+  objetivos            String?          @db.Text
+  beneficios           String?          @db.Text
+  frecuencia_sugerida  String?          @db.VarChar(100)
+  metodo_evaluacion    String?          @db.VarChar(255)
+  tecnologia_utilizada String?          @db.VarChar(255)
+  created_at           DateTime?        @default(now()) @db.Timestamp(0)
+  updated_at           DateTime?        @db.Timestamp(0)
+  deleted_at           DateTime?        @db.Timestamp(0)
+  entrenamientos       entrenamientos[]
+  tecnificaciones      tecnificaciones? @relation(fields: [tecnificacion_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "subtipo_tecnificacion_ibfk_1")
 
   @@index([tecnificacion_id], map: "tecnificacion_id")
 }
@@ -341,6 +348,43 @@ model usuarios {
   status          String?           @default("active") @db.VarChar(50)
   deleted_at      DateTime?         @db.Timestamp(0)
   blacklist_token blacklist_token[]
+  notificaciones  notificaciones[]
   profiles        profiles?
   user_roles      user_roles[]
+}
+
+model notificaciones {
+  id                BigInt    @id @default(autoincrement())
+  id_usuario        BigInt
+  mensaje           String    @db.Text
+  tipo_notificacion String    @db.VarChar(50)
+  isRead            Boolean?  @default(false)
+  createdAt         DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt         DateTime? @default(now()) @db.Timestamp(0)
+  usuarios          usuarios  @relation(fields: [id_usuario], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "notificaciones_ibfk_1")
+
+  @@index([id_usuario], map: "id_usuario")
+}
+
+model organizaciones {
+  id                        BigInt    @id @default(autoincrement())
+  nombre                    String    @unique(map: "nombre")
+  slug                      String    @unique(map: "slug")
+  tipo                      String?   @db.VarChar(100)
+  vision                    String?   @db.VarChar(500)
+  logo                      String?   @db.VarChar(255)
+  descripcion               String?   @db.Text
+  mision                    String?   @db.VarChar(500)
+  impacto_social            String?   @db.VarChar(500)
+  sitio_web                 String?   @db.VarChar(255)
+  contacto_email            String?   @db.VarChar(255)
+  contacto_tlf              String?   @db.VarChar(50)
+  direccion                 String?   @db.VarChar(255)
+  ciudad                    String?   @db.VarChar(100)
+  pais                      String?   @db.VarChar(100)
+  colaboracion_descripcion  String?   @db.Text
+  fecha_inicio_colaboracion DateTime? @db.Date
+  created_at                DateTime? @default(now()) @db.Timestamp(0)
+  updated_at                DateTime? @db.Timestamp(0)
+  deleted_at                DateTime? @db.Timestamp(0)
 }

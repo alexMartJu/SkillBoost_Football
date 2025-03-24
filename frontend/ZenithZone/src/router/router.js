@@ -154,7 +154,7 @@ const router = createRouter({
       component: () => import('../views/dashboards/EntrenadorDashboard.vue'),
       beforeEnter: AuthGuards.authGuardEntrenador, 
       meta: { requiresAuth: true },
-      redirect: { name: 'entrenadorListarPistas' },
+      redirect: { name: 'entrenadorMisEntrenamientos' },
       children: [
         {
           path: "listar",
@@ -178,9 +178,36 @@ const router = createRouter({
         {
           path: "mis-entrenamientos",
           name: "entrenadorMisEntrenamientos",
-          component: () => import('../components/dashboards/entrenador/ListEntrenamientosDashboard.vue'),
+          component: () => import('../components/dashboards/entrenador/MisEntrenamientos.vue'),
           beforeEnter: AuthGuards.authGuardEntrenador
-        }
+        },
+        {
+          path: "mi-calendario",
+          name: "entrenadorMiCalendario",
+          component: () => import('../components/dashboards/entrenador/MiCalendario.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador
+        },
+        {
+          path: "entrenamientos/:slug/alumnos",
+          name: "entrenadorAlumnos",
+          component: () => import('../components/dashboards/entrenador/AlumnosEntrenamiento.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador,
+          props: true
+        },
+        {
+          path: "alumnos/:numeroSocio/evaluacion/:slug",
+          name: "entrenadorEvaluacionAlumno",
+          component: () => import('../components/dashboards/entrenador/EvaluacionAlumno.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador,
+          props: true
+        },
+        {
+          path: "alumnos/:numeroSocio/graficas",
+          name: "entrenadorGraficasAlumno",
+          component: () => import('../components/dashboards/entrenador/GraficasAlumno.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador,
+          props: true
+        },
       ]
     },
 
@@ -190,7 +217,7 @@ const router = createRouter({
       name: "DashboardAdmin",
       component: () => import('../views/dashboards/AdminDashboard.vue'),
       beforeEnter: AuthGuards.authGuardAdmin, meta: { requiresAuth: true },
-      redirect: { name: 'adminListar' },
+      redirect: { name: 'adminEntrenamientosPendientes' },
       children: [
         {
           path: "listar",
@@ -363,6 +390,12 @@ const router = createRouter({
           component: () => import('../components/dashboards/admin/entrenadores/ListEntrenadores.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
+        {
+          path: "entrenamientos-pendientes",
+          name: "adminEntrenamientosPendientes",
+          component: () => import('../components/dashboards/admin/entrenamientos/PendingEntrenamientos.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        }
 
       ]
     },

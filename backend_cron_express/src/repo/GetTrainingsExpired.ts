@@ -15,7 +15,7 @@ export async function getExpiredTrainings() {
             deleted_at: null,
             entrenamientos: {
                 status: {
-                    not: 'expired'
+                    notIn: ['expired', 'denied']
                 }
             }
         },

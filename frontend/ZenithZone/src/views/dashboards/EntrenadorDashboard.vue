@@ -14,6 +14,12 @@
         <router-link to="/dashboardEntrenador/crear-entrenamiento" class="nav-link sidebar-link">
           <i class="bi bi-plus-circle me-2"></i> Crear Entrenamiento
         </router-link>
+        <router-link to="/dashboardEntrenador/mis-entrenamientos" class="nav-link sidebar-link">
+          <i class="bi bi-calendar-check me-2"></i> Mis Entrenamientos
+        </router-link>
+        <router-link to="/dashboardEntrenador/mi-calendario" class="nav-link sidebar-link">
+          <i class="bi bi-calendar-week me-2"></i> Mi Calendario
+        </router-link>
       </div>
     </div>
 
@@ -68,4 +74,3 @@ export default {
   }
 }
 </style>
-  
