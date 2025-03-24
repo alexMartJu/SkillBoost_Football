@@ -29,4 +29,12 @@ public class ProfileResponse {
     
     // Campos para jugadores sociales
     private String organizacionOrigen;
+
+    //Información de suscripción activa
+    private String suscripcionNombre;
+    private String suscripcionSlug;
+    private Boolean incluyeGraficas;
+    private Boolean incluyeEvaluacion;
+    private String suscripcionStatus;
+    private String fechaFinSuscripcion;
 }

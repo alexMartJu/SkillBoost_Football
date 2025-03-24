@@ -38,7 +38,7 @@ public class EntrenamientoCoachController {
     @GetMapping("/entrenador/entrenamientos/approved")
     @CheckSecurity.Entrenador.canAccess
     public EntrenamientoWrapper getApprovedEntrenamientos() {
-        var entrenamientos = getEntrenamientosByEntrenadorAndStatusUseCase.execute(List.of("active", "completed"));
+        var entrenamientos = getEntrenamientosByEntrenadorAndStatusUseCase.execute(List.of("active", "completed", "expired"));
         return assembler.toWrapper(entrenamientos);
     }
 
