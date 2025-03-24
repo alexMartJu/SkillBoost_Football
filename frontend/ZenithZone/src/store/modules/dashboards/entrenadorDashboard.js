@@ -11,7 +11,10 @@ export const entrenadorDashboard = {
         tecnificaciones: [],
         subtiposTecnificacion: [],
         loading: false,
-        error: null
+        error: null,
+        pendingEntrenamientos: [],
+        approvedEntrenamientos: [],
+        deniedEntrenamientos: [],
     },
 
     mutations: {
@@ -35,6 +38,15 @@ export const entrenadorDashboard = {
         },
         [Constant.SET_SUBTIPOS_TECNIFICACION](state, subtipos) {
             state.subtiposTecnificacion = subtipos;
+        },
+        [Constant.SET_PENDING_ENTRENAMIENTOS](state, entrenamientos) {
+            state.pendingEntrenamientos = entrenamientos;
+        },
+        [Constant.SET_APPROVED_ENTRENAMIENTOS](state, entrenamientos) {
+            state.approvedEntrenamientos = entrenamientos;
+        },
+        [Constant.SET_DENIED_ENTRENAMIENTOS](state, entrenamientos) {
+            state.deniedEntrenamientos = entrenamientos;
         },
     },
 
@@ -116,6 +128,50 @@ export const entrenadorDashboard = {
                 commit(Constant.SET_LOADING, false);
             }
         },
+        // Cargar entrenamientos pendientes
+        async fetchPendingEntrenamientos({ commit }) {
+            try {
+                commit(Constant.SET_LOADING, true);
+                const response = await entrenadorDashboardService.GetPendingEntrenamientos();
+                commit(Constant.SET_PENDING_ENTRENAMIENTOS, response.data.entrenamientos);
+                commit(Constant.SET_ERROR, null);
+            } catch (error) {
+                console.error('Error al cargar entrenamientos pendientes:', error);
+                commit(Constant.SET_ERROR, 'No se pudieron cargar los entrenamientos pendientes');
+            } finally {
+                commit(Constant.SET_LOADING, false);
+            }
+        },
+        
+        // Cargar entrenamientos aprobados
+        async fetchApprovedEntrenamientos({ commit }) {
+            try {
+                commit(Constant.SET_LOADING, true);
+                const response = await entrenadorDashboardService.GetApprovedEntrenamientos();
+                commit(Constant.SET_APPROVED_ENTRENAMIENTOS, response.data.entrenamientos);
+                commit(Constant.SET_ERROR, null);
+            } catch (error) {
+                console.error('Error al cargar entrenamientos aprobados:', error);
+                commit(Constant.SET_ERROR, 'No se pudieron cargar los entrenamientos aprobados');
+            } finally {
+                commit(Constant.SET_LOADING, false);
+            }
+        },
+        
+        // Cargar entrenamientos denegados
+        async fetchDeniedEntrenamientos({ commit }) {
+            try {
+                commit(Constant.SET_LOADING, true);
+                const response = await entrenadorDashboardService.GetDeniedEntrenamientos();
+                commit(Constant.SET_DENIED_ENTRENAMIENTOS, response.data.entrenamientos);
+                commit(Constant.SET_ERROR, null);
+            } catch (error) {
+                console.error('Error al cargar entrenamientos denegados:', error);
+                commit(Constant.SET_ERROR, 'No se pudieron cargar los entrenamientos denegados');
+            } finally {
+                commit(Constant.SET_LOADING, false);
+            }
+        }
     },
 
     getters: {
@@ -126,5 +182,8 @@ export const entrenadorDashboard = {
         getError: state => state.error,
         getTecnificaciones: state => state.tecnificaciones,
         getSubtiposTecnificacion: state => state.subtiposTecnificacion,
+        getPendingEntrenamientos: state => state.pendingEntrenamientos,
+        getApprovedEntrenamientos: state => state.approvedEntrenamientos,
+        getDeniedEntrenamientos: state => state.deniedEntrenamientos,
     }
 };

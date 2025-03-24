@@ -154,7 +154,7 @@ const router = createRouter({
       component: () => import('../views/dashboards/EntrenadorDashboard.vue'),
       beforeEnter: AuthGuards.authGuardEntrenador, 
       meta: { requiresAuth: true },
-      redirect: { name: 'entrenadorListarPistas' },
+      redirect: { name: 'entrenadorMisEntrenamientos' },
       children: [
         {
           path: "listar",
@@ -178,7 +178,7 @@ const router = createRouter({
         {
           path: "mis-entrenamientos",
           name: "entrenadorMisEntrenamientos",
-          component: () => import('../components/dashboards/entrenador/ListEntrenamientosDashboard.vue'),
+          component: () => import('../components/dashboards/entrenador/MisEntrenamientos.vue'),
           beforeEnter: AuthGuards.authGuardEntrenador
         }
       ]
