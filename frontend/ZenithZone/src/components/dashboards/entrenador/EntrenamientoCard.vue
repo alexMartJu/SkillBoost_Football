@@ -19,7 +19,6 @@
                 <span class="badge" :class="badgeClass">{{ statusText }}</span>
             </div>
 
-            <!-- Cambiado: usar método truncateText en lugar de filtro -->
             <p class="card-text small text-muted mb-3">{{ truncateText(entrenamiento.descripcion, 100) }}</p>
 
             <div class="details-list">
@@ -55,9 +54,14 @@
                     </span>
                 </div>
 
-                <button class="btn btn-sm btn-outline-primary" @click="verDetalles">
-                    <i class="bi bi-eye me-1"></i> Ver detalles
-                </button>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-primary" @click="verDetalles">
+                        <i class="bi bi-eye me-1"></i> Ver detalles
+                    </button>
+                    <button v-if="estado === 'approved'" class="btn btn-sm btn-primary" @click="verAlumnos">
+                        <i class="bi bi-people-fill me-1"></i> Alumnos
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -129,6 +133,12 @@ export default {
         verDetalles() {
             this.$router.push({
                 name: 'detailsEntrenamiento',
+                params: { slug: this.entrenamiento.slug }
+            });
+        },
+        verAlumnos() {
+            this.$router.push({
+                name: 'entrenadorAlumnos',
                 params: { slug: this.entrenamiento.slug }
             });
         },

@@ -186,7 +186,28 @@ const router = createRouter({
           name: "entrenadorMiCalendario",
           component: () => import('../components/dashboards/entrenador/MiCalendario.vue'),
           beforeEnter: AuthGuards.authGuardEntrenador
-        }
+        },
+        {
+          path: "entrenamientos/:slug/alumnos",
+          name: "entrenadorAlumnos",
+          component: () => import('../components/dashboards/entrenador/AlumnosEntrenamiento.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador,
+          props: true
+        },
+        {
+          path: "alumnos/:numeroSocio/evaluacion/:slug",
+          name: "entrenadorEvaluacionAlumno",
+          component: () => import('../components/dashboards/entrenador/EvaluacionAlumno.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador,
+          props: true
+        },
+        {
+          path: "alumnos/:numeroSocio/graficas",
+          name: "entrenadorGraficasAlumno",
+          component: () => import('../components/dashboards/entrenador/GraficasAlumno.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador,
+          props: true
+        },
       ]
     },
 
