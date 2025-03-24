@@ -14,8 +14,8 @@ export default {
     Reservas() {
         return Api(secrets.URL_SPRING).get('profilePistas');
     },
-    Graficas(año = 2024) {
-        return Api(secrets.URL_SPRING).get(`profileGraficas?año=${año}`);
+    Graficas(año = 2025) {
+        return Api(secrets.URL_PROXY).get(`main/profileGraficas?año=${año}`);
     },
 
     ReservasActivas() {
