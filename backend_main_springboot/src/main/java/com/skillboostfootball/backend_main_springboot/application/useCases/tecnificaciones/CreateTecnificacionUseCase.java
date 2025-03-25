@@ -7,7 +7,7 @@ import com.skillboostfootball.backend_main_springboot.domain.repositories.tecnif
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.cache.annotation.CacheEvict;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -18,6 +18,7 @@ public class CreateTecnificacionUseCase {
     private final SlugService slugService;
     
     @Transactional
+    @CacheEvict(value = {"tecnificaciones", "subtiposTecnificacion"}, allEntries = true)
     public Tecnificacion execute(String nombre, String descripcion) {
         String slug = slugService.generateSlug(nombre);
         
