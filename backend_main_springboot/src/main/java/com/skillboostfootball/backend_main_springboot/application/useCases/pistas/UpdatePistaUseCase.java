@@ -4,7 +4,7 @@ import com.skillboostfootball.backend_main_springboot.application.applicationSer
 import com.skillboostfootball.backend_main_springboot.domain.exceptions.pistas.PistaNotFoundException;
 import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pista;
 import com.skillboostfootball.backend_main_springboot.domain.repositories.pistas.PistaRepository;
-
+import org.springframework.cache.annotation.CacheEvict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +17,7 @@ public class UpdatePistaUseCase {
     private final SlugService slugService;
     
     @Transactional
+    @CacheEvict(value = "pistas", allEntries = true)
     public Pista execute(String slug, String nombre, String descripcion, String tipo, String dimensiones, Integer capacidad) {
         //Buscar la pista por slug
         Pista pista = pistaRepository.findBySlug(slug).orElseThrow(PistaNotFoundException::new);

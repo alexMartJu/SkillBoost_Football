@@ -3,7 +3,7 @@ package com.skillboostfootball.backend_main_springboot.application.useCases.pist
 import com.skillboostfootball.backend_main_springboot.application.applicationServices.SlugService;
 import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pista;
 import com.skillboostfootball.backend_main_springboot.domain.repositories.pistas.PistaRepository;
-
+import org.springframework.cache.annotation.CacheEvict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +18,7 @@ public class CreatePistaUseCase {
     private final SlugService slugService;
     
     @Transactional
+    @CacheEvict(value = "pistas", allEntries = true)
     public Pista execute(String nombre, String descripcion, String tipo, String dimensiones, Integer capacidad) {
         String slug = slugService.generateSlug(nombre);
         
