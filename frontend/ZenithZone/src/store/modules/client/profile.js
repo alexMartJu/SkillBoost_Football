@@ -117,7 +117,7 @@ export const profile = {
         },
         [Constant.CANCELAR_ENTRENAMIENTO](state, slug) {
             //Eliminar el entrenamiento de las reservas activas
-            state.reservasActivas = state.reservasActivas.filter(reserva => reserva.slug !== slug);
+            state.reservasActivas = state.reservasActivas.filter(reserva => reserva.entrenamiento.slug !== slug);
         },
         [Constant.INITIALIZE_LOGROS](state, payload) {
             if (payload) {

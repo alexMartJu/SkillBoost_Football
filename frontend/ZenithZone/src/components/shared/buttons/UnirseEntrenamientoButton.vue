@@ -46,7 +46,7 @@ export default {
             //Verificar si el usuario tiene un perfil con numeroSocio
             if (currentUser.value && currentUser.value.profile && currentUser.value.profile.numeroSocio) {
                 router.push({ 
-                    name: 'profileEntrenamientos', 
+                    name: 'profile', 
                     params: { numeroSocio: currentUser.value.profile.numeroSocio } 
                 });
             } else {
