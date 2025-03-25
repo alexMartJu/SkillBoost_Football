@@ -10,7 +10,8 @@ export const profile = {
         graficas: [],
         reservasActivas: [],
         reservasExpiradas: [],
-        logros: []
+        logros: [],
+        suscripcionActiva: null
     },
 
     actions: {
@@ -75,6 +76,16 @@ export const profile = {
             } catch (error) {
                 console.error("Error al cargar los logros:", error);
             }
+        },
+        [Constant.INITIALIZE_SUSCRIPCION_ACTIVA]: async (store) => {
+            try {
+                const { data } = await profileService.SuscripcionActiva();
+                store.commit(Constant.INITIALIZE_SUSCRIPCION_ACTIVA, data);
+                return data;
+            } catch (error) {
+                console.error("Error al cargar la suscripción activa:", error);
+                return null;
+            }
         }
     },
 
@@ -112,6 +123,11 @@ export const profile = {
             if (payload) {
                 state.logros = payload;
             }
+        },
+        [Constant.INITIALIZE_SUSCRIPCION_ACTIVA](state, payload) {
+            if (payload) {
+                state.suscripcionActiva = payload;
+            }
         }
     },
 
@@ -133,6 +149,9 @@ export const profile = {
         },
         GetLogros(state) {
             return state.logros;
+        },
+        GetSuscripcionActiva(state) {
+            return state.suscripcionActiva;
         }
     }
 };

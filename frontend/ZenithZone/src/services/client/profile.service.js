@@ -27,6 +27,9 @@ export default {
     Logros() {
         return Api(secrets.URL_PROXY).get('main/logros');
     },
+    SuscripcionActiva() {
+        return Api(secrets.URL_PROXY).get('main/mi-suscripcion');
+    },
 
     // Botones de cancelar
     CancelarReserva(data) {

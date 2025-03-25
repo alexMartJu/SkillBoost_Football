@@ -25,6 +25,13 @@
             </button>
           </li>
           <li class="nav-item" role="presentation">
+            <button class="nav-link px-4 py-3" :class="{ 'active': activeTab === 'suscripcion' }"
+              @click="setActiveTab('suscripcion')" id="suscripcion-tab" type="button" role="tab"
+              aria-controls="suscripcion" aria-selected="false">
+              <i class="bi bi-credit-card-fill me-2"></i>Mi Suscripción
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
             <button class="nav-link px-4 py-3" :class="{ 'active': activeTab === 'logros' }"
               @click="setActiveTab('logros')" id="logros-tab" type="button" role="tab" aria-controls="logros"
               aria-selected="false">
@@ -54,6 +61,10 @@
             role="tabpanel" aria-labelledby="calendario-tab">
             <CalendarioTab />
           </div>
+          <div class="tab-pane fade" :class="{ 'show active': activeTab === 'suscripcion' }" id="suscripcion"
+            role="tabpanel" aria-labelledby="suscripcion-tab">
+            <SuscripcionTab />
+          </div>
           <div class="tab-pane fade" :class="{ 'show active': activeTab === 'logros' }" id="logros" role="tabpanel"
             aria-labelledby="logros-tab">
             <LogrosTab />
@@ -76,6 +87,7 @@ import EntrenamientosTab from './tabs/EntrenamientosTab.vue';
 import CalendarioTab from './tabs/CalendarioTab.vue';
 import GraficasTab from './tabs/GraficasTab.vue';
 import LogrosTab from './tabs/LogrosTab.vue';
+import SuscripcionTab from './tabs/SuscripcionTab.vue';
 
 export default {
   name: 'ProfileTabs',
@@ -84,7 +96,8 @@ export default {
     EntrenamientosTab,
     CalendarioTab,
     GraficasTab,
-    LogrosTab
+    LogrosTab,
+    SuscripcionTab
   },
   setup() {
     const store = useStore();
@@ -124,11 +137,9 @@ export default {
 
 .tab-content {
   min-height: auto;
-  /* Cambiado de 700px a auto */
   height: auto !important;
   width: 100%;
   overflow: visible;
-  /* Permitir que el contenido sea visible incluso si se desborda */
 }
 
 .tab-pane {
@@ -139,11 +150,9 @@ export default {
 
 .card-body {
   overflow: visible;
-  /* Permitir que el contenido sea visible */
 }
 
 .card {
   overflow: visible;
-  /* Permitir que el contenido sea visible */
 }
 </style>
