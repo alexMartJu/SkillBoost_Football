@@ -2,20 +2,8 @@ import Api from "../Api";
 import secrets from "../../secrets";
 
 export default {
-    Profile(numSocio) {
-        return Api(secrets.URL_SPRING).get(`profiles/${numSocio}`);
-    },
-    UpdateProfile(data) {
-        return Api(secrets.URL_SPRING).put(`user`, data);
-    },
-    Entrenamientos() {
-        return Api(secrets.URL_SPRING).get('profileEntrenamientos');
-    },
-    Reservas() {
-        return Api(secrets.URL_SPRING).get('profilePistas');
-    },
-    Graficas(año = 2024) {
-        return Api(secrets.URL_SPRING).get(`profileGraficas?año=${año}`);
+    Graficas(año = 2025) {
+        return Api(secrets.URL_PROXY).get(`main/profileGraficas?año=${año}`);
     },
 
     ReservasActivas() {
@@ -24,13 +12,16 @@ export default {
     ReservasExpiradas() {
         return Api(secrets.URL_PROXY).get('main/reservas/expiradas');
     },
+    Logros() {
+        return Api(secrets.URL_PROXY).get('main/logros');
+    },
+    SuscripcionActiva() {
+        return Api(secrets.URL_PROXY).get('main/mi-suscripcion');
+    },
 
     // Botones de cancelar
-    CancelarReserva(data) {
-        return Api(secrets.URL_SPRING).delete(`reservaPista?slugPista=${data.slugPista}&hora=${data.hora}&fecha=${data.fecha}`);
-    },
     CancelarEntrenamiento(slug) {
-        return Api(secrets.URL_SPRING).delete(`entrenamientos/${slug}/inscripcion`);
+        return Api(secrets.URL_PROXY).delete(`main/entrenamientos/${slug}/desinscribirse`);
     },
     UnirseEntrenamiento(slug) {
         return Api(secrets.URL_PROXY).post(`main/entrenamientos/${slug}/inscribirse`);
