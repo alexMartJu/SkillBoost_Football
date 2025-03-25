@@ -34,15 +34,15 @@
                             <div class="card-body text-center border-top">
                                 <h2 class="card-title fw-bold mb-3">{{ profile.nombre }} {{ profile.apellidos }}</h2>
                                 <div class="d-flex flex-wrap justify-content-center gap-2">
-                                    <span v-if="profile.posicionPreferida" 
+                                    <span v-if="profile.posicionPreferida"
                                         class="badge bg-light text-secondary rounded-pill px-3 py-2">
                                         {{ profile.posicionPreferida }}
                                     </span>
-                                    <span v-if="profile.clubOrigen" 
+                                    <span v-if="profile.clubOrigen"
                                         class="badge bg-light text-secondary rounded-pill px-3 py-2">
                                         {{ profile.clubOrigen }}
                                     </span>
-                                    <span v-if="profile.organizacionOrigen" 
+                                    <span v-if="profile.organizacionOrigen"
                                         class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2">
                                         {{ profile.organizacionOrigen }}
                                     </span>
@@ -62,7 +62,7 @@
                                                 Información Personal
                                             </span>
                                             <button v-if="isOwnProfile" @click="showEditModal = true"
-                                                class="btn btn-primary btn-sm rounded-circle p-0" 
+                                                class="btn btn-primary btn-sm rounded-circle p-0"
                                                 style="width: 32px; height: 32px;">
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
@@ -127,11 +127,12 @@
                             <div class="card-body p-4">
                                 <div class="row">
                                     <div class="col-lg-4 text-center">
-                                        <div class="position-relative mx-auto mb-3" style="width: 200px; height: 200px;">
-                                            <div class="rounded-circle border border-4 border-primary overflow-hidden" 
+                                        <div class="position-relative mx-auto mb-3"
+                                            style="width: 200px; height: 200px;">
+                                            <div class="rounded-circle border border-4 border-primary overflow-hidden"
                                                 style="width: 200px; height: 200px;">
                                                 <img :src="profile.image || '/assets/default-profile.png'"
-                                                    alt="Foto de entrenador" 
+                                                    alt="Foto de entrenador"
                                                     class="img-fluid w-100 h-100 object-fit-cover">
                                             </div>
                                             <div class="position-absolute bottom-0 start-50 translate-middle-x">
@@ -141,7 +142,8 @@
                                             </div>
                                         </div>
                                         <h2 class="fw-bold mt-4">{{ profile.nombre }} {{ profile.apellidos }}</h2>
-                                        <p class="text-primary fw-bold">Nº Entrenador: {{ profile.numeroEntrenador }}</p>
+                                        <p class="text-primary fw-bold">Nº Entrenador: {{ profile.numeroEntrenador }}
+                                        </p>
                                     </div>
 
                                     <div class="col-lg-8">
@@ -161,7 +163,8 @@
                                                         </li>
                                                         <li class="list-group-item d-flex justify-content-between">
                                                             <span>Experiencia:</span>
-                                                            <span class="fw-bold">{{ profile.experienciaAnios || 0 }} años</span>
+                                                            <span class="fw-bold">{{ profile.experienciaAnios || 0 }}
+                                                                años</span>
                                                         </li>
                                                         <li class="list-group-item">
                                                             <span class="d-block mb-2">Certificaciones:</span>
@@ -182,7 +185,7 @@
                                                                 Información Personal
                                                             </span>
                                                             <button v-if="isOwnProfile" @click="showEditModal = true"
-                                                                class="btn btn-primary btn-sm rounded-circle p-0" 
+                                                                class="btn btn-primary btn-sm rounded-circle p-0"
                                                                 style="width: 32px; height: 32px;">
                                                                 <i class="bi bi-pencil-square"></i>
                                                             </button>
@@ -191,11 +194,13 @@
                                                     <ul class="list-group list-group-flush">
                                                         <li class="list-group-item d-flex justify-content-between">
                                                             <span>Edad:</span>
-                                                            <span class="fw-bold">{{ profile.edad || 'No especificado' }}</span>
+                                                            <span class="fw-bold">{{ profile.edad || 'No especificado'
+                                                                }}</span>
                                                         </li>
                                                         <li class="list-group-item" v-if="profile.bio">
                                                             <span class="d-block mb-2">Bio:</span>
-                                                            <p class="fst-italic text-secondary mb-0">{{ profile.bio }}</p>
+                                                            <p class="fst-italic text-secondary mb-0">{{ profile.bio }}
+                                                            </p>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -208,19 +213,21 @@
                     </div>
                 </template>
                 <div v-if="!loading && !error" class="container mb-5">
-    <!-- Tabs de perfil solo para el propio usuario -->
-    <ProfileTabs v-if="isOwnProfile" :userId="currentUser.id" />
-</div>
+                    <!-- Tabs de perfil solo para el propio usuario -->
+                    <ProfileTabs v-if="isOwnProfile && !isCoach" :userId="currentUser.id" />
+                </div>
             </div>
         </div>
 
         <!-- Toast de Bootstrap -->
         <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-            <div id="profileToast" class="toast" :class="{ 'show': showToast }" role="alert" aria-live="assertive" aria-atomic="true">
+            <div id="profileToast" class="toast" :class="{ 'show': showToast }" role="alert" aria-live="assertive"
+                aria-atomic="true">
                 <div class="toast-header bg-primary text-white">
                     <i class="bi bi-info-circle-fill me-2"></i>
                     <strong class="me-auto">Notificación</strong>
-                    <button type="button" class="btn-close btn-close-white" @click="showToast = false" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" @click="showToast = false"
+                        aria-label="Close"></button>
                 </div>
                 <div class="toast-body">
                     {{ toastMessage }}
@@ -258,7 +265,7 @@ export default {
         const toastMessage = ref('');
 
         const currentUser = computed(() => store.getters['user/GetCurrentUser']);
-        
+
         const isCoach = computed(() => {
             return profile.value.numeroEntrenador !== undefined && profile.value.numeroEntrenador !== null;
         });
@@ -289,17 +296,17 @@ export default {
                     numeroEntrenador: route.params.numeroentrenador,
                     numeroSocio: route.params.numeroSocio
                 };
-                
+
                 // Dispatch la acción de Vuex para inicializar el perfil
                 await store.dispatch(`user/${Constant.INITIALIZE_PROFILE}`, payload);
-                
+
                 // Obtener el perfil del estado de Vuex
                 const storeProfile = store.getters['user/GetProfile'];
-                
+
                 if (!storeProfile || Object.keys(storeProfile).length === 0) {
                     throw new Error('No se pudo cargar el perfil');
                 }
-                
+
                 profile.value = storeProfile;
             } catch (err) {
                 console.error('Error al cargar el perfil:', err);
@@ -318,10 +325,10 @@ export default {
 
         const handleProfileUpdated = (updatedProfile) => {
             const currentUserEmail = store.getters['user/GetCurrentUser']?.email || '';
-  
+
             // Verificar si se ha cambiado el email o la password
             const emailChanged = updatedProfile.emailChanged === true;
-    const passwordChanged = updatedProfile.passwordChanged === true;
+            const passwordChanged = updatedProfile.passwordChanged === true;
 
             // Actualizar el perfil local con los nuevos datos
             profile.value = { ...profile.value, ...updatedProfile };
@@ -332,7 +339,7 @@ export default {
                 // Mostrar toast en lugar de alert
                 toastMessage.value = 'Has cambiado tus credenciales. Por seguridad, deberás iniciar sesión nuevamente.';
                 showToast.value = true;
-                
+
                 // Hacer logout después de un breve retraso para que el usuario vea el mensaje
                 setTimeout(() => {
                     const refreshToken = { refreshToken: localStorage.getItem('refreshToken') };
@@ -342,7 +349,7 @@ export default {
                 // Mostrar toast de éxito
                 toastMessage.value = 'Perfil actualizado correctamente';
                 showToast.value = true;
-                
+
                 // Ocultar el toast después de 3 segundos
                 setTimeout(() => {
                     showToast.value = false;
