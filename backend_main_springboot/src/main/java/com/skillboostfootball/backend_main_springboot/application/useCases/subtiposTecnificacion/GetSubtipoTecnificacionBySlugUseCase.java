@@ -7,6 +7,7 @@ import com.skillboostfootball.backend_main_springboot.application.services.image
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -17,11 +18,12 @@ public class GetSubtipoTecnificacionBySlugUseCase {
     private final ImageService imageService;  // Cambio aquí
     
     @Transactional(readOnly = true)
+    @Cacheable(value = "subtiposTecnificacion", key = "#slug")
     public SubtipoTecnificacion execute(String slug) {
         SubtipoTecnificacion subtipo = subtipoTecnificacionRepository.findBySlug(slug).orElseThrow(SubtipoTecnificacionNotFoundException::new);
         
         var images = imageService.getImagesForEntity(
-            "App\\Models\\SubtipoTecnificacion", 
+            "SubtipoTecnificacion", 
             subtipo.getId()
         );
         subtipo.getImages().addAll(images);
