@@ -25,6 +25,13 @@
             </button>
           </li>
           <li class="nav-item" role="presentation">
+            <button class="nav-link px-4 py-3" :class="{ 'active': activeTab === 'logros' }"
+              @click="setActiveTab('logros')" id="logros-tab" type="button" role="tab" aria-controls="logros"
+              aria-selected="false">
+              <i class="bi bi-trophy-fill me-2"></i>Mis Logros
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
             <button class="nav-link px-4 py-3" :class="{ 'active': activeTab === 'graficas' }"
               @click="setActiveTab('graficas')" id="graficas-tab" type="button" role="tab" aria-controls="graficas"
               aria-selected="false">
@@ -47,6 +54,10 @@
             role="tabpanel" aria-labelledby="calendario-tab">
             <CalendarioTab />
           </div>
+          <div class="tab-pane fade" :class="{ 'show active': activeTab === 'logros' }" id="logros" role="tabpanel"
+            aria-labelledby="logros-tab">
+            <LogrosTab />
+          </div>
           <div class="tab-pane fade" :class="{ 'show active': activeTab === 'graficas' }" id="graficas" role="tabpanel"
             aria-labelledby="graficas-tab">
             <GraficasTab />
@@ -64,6 +75,7 @@ import NotificationsTab from './tabs/NotificationsTab.vue';
 import EntrenamientosTab from './tabs/EntrenamientosTab.vue';
 import CalendarioTab from './tabs/CalendarioTab.vue';
 import GraficasTab from './tabs/GraficasTab.vue';
+import LogrosTab from './tabs/LogrosTab.vue';
 
 export default {
   name: 'ProfileTabs',
@@ -71,7 +83,8 @@ export default {
     NotificationsTab,
     EntrenamientosTab,
     CalendarioTab,
-    GraficasTab
+    GraficasTab,
+    LogrosTab
   },
   setup() {
     const store = useStore();

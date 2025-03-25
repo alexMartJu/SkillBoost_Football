@@ -9,7 +9,8 @@ export const profile = {
         reservas: [],
         graficas: [],
         reservasActivas: [],
-        reservasExpiradas: []
+        reservasExpiradas: [],
+        logros: []
     },
 
     actions: {
@@ -66,6 +67,14 @@ export const profile = {
                 console.error("Error al cancelar el entrenamiento:", error);
                 throw error;
             }
+        },
+        [Constant.INITIALIZE_LOGROS]: async (store) => {
+            try {
+                const { data } = await profileService.Logros();
+                store.commit(Constant.INITIALIZE_LOGROS, data.logros);
+            } catch (error) {
+                console.error("Error al cargar los logros:", error);
+            }
         }
     },
 
@@ -98,6 +107,11 @@ export const profile = {
         [Constant.CANCELAR_ENTRENAMIENTO](state, slug) {
             //Eliminar el entrenamiento de las reservas activas
             state.reservasActivas = state.reservasActivas.filter(reserva => reserva.slug !== slug);
+        },
+        [Constant.INITIALIZE_LOGROS](state, payload) {
+            if (payload) {
+                state.logros = payload;
+            }
         }
     },
 
@@ -116,6 +130,9 @@ export const profile = {
         },
         GetReservasExpiradas(state) {
             return state.reservasExpiradas;
+        },
+        GetLogros(state) {
+            return state.logros;
         }
     }
 };

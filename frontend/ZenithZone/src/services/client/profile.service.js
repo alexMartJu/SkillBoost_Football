@@ -24,6 +24,9 @@ export default {
     ReservasExpiradas() {
         return Api(secrets.URL_PROXY).get('main/reservas/expiradas');
     },
+    Logros() {
+        return Api(secrets.URL_PROXY).get('main/logros');
+    },
 
     // Botones de cancelar
     CancelarReserva(data) {
