@@ -6,6 +6,7 @@ import com.skillboostfootball.backend_main_springboot.domain.entities.evaluacion
 import com.skillboostfootball.backend_main_springboot.domain.entities.graficas.Grafica;
 import com.skillboostfootball.backend_main_springboot.domain.entities.horariosPista.HorarioPista;
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
+import com.skillboostfootball.backend_main_springboot.domain.entities.incidencias.Incidencia;
 import com.skillboostfootball.backend_main_springboot.domain.entities.logros.Logro;
 import com.skillboostfootball.backend_main_springboot.domain.entities.logros.ProfileLogro;
 import com.skillboostfootball.backend_main_springboot.domain.entities.organizaciones.Organizacion;
@@ -26,6 +27,7 @@ import com.skillboostfootball.backend_main_springboot.infrastructure.databases.e
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.graficas.GraficaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.horariosPista.HorarioPistaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.images.ImageEntity;
+import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.incidencias.IncidenciaEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.logros.LogroEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.logros.ProfileLogroEntity;
 import com.skillboostfootball.backend_main_springboot.infrastructure.databases.entities.organizaciones.OrganizacionEntity;
@@ -846,6 +848,44 @@ public class EntityMapper {
             .createdAt(domain.getCreatedAt())
             .updatedAt(domain.getUpdatedAt())
             .deletedAt(domain.getDeletedAt())
+            .build();
+    }
+
+    public Incidencia toIncidencia(IncidenciaEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return Incidencia.builder()
+            .id(entity.getId())
+            .usuarioId(entity.getUsuarioId())
+            .tipo(entity.getTipo())
+            .descripcion(entity.getDescripcion())
+            .metodoPago(entity.getMetodoPago())
+            .referenciaExterna(entity.getReferenciaExterna())
+            .status(entity.getStatus())
+            .fechaIncidencia(entity.getFechaIncidencia())
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .build();
+    }
+
+    public IncidenciaEntity toIncidenciaEntity(Incidencia domain) {
+        if (domain == null) {
+            return null;
+        }
+        
+        return IncidenciaEntity.builder()
+            .id(domain.getId())
+            .usuarioId(domain.getUsuarioId())
+            .tipo(domain.getTipo())
+            .descripcion(domain.getDescripcion())
+            .metodoPago(domain.getMetodoPago())
+            .referenciaExterna(domain.getReferenciaExterna())
+            .status(domain.getStatus())
+            .fechaIncidencia(domain.getFechaIncidencia())
+            .createdAt(domain.getCreatedAt())
+            .updatedAt(domain.getUpdatedAt())
             .build();
     }
 
