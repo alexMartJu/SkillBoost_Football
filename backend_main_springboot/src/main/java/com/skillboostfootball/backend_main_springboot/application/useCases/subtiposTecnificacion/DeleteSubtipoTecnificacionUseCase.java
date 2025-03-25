@@ -6,6 +6,7 @@ import com.skillboostfootball.backend_main_springboot.domain.repositories.subtip
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -15,6 +16,7 @@ public class DeleteSubtipoTecnificacionUseCase {
     private final SubtipoTecnificacionRepository subtipoTecnificacionRepository;
     
     @Transactional
+    @CacheEvict(value = {"subtiposTecnificacion", "tecnificaciones"}, allEntries = true)
     public void execute(String slug) {
         //Buscar el subtipo por slug
         SubtipoTecnificacion subtipo = subtipoTecnificacionRepository.findBySlug(slug).orElseThrow(SubtipoTecnificacionNotFoundException::new);

@@ -8,7 +8,7 @@ import com.skillboostfootball.backend_main_springboot.application.services.image
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.cache.annotation.Cacheable;
 import java.util.List;
 
 @Service
@@ -19,6 +19,7 @@ public class GetAllSubtipoTecnificacionesUseCase {
     private final ImageService imageService;
     
     @Transactional(readOnly = true)
+    @Cacheable(value = "subtiposTecnificacion", key = "'all'")
     public List<SubtipoTecnificacion> execute() {
         List<SubtipoTecnificacion> subtipos = subtipoTecnificacionRepository.findAllActive();
         

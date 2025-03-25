@@ -4,13 +4,15 @@ import com.skillboostfootball.backend_main_springboot.domain.entities.subtiposTe
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
 import java.time.LocalDateTime;
 import java.util.List;
-
+import java.io.Serializable;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class Tecnificacion {
+public class Tecnificacion implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private Long id;
     private String nombre;
     private String slug;

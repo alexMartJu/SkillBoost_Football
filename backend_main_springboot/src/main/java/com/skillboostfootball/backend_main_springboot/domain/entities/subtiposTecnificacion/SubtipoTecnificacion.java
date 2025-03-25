@@ -2,6 +2,8 @@ package com.skillboostfootball.backend_main_springboot.domain.entities.subtiposT
 
 import com.skillboostfootball.backend_main_springboot.domain.entities.tecnificaciones.Tecnificacion;
 import com.skillboostfootball.backend_main_springboot.domain.entities.images.Image;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -10,7 +12,9 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class SubtipoTecnificacion {
+public class SubtipoTecnificacion implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private Long id;
     private String nombre;
     private String slug;

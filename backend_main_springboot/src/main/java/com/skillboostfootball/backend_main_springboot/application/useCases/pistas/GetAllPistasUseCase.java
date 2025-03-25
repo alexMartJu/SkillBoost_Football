@@ -7,6 +7,7 @@ import com.skillboostfootball.backend_main_springboot.application.services.image
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.Cacheable;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class GetAllPistasUseCase {
     private final ImageService imageService;
     
     @Transactional(readOnly = true)
+    @Cacheable(value = "pistas", key = "'all'")
     public List<Pista> execute() {
 
         List<Pista> pistas = pistaRepository.findAllActive();

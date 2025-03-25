@@ -7,6 +7,7 @@ import com.skillboostfootball.backend_main_springboot.domain.repositories.tecnif
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -17,6 +18,7 @@ public class UpdateTecnificacionUseCase {
     private final SlugService slugService;
     
     @Transactional
+    @CacheEvict(value = {"tecnificaciones", "subtiposTecnificacion"}, allEntries = true)
     public Tecnificacion execute(String slug, String nombre, String descripcion) {
         // Buscar la tecnificación por slug
         Tecnificacion tecnificacion = tecnificacionRepository.findBySlug(slug).orElseThrow(TecnificacionNotFoundException::new);

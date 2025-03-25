@@ -183,7 +183,7 @@ export default {
     const verificarAcceso = () => {
       const isAuth = store.getters['user/GetIsAuth'];
       const userType = store.getters['user/GetUserType'];
-      
+
       if (!isAuth) {
         //Usuario no autenticado
         Swal.fire({
@@ -211,7 +211,7 @@ export default {
         });
         return false;
       }
-      
+
       return true;
     };
 
@@ -329,13 +329,22 @@ export default {
           } catch (error) {
             console.error('Error creating PayPal order:', error);
             processingPayment.value = false;
+
+            //Registrar la incidencia
+            await store.dispatch(`incidencias/${Constant.CREATE_INCIDENCIA}`, {
+              tipo: 'ERROR_CREACION_ORDEN_PAYPAL',
+              descripcion: `Error al crear orden de PayPal: ${error.message || 'Error desconocido'}. Plan: ${suscripcion.value?.nombre || 'Desconocido'}`,
+              metodoPago: 'paypal',
+              referenciaExterna: 'error_creacion_orden'
+            });
+
             showErrorToast();
             throw error;
           }
         },
         onApprove: async (data) => {
           try {
-            //Lllamar al backend para capturar el pago
+            //Llamar al backend para capturar el pago
             const captureResponse = await PaymentService.capturePayPalPayment(data.orderID);
 
             if (captureResponse.data.status === 'COMPLETED') {
@@ -348,18 +357,45 @@ export default {
               }, 2000);
             } else {
               console.error('Payment not completed');
+
+              //Registrar la incidencia
+              await store.dispatch(`incidencias/${Constant.CREATE_INCIDENCIA}`, {
+                tipo: 'ERROR_PAGO_INCOMPLETO_PAYPAL',
+                descripcion: `El pago con PayPal no se completó. Estado: ${captureResponse.data.status}. Plan: ${suscripcion.value.nombre}`,
+                metodoPago: 'paypal',
+                referenciaExterna: data.orderID
+              });
+
               showErrorToast();
             }
           } catch (error) {
             console.error('Error capturing PayPal payment:', error);
+
+            //Registrar la incidencia
+            await store.dispatch(`incidencias/${Constant.CREATE_INCIDENCIA}`, {
+              tipo: 'ERROR_CAPTURA_PAGO_PAYPAL',
+              descripcion: `Error al capturar pago de PayPal: ${error.message || 'Error desconocido'}. Plan: ${suscripcion.value.nombre}`,
+              metodoPago: 'paypal',
+              referenciaExterna: data.orderID
+            });
+
             showErrorToast();
           } finally {
             processingPayment.value = false;
           }
         },
-        onError: (err) => {
+        onError: async (err) => {
           console.error('PayPal error:', err);
           processingPayment.value = false;
+
+          //Registrar la incidencia
+          await store.dispatch(`incidencias/${Constant.CREATE_INCIDENCIA}`, {
+            tipo: 'ERROR_PAYPAL',
+            descripcion: `Error en el proceso de pago con PayPal: ${err.message || 'Error desconocido'}. Plan: ${suscripcion.value.nombre}`,
+            metodoPago: 'paypal',
+            referenciaExterna: 'error_paypal'
+          });
+
           showErrorToast();
         }
       }).render('#paypal-button-container');
@@ -391,6 +427,15 @@ export default {
 
         if (result.error) {
           console.error(result.error.message);
+
+          //Registrar la incidencia
+          await store.dispatch(`incidencias/${Constant.CREATE_INCIDENCIA}`, {
+            tipo: 'ERROR_PAGO_STRIPE',
+            descripcion: `Error al procesar pago con Stripe: ${result.error.message}. Plan: ${suscripcion.value.nombre}`,
+            metodoPago: 'stripe',
+            referenciaExterna: result.error.payment_intent?.id || 'unknown'
+          });
+
           showErrorToast();
         } else if (result.paymentIntent.status === 'succeeded') {
           //Guardar pago en el backend principal
@@ -404,6 +449,15 @@ export default {
         }
       } catch (error) {
         console.error('Error processing Stripe payment:', error);
+
+        //Registrar la incidencia
+        await store.dispatch(`incidencias/${Constant.CREATE_INCIDENCIA}`, {
+          tipo: 'ERROR_PAGO_STRIPE',
+          descripcion: `Error en el proceso de pago con Stripe: ${error.message || 'Error desconocido'}. Plan: ${suscripcion.value?.nombre || 'Desconocido'}`,
+          metodoPago: 'stripe',
+          referenciaExterna: 'error_proceso'
+        });
+
         showErrorToast();
       } finally {
         processingPayment.value = false;
@@ -458,7 +512,7 @@ export default {
       if (!verificarAcceso()) {
         return;
       }
-      
+
       //Cargar la suscripción
       await cargarSuscripcion();
 

@@ -5,6 +5,7 @@ import com.skillboostfootball.backend_main_springboot.domain.entities.pistas.Pis
 import com.skillboostfootball.backend_main_springboot.domain.repositories.pistas.PistaRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.CacheEvict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ public class DeletePistaUseCase {
     private final PistaRepository pistaRepository;
     
     @Transactional
+    @CacheEvict(value = "pistas", allEntries = true)
     public void execute(String slug) {
         Pista pista = pistaRepository.findBySlug(slug).orElseThrow(PistaNotFoundException::new);
         

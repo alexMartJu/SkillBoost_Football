@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.cache.annotation.Cacheable;
 import java.util.List;
 
 @Service
@@ -21,6 +21,7 @@ public class GetAllSubtipoTecnificacionesScrollUseCase {
     private final ImageService imageService;
     
     @Transactional(readOnly = true)
+    @Cacheable(value = "subtiposTecnificacion", key = "'scroll:' + #pageable.pageNumber + ':' + #pageable.pageSize")
     public List<SubtipoTecnificacion> execute(Pageable pageable) {
         
         Page<SubtipoTecnificacion> subtiposPage = subtipoTecnificacionRepository.findAllActive(pageable);
@@ -30,7 +31,7 @@ public class GetAllSubtipoTecnificacionesScrollUseCase {
         
         List<SubtipoTecnificacion> subtipos = subtiposPage.getContent();
         subtipos.forEach(subtipo -> {
-            var images = imageService.getImagesForEntity("App\\Models\\SubtipoTecnificacion", subtipo.getId());
+            var images = imageService.getImagesForEntity("SubtipoTecnificacion", subtipo.getId());
             subtipo.getImages().addAll(images);
         });
         

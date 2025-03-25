@@ -7,6 +7,7 @@ import com.skillboostfootball.backend_main_springboot.application.services.image
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -16,12 +17,13 @@ public class GetTecnificacionBySlugUseCase {
     private final ImageService imageService;
     
     @Transactional(readOnly = true)
+    @Cacheable(value = "tecnificaciones", key = "#slug")
     public Tecnificacion execute(String slug) {
         Tecnificacion tecnificacion = tecnificacionRepository.findBySlug(slug).orElseThrow(TecnificacionNotFoundException::new);
         
         // Cargar imágenes para la tecnificación usando el servicio
         var images = imageService.getImagesForEntity(
-            "App\\Models\\Tecnificacion", 
+            "Tecnificacion", 
             tecnificacion.getId()
         );
         tecnificacion.getImages().addAll(images);

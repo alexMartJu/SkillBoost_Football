@@ -7,6 +7,7 @@ import com.skillboostfootball.backend_main_springboot.application.services.image
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class GetAllTecnificacionesUseCase {
     private final ImageService imageService;
     
     @Transactional(readOnly = true)
+    @Cacheable(value = "tecnificaciones", key = "'all'")
     public List<Tecnificacion> execute() {
         List<Tecnificacion> tecnificaciones = tecnificacionRepository.findAllActive();
         
@@ -28,7 +30,7 @@ public class GetAllTecnificacionesUseCase {
         // Cargar imágenes para cada tecnificación
         tecnificaciones.forEach(tecnificacion -> {
             var images = imageService.getImagesForEntity(
-                "App\\Models\\Tecnificacion", 
+                "Tecnificacion", 
                 tecnificacion.getId()
             );
             tecnificacion.getImages().addAll(images);
