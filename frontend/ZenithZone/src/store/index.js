@@ -12,6 +12,7 @@ import { subtiposTecnificacion } from "./modules/client/subtiposTecnificacion";
 import { organizaciones } from "./modules/client/organizaciones";
 import { suscripciones } from "./modules/client/suscripciones";
 import { notifications } from "./modules/client/notifications";
+import { incidencias } from "./modules/client/incidencias";
 
 export default Vuex.createStore({
     modules: {
@@ -27,6 +28,7 @@ export default Vuex.createStore({
         subtiposTecnificacion: subtiposTecnificacion,
         organizaciones: organizaciones,
         suscripciones: suscripciones,
-        notifications: notifications
+        notifications: notifications,
+        incidencias: incidencias
     }
 });
