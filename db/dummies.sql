@@ -24,7 +24,7 @@ INSERT INTO `usuarios` (`email`, `password`, `tipo_usuario`) VALUES
 ('adelia@gmail.com', '$2a$10$SMfqxEM/2FecKFTaEo4.x.qiW17blXKZ7il08ZUr3IIc3gc.ld/42', 'jugador_social');
 
 INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
-(1, 1), (2, 2), (3, 3);
+(1, 1), (2, 2), (3, 3), (4,3), (5, 6), (6, 5);
 
 INSERT INTO `profiles` (`id`, `nombre`, `apellidos`, `image`, `edad`, `es_menor`, `numeroEntrenador`, `especialidad`, `numerosocio`) VALUES
 (1, 'Admin', 'System', 'https://static.productionready.io/images/smiley-cyrus.jpg', 30, false, NULL, NULL, 'ADM001'),
@@ -295,7 +295,7 @@ VALUES
 '8 entrenamientos mensuales', 'Acceso a logros y recompensas', NULL, NULL, NOW(), NOW()),
 ('Desarrollo Avanzado', 'desarrollo-avanzado', 79.99, 12, FALSE, TRUE, 
 '12 entrenamientos mensuales', 'Acceso a logros y recompensas', 'Evaluaciones de rendimiento personalizadas', NULL, NOW(), NOW()),
-('í‰lite Profesional', 'elite-profesional', 119.99, 16, TRUE, TRUE, 
+('Élite Profesional', 'elite-profesional', 119.99, 16, TRUE, TRUE, 
 '16 entrenamientos mensuales', 'Acceso a logros y recompensas', 'Evaluaciones de rendimiento personalizadas', 'Análisis gráfico de evolución técnica', NOW(), NOW());
 
 -- Trainings (Sin pista_id y horario_id)

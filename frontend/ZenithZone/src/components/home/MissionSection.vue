@@ -61,7 +61,7 @@
                                 <div class="card border-0 overflow-hidden h-100 gallery-item"
                                     @mouseenter="activeImage = 0" :class="{ 'active': activeImage === 0 }">
                                     <div class="ratio ratio-1x1">
-                                        <img src="/assets/pistas/arco.jpg" alt="Sesión de entrenamiento técnico"
+                                        <img src="/assets/pistas/tecn_avanzada.jpg" alt="Sesión de entrenamiento técnico"
                                             class="card-img object-fit-cover">
                                     </div>
                                     <div class="card-img-overlay d-flex align-items-end gallery-overlay">
@@ -73,7 +73,7 @@
                                 <div class="card border-0 overflow-hidden h-100 gallery-item"
                                     @mouseenter="activeImage = 1" :class="{ 'active': activeImage === 1 }">
                                     <div class="ratio ratio-1x1">
-                                        <img src="/assets/pistas/arco.jpg" alt="Programa de inclusión social"
+                                        <img src="/assets/pistas/inc_social.jpg" alt="Programa de inclusión social"
                                             class="card-img object-fit-cover">
                                     </div>
                                     <div class="card-img-overlay d-flex align-items-end gallery-overlay">
@@ -85,7 +85,7 @@
                                 <div class="card border-0 overflow-hidden h-100 gallery-item"
                                     @mouseenter="activeImage = 2" :class="{ 'active': activeImage === 2 }">
                                     <div class="ratio ratio-1x1">
-                                        <img src="/assets/pistas/arco.jpg" alt="Desarrollo juvenil"
+                                        <img src="/assets/pistas/for_juvenil.jpg" alt="Desarrollo juvenil"
                                             class="card-img object-fit-cover">
                                     </div>
                                     <div class="card-img-overlay d-flex align-items-end gallery-overlay">
@@ -97,7 +97,7 @@
                                 <div class="card border-0 overflow-hidden h-100 gallery-item"
                                     @mouseenter="activeImage = 3" :class="{ 'active': activeImage === 3 }">
                                     <div class="ratio ratio-1x1">
-                                        <img src="/assets/pistas/arco.jpg" alt="Valores de equipo"
+                                        <img src="/assets/pistas/val_equipo.jpg" alt="Valores de equipo"
                                             class="card-img object-fit-cover">
                                     </div>
                                     <div class="card-img-overlay d-flex align-items-end gallery-overlay">
