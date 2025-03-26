@@ -52,8 +52,6 @@
                             </button>
                             <UnirseEntrenamientoButton v-if="!isProfile" :slug="entrenamiento.slug"
                                 :isSuscribed="isSuscribed" class="rounded-pill" />
-                            <CancelarEntrenamientoButton v-if="isProfile" :slug="entrenamiento.slug"
-                                class="rounded-pill" />
                         </div>
                     </div>
                 </div>
@@ -66,7 +64,6 @@
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import UnirseEntrenamientoButton from './buttons/UnirseEntrenamientoButton.vue';
-import CancelarEntrenamientoButton from './buttons/CancelarEntrenamientoButton.vue';
 import { reactive } from 'vue';
 import { computed } from 'vue';
 
@@ -93,8 +90,7 @@ export default {
     },
 
     components: {
-        UnirseEntrenamientoButton,
-        CancelarEntrenamientoButton
+        UnirseEntrenamientoButton
     },
 
     setup() {
