@@ -4,7 +4,7 @@
             <nav class="navbar navbar-expand-lg py-3">
                 <!-- Logo -->
                 <div class="navbar-brand" @click="redirects.home">
-                    <img src="/assets/logo_2.png" alt="Logo" class="logo-modern">
+                    <img src="/assets/logo_5.png" alt="Logo" class="logo-modern">
                 </div>
 
                 <!-- Hamburger Menu for Mobile -->
@@ -21,18 +21,23 @@
                             </a>
                         </li>
                         <li v-if="!state.isAdmin && !state.isEntrenador" class="nav-item">
-                            <a @click="redirects.instalaciones" class="nav-link modern-link" :class="{ 'active-link': isInstalaciones }">
-                                <i class="bi bi-building me-1"></i>Instalaciones
+                            <a @click="redirects.recursos" class="nav-link modern-link" :class="{ 'active-link': isRecursos }">
+                                <i class="bi bi-journal-text me-1"></i>Recursos                             
                             </a>
                         </li>
                         <li v-if="!state.isAdmin && !state.isEntrenador" class="nav-item">
-                            <a @click="redirects.servicios" class="nav-link modern-link" :class="{ 'active-link': isServicios }">
-                                <i class="bi bi-gear me-1"></i>Servicios
+                            <a @click="redirects.entrena" class="nav-link modern-link" :class="{ 'active-link': isEntrena }">
+                                <i class="bi bi-person-arms-up me-1"></i>Entrena                            
                             </a>
                         </li>
                         <li v-if="!state.isAdmin && !state.isEntrenador" class="nav-item">
-                            <a @click="redirects.entrenadores" class="nav-link modern-link" :class="{ 'active-link': isEntrenadores }">
-                                <i class="bi bi-people me-1"></i>Entrenadores
+                            <a @click="redirects.apoyo" class="nav-link modern-link" :class="{ 'active-link': isApoyo }">
+                                <i class="bi bi-hand-thumbs-up me-1"></i>Apoyo                                                        
+                            </a>
+                        </li>
+                        <li v-if="!state.isAdmin && !state.isEntrenador" class="nav-item">
+                            <a @click="redirects.planes" class="nav-link modern-link" :class="{ 'active-link': isPlan }">
+                                <i class="bi bi-credit-card me-1"></i>Planes                                                       
                             </a>
                         </li>
 
@@ -48,17 +53,22 @@
                             </a>
                         </li>
 
+                        <!-- Notificaciones -->
+                        <li v-if="state.isLogged && state.user && state.user.id" class="nav-item ms-lg-3">
+                            <NotificationBell :userId="state.user.id" />
+                        </li>
+
                         <!-- User Profile -->
-                        <li v-if="state.user.numeroSocio" class="nav-item ms-lg-3">
+                        <li v-if="state.isLogged && state.user.profile" class="nav-item ms-lg-3">
                             <div class="d-flex align-items-center">
                                 <div class="position-relative">
-                                    <img :src="state.user.image" alt="" class="profile-pic">
+                                    <img :src="state.user.profile.image || '/assets/default-profile.png'" alt="" class="profile-pic">
                                     <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
                                         <span class="visually-hidden">Online</span>
                                     </span>
                                 </div>
-                                <a @click="redirects.profile" class="nav-link modern-link ms-2" :class="{ 'active-link': isProfile }">
-                                    {{ state.user.nombre }}
+                                <a @click="redirectToProfile" class="nav-link modern-link ms-2" :class="{ 'active-link': isProfile }">
+                                    {{ state.user.profile.nombre || state.user.email }}
                                 </a>
                             </div>
                         </li>
@@ -84,26 +94,33 @@
 
 <script>
 import Constant from '@/Constant';
-import { computed, watch } from 'vue';
+import { computed, watch, onMounted } from 'vue';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import NotificationBell from './NotificationBell.vue';
 
 export default {
     name: "Header",
+    components: {
+        NotificationBell
+    },
 
     computed: {
         isHome() {
             return this.$route.name === 'home';
         },
-        isInstalaciones() {
-            return this.$route.name === 'instalaciones';
+        isRecursos() {
+            return this.$route.path.startsWith('/recursos');
         },
-        isServicios() {
-            return this.$route.path.startsWith('/servicios');
+        isEntrena() {
+            return this.$route.path.startsWith('/entrena');
         },
-        isEntrenadores() {
-            return this.$route.name === 'entrenadores';
+        isApoyo() {
+            return this.$route.name === 'apoyo';
+        },
+        isPlan() {
+            return this.$route.name === 'planes';
         },
         isLogin() {
             return ['/login', '/register'].includes(this.$route.path);
@@ -124,26 +141,46 @@ export default {
             user: computed(() => store.getters['user/GetCurrentUser']),
             isAdmin: computed(() => store.getters['user/GetIsAdmin']),
             isEntrenador: computed(() => store.getters['user/GetIsEntrenador']),
-            isUser: computed(() => store.getters['user/GetIsAuth']),
+            isAuth: computed(() => store.getters['user/GetIsAuth']),
             isLogged: false
         });
 
         const redirects = {
             home: () => router.push({ name: 'home' }),
-            instalaciones: () => router.push({ name: 'instalaciones' }),
-            servicios: () => router.push({ name: 'serviciosEntrenamientos' }),
-            entrenadores: () => router.push({ name: 'entrenadores' }),
-            profile: () => router.push({ name: 'profile', params: { numeroSocio: state.user.numeroSocio } }),
-            profileEntrenador: () => router.push({ name: 'profileEntrenador', params: { numeroentrenador: state.user.numeroentrenador } }),
+            recursos: () => router.push({ name: 'recursos' }),
+            entrena: () => router.push({ name: 'entrena' }),
+            apoyo: () => router.push({ name: 'apoyo' }),
+            planes: () => router.push({ name: 'planes' }),
             login: () => router.push({ name: 'login' }),
             dashboardAdmin: () => router.push({ name: 'DashboardAdmin' }),
             dashboardEntrenador: () => router.push({ name: 'DashboardEntrenador' }),
         };
 
+        const redirectToProfile = () => {
+            //Si es admin, no redirigir a ningún perfil
+            if (state.isAdmin) {
+                return; // No hacer nada o redirigir a otra página específica para admins
+            }
+            //Si es entrenador con numeroEntrenador, redirigir al perfil de entrenador
+            else if (state.isEntrenador && state.user.profile?.numeroEntrenador) {
+                router.push({ 
+                    name: 'profileEntrenador', 
+                    params: { numeroentrenador: state.user.profile.numeroEntrenador } 
+                });
+            } 
+            //Para usuarios normales con numeroSocio
+            else if (state.user.profile?.numeroSocio) {
+                router.push({ 
+                    name: 'profile', 
+                    params: { numeroSocio: state.user.profile.numeroSocio } 
+                });
+            }
+        };
+
         watch(
-            () => state.user.nombre,
-            (newValue) => {
-                state.isLogged = !!newValue;
+            () => [state.isAdmin, state.isEntrenador, state.isAuth],
+            () => {
+                state.isLogged = state.isAdmin || state.isEntrenador || state.isAuth;
             },
             { immediate: true }
         );
@@ -151,23 +188,17 @@ export default {
         const logout = () => {
             const refreshToken = { refreshToken: localStorage.getItem('refreshToken') };
             store.dispatch(`user/${Constant.LOGOUT}`, refreshToken);
-            router.push({ name: 'home' });
         };
 
-        const token = localStorage.getItem('token');
-        const tokenAdmin = localStorage.getItem('tokenAdmin');
-        const entrenadorToken = localStorage.getItem('entrenadorToken');
-        if (token) {
-            store.dispatch(`user/${Constant.INITIALIZE_USER}`, { "token": token });
-        } else if (tokenAdmin) {
-            console.log(`checkea admin`);
-            store.dispatch(`user/${Constant.INITIALIZE_USER}`, { "tokenAdmin": tokenAdmin });
-        } else if (entrenadorToken) {
-            // console.log(`checkea entrenador`, entrenadorToken);
-            store.dispatch(`user/${Constant.INITIALIZE_USER}`, { "entrenadorToken": entrenadorToken });
-        }
+        onMounted(() => {
+            //Inicializar usuario si hay un token
+            const accessToken = localStorage.getItem('accessToken');
+            if (accessToken) {
+                store.dispatch(`user/${Constant.INITIALIZE_USER}`, { accessToken });
+            }
+        });
 
-        return { redirects, state, logout };
+        return { redirects, state, logout, redirectToProfile };
     }
 };
 </script>

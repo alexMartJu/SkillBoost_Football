@@ -5,7 +5,8 @@ export const entrenamientos = {
     namespaced: true,
 
     state: {
-        entrenamientos: []
+        entrenamientos: [],
+        suscribedEntrenamientos: new Set()
     },
 
     actions: {
@@ -26,7 +27,26 @@ export const entrenamientos = {
             } catch (error) {
                 console.error("Error al cargar el entrenamiento:", error);
             }
+        },
+        //Acción para cargar los entrenamientos suscritos
+        [Constant.FETCH_SUSCRIBED_ENTRENAMIENTOS]: async (store) => {
+            try {
+                const response = await entrenamientosService.GetSuscribedEntrenamientos();
+                
+                if (response.data && response.data.reservas && Array.isArray(response.data.reservas)) {
+                    const slugs = response.data.reservas
+                        .filter(reserva => reserva.entrenamiento && reserva.entrenamiento.slug)
+                        .map(reserva => reserva.entrenamiento.slug);
+                    
+                    store.commit(Constant.SET_SUSCRIBED_ENTRENAMIENTOS, slugs);
+                } else {
+                    console.warn("Estructura de respuesta inesperada:", response.data);
+                }
+            } catch (error) {
+                console.error("Error al cargar los entrenamientos suscritos:", error);
+            }
         }
+
     },
 
     mutations: {
@@ -40,6 +60,9 @@ export const entrenamientos = {
             if (payload) {
                 state.entrenamientos = payload;
             }
+        },
+        [Constant.SET_SUSCRIBED_ENTRENAMIENTOS](state, slugs) {
+            state.suscribedEntrenamientos = new Set(slugs);
         }
     },
 
@@ -49,6 +72,12 @@ export const entrenamientos = {
         },
         GetOneEntrenamiento(state) {
             return state.entrenamientos;
+        },
+        isEntrenamientoSuscribed: (state) => (slug) => {
+            return state.suscribedEntrenamientos && state.suscribedEntrenamientos.has(slug);
+        },
+        getAllSuscribedEntrenamientos(state) {
+            return state.suscribedEntrenamientos;
         }
     }
 };

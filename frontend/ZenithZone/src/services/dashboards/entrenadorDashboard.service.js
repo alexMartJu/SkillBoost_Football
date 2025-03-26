@@ -1,40 +1,74 @@
 import secrets from "@/secrets";
 import Api from "../Api";
-const isSpringboot = "false";
+
 export default {
-    // Obtener la lista de entrenamientos desde la API
-    GetEntrenamientos() {
-        return Api(secrets.URL_SPRING,isSpringboot).get('entrenamientos');
+    //Obtener todas las pistas
+    GetAllPistas() {
+        return Api(secrets.URL_PROXY).get('main/pistas');
+    },
+    
+    //Obtener horarios ocupados de una pista en una fecha específica
+    GetHorariosOcupados(pistaSlug, fecha) {
+        return Api(secrets.URL_PROXY).get(`main/pistas/${pistaSlug}/horarios-ocupados?fecha=${fecha}`);
+    },
+    
+    //Crear un nuevo entrenamiento
+    CreateEntrenamiento(entrenamiento) {
+        return Api(secrets.URL_PROXY).post('main/entrenador/entrenamientos/create', entrenamiento);
     },
 
-    // Crear un nuevo entrenamiento en la API
-    CreateEntrenamiento(nuevoEntrenamiento) {
-        return Api(secrets.URL_SPRING,isSpringboot).post('entrenamientos', nuevoEntrenamiento);
+    //Obtener todas las tecnificaciones
+    GetAllTecnificaciones() {
+        return Api(secrets.URL_PROXY).get('main/tecnificaciones');
     },
-    GetGraficas(id) {
-        return Api(secrets.URL_SPRING, isSpringboot).get(`graficas/profile/${id}`);
-      },
     
-    UpdateGraficas(id, graficas) {
-        return Api(secrets.URL_SPRING, isSpringboot).post(`graficas/profile/${id}`, graficas);
+    //Obtener subtipos de una tecnificación específica
+    GetSubtiposByTecnificacion(tecnificacionSlug) {
+        return Api(secrets.URL_PROXY).get(`main/tecnificaciones/${tecnificacionSlug}/subtipos`);
     },
-    GetProfile(id) {
-        return Api(secrets.URL_SPRING, isSpringboot).get(`profile/${id}`);
+    // Obtener entrenamientos pendientes del entrenador
+    GetPendingEntrenamientos() {
+        return Api(secrets.URL_PROXY).get('main/entrenador/entrenamientos/pending');
     },
-    DeleteEntrenamiento(id){
-        return Api(secrets.URL_SPRING,isSpringboot).delete(`entrenamientos/${id}`);
+    
+    // Obtener entrenamientos aprobados del entrenador
+    GetApprovedEntrenamientos() {
+        return Api(secrets.URL_PROXY).get('main/entrenador/entrenamientos/approved');
     },
-    GetEntrenador(){
-        return Api(secrets.URL_SPRING,isSpringboot).get(`currentEntrenador`);
+    
+    // Obtener entrenamientos denegados del entrenador
+    GetDeniedEntrenamientos() {
+        return Api(secrets.URL_PROXY).get('main/entrenador/entrenamientos/denied');
     },
-    GetPistasPrivadas(){
-        return Api(secrets.URL_SPRING,isSpringboot).get(`pistasprivadas`);
+    GetInscripcionesByEntrenamiento(slug) {
+        return Api(secrets.URL_PROXY).get(`main/entrenador/entrenamientos/${slug}/inscripciones`);
     },
-    GetEntrenamientosOcupados(pistaId){
-        return Api(secrets.URL_SPRING,isSpringboot).get(`horariosocupados/${pistaId}`);
+    
+    GetEvaluacionAlumno(numeroSocio, slug) {
+        return Api(secrets.URL_PROXY).get(`main/entrenador/profiles/${numeroSocio}/entrenamientos/${slug}/evaluaciones`);
     },
-    GetHorarios(pistaId){
-        return Api(secrets.URL_SPRING,isSpringboot).get(`horarios`);
+    
+    CreateEvaluacionAlumno(numeroSocio, slug, evaluacion) {
+        return Api(secrets.URL_PROXY).post(`main/entrenador/profiles/${numeroSocio}/entrenamientos/${slug}/evaluaciones`, evaluacion);
+    },
+    
+    UpdateEvaluacionAlumno(numeroSocio, slug, evaluacion) {
+        return Api(secrets.URL_PROXY).put(`main/entrenador/profiles/${numeroSocio}/entrenamientos/${slug}/evaluaciones`, evaluacion);
+    },
+    
+    GetGraficasAlumno(numeroSocio, año) {
+        return Api(secrets.URL_PROXY).get(`main/profiles/${numeroSocio}/graficas?año=${año}`);
+    },
+    
+    UpdateGraficasAlumno(numeroSocio, graficas) {
+        // Si recibimos un objeto con propiedad 'secciones', usamos eso directamente
+        const secciones = graficas.secciones || 
+                         // De lo contrario, convertimos el objeto a un array de secciones
+                         Object.entries(graficas).map(([seccion, nivel]) => ({ seccion, nivel }));
+        
+        return Api(secrets.URL_PROXY).put(`main/entrenador/profiles/${numeroSocio}/graficas`, {
+            secciones: secciones
+        });
     }
 
 };

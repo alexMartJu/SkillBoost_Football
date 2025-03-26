@@ -8,14 +8,14 @@ export function useEntrenamientos() {
 
     let filters_url = {
         nombre: "",
-        dia: "",
-        duracionMin: 0,
-        duracionMax: 0,
-        maxPlazasMin: 0,
-        maxPlazasMax: 0,
-        precioMin: 0,
-        precioMax: 0,
-        deporteId: "",
+        nivel: "",
+        edadMinima: 1,
+        edadMaxima: 99,
+        maxPlazasMin: 1,
+        maxPlazasMax: 50,
+        tecnificacionNombre: "",
+        fechaInicio: null,
+        fechaFin: null,
         offset: 0,
         limit: 3,
     };
@@ -35,12 +35,11 @@ export function useEntrenamientos() {
     };
 
     const fetchTotalPages = (filters, filters_limit) => {
-
         entrenamientosService.GetEntrenamientosTotalFiltered(filters)
             .then(res => {
                 const limit = filters_limit ?? 3;
-                const { entrenamientosCount } = res.data;
-                const pages = Math.ceil(entrenamientosCount / limit);
+                const { count } = res.data;
+                const pages = Math.ceil(count / limit);
                 state.totalPages = pages;
             })
             .catch(error => console.error(error));
@@ -48,13 +47,22 @@ export function useEntrenamientos() {
 
     const fetchEntrenamientosData = () => {
         entrenamientosService.GetEntrenamientosData()
-            .then(res => { state.meta = res.data; })
+            .then(res => { 
+                state.meta = res.data; 
+                // Actualizar los filtros con los valores del meta
+                if (state.meta.plazasMaximas !== undefined) {
+                    state.filters.maxPlazasMax = state.meta.plazasMaximas;
+                }
+                if (state.meta.plazasMinimas !== undefined) {
+                    state.filters.maxPlazasMin = state.meta.plazasMinimas;
+                }
+            })
             .catch(error => console.error(error));
     };
 
     const ApplyFilters = (filters) => {
         const filters_64 = btoa(JSON.stringify(filters));
-        router.push({ name: 'serviciosEntrenamientosFilter', params: { filters: filters_64 } });
+        router.push({ name: 'entrenaFilter', params: { filters: filters_64 } });
         fetchEntrenamientos(filters);
         fetchTotalPages(filters, filters.limit);
     };
@@ -62,19 +70,18 @@ export function useEntrenamientos() {
     const resetFilters = () => {
         state.filters = {
             nombre: "",
-            dia: "",
-            duracionMin: 0,
-            duracionMax: 0,
-            maxPlazasMin: 0,
-            maxPlazasMax: 0,
-            precioMin: 0,
-            precioMax: 0,
-            deporteId: "",
+            nivel: "",
+            edadMinima: 1,
+            edadMaxima: 99,
+            maxPlazasMin: state.meta.plazasMinimas || 1,
+            maxPlazasMax: state.meta.plazasMaximas || 50,
+            tecnificacionNombre: "",
+            fechaInicio: null,
+            fechaFin: null,
             offset: 0,
             limit: 3,
         };
-        // ApplyFilters(state.filters);
-        router.push({ name: 'serviciosEntrenamientos' }); // Actualiza la URL sin parámetros de filtro
+        router.push({ name: 'entrena' });
         fetchEntrenamientos(state.filters);
         fetchTotalPages(state.filters, state.filters.limit);
     };

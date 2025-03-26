@@ -1,0 +1,390 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model blacklist_token {
+  id            BigInt   @id @default(autoincrement())
+  usuario_id    BigInt
+  refresh_token String   @db.Text
+  revoke_time   DateTime @default(now()) @db.Timestamp(0)
+  usuarios      usuarios @relation(fields: [usuario_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "blacklist_token_ibfk_1")
+
+  @@index([usuario_id], map: "usuario_id")
+}
+
+model entrenamientos {
+  id                       BigInt                     @id @default(autoincrement())
+  nombre                   String?                    @db.VarChar(255)
+  slug                     String?                    @unique(map: "slug") @db.VarChar(255)
+  descripcion              String?                    @db.Text
+  nivel                    String?                    @db.VarChar(50)
+  edad_minima              Int?
+  edad_maxima              Int?
+  tecnificacion_id         BigInt?
+  subtipo_tecnificacion_id BigInt?
+  entrenador_id            BigInt?
+  max_plazas               Int?
+  objetivos                String?                    @db.Text
+  equipamiento_necesario   String?                    @db.Text
+  duracion_minutos         Int?
+  status                   String?                    @default("active") @db.VarChar(50)
+  created_at               DateTime?                  @default(now()) @db.Timestamp(0)
+  updated_at               DateTime?                  @db.Timestamp(0)
+  deleted_at               DateTime?                  @db.Timestamp(0)
+  tecnificaciones          tecnificaciones?           @relation(fields: [tecnificacion_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "entrenamientos_ibfk_1")
+  subtipo_tecnificacion    subtipo_tecnificacion?     @relation(fields: [subtipo_tecnificacion_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "entrenamientos_ibfk_2")
+  profiles                 profiles?                  @relation(fields: [entrenador_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "entrenamientos_ibfk_3")
+  evaluaciones_rendimiento evaluaciones_rendimiento[]
+  horarios_pista           horarios_pista?
+  reservas                 reservas[]
+
+  @@index([entrenador_id], map: "entrenador_id")
+  @@index([subtipo_tecnificacion_id], map: "subtipo_tecnificacion_id")
+  @@index([tecnificacion_id], map: "tecnificacion_id")
+}
+
+model evaluaciones_rendimiento {
+  id               BigInt          @id @default(autoincrement())
+  profile_id       BigInt?
+  entrenamiento_id BigInt?
+  fecha_evaluacion DateTime?       @db.Date
+  puntuacion       Int?
+  comentarios      String?         @db.Text
+  areas_mejora     String?         @db.Text
+  created_at       DateTime?       @default(now()) @db.Timestamp(0)
+  updated_at       DateTime?       @db.Timestamp(0)
+  deleted_at       DateTime?       @db.Timestamp(0)
+  profiles         profiles?       @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "evaluaciones_rendimiento_ibfk_1")
+  entrenamientos   entrenamientos? @relation(fields: [entrenamiento_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "evaluaciones_rendimiento_ibfk_2")
+
+  @@index([entrenamiento_id], map: "entrenamiento_id")
+  @@index([profile_id], map: "profile_id")
+}
+
+model flyway_schema_history {
+  installed_rank Int      @id
+  version        String?  @db.VarChar(50)
+  description    String   @db.VarChar(200)
+  type           String   @db.VarChar(20)
+  script         String   @db.VarChar(1000)
+  checksum       Int?
+  installed_by   String   @db.VarChar(100)
+  installed_on   DateTime @default(now()) @db.Timestamp(0)
+  execution_time Int
+  success        Boolean
+
+  @@index([success], map: "flyway_schema_history_s_idx")
+}
+
+model graficas {
+  id         BigInt    @id @default(autoincrement())
+  seccion    String?   @db.VarChar(255)
+  nivel      Int?
+  Mes        Int?
+  a_o        Int?      @map("año")
+  profile_id BigInt?
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_at DateTime? @db.Timestamp(0)
+  deleted_at DateTime? @db.Timestamp(0)
+  profiles   profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "graficas_ibfk_1")
+
+  @@index([profile_id], map: "profile_id")
+}
+
+model horarios_pista {
+  id               BigInt          @id @default(autoincrement())
+  pista_id         BigInt
+  fecha_inicio     DateTime        @db.DateTime(0)
+  fecha_fin        DateTime        @db.DateTime(0)
+  entrenamiento_id BigInt?         @unique(map: "uk_entrenamiento_id")
+  created_at       DateTime?       @default(now()) @db.Timestamp(0)
+  updated_at       DateTime?       @db.Timestamp(0)
+  deleted_at       DateTime?       @db.Timestamp(0)
+  entrenamientos   entrenamientos? @relation(fields: [entrenamiento_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_horarios_entrenamiento")
+  pistas           pistas          @relation(fields: [pista_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "horarios_pista_ibfk_1")
+
+  @@index([pista_id], map: "pista_id")
+}
+
+model images {
+  id             BigInt    @id @default(autoincrement())
+  image_url      String?   @db.VarChar(255)
+  imageable_type String?   @db.VarChar(255)
+  imageable_id   BigInt?
+  created_at     DateTime? @default(now()) @db.Timestamp(0)
+  deleted_at     DateTime? @db.Timestamp(0)
+}
+
+model logros {
+  id                       BigInt           @id @default(autoincrement())
+  nombre                   String?          @unique(map: "nombre") @db.VarChar(255)
+  slug                     String?          @db.VarChar(255)
+  descripcion              String?          @db.Text
+  requisito_entrenamientos Int?
+  nivel_dificultad         String?          @db.VarChar(50)
+  recompensa               String?          @db.VarChar(255)
+  created_at               DateTime?        @default(now()) @db.Timestamp(0)
+  updated_at               DateTime?        @db.Timestamp(0)
+  deleted_at               DateTime?        @db.Timestamp(0)
+  profile_logros           profile_logros[]
+}
+
+model pagos {
+  id                                                                        BigInt                  @id @default(autoincrement())
+  profile_suscripcion_id                                                    BigInt
+  monto                                                                     Decimal?                @db.Decimal(10, 2)
+  metodo_pago                                                               String?                 @db.VarChar(50)
+  status                                                                    String?                 @db.VarChar(50)
+  referencia_externa                                                        String?                 @unique(map: "referencia_externa") @db.VarChar(255)
+  fecha                                                                     DateTime?               @db.DateTime(0)
+  created_at                                                                DateTime?               @default(now()) @db.Timestamp(0)
+  updated_at                                                                DateTime?               @db.Timestamp(0)
+  deleted_at                                                                DateTime?               @db.Timestamp(0)
+  profile_suscripciones_pagos_profile_suscripcion_idToprofile_suscripciones profile_suscripciones   @relation("pagos_profile_suscripcion_idToprofile_suscripciones", fields: [profile_suscripcion_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pagos_ibfk_1")
+  profile_suscripciones_profile_suscripciones_ultimo_pago_idTopagos         profile_suscripciones[] @relation("profile_suscripciones_ultimo_pago_idTopagos")
+
+  @@index([profile_suscripcion_id], map: "profile_suscripcion_id")
+}
+
+model permissions {
+  id               BigInt             @id @default(autoincrement())
+  name             String?            @unique(map: "name") @db.VarChar(255)
+  slug             String?            @unique(map: "slug") @db.VarChar(255)
+  description      String?            @db.Text
+  created_at       DateTime?          @default(now()) @db.Timestamp(0)
+  updated_at       DateTime?          @db.Timestamp(0)
+  deleted_at       DateTime?          @db.Timestamp(0)
+  role_permissions role_permissions[]
+}
+
+model pistas {
+  id             BigInt           @id @default(autoincrement())
+  nombre         String?          @db.VarChar(255)
+  slug           String?          @unique(map: "slug") @db.VarChar(255)
+  descripcion    String?          @db.Text
+  tipo           String?          @db.VarChar(50)
+  dimensiones    String?          @db.VarChar(50)
+  capacidad      Int?
+  created_at     DateTime?        @default(now()) @db.Timestamp(0)
+  updated_at     DateTime?        @db.Timestamp(0)
+  deleted_at     DateTime?        @db.Timestamp(0)
+  horarios_pista horarios_pista[]
+}
+
+model profile_logros {
+  profile_id      BigInt
+  logro_id        BigInt
+  fecha_logro     DateTime? @default(now()) @db.Timestamp(0)
+  progreso_actual Int?
+  notificado      Boolean?
+  profiles        profiles  @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profile_logros_ibfk_1")
+  logros          logros    @relation(fields: [logro_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profile_logros_ibfk_2")
+
+  @@id([profile_id, logro_id])
+  @@index([logro_id], map: "logro_id")
+}
+
+model profile_suscripciones {
+  id                                                        BigInt        @id @default(autoincrement())
+  profile_id                                                BigInt
+  suscripcion_id                                            BigInt
+  fecha_inicio                                              DateTime?     @db.Date
+  fecha_fin                                                 DateTime?     @db.Date
+  status                                                    String?       @db.VarChar(50)
+  metodo_pago                                               String?       @db.VarChar(50)
+  ultimo_pago_id                                            BigInt?
+  created_at                                                DateTime?     @default(now()) @db.Timestamp(0)
+  updated_at                                                DateTime?     @db.Timestamp(0)
+  pagos_pagos_profile_suscripcion_idToprofile_suscripciones pagos[]       @relation("pagos_profile_suscripcion_idToprofile_suscripciones")
+  pagos_profile_suscripciones_ultimo_pago_idTopagos         pagos?        @relation("profile_suscripciones_ultimo_pago_idTopagos", fields: [ultimo_pago_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_profile_suscripciones_ultimo_pago")
+  profiles                                                  profiles      @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profile_suscripciones_ibfk_1")
+  suscripciones                                             suscripciones @relation(fields: [suscripcion_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profile_suscripciones_ibfk_2")
+
+  @@index([ultimo_pago_id], map: "fk_profile_suscripciones_ultimo_pago")
+  @@index([profile_id], map: "profile_id")
+  @@index([suscripcion_id], map: "suscripcion_id")
+}
+
+model profiles {
+  id                         BigInt                     @id @default(autoincrement())
+  numerosocio                String?                    @unique(map: "numerosocio") @db.VarChar(50)
+  nombre                     String?                    @db.VarChar(255)
+  apellidos                  String?                    @db.VarChar(255)
+  bio                        String?                    @db.Text
+  image                      String?                    @db.VarChar(255)
+  edad                       Int?
+  posicion_preferida         String?                    @db.VarChar(50)
+  club_origen                String?                    @db.VarChar(255)
+  es_menor                   Boolean?                   @default(false)
+  numeroEntrenador           String?                    @unique(map: "numeroEntrenador") @db.VarChar(50)
+  especialidad               String?                    @db.VarChar(255)
+  experiencia_a_os           Int?                       @map("experiencia_años")
+  certificaciones            String?                    @db.Text
+  organizacion_origen        String?                    @db.VarChar(255)
+  entrenamientos_disponibles Int?                       @default(0)
+  created_at                 DateTime?                  @default(now()) @db.Timestamp(0)
+  updated_at                 DateTime?                  @db.Timestamp(0)
+  deleted_at                 DateTime?                  @db.Timestamp(0)
+  entrenamientos             entrenamientos[]
+  evaluaciones_rendimiento   evaluaciones_rendimiento[]
+  graficas                   graficas[]
+  profile_logros             profile_logros[]
+  profile_suscripciones      profile_suscripciones[]
+  usuarios                   usuarios                   @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_ibfk_1")
+  reservas                   reservas[]
+}
+
+model reservas {
+  id               BigInt          @id @default(autoincrement())
+  profile_id       BigInt?
+  entrenamiento_id BigInt?
+  fecha            DateTime?       @db.DateTime(0)
+  created_at       DateTime?       @default(now()) @db.Timestamp(0)
+  updated_at       DateTime?       @db.Timestamp(0)
+  deleted_at       DateTime?       @db.Timestamp(0)
+  profiles         profiles?       @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reservas_ibfk_1")
+  entrenamientos   entrenamientos? @relation(fields: [entrenamiento_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reservas_ibfk_2")
+
+  @@index([entrenamiento_id], map: "entrenamiento_id")
+  @@index([profile_id], map: "profile_id")
+}
+
+model role_permissions {
+  role_id       BigInt
+  permission_id BigInt
+  roles         roles       @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "role_permissions_ibfk_1")
+  permissions   permissions @relation(fields: [permission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "role_permissions_ibfk_2")
+
+  @@id([role_id, permission_id])
+  @@index([permission_id], map: "permission_id")
+}
+
+model roles {
+  id               BigInt             @id @default(autoincrement())
+  name             String?            @unique(map: "name") @db.VarChar(255)
+  slug             String?            @unique(map: "slug") @db.VarChar(255)
+  description      String?            @db.Text
+  created_at       DateTime?          @default(now()) @db.Timestamp(0)
+  updated_at       DateTime?          @db.Timestamp(0)
+  deleted_at       DateTime?          @db.Timestamp(0)
+  role_permissions role_permissions[]
+  user_roles       user_roles[]
+}
+
+model subtipo_tecnificacion {
+  id                   BigInt           @id @default(autoincrement())
+  tecnificacion_id     BigInt?
+  nombre               String?          @db.VarChar(255)
+  slug                 String?          @db.VarChar(255)
+  descripcion          String?          @db.Text
+  tipo_entrenamiento   String?          @db.VarChar(100)
+  objetivos            String?          @db.Text
+  beneficios           String?          @db.Text
+  frecuencia_sugerida  String?          @db.VarChar(100)
+  metodo_evaluacion    String?          @db.VarChar(255)
+  tecnologia_utilizada String?          @db.VarChar(255)
+  created_at           DateTime?        @default(now()) @db.Timestamp(0)
+  updated_at           DateTime?        @db.Timestamp(0)
+  deleted_at           DateTime?        @db.Timestamp(0)
+  entrenamientos       entrenamientos[]
+  tecnificaciones      tecnificaciones? @relation(fields: [tecnificacion_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "subtipo_tecnificacion_ibfk_1")
+
+  @@index([tecnificacion_id], map: "tecnificacion_id")
+}
+
+model suscripciones {
+  id                     BigInt                  @id @default(autoincrement())
+  nombre                 String                  @db.VarChar(100)
+  slug                   String                  @unique(map: "slug") @db.VarChar(255)
+  precio                 Decimal                 @db.Decimal(10, 2)
+  entrenamientos_totales Int?
+  incluye_graficas       Boolean?                @default(false)
+  incluye_evaluacion     Boolean?                @default(false)
+  ventaja1               String?                 @db.VarChar(255)
+  ventaja2               String?                 @db.VarChar(255)
+  ventaja3               String?                 @db.VarChar(255)
+  ventaja4               String?                 @db.VarChar(255)
+  created_at             DateTime?               @default(now()) @db.Timestamp(0)
+  updated_at             DateTime?               @db.Timestamp(0)
+  deleted_at             DateTime?               @db.Timestamp(0)
+  profile_suscripciones  profile_suscripciones[]
+}
+
+model tecnificaciones {
+  id                    BigInt                  @id @default(autoincrement())
+  nombre                String?                 @db.VarChar(255)
+  slug                  String?                 @unique(map: "slug") @db.VarChar(255)
+  descripcion           String?                 @db.Text
+  created_at            DateTime?               @default(now()) @db.Timestamp(0)
+  updated_at            DateTime?               @db.Timestamp(0)
+  deleted_at            DateTime?               @db.Timestamp(0)
+  entrenamientos        entrenamientos[]
+  subtipo_tecnificacion subtipo_tecnificacion[]
+}
+
+model user_roles {
+  user_id  BigInt
+  role_id  BigInt
+  usuarios usuarios @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_roles_ibfk_1")
+  roles    roles    @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_roles_ibfk_2")
+
+  @@id([user_id, role_id])
+  @@index([role_id], map: "role_id")
+}
+
+model usuarios {
+  id              BigInt            @id @default(autoincrement())
+  email           String?           @unique(map: "email") @db.VarChar(255)
+  password        String?           @db.VarChar(255)
+  tipo_usuario    String?           @db.VarChar(50)
+  refresh_token   String?           @db.Text
+  created_at      DateTime?         @default(now()) @db.Timestamp(0)
+  updated_at      DateTime?         @db.Timestamp(0)
+  status          String?           @default("active") @db.VarChar(50)
+  deleted_at      DateTime?         @db.Timestamp(0)
+  blacklist_token blacklist_token[]
+  notificaciones  notificaciones[]
+  profiles        profiles?
+  user_roles      user_roles[]
+}
+
+model notificaciones {
+  id                BigInt    @id @default(autoincrement())
+  id_usuario        BigInt
+  mensaje           String    @db.Text
+  tipo_notificacion String    @db.VarChar(50)
+  isRead            Boolean?  @default(false)
+  createdAt         DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt         DateTime? @default(now()) @db.Timestamp(0)
+  usuarios          usuarios  @relation(fields: [id_usuario], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "notificaciones_ibfk_1")
+
+  @@index([id_usuario], map: "id_usuario")
+}
+
+model organizaciones {
+  id                        BigInt    @id @default(autoincrement())
+  nombre                    String    @unique(map: "nombre")
+  slug                      String    @unique(map: "slug")
+  tipo                      String?   @db.VarChar(100)
+  vision                    String?   @db.VarChar(500)
+  logo                      String?   @db.VarChar(255)
+  descripcion               String?   @db.Text
+  mision                    String?   @db.VarChar(500)
+  impacto_social            String?   @db.VarChar(500)
+  sitio_web                 String?   @db.VarChar(255)
+  contacto_email            String?   @db.VarChar(255)
+  contacto_tlf              String?   @db.VarChar(50)
+  direccion                 String?   @db.VarChar(255)
+  ciudad                    String?   @db.VarChar(100)
+  pais                      String?   @db.VarChar(100)
+  colaboracion_descripcion  String?   @db.Text
+  fecha_inicio_colaboracion DateTime? @db.Date
+  created_at                DateTime? @default(now()) @db.Timestamp(0)
+  updated_at                DateTime? @db.Timestamp(0)
+  deleted_at                DateTime? @db.Timestamp(0)
+}

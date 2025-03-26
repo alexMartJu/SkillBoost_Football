@@ -1,5 +1,4 @@
 import Vuex from "vuex";
-import { deportes } from "./modules/client/deportes";
 import { adminDashboard } from './modules/dashboards/adminDashboard';
 import { entrenamientos } from "./modules/client/entrenamientos";
 import { pistas } from "./modules/client/pistas";
@@ -8,10 +7,15 @@ import { user } from "./modules/client/user";
 import { profile } from "./modules/client/profile";
 import { entrenadores } from "./modules/client/entrenadores";
 import { reservas } from "./modules/client/reservas";
+import { tecnificaciones } from "./modules/client/tecnificaciones";
+import { subtiposTecnificacion } from "./modules/client/subtiposTecnificacion";
+import { organizaciones } from "./modules/client/organizaciones";
+import { suscripciones } from "./modules/client/suscripciones";
+import { notifications } from "./modules/client/notifications";
+import { incidencias } from "./modules/client/incidencias";
 
 export default Vuex.createStore({
     modules: {
-        deportes: deportes,
         adminDashboard: adminDashboard,
         entrenamientos: entrenamientos,
         pistas: pistas,
@@ -19,6 +23,12 @@ export default Vuex.createStore({
         user: user,
         profile: profile,
         entrenadores: entrenadores,
-        reservas: reservas
+        reservas: reservas,
+        tecnificaciones: tecnificaciones, 
+        subtiposTecnificacion: subtiposTecnificacion,
+        organizaciones: organizaciones,
+        suscripciones: suscripciones,
+        notifications: notifications,
+        incidencias: incidencias
     }
 });

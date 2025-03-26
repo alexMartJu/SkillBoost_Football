@@ -32,7 +32,6 @@ export default {
         const router = useRouter();
 
         const details = (slug) => {
-            // console.log(`${slug}`);
             router.push({ name: 'detailsPista', params: { slug } });
         }
 

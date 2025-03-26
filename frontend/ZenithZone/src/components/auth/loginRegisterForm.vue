@@ -47,6 +47,25 @@
                         </div>
                       </div>
                     </div>
+                    
+                    <!-- Edad -->
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="edad" class="form-label fw-medium">Edad</label>
+                        <input 
+                          type="number" 
+                          id="edad" 
+                          v-model.number="state.edad"
+                          class="form-control form-control-lg"
+                          :class="{'is-invalid': x$.edad.$invalid && state.edad !== null}"
+                          min="4"
+                          max="120"
+                        />
+                        <div class="invalid-feedback" v-if="x$.edad.$invalid && state.edad !== null">
+                          La edad debe ser mayor a 3 años
+                        </div>
+                      </div>
+                    </div>
                   </div>
   
                   <!-- Campos comunes -->
@@ -125,7 +144,7 @@
                     class="btn btn-primary btn-lg w-100 mb-3"
                     :disabled="isLogin ? v$.email.$invalid || v$.password.$invalid : 
                               x$.nombre.$invalid || x$.apellidos.$invalid || x$.email.$invalid || 
-                              x$.password.$invalid || x$.password2.$invalid || 
+                              x$.password.$invalid || x$.password2.$invalid || x$.edad.$invalid || 
                               state.password2 !== state.password"
                   >
                     {{ isLogin ? 'Iniciar Sesión' : 'Crear Cuenta' }}
@@ -149,9 +168,9 @@
 
 <script>
 import { useRouter } from 'vue-router';
-import { getCurrentInstance, reactive, computed, watch } from 'vue';
+import { getCurrentInstance, reactive, computed, watch, ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core'
-import { required, minLength, email, alphaNum } from '@vuelidate/validators'
+import { required, minLength, email, alphaNum, minValue } from '@vuelidate/validators'
 
 export default {
     props: {
@@ -165,6 +184,7 @@ export default {
     setup(props) {
         const { emit } = getCurrentInstance();
         const router = useRouter();
+        const showPassword = ref(false);
 
         const redirect = {
             register: () => router.push({ name: 'register' }),
@@ -177,6 +197,7 @@ export default {
                 apellidos: state.apellidos,
                 email: state.email,
                 password: state.password,
+                edad: state.edad
             };
 
             emit('send', data);
@@ -188,6 +209,7 @@ export default {
             email: '',
             password: '',
             password2: '',
+            edad: null
         });
 
         const rules_login = computed(() => ({
@@ -224,6 +246,10 @@ export default {
                 required,
                 minLength: minLength(3),
             },
+            edad: {
+                required,
+                minValue: minValue(4)
+            }
         }))
 
         //login
@@ -258,10 +284,11 @@ export default {
                 state.email = '';
                 state.password = '';
                 state.password2 = '';
+                state.edad = null;
             }
         });
 
-        return { redirect, login, register, state, v$, x$, handleSubmit }
+        return { redirect, login, register, state, v$, x$, handleSubmit, showPassword }
     }
 }
 </script>
@@ -281,4 +308,3 @@ export default {
   box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
 }
 </style>
-

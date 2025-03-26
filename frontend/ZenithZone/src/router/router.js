@@ -15,49 +15,52 @@ const router = createRouter({
       component: () => import('../views/client/Home.vue')
     },
 
-    // INSTALACIONES
+    // RECURSOS
     {
-      path: "/instalaciones",
-      name: "instalaciones",
-      component: () => import('../views/client/Instalaciones.vue'),
+      path: "/recursos",
+      component: () => import('../views/client/Recursos.vue'),
       children: [
         {
-          path: ":slug",
-          name: "InstalacionesSlug",
-          component: () => import('../views/client/Instalaciones.vue')
+          path: "",
+          name: "recursos",
+          redirect: "/recursos/subtipos"
+        },
+        {
+          path: "subtipos",
+          name: "recursosSubtipos",
+          component: () => import('../components/recursos/recursosSubtiposTecnificacion.vue'),
+          children: [
+            {
+              path: ":slug",
+              name: "TecnificacionSlug",
+              component: () => import('../components/recursos/recursosSubtiposTecnificacion.vue')
+            }
+          ]
+        },
+        {
+          path: "pistas",
+          name: "recursosPistas",
+          component: () => import('../components/recursos/recursosPistas.vue')
+        },
+        {
+          path: "entrenadores",
+          name: "recursosEntrenadores",
+          component: () => import('../components/recursos/recursosEntrenadores.vue')
         }
       ]
     },
 
-    // SERVICIOS
+    // ENTRENA
     {
-      path: "/servicios",
-      name: "servicios",
-      component: () => import('../views/client/Servicios.vue'),
-      children: [
-        {
-          path: "deportes",
-          name: "serviciosDeportes",
-          component: () => import('../components/servicios/serviciosDeportes.vue')
-        },
-        {
-          path: "entrenamientos",
-          name: "serviciosEntrenamientos",
-          component: () => import('../components/servicios/serviciosEntrenamientos.vue'),
-          children: [
-            {
-              path: ":filters",
-              name: "serviciosEntrenamientosFilter",
-              component: () => import('../components/servicios/serviciosEntrenamientos.vue'),
-            },
-          ]
-        },
-        {
-          path: "graficas",
-          name: "serviciosGraficas",
-          component: () => import('../components/servicios/serviciosGraficas.vue')
-        },
-      ]
+      path: "/entrena",
+      name: "entrena",
+      component: () => import('../views/client/Entrena.vue'),
+    },
+    // Ruta específica para filtros de entrenamientos
+    {
+      path: "/entrena/:filters",
+      name: "entrenaFilter",
+      component: () => import('../views/client/Entrena.vue'),
     },
 
     // DETAILS
@@ -71,12 +74,43 @@ const router = createRouter({
       name: "detailsPista",
       component: () => import('../views/client/Details.vue')
     },
-
-    // ENTRENADORES
     {
-      path: "/entrenadores",
-      name: "entrenadores",
-      component: () => import('../views/client/Entrenadores.vue')
+      path: "/subtipo/:slug",
+      name: "detailsSubtipoTecnificacion",
+      component: () => import('../views/client/Details.vue')
+    },
+
+    //APOYO
+    {
+      path: "/apoyo",
+      name: "apoyo",
+      component: () => import('../views/client/Apoyo.vue')
+    },
+    {
+      path: "/apoyo/:slug",
+      name: "organizacionDetail",
+      component: () => import('../components/apoyo/OrganizacionDetail.vue'),
+      props: true
+    },
+
+    //PLANES
+    {
+      path: "/planes",
+      component: () => import('../views/client/Planes.vue'),
+      children: [
+        {
+          path: "",
+          name: "planes",
+          component: () => import('../components/planes/PlanesList.vue')
+        },
+        {
+          path: "pago/:slug",
+          name: "procesosPago",
+          component: () => import('../components/pagos/ProcesoPago.vue'),
+          props: true,
+          beforeEnter: AuthGuards.paymentGuard
+        }
+      ]
     },
 
     // LOGIN
@@ -95,86 +129,85 @@ const router = createRouter({
 
     // PROFILE
     {
-      path: "/profile/:numeroSocio",
-      name: "profile",
-      component: () => import('../views/client/Profile.vue'),
-      children: [
-        {
-          path: "info",
-          name: "profileInfo",
-          component: () => import('../views/client/Profile.vue'),
-        },
-        {
-          path: "graficas",
-          name: "profileGraficas",
-          component: () => import('../components/profile/ProfileGraficas.vue'),
-        },
-        {
-          path: "reservas",
-          name: "profileReservas",
-          component: () => import('../components/profile/ProfileReservas.vue'),
-        },
-        {
-          path: "entrenamientos",
-          name: "profileEntrenamientos",
-          component: () => import('../components/profile/ProfileEntrenamientos.vue'),
-        },
-      ]
+      path: '/profile/:numeroSocio',
+      name: 'profile',
+      component: () => import('@/views/client/ProfileView.vue'),
+      meta: {
+        title: 'Perfil de Jugador',
+        public: true // Accesible sin estar logueado
+      }
     },
-    // Editar perfil. Se pone aparte para que no salga como una pestaña en el perfil
     {
-      path: "/profile/:numeroSocio/editar",
-      name: "profileEdit",
-      component: () => import('../components/profile/ProfileEdit.vue'),
-    },
-
-    // Profile Entrenador
-    {
-      path: "/entrenador/:numeroentrenador",
-      name: "profileEntrenador",
-      component: () => import('../views/client/Profile.vue'),
-      children: [
-        {
-          path: "info",
-          name: "profileEntrenadorInfo",
-          component: () => import('../components/entrenador/Profile.vue'),
-        },
-      ]
-    },
-    // Editar perfil. Se pone aparte para que no salga como una pestaña en el perfil
-    {
-      path: "/entrenador/:numeroentrenador/editar",
-      name: "profileEntrenadorEdit",
-      component: () => import('../components/profile/ProfileEdit.vue'),
+      path: '/entrenador/:numeroentrenador',
+      name: 'profileEntrenador',
+      component: () => import('@/views/client/ProfileView.vue'),
+      meta: {
+        title: 'Perfil de Entrenador',
+        public: true // Accesible sin estar logueado
+      }
     },
 
     // DASHBOARD ENTRENADOR
     {
       path: "/dashboardEntrenador",
       name: "DashboardEntrenador",
-      component: () => import('../views/dashboards/EntrenadorDashboard.vue'),  // Vista principal del entrenador
-      beforeEnter: AuthGuards.authGuardEntrenador, meta: { requiresAuth: true },
-      redirect: { name: 'entrenadorListarEntrenamientos' },
+      component: () => import('../views/dashboards/EntrenadorDashboard.vue'),
+      beforeEnter: AuthGuards.authGuardEntrenador, 
+      meta: { requiresAuth: true },
+      redirect: { name: 'entrenadorMisEntrenamientos' },
       children: [
         {
-          path: "listar",  // Si está vacío, se mostrará por defecto la vista de Listar Entrenamientos
-          name: "entrenadorListarEntrenamientos",
-          component: () => import('../components/dashboards/entrenador/ListEntrenamientosDashboard.vue'),  // Vista para listar entrenamientos
+          path: "listar",
+          name: "entrenadorListarPistas",
+          component: () => import('../components/dashboards/entrenador/ListPistas.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador
+        },
+        {
+          path: "horarios-pista",
+          name: "entrenadorHorariosPista",
+          component: () => import('../components/dashboards/entrenador/HorarioPista.vue'),
           beforeEnter: AuthGuards.authGuardEntrenador
         },
         {
           path: "crear-entrenamiento",
           name: "entrenadorCrearEntrenamiento",
-          component: () => import('../components/dashboards/entrenador/CreateEntrenamientoDashboard.vue'),  // Vista para crear un nuevo entrenamiento
+          component: () => import('../components/dashboards/entrenador/CreateEntrenamientoDashboard.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador,
+          props: true
+        },
+        {
+          path: "mis-entrenamientos",
+          name: "entrenadorMisEntrenamientos",
+          component: () => import('../components/dashboards/entrenador/MisEntrenamientos.vue'),
           beforeEnter: AuthGuards.authGuardEntrenador
         },
         {
-          path: '/alumno/:profileId',
-          name: "AlumnoDetail",
-          component: () => import('../components/dashboards/entrenador/AlumnoDetail.vue'),  // Vista para crear un nuevo entrenamiento
+          path: "mi-calendario",
+          name: "entrenadorMiCalendario",
+          component: () => import('../components/dashboards/entrenador/MiCalendario.vue'),
           beforeEnter: AuthGuards.authGuardEntrenador
         },
-
+        {
+          path: "entrenamientos/:slug/alumnos",
+          name: "entrenadorAlumnos",
+          component: () => import('../components/dashboards/entrenador/AlumnosEntrenamiento.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador,
+          props: true
+        },
+        {
+          path: "alumnos/:numeroSocio/evaluacion/:slug",
+          name: "entrenadorEvaluacionAlumno",
+          component: () => import('../components/dashboards/entrenador/EvaluacionAlumno.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador,
+          props: true
+        },
+        {
+          path: "alumnos/:numeroSocio/graficas",
+          name: "entrenadorGraficasAlumno",
+          component: () => import('../components/dashboards/entrenador/GraficasAlumno.vue'),
+          beforeEnter: AuthGuards.authGuardEntrenador,
+          props: true
+        },
       ]
     },
 
@@ -184,64 +217,137 @@ const router = createRouter({
       name: "DashboardAdmin",
       component: () => import('../views/dashboards/AdminDashboard.vue'),
       beforeEnter: AuthGuards.authGuardAdmin, meta: { requiresAuth: true },
-      redirect: { name: 'adminListar' },
+      redirect: { name: 'adminEntrenamientosPendientes' },
       children: [
         {
-          path: "listar",
-          name: "adminListar",
-          component: () => import('../components/dashboards/admin/ListarAdmin.vue'),
+          path: "tecnificaciones",
+          name: "adminTecnificaciones",
+          component: () => import('../components/dashboards/admin/tecnificaciones/ListTecnificaciones.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
         {
-          path: "crear",
-          name: "adminCrear",
-          component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
+          path: "tecnificaciones/crear",
+          name: "adminCrearTecnificacion",
+          component: () => import('../components/dashboards/admin/tecnificaciones/FormTecnificaciones.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
         {
-          path: "entrenador/register",
-          name: "RegisterTrainer",
-          component: () => import('../components/dashboards/admin/RegisterTrainer.vue'),
+          path: "tecnificaciones/editar/:slug",
+          name: "adminEditarTecnificacion",
+          component: () => import('../components/dashboards/admin/tecnificaciones/FormTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin,
+          props: true
+        },
+        {
+          path: "subtipos-tecnificaciones",
+          name: "adminSubtiposTecnificaciones",
+          component: () => import('../components/dashboards/admin/subtiposTecnificacion/ListSubtiposTecnificaciones.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
         {
-          path: "entrenador",
-          name: "ListEntrenadores",
-          component: () => import('../components/dashboards/admin/ListEntrenadores.vue'),
+          path: "subtipos-tecnificaciones/crear",
+          name: "adminCrearSubtipoTecnificacion",
+          component: () => import('../components/dashboards/admin/subtiposTecnificacion/FormSubtiposTecnificaciones.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
         {
-          path: 'editar/:type/:slug',
-          name: 'adminEditar',
-          component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
+          path: "subtipos-tecnificaciones/editar/:slug",
+          name: "adminEditarSubtipoTecnificacion",
+          component: () => import('../components/dashboards/admin/subtiposTecnificacion/FormSubtiposTecnificaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin,
+          props: true
+        },
+        {
+          path: "pistas",
+          name: "adminPistas",
+          component: () => import('../components/dashboards/admin/pistas/ListPistas.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
         {
-          path: 'entrenamientos',
-          name: 'ListEntrenamientos',
-          component: () => import('../components/dashboards/admin/ListEntrenamientos.vue'),
+          path: "pistas/crear",
+          name: "adminCrearPista",
+          component: () => import('../components/dashboards/admin/pistas/FormPistas.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
         {
-          path: 'salas',
-          name: 'ListCreateSalas',
-          component: () => import('../components/dashboards/admin/salas.vue'),
+          path: "pistas/editar/:slug",
+          name: "adminEditarPista",
+          component: () => import('../components/dashboards/admin/pistas/FormPistas.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin,
+          props: true
+        },
+        {
+          path: "usuarios",
+          name: "adminUsuarios",
+          component: () => import('../components/dashboards/admin/usuarios/ListUsuarios.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
         {
-          path: 'pistasprivadas',
-          name: 'ListCreatepistasprivadas',
-          component: () => import('../components/dashboards/admin/pistasprivadas.vue'),
+          path: "usuarios/tutores",
+          name: "adminTutores",
+          component: () => import('../components/dashboards/admin/usuarios/ListTutores.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
         {
-          path: 'Reservas',
-          name: 'Reservas',
-          component: () => import('../components/dashboards/admin/Reservas.vue'),
+          path: "usuarios/jugadores-club",
+          name: "adminJugadoresClub",
+          component: () => import('../components/dashboards/admin/usuarios/ListJugadoresClub.vue'),
           beforeEnter: AuthGuards.authGuardAdmin
         },
+        {
+          path: "usuarios/jugadores",
+          name: "adminJugadores",
+          component: () => import('../components/dashboards/admin/usuarios/ListJugadores.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "usuarios/jugadores-sociales",
+          name: "adminJugadoresSociales",
+          component: () => import('../components/dashboards/admin/usuarios/ListJugadoresSociales.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "suscripciones",
+          name: "adminSuscripciones",
+          component: () => import('../components/dashboards/admin/suscripciones/ListSuscripciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "organizaciones",
+          name: "adminOrganizaciones",
+          component: () => import('../components/dashboards/admin/organizaciones/ListOrganizaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "organizaciones/crear",
+          name: "adminCrearOrganizacion",
+          component: () => import('../components/dashboards/admin/organizaciones/FormOrganizaciones.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "usuarios/registro",
+          name: "adminRegistroUsuarios",
+          component: () => import('../components/dashboards/admin/usuarios/RegisterUsers.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "entrenadores",
+          name: "adminEntrenadores",
+          component: () => import('../components/dashboards/admin/entrenadores/ListEntrenadores.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        },
+        {
+          path: "entrenamientos-pendientes",
+          name: "adminEntrenamientosPendientes",
+          component: () => import('../components/dashboards/admin/entrenamientos/PendingEntrenamientos.vue'),
+          beforeEnter: AuthGuards.authGuardAdmin
+        }
 
       ]
+    },
+    {
+      path: "/:pathMatch(.*)*", //Ruta para cualquier ruta que no esté definida
+      redirect: "/",
     },
   ],
   scrollBehavior(to, from, savedPosition) { // Para que al cambiar de vista, la página se desplace a la parte superior
