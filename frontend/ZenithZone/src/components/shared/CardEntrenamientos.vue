@@ -2,7 +2,7 @@
     <section class="mb-4">
         <div class="card shadow-sm h-100">
             <img v-if="entrenamiento.subtipoTecnificacion && entrenamiento.subtipoTecnificacion.images && entrenamiento.subtipoTecnificacion.images.length > 0"
-                :src="`/assets/tecnificaciones/${entrenamiento.subtipoTecnificacion.images[0].imageUrl}`"
+                :src="`/assets/subtipos/${entrenamiento.subtipoTecnificacion.images[0].imageUrl}`"
                 class="card-img-top img-fluid object-fit-cover"
                 :style="isServiciosView ? 'height: 275px' : 'height: 300px'" alt="Imagen de tecnificación">
             <img v-else src="/assets/pistas/arco.jpg" class="card-img-top img-fluid object-fit-cover"
@@ -52,8 +52,6 @@
                             </button>
                             <UnirseEntrenamientoButton v-if="!isProfile" :slug="entrenamiento.slug"
                                 :isSuscribed="isSuscribed" class="rounded-pill" />
-                            <CancelarEntrenamientoButton v-if="isProfile" :slug="entrenamiento.slug"
-                                class="rounded-pill" />
                         </div>
                     </div>
                 </div>
@@ -66,7 +64,6 @@
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import UnirseEntrenamientoButton from './buttons/UnirseEntrenamientoButton.vue';
-import CancelarEntrenamientoButton from './buttons/CancelarEntrenamientoButton.vue';
 import { reactive } from 'vue';
 import { computed } from 'vue';
 
@@ -93,8 +90,7 @@ export default {
     },
 
     components: {
-        UnirseEntrenamientoButton,
-        CancelarEntrenamientoButton
+        UnirseEntrenamientoButton
     },
 
     setup() {

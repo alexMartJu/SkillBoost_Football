@@ -1,7 +1,7 @@
 <template>
     <div class="card shadow-sm border-0 h-100">
         <img v-if="subtipo.images && subtipo.images.length > 0"
-            :src="'/assets/subtipos/' + subtipo.images[0].image_url" alt="Imagen de Subtipo de Tecnificación"
+            :src="'/assets/subtipos/' + subtipo.images[0].imageUrl" alt="Imagen de Subtipo de Tecnificación"
             class="card-img-top img-fluid" />
         <div class="card-body d-flex flex-column">
             <h5 class="card-title mb-3">{{ subtipo.nombre }}</h5>

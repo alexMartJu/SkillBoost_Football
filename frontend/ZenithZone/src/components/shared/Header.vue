@@ -4,7 +4,7 @@
             <nav class="navbar navbar-expand-lg py-3">
                 <!-- Logo -->
                 <div class="navbar-brand" @click="redirects.home">
-                    <img src="/assets/logo_2.png" alt="Logo" class="logo-modern">
+                    <img src="/assets/logo_5.png" alt="Logo" class="logo-modern">
                 </div>
 
                 <!-- Hamburger Menu for Mobile -->

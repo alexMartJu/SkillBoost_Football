@@ -24,7 +24,7 @@
                     <div v-for="pista in pistas" :key="pista.id" class="col">
                         <div class="card h-100 hover-card" @click="selectPista(pista)">
                             <div v-if="pista.images && pista.images.length > 0" class="card-img-top-container">
-                                <img :src="pista.images[0].url" class="card-img-top" alt="Imagen de pista">
+                                <img :src="`/assets/pistas/${pista.images[0].imageUrl}`" class="card-img-top" alt="Imagen de pista">
                             </div>
                             <div v-else class="card-img-top-placeholder">
                                 <i class="bi bi-image fs-1 text-muted"></i>

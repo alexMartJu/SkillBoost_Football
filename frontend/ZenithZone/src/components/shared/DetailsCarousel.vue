@@ -40,7 +40,7 @@ export default {
             if (!image) return '';
             
             // Determine the correct path based on the type of content
-            if (props.pistas.tipo_entrenamiento) {
+            if (props.pistas.tipoEntrenamiento) {
                 // It's a subtipo tecnificacion
                 return `/assets/subtipos/${image.imageUrl}`;
             } else {

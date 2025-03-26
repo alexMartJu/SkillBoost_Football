@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import viteCompression from 'vite-plugin-compression'
 import vuetify from 'vite-plugin-vuetify'
 
 export default defineConfig({
@@ -14,6 +15,15 @@ export default defineConfig({
     vueDevTools({
       host: '0.0.0.0',
     }),
+    viteCompression({
+      algorithm: 'gzip',
+      ext: '.gz',
+      threshold: 1024,
+      filter: /\.(js|mjs|json|css|html)$/i,
+      compressionOptions: {
+        level: 9
+      }
+    })
   ],
   resolve: {
     alias: {
@@ -25,6 +35,20 @@ export default defineConfig({
     port: 5173,
     watch: {
       usePolling: true,
+    }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': [
+            'vue',
+            'vue-router',
+            'vuex',
+            'axios'
+          ]
+        }
+      }
     }
   }
 })

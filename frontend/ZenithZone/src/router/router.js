@@ -220,60 +220,6 @@ const router = createRouter({
       redirect: { name: 'adminEntrenamientosPendientes' },
       children: [
         {
-          path: "listar",
-          name: "adminListar",
-          component: () => import('../components/dashboards/admin/ListarAdmin.vue'),
-          beforeEnter: AuthGuards.authGuardAdmin
-        },
-        {
-          path: "crear",
-          name: "adminCrear",
-          component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
-          beforeEnter: AuthGuards.authGuardAdmin
-        },
-        {
-          path: "entrenador/register",
-          name: "RegisterTrainer",
-          component: () => import('../components/dashboards/admin/RegisterTrainer.vue'),
-          beforeEnter: AuthGuards.authGuardAdmin
-        },
-        {
-          path: "entrenador",
-          name: "ListEntrenadores",
-          component: () => import('../components/dashboards/admin/ListEntrenadores.vue'),
-          beforeEnter: AuthGuards.authGuardAdmin
-        },
-        {
-          path: 'editar/:type/:slug',
-          name: 'adminEditar',
-          component: () => import('../components/dashboards/admin/CrearAdmin.vue'),
-          beforeEnter: AuthGuards.authGuardAdmin
-        },
-        {
-          path: 'entrenamientos',
-          name: 'ListEntrenamientos',
-          component: () => import('../components/dashboards/admin/ListEntrenamientos.vue'),
-          beforeEnter: AuthGuards.authGuardAdmin
-        },
-        {
-          path: 'salas',
-          name: 'ListCreateSalas',
-          component: () => import('../components/dashboards/admin/salas.vue'),
-          beforeEnter: AuthGuards.authGuardAdmin
-        },
-        {
-          path: 'pistasprivadas',
-          name: 'ListCreatepistasprivadas',
-          component: () => import('../components/dashboards/admin/pistasprivadas.vue'),
-          beforeEnter: AuthGuards.authGuardAdmin
-        },
-        {
-          path: 'Reservas',
-          name: 'Reservas',
-          component: () => import('../components/dashboards/admin/Reservas.vue'),
-          beforeEnter: AuthGuards.authGuardAdmin
-        },
-        {
           path: "tecnificaciones",
           name: "adminTecnificaciones",
           component: () => import('../components/dashboards/admin/tecnificaciones/ListTecnificaciones.vue'),
