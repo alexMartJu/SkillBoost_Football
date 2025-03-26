@@ -34,7 +34,6 @@
                                 <option value="Principiante">Principiante</option>
                                 <option value="Intermedio">Intermedio</option>
                                 <option value="Avanzado">Avanzado</option>
-                                <option value="Profesional">Profesional</option>
                             </select>
                             <div class="invalid-feedback" v-if="v$.entrenamiento.nivel.$error">
                                 <span v-if="v$.entrenamiento.nivel.required.$invalid">El nivel es obligatorio.</span>
