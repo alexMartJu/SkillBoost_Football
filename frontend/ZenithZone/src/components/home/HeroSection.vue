@@ -14,7 +14,7 @@
         <div class="row">
           <div class="col-lg-7 text-white hero-content">
             <div class="logo-container mb-4">
-              <img src="/assets/logo_3.png" alt="SkillBoost Football" class="logo-animation">
+              <img src="/assets/logo_4.png" alt="SkillBoost Football" class="logo-animation">
             </div>
             <h1 class="display-1 fw-bold mb-3 text-uppercase hero-title">
               <span class="text-reveal">Eleva tu</span>

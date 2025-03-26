@@ -9,7 +9,7 @@
                     </div>
                     <div class="col-md-6 d-flex align-items-center justify-content-center">
                         <DetailsCarousel
-                            :pistas="isEntrenamiento ? state.entrenamiento.pistaPrivada : (isSubtipoTecnificacion ? state.subtipoTecnificacion : state.pista)" />
+                            :pistas="isEntrenamiento ? state.entrenamiento.subtipoTecnificacion : (isSubtipoTecnificacion ? state.subtipoTecnificacion : state.pista)" />
                     </div>
                 </div>
             </div>

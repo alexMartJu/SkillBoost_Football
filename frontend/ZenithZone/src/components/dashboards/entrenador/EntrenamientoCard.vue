@@ -5,8 +5,9 @@
 
         <!-- Imagen del entrenamiento -->
         <div class="card-img-container">
-            <img v-if="entrenamiento.images && entrenamiento.images.length > 0" :src="entrenamiento.images[0].url"
-                class="card-img-top" :alt="entrenamiento.nombre">
+            <img v-if="entrenamiento.subtipoTecnificacion && entrenamiento.subtipoTecnificacion.images && entrenamiento.subtipoTecnificacion.images.length > 0"
+                :src="`/assets/subtipos/${entrenamiento.subtipoTecnificacion.images[0].imageUrl}`" class="card-img-top"
+                :alt="entrenamiento.nombre">
             <div v-else class="card-img-placeholder d-flex align-items-center justify-content-center bg-light">
                 <i class="bi bi-image text-muted" style="font-size: 2rem;"></i>
             </div>

@@ -1,6 +1,6 @@
 <template>
     <div class="card shadow-sm border-0 h-100">
-        <img v-if="pista.images && pista.images.length > 0" :src="'/assets/pistas/' + pista.images[0].image_url"
+        <img v-if="pista.images && pista.images.length > 0" :src="'/assets/pistas/' + pista.images[0].imageUrl"
             alt="Imagen de Pista" class="card-img-top img-fluid" />
         <div class="card-body d-flex flex-column">
             <h5 class="card-title mb-3">{{ pista.nombre }}</h5>
